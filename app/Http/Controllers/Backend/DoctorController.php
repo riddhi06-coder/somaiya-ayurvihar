@@ -29,27 +29,31 @@ class DoctorController extends Controller
 
     public function store(DoctorFormRequest $request)
     {
-        $validated = $request->validated();
-       
-        $profile = $request->file('profile_image')->store('doctors/profile', 'public');
-        $video = $request->hasFile('short_video') 
-            ? $request->file('short_video')->store('doctors/video', 'public') 
-            : null;
+        $data = $request->validated();
 
-        $timings = array_filter([
-            'morning' => $request->morning_time,
-            'evening' => $request->evening_time
-        ]);
-    
-        Doctor::create(array_merge($validated, [
-            'profile_image' => $profile,
-            'short_video' => $video,
-            'consultation_timings' => !empty($timings) ? $timings : null,
-            'created_by' => auth()->id(),
-        ]));
+        // Handle profile image
+        if ($request->hasFile('profile_image')) {
+            $data['profile_image'] = $request->file('profile_image')->store('doctors/profile', 'public');
+        }
+
+        // Handle short video
+        if ($request->hasFile('short_video')) {
+            $data['short_video'] = $request->file('short_video')->store('doctors/video', 'public');
+        }
+
+        // Save degrees as JSON
+        $data['degrees'] = json_encode($request->degree_id);
+
+        // consultation_timings comes directly from slots[] – already perfect array!
+        $data['consultation_timings'] = $request->slots;
+
+        // Optional: created_by
+        $data['created_by'] = auth()->id();
+
+        Doctor::create($data);
 
         return redirect()->route('admin.doctors.index')
-            ->with('success', 'Doctor added successfully!');
+            ->with('success', 'Doctor created successfully!');
     }
 
     public function edit(Doctor $doctor)
@@ -61,25 +65,36 @@ class DoctorController extends Controller
 
     public function update(DoctorFormRequest $request, Doctor $doctor)
     {
-        $validated = $request->validated();
+        $data = $request->validated();
+
+        // === PROFILE IMAGE ===
         if ($request->hasFile('profile_image')) {
-            Storage::disk('public')->delete($doctor->profile_image);
-            $validated['profile_image'] = $request->file('profile_image')->store('doctors/profile', 'public');
+            // Delete old image
+            if ($doctor->profile_image) {
+                Storage::disk('public')->delete($doctor->profile_image);
+            }
+            $data['profile_image'] = $request->file('profile_image')->store('doctors/profile', 'public');
         }
 
+        // === SHORT VIDEO ===
         if ($request->hasFile('short_video')) {
-            Storage::disk('public')->delete($doctor->short_video);
-            $validated['short_video'] = $request->file('short_video')->store('doctors/video', 'public');
+            if ($doctor->short_video) {
+                Storage::disk('public')->delete($doctor->short_video);
+            }
+            $data['short_video'] = $request->file('short_video')->store('doctors/video', 'public');
         }
 
-        $timings = array_filter([
-            'morning' => $request->morning_time,
-            'evening' => $request->evening_time
-        ]);
-        $validated['consultation_timings'] = !empty($timings) ? $timings : null;
-        $validated['updated_by'] = auth()->id();
+        // === DEGREES ===
+        $data['degrees'] = json_encode($request->degree_id);
 
-        $doctor->update($validated);
+        // === TIME SLOTS – THIS IS THE KEY CHANGE! ===
+        // We now use $request->slots (from dynamic slots[index][start/end])
+        $data['consultation_timings'] = $request->slots;
+
+        // === AUDIT ===
+        $data['updated_by'] = auth()->id();
+
+        $doctor->update($data);
 
         return redirect()->route('admin.doctors.index')
             ->with('success', 'Doctor updated successfully!');
@@ -93,7 +108,7 @@ class DoctorController extends Controller
         $doctor->update(['deleted_by' => Auth::id()]);
         $doctor->delete();
 
-        return back()->with('success', 'Doctor deleted!');
+        return redirect()->route('admin.doctors.index')->with('success', 'Doctor deleted!');
     }
 
     public function toggleFeatured(Doctor $doctor)
