@@ -64,7 +64,14 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>
                 
-                                                <img src="{{asset('storage/' . $doctor->profile_image) }}" class="rounded-circle" width="50" height="50" alt="{{ $doctor->full_name }}">
+                                               <img 
+                                                    src="{{ asset('doctors/profile/' . $doctor->profile_image) }}" 
+                                                    class="rounded-circle" 
+                                                    width="50" 
+                                                    height="50" 
+                                                    alt="{{ $doctor->full_name }}"
+                                                >
+
                                             </td>
                                             <td>
                                                 {{ $doctor->full_name }}

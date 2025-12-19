@@ -1,0 +1,318 @@
+@media (max-width: 1200px){
+    .somaiya_sidelogo img {
+    width: 50px;
+}
+.header .menu>ul>li>a {
+    font-size: 13px;
+}
+.header .menu>ul>li {
+    margin-left: 10px;
+}
+.header .menu>ul>li>a{
+  font-size: 13px;
+}
+}
+@media (max-width: 1250px){
+.header .menu>ul>li>a{
+  font-size: 13px;
+}
+}
+@media (max-width: 1095px){
+.header .menu>ul>li>a{
+  font-size: 12px;
+}
+}
+@media (max-width: 1000px) {
+  .specialities-pattern{
+    display: none;
+  }
+  .header-item .logo img{
+    width: 250px;
+  }
+  .hero-video h1{
+    font-size: 30px;
+  }
+  .hero-video .callout{
+    margin-top: 50px;
+  }
+  .news-card{
+    margin-bottom: 30px;
+  }
+  .desktop-btn{
+    display: none;
+  }
+  .mobile_btn{
+    display: block;
+    text-align: center !important;
+    margin-top: 30px !important;
+  }
+}
+@media (max-width: 991px){
+  .sticky-menu .header .mobile-menu-trigger span:before, .sticky-menu .header .mobile-menu-trigger span:after, .sticky-menu .header .mobile-menu-trigger span {
+    background-color: #000;
+}
+  /*.main-header{
+    padding: 0px;
+  }*/
+  .hospital-awards:before{
+    width: 100%;
+  }
+.search-banner-front-box-wrap {
+    padding: 15px 10px;
+}
+.hero-video .video-container {
+    height: 500px;
+}
+.search-banner-front-box-wrap {
+    bottom: 70px;
+}
+#customTranslate{
+  width: 70px;
+}
+}
+@media (max-width: 767px) {
+  .float{
+    width: 40px;
+    height: 40px;
+    bottom: 72px;
+    right: 5px;
+    font-size: 15px;
+    line-height: 32px;
+}
+  .accreditations_logo img {
+    width: 60px !important;
+  }
+  .award_title h2{
+    color: #000;
+  }
+  .accreditations_div{
+    padding: 0px;
+    padding-bottom: 20px;
+  }
+  .hospital-awards:before{
+    width: 100%;
+  }
+  .single-text-front h4 svg{
+    display: none;
+  }
+  .hospital-awards .section-heading {
+    margin: 0px 0px;
+}
+  .virtual_tour_text h2 {
+    font-size: 60px;
+  }
+  .no-gutter > [class*='col-']{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .sticky-menu .header .mobile-menu-trigger span:before, .sticky-menu .header .mobile-menu-trigger span:after, .sticky-menu .header .mobile-menu-trigger span{
+    background-color: #000;
+  }
+  .main-header{
+    padding: 0px;
+  }
+  #customTranslate{
+    padding: 6px 7px;
+    width: 55px;
+  }
+  .menu_contact_icon{
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .header .mobile-menu-trigger{
+    margin-left: 6px;
+  }
+   .header .item-right a {
+    margin-right: 0px;
+}
+  .header .item-right a {
+    margin-right: 0px;
+}
+.somaiya_sidelogo li{
+  margin-left: 0px;
+}
+  .privacy_links{
+    padding-bottom: 50px;
+    margin-top: 10px;
+    float: left;
+  }
+  .search-banner-front-box-wrap .container .col-md-4 {
+    /*border-right: none;*/
+    width: 33%;
+}
+.front-box {
+    margin: 10px 0;
+}
+  .search-banner-front-box-wrap {
+    position: relative;
+    bottom: unset;
+    width: 100%;
+    background: #ffffffa3;
+    /*border-radius: 0px;*/
+}
+
+  .header, .sticky-menu {
+    padding: 10px 0px;
+  }
+  /*.somaiya_sidelogo img {
+    width: 30px;
+  }*/
+  .banner-btn-group {
+    display: none;
+  }
+  .hero-video .callout{
+  	margin-top: 100px;
+  }
+  .specialities-pattern{
+  	display: none;
+  }
+  .banner-search-section{
+  	/*display: none;*/
+    width: 100%;
+  }
+  .banner-search{
+    width: 100%;
+  }
+  .section-heading h2{
+    font-size: 35px;
+  }
+  .news-card{
+    margin-bottom: 30px;
+  }
+  .desktop-btn{
+    display: none;
+  }
+  .mobile_btn{
+    display: block;
+    text-align: center !important;
+    margin-top: 30px !important;
+  }
+  .floating-icons{
+    width: max-content;
+  }
+  .floating-icons a img {
+    width: 35px;
+}
+.footer-social-links{
+  margin-bottom: 10px;
+}
+#button{
+  width: 40px;
+  height: 40px;
+  /*bottom: 150px;*/
+    right: 5px;
+}
+#button::after{
+  font-size: 14px;
+  line-height: 40px;
+}
+.copyright-text p{
+ /* padding-bottom: 50px;*/
+}
+  .search-banner-front-box-wrap{
+    bottom: -21px;
+  }
+  .single-text-front h4 {
+    font-size: 11px;
+    margin-bottom: 0px;
+  }
+  .search-banner-front-box-wrap {
+    padding: 4px 1px;
+}
+  .single-img-front img {
+    width: 25px;
+}
+  .somaiya_sidelogo img {
+    width: 30px !important;
+  }
+  .speciality_name{
+    height: auto;
+  }
+}
+@media (max-width: 600px){
+.somaiya_sidelogo img {
+    width: 30px;
+  }
+}
+@media (max-width: 450px){
+  .no-gutter > [class*='col-']{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .sticky-menu .header .mobile-menu-trigger span:before, .sticky-menu .header .mobile-menu-trigger span:after, .sticky-menu .header .mobile-menu-trigger span{
+    background-color: #000;
+  }
+  .main-header{
+    padding: 0px;
+  }
+  #customTranslate{
+    padding: 3px 0px;
+    width: 35px;
+    font-size: 10px;
+  }
+  .menu_contact_icon{
+    margin-right: 5px;
+    margin-left: 0px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    margin-right: 5px !important;
+  }
+  .somaiya_sidelogo{
+    margin-right: 5px;
+  }
+  .header .mobile-menu-trigger{
+    margin-left: 5px;
+    width: 20px;
+    margin-right: 5px;
+  }
+  .header .mobile-menu-trigger span{
+    width: 20px;
+  }
+   .header .item-right a {
+    margin-right: 0px;
+}
+.somaiya_sidelogo li{
+  margin-left: 0px;
+}
+  .search-banner-front-box-wrap{
+    /*bottom: 0px;*/
+  }
+  .single-text-front h4 {
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 0px;
+  }
+  .search-banner-front-box-wrap {
+    padding: 4px 1px;
+}
+  .single-img-front img {
+    width: 25px;
+}
+  .somaiya_sidelogo img {
+    width: 25px !important;
+  }
+  #button{
+    /*bottom: 160px;*/
+  }
+  .serach_bar, .emergency_bar{
+    width: 25px;
+    height: 25px;
+  }
+  .serach_bar img, .emergency_bar img{
+    width: 17px;
+  }
+  .footer-links ul{
+    padding-left: 20px;
+  }
+  .sticky-menu .header .container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+}
+@media (max-width: 450px){
+
+}

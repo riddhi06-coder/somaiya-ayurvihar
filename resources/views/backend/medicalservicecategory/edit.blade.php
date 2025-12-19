@@ -12,12 +12,12 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-6">
-                        <h4>Edit Medical Service Category</h4>
+                        <h4>Edit Service Master Category</h4>
                     </div>
                     <div class="col-6">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.medicalservicecategory.index') }}">Medical Service Categories</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.medicalservicecategory.index') }}">Service Master Category</a></li>
                             <li class="breadcrumb-item active">Edit</li>
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Update Medical Service Category</h4>
+                            <h4>Update Service Master Category</h4>
                             <p class="f-m-light mt-1">Update the details below.</p>
                         </div>
                         <div class="card-body">
@@ -39,7 +39,7 @@
                                 @method('PUT')
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label for="category_name" class="form-label">Category Name <span class="text-danger">*</span></label>
+                                        <label for="category_name" class="form-label">Master Category Name <span class="text-danger">*</span></label>
                                         <input type="text" name="category_name" id="category_name" 
                                                class="form-control @error('category_name') is-invalid @enderror" 
                                                value="{{ old('category_name', $medicalservicecategory->category_name) }}" 

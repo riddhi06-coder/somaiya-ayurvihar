@@ -30,6 +30,29 @@
                     <span class="lan-3">Dashboard</span>
                   </a>
                 </li>
+
+                <!-- Home slider banner Details -->
+                <li class="sidebar-list">
+                  <i class="fa fa-thumb-tack"></i>
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
+                    </svg>
+                    <span>Home</span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="{{ route('admin.homeslider.index') }}">Banner Details</a></li>
+                    <li><a href="{{ route('admin.announcements-details.index') }}">Announcements Details</a></li>
+                    <li><a href="{{ route('admin.awards-details.index') }}">Awards Details</a></li>
+                    <li><a href="{{ route('admin.compassion-details.index') }}">Compassion Details</a></li>
+                    <li><a href="{{ route('admin.testimonial-details.index') }}">Testimonial Details</a></li>
+                    <li><a href="{{ route('admin.footer-details.index') }}">Footer Details</a></li>
+
+                  </ul>
+                </li>
                 <li class="sidebar-list">
                   <i class="fa fa-thumb-tack"> </i>
                   <a class="sidebar-link sidebar-title" href="#">
@@ -42,10 +65,12 @@
                     <span>Menu</span>
                   </a>
                   <ul class="sidebar-submenu">
-                   <li><a href="{{ route('admin.category.index') }}">Discover KJSH</a></li>
-                   <li><a href="{{ route('admin.kjshsubcategory.index') }}">KJSH Sub Category</a></li>
-                   <li><a href="{{ route('admin.medicalservicecategory.index') }}">Medical Services</a></li>
-                   <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Medical Services Sub Category</a></li>
+                   <!-- <li><a href="{{ route('admin.category.index') }}">Discover KJSH</a></li>
+                   <li><a href="{{ route('admin.kjshsubcategory.index') }}">KJSH Sub Category</a></li> -->
+                   <li><a href="{{ route('admin.medicalservicecategory.index') }}">Master category</a></li>
+                   <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Sub Category</a></li>
+                   <li><a href="{{ route('admin.medicalserviceallcategories.index') }}">All Categories</a></li>
+
                   </ul>
                 </li>
                  <!-- Doctors Details -->
@@ -64,6 +89,8 @@
                     <li><a href="{{ route('admin.doctors.index') }}">Doctors</a></li>
                   </ul>
                 </li>
+              
+                
               </ul>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
             </div>

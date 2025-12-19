@@ -234,24 +234,46 @@
         </div>
 
 
-        <!-- ROW 10: PROFILE IMAGE + VIDEO (Side by Side) -->
-        <div class="col-md-6 mb-4">
-            <label class="form-label">Profile Image @if(!$doctor) <span class="text-danger">*</span> @endif</label>
-            <input type="file" name="profile_image" class="form-control" accept="image/*" {{ !$doctor ? 'required' : '' }}>
-            @error('profile_image') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-            @if($doctor?->profile_image)
-                <img src="{{ $doctor->profile_image_url }}" class="img-thumbnail mt-3 d-block" width="120" alt="Profile">
-            @endif
-        </div>
+         <!-- ROW 10: PROFILE IMAGE -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">
+                    Profile Image
+                    @if(!$doctor) <span class="text-danger">*</span> @endif
+                </label>
 
-        <div class="col-md-6 mb-4">
+                <input
+                    type="file"
+                    name="profile_image"
+                    class="form-control"
+                    accept="image/*"
+                    {{ !$doctor ? 'required' : '' }}
+                >
+
+                @error('profile_image')
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
+
+                @if($doctor?->profile_image)
+                    <img
+                        src="{{ asset('doctors/profile/' . $doctor->profile_image) }}"
+                        class="img-thumbnail mt-3 d-block"
+                        width="120"
+                        alt="Profile"
+                    >
+                @endif
+            </div>
+
+
+       <div class="col-md-6 mb-4">
             <label class="form-label">Short Introduction Video (Optional)</label>
+
             <input type="file" name="short_video" class="form-control" accept="video/*">
+
             @if($doctor?->short_video)
-                <video width="100%" class="mt-3 rounded shadow-sm" controls>
-                    <source src="{{ $doctor->short_video_url }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <video controls width="100%">
+            <source src="{{ asset('doctors/video/' . $doctor->short_video) }}" type="video/mp4">
+        </video>
+
             @endif
         </div>
 

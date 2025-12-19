@@ -17,6 +17,6 @@ class MedicalServiceSubCategory extends Model
 
     public function category()
     {
-        return $this->belongsTo(MedicalServiceCategory::class, 'category_id');
+        return $this->belongsTo(MedicalServiceMasterCategory::class, 'category_id');
     }
 }

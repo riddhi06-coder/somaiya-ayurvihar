@@ -36,7 +36,7 @@
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                        <li class="breadcrumb-item active">Medical Service Categories</li>
+                                        <li class="breadcrumb-item active"> Service Master Categories</li>
                                     </ol>
                                 </nav>
                                 <a href="{{ route('admin.medicalservicecategory.create') }}" class="btn btn-primary px-5 radius-30">
@@ -49,7 +49,7 @@
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
-                                            <th>Category Name</th>
+                                            <th>Master Category Name</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
