@@ -57,12 +57,12 @@
                   <i class="fa fa-thumb-tack"> </i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon"> 
-                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-button') }}"></use>
                     </svg>
                     <svg class="fill-icon">
-                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-button') }}"></use>
                     </svg>
-                    <span>Menu</span>
+                    <span>Masters</span>
                   </a>
                   <ul class="sidebar-submenu">
                    <!-- <li><a href="{{ route('admin.category.index') }}">Discover KJSH</a></li>
@@ -78,10 +78,10 @@
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
-                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-landing-page') }}"></use>
                     </svg>
                     <svg class="fill-icon">
-                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-landing-page') }}"></use>
                     </svg>
                     <span>Doctors Details</span>
                   </a>
