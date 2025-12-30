@@ -22,7 +22,7 @@
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.homeslider.index') }}">Home</a>
+                            <a href="{{ route('admin.banner-details.index') }}">Home</a>
                         </li>
                         <li class="breadcrumb-item active">Edit Banner</li>
                     </ol>
@@ -42,7 +42,7 @@
 
                     <div class="card-body">
                         <form class="row g-3 needs-validation custom-input"
-                              action="{{ route('admin.homeslider.update', $slider->id) }}"
+                              action="{{ route('admin.banner-details.update', $slider->id) }}"
                               method="POST"
                               enctype="multipart/form-data"
                               novalidate>
@@ -115,7 +115,7 @@
 
                             <!-- Buttons -->
                             <div class="col-12 text-end">
-                                <a href="{{ route('admin.homeslider.index') }}"
+                                <a href="{{ route('admin.banner-details.index') }}"
                                    class="btn btn-danger px-4">
                                     Cancel
                                 </a>

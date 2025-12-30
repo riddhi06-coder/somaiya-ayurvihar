@@ -2,7 +2,7 @@
  <div class="page-body-wrapper">
         <!-- Page Sidebar Start-->
         <div class="sidebar-wrapper" data-layout="stroke-svg">
-          <div class="logo-wrapper"><a href="{{ route('admin.dashboard') }}"><img class="img-fluid" src="{{ asset('') }}" alt="" style="max-width: 20% !important;"></a>
+          <div class="logo-wrapper"><a href="{{ route('admin.dashboard') }}"><img class="img-fluid" src="{{ asset('') }}" alt="" style="max-width: 35% !important;"></a>
 		  	<a href="{{ route('admin.dashboard') }}">
 				<img class="img-fluid" src="{{ asset('admin/assets/images/logo/somaiya-ayurvihar-logo.png') }}" alt="" style="max-width: 85% !important;">
 			</a>  
@@ -18,7 +18,7 @@
                   <div class="mobile-back text-end"> <span>Back </span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                 </li>
              
-                <li class="sidebar-list {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" style="margin-top: 55px;">
+                <li class="sidebar-list {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"> </i>
                   <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.dashboard') }}">
                     <svg class="stroke-icon">
@@ -44,7 +44,7 @@
                     <span>Home</span>
                   </a>
                   <ul class="sidebar-submenu">
-                    <li><a href="{{ route('admin.homeslider.index') }}">Banner Details</a></li>
+                    <li><a href="{{ route('admin.banner-details.index') }}">Banner Details</a></li>
                     <li><a href="{{ route('admin.announcements-details.index') }}">Announcements Details</a></li>
                     <li><a href="{{ route('admin.awards-details.index') }}">Awards Details</a></li>
                     <li><a href="{{ route('admin.compassion-details.index') }}">Compassion Details</a></li>

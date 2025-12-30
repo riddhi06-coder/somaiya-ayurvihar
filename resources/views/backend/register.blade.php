@@ -66,6 +66,23 @@
 
 
 @include('components.backend.main-js')
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.querySelector('input[name="password"]');
+        const showHideSpan = document.querySelector('.show-hide .show');
+
+        showHideSpan.addEventListener('click', function () {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        });
+    });
+</script>
         </body>
 
 </html>

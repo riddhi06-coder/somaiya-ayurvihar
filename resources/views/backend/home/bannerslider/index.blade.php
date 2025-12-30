@@ -39,8 +39,8 @@
                                         <li class="breadcrumb-item active"> Banner Details</li>
                                     </ol>
                                 </nav>
-                                <a href="{{ route('admin.homeslider.create') }}" class="btn btn-primary px-5 radius-30">
-                                    + Add
+                                <a href="{{ route('admin.banner-details.create') }}" class="btn btn-primary px-5 radius-30">
+                                    + Add Banner
                                 </a>
                             </div>
 
@@ -49,8 +49,9 @@
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
-                                            <th>Banner</th>
                                             <th>Heading</th>
+                                            <th>Banner</th>
+                                            
                                             <!-- <th>Type</th> -->
                                             <th>Actions</th>
                                         </tr>
@@ -59,6 +60,8 @@
                                         @foreach($sliders as $key => $slider)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
+
+                                                <td>{{ $slider->banner_heading }}</td>
 
                                                 <td>
                                                     @if($slider->media_type === 'image')
@@ -71,8 +74,6 @@
                                                     @endif
                                                 </td>
 
-                                                <td>{{ $slider->banner_heading }}</td>
-
                                                 <!-- <td>
                                                     <span class="badge bg-{{ $slider->media_type === 'image' ? 'success' : 'primary' }}">
                                                         {{ ucfirst($slider->media_type) }}
@@ -80,12 +81,12 @@
                                                 </td> -->
 
                                                 <td>
-                                                    <a href="{{ route('admin.homeslider.edit', $slider->id) }}"
+                                                    <a href="{{ route('admin.banner-details.edit', $slider->id) }}"
                                                     class="btn btn-sm btn-primary">
                                                         Edit
                                                     </a>
-<br><br>
-                                                    <form action="{{ route('admin.homeslider.destroy', $slider->id) }}"
+                                                    <br><br>
+                                                    <form action="{{ route('admin.banner-details.destroy', $slider->id) }}"
                                                         method="POST"
                                                         style="display:inline-block"
                                                         onsubmit="return confirm('Are you sure?')">

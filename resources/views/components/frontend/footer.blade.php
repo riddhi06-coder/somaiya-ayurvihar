@@ -24,39 +24,39 @@
             @endif
 
            <li><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3771.371677824286!2d72.8721188!3d19.0473893!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c8c9d2d56e49%3A0xbc42afe04f7f411!2sSomaiya%20Ayurvihar!5e0!3m2!1sen!2sin!4v1764323950948!5m2!1sen!2sin" width="100%" height="130" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></li>
-<li class="footer_call">
-    <i class="fa fa-phone"></i>
+            <li class="footer_call">
+                <i class="fa fa-phone"></i>
 
-    @if(!empty($footer?->enquiry_number))
-        <b>24x7 Enquiry:</b>
-        <a href="tel:{{ $footer->enquiry_number }}">{{ $footer->enquiry_number }}</a><br>
-    @endif
+                @if(!empty($footer?->enquiry_number))
+                    <b>24x7 Enquiry:</b>
+                    <a href="tel:{{ $footer->enquiry_number }}">{{ $footer->enquiry_number }}</a><br>
+                @endif
 
-    @if(!empty($footer?->emergency_contact))
-        <b>Emergency Contact:</b>
-        <a href="tel:{{ $footer->emergency_contact }}">{{ $footer->emergency_contact }}</a><br>
-    @endif
+                @if(!empty($footer?->emergency_contact))
+                    <b>Emergency Contact:</b>
+                    <a href="tel:{{ $footer->emergency_contact }}">{{ $footer->emergency_contact }}</a><br>
+                @endif
 
-    @if(!empty($footer?->opd_appointment))
-        <b>Book OPD Appointment:</b>
-        <a href="tel:{{ $footer->opd_appointment }}">{{ $footer->opd_appointment }}</a><br>
-    @endif
+                @if(!empty($footer?->opd_appointment))
+                    <b>Book OPD Appointment:</b>
+                    <a href="tel:{{ $footer->opd_appointment }}">{{ $footer->opd_appointment }}</a><br>
+                @endif
 
-    @if(!empty($footer?->wellness_appointment))
-        <b>Wellness Appointment:</b>
-        <a href="tel:{{ $footer->wellness_appointment }}">{{ $footer->wellness_appointment }}</a>
-    @endif
-</li>
+                @if(!empty($footer?->wellness_appointment))
+                    <b>Wellness Appointment:</b>
+                    <a href="tel:{{ $footer->wellness_appointment }}">{{ $footer->wellness_appointment }}</a>
+                @endif
+            </li>
 
-            {{-- Phone / Contact HTML --}}
-            @if(!empty($footer?->contact_html))
-                <li class="footer_call">
-                    {!! $footer->contact_html !!}
-                </li>
-            @endif
+                  {{-- Phone / Contact HTML --}}
+                  @if(!empty($footer?->contact_html))
+                      <li class="footer_call">
+                          {!! $footer->contact_html !!}
+                      </li>
+                  @endif
 
-        </ul>
-    </div>
+              </ul>
+          </div>
 
             {{-- Social Icons --}}
             @if(!empty($footer?->social_links))

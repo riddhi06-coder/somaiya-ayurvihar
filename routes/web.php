@@ -60,7 +60,7 @@ Route::prefix('admin')
         Route::post('doctors/{doctor}/toggle-active', [DoctorController::class, 'toggleActive'])->name('doctors.toggleActive');
       
         // Home slider
-        Route::resource('homeslider', HomeSliderController::class);
+        Route::resource('banner-details', HomeSliderController::class);
         Route::resource('announcements-details', AnnouncementsDetailsController::class);
         Route::resource('awards-details', AwardsDetailsController::class);
         Route::resource('compassion-details', CompassionDetailsController::class);

@@ -16,6 +16,13 @@ class HomeSlider extends Model
         'banner_media',   // only filename
         'media_type',     // image | video
         'created_by',
+
+        'created_at',
+        'updated_at',   // only filename
+        'updated_by',     // image | video
+        'deleted_at',
+        'deleted_by',
+
     ];
 
     /**

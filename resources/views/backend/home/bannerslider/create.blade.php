@@ -22,7 +22,7 @@
                 <div class="col-6">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                    <a href="{{ route('admin.homeslider.index') }}">Home</a>
+                    <a href="{{ route('admin.banner-details.index') }}">Home</a>
                     </li>
                     <li class="breadcrumb-item active">Add Banner Details</li>
                 </ol>
@@ -47,22 +47,22 @@
                             <div class="col-12">
                             <div class="tab-content" id="wizard-tabContent">
                                 <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
-                                <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.homeslider.store') }}" method="POST" enctype="multipart/form-data">
+                                <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.banner-details.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
                                     <!-- Banner Heading-->
-                                    <div class="col-xxl-4 col-sm-6">
-                                        <label class="form-label" for="banner_heading">Banner Heading <span class="txt-danger">*</span></label>
-                                        <input class="form-control" id="banner_heading" type="text" name="banner_heading" placeholder="Enter Banner Heading" required>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="banner_heading">Banner Heading </label>
+                                        <input class="form-control" id="banner_heading" type="text" name="banner_heading" placeholder="Enter Banner Heading" >
                                         <div class="invalid-feedback">Please enter a Banner Heading.</div>
                                     </div>
 
                                    
 
-                                  <!-- Banner Media -->
-                                    <div class="col-xxl-4 col-sm-12">
+                                    <!-- Banner Media -->
+                                    <div class="col-md-6">
                                         <label class="form-label" for="banner_media">
-                                            Banner Image / Video <span class="txt-danger">*</span>
+                                            Banner Image / Video 
                                         </label>
 
                                         <input
@@ -71,7 +71,7 @@
                                             type="file"
                                             name="banner_media"
                                             accept=".jpg,.jpeg,.png,.webp,.mp4,.webm"
-                                            required
+                                            
                                             onchange="previewBannerMedia()"
                                         >
 
@@ -79,27 +79,31 @@
                                             Please upload a banner image or video.
                                         </div>
 
-                                        <small class="text-secondary">
+                                        <small class="text-secondary d-block mt-1">
                                             <b>Allowed:</b> jpg, jpeg, png, webp, mp4, webm (Max 5MB)
                                         </small>
+
+                                        <!-- Preview BELOW input -->
+                                        <div id="bannerPreviewContainer" class="mt-3" style="display:none;">
+                                            <img
+                                                id="banner_image_preview"
+                                                class="img-fluid"
+                                                style="max-height:200px; display:none; border:1px solid #ddd; padding:5px;"
+                                            >
+
+                                            <video
+                                                id="banner_video_preview"
+                                                controls
+                                                style="max-height:200px; display:none; border:1px solid #ddd; padding:5px;"
+                                            ></video>
+                                        </div>
                                     </div>
 
-
-                                   <div class="col-xxl-4 col-sm-12" id="bannerPreviewContainer" style="display:none;">
-                                        <img id="banner_image_preview"
-                                            class="img-fluid"
-                                            style="max-height:200px; display:none; border:1px solid #ddd; padding:5px;">
-
-                                        <video id="banner_video_preview"
-                                            controls
-                                            style="max-height:200px; display:none; border:1px solid #ddd; padding:5px;">
-                                        </video>
-                                    </div>
 
 
                                     <!-- Form Actions -->
                                     <div class="col-12 text-end">
-                                        <a href="{{ route('admin.homeslider.index') }}" class="btn btn-danger px-4">Cancel</a>
+                                        <a href="{{ route('admin.banner-details.index') }}" class="btn btn-danger px-4">Cancel</a>
                                         <button class="btn btn-primary" type="submit">Submit</button>
                                     </div>
                                 </form>
