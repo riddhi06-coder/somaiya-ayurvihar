@@ -51,7 +51,7 @@
                             @method('PUT')
 
                             <!-- Banner Heading -->
-                            <div class="col-xxl-4 col-sm-6">
+                            <div class="col-md-6">
                                 <label class="form-label">
                                     Banner Heading <span class="txt-danger">*</span>
                                 </label>
@@ -65,53 +65,54 @@
                                 </div>
                             </div>
 
-                            <!-- Upload New Media -->
-                            <div class="col-xxl-4 col-sm-6">
-                                <label class="form-label">
-                                    Change Banner Image / Video
-                                </label>
-                                <input type="file"
-                                       name="banner_media"
-                                       id="banner_media"
-                                       class="form-control"
-                                       accept=".jpg,.jpeg,.png,.webp,.mp4,.webm"
-                                       onchange="previewBannerMedia()">
-                                <small class="text-secondary">
-                                    Leave blank to keep existing media
-                                </small>
-                            </div>
+<!-- Upload New Media -->
+<div class="col-md-6">
+    <label class="form-label">
+        Change Banner Image / Video
+    </label>
 
-                            <!-- Existing Media Preview -->
-                            <div class="col-xxl-4 col-sm-12">
-                                <label class="form-label">Current Banner</label><br>
+    <input type="file"
+           name="banner_media"
+           id="banner_media"
+           class="form-control"
+           accept=".jpg,.jpeg,.png,.webp,.mp4,.webm"
+           onchange="previewBannerMedia()">
 
-                                @if($slider->media_type === 'image')
-                                    <img src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}"
-                                         class="img-fluid"
-                                         style="max-height:200px;border:1px solid #ddd;padding:5px;">
-                                @else
-                                    <video controls
-                                           style="max-height:200px;border:1px solid #ddd;padding:5px;">
-                                        <source src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}">
-                                    </video>
-                                @endif
-                            </div>
+    <small class="text-secondary d-block mt-1">
+        Leave blank to keep existing media
+    </small>
 
-                            <!-- New Preview -->
-                            <div class="col-xxl-12 col-sm-12"
-                                 id="bannerPreviewContainer"
-                                 style="display:none;">
-                                <label class="form-label">New Preview</label><br>
+    <!-- New Preview (BELOW input) -->
+    <div id="bannerPreviewContainer" class="mt-3" style="display:none;">
+        <label class="form-label">New Preview</label><br>
 
-                                <img id="banner_image_preview"
-                                     class="img-fluid"
-                                     style="max-height:200px;display:none;border:1px solid #ddd;padding:5px;">
+        <img id="banner_image_preview"
+             class="img-fluid"
+             style="max-height:200px;display:none;border:1px solid #ddd;padding:5px;">
 
-                                <video id="banner_video_preview"
-                                       controls
-                                       style="max-height:200px;display:none;border:1px solid #ddd;padding:5px;">
-                                </video>
-                            </div>
+        <video id="banner_video_preview"
+               controls
+               style="max-height:200px;display:none;border:1px solid #ddd;padding:5px;">
+        </video>
+    </div>
+</div>
+
+<!-- Existing Media Preview -->
+<div class="col-md-6">
+    <label class="form-label">Current Banner</label><br>
+
+    @if($slider->media_type === 'image')
+        <img src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}"
+             class="img-fluid"
+             style="max-height:200px;border:1px solid #ddd;padding:5px;">
+    @else
+        <video controls
+               style="max-height:200px;border:1px solid #ddd;padding:5px;">
+            <source src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}">
+        </video>
+    @endif
+</div>
+
 
                             <!-- Buttons -->
                             <div class="col-12 text-end">

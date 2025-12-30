@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Homepage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -28,10 +29,28 @@ class HomeSliderController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'banner_heading' => 'required|string|max:255',
-            'banner_media' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm',
+        $validator = Validator::make($request->all(), [
+            'banner_media'   => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm',
+            'banner_heading' => 'nullable|string|max:255',
         ]);
+
+        $validator->after(function ($validator) use ($request) {
+            if ($request->hasFile('banner_media')) {
+                $mime = $request->file('banner_media')->getMimeType();
+
+                // If IMAGE → heading REQUIRED
+                if (str_starts_with($mime, 'image/')
+                    && !$request->filled('banner_heading')) {
+
+                    $validator->errors()->add(
+                        'banner_heading',
+                        'The banner heading field is required when image uploaded.'
+                    );
+                }
+            }
+        });
+
+        $validator->validate(); 
 
         $fileName = null;
         $mediaType = null;
@@ -83,10 +102,40 @@ class HomeSliderController extends Controller
     {
         $slider = HomeSlider::findOrFail($id);
 
-        $request->validate([
-            'banner_heading' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
             'banner_media'   => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm|max:5120',
+            'banner_heading' => 'nullable|string|max:255',
         ]);
+
+        $validator->after(function ($validator) use ($request, $slider) {
+
+            // CASE 1: New media uploaded
+            if ($request->hasFile('banner_media')) {
+                $mime = $request->file('banner_media')->getMimeType();
+
+                if (str_starts_with($mime, 'image/')
+                    && !$request->filled('banner_heading')) {
+
+                    $validator->errors()->add(
+                        'banner_heading',
+                        'The banner heading field is required when banner media is an image.'
+                    );
+                }
+            }
+            // CASE 2: No new media → check existing media type
+            else {
+                if ($slider->media_type === 'image'
+                    && !$request->filled('banner_heading')) {
+
+                    $validator->errors()->add(
+                        'banner_heading',
+                        'The banner heading field is required for image banners.'
+                    );
+                }
+            }
+        });
+
+        $validator->validate(); // IMPORTANT
 
         $fileName = $slider->banner_media;
         $mediaType = $slider->media_type;
