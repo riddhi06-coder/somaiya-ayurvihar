@@ -47,7 +47,7 @@
 									</ol>
 								</nav>
 
-								<a href="{{ route('admin.compassion-details.create') }}" class="btn btn-primary px-5 radius-30">+ Add Compassion Details</a>
+								<a href="{{ route('admin.compassion-details.create') }}" class="btn btn-primary px-5 radius-30">+ Add Details</a>
 							</div>
 
 
@@ -57,7 +57,7 @@
                           <tr>
                               <th>#</th>
                               <th>Heading</th>
-                              <th>Description</th>
+                              <!-- <th>Description</th> -->
                               <th>Items</th>
                               <th>Action</th>
                           </tr>
@@ -67,7 +67,7 @@
                               <tr>
                                   <td>{{ $key + 1 }}</td>
                                   <td>{{ $record->heading }}</td>
-                                  <td>{{ $record->description }}</td>
+                                  <!-- <td>{{ $record->description }}</td> -->
                                   <td>
                                       @if($record->items)
                                           @foreach($record->items as $item)

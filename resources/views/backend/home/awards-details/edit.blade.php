@@ -44,6 +44,7 @@
                                 <input type="text"
                                     name="accreditation_heading"
                                     class="form-control"
+                                    placeholder="Enter Heading"
                                     value="{{ $record->accreditation_heading }}"
                                     required>
                             </div>
@@ -95,6 +96,7 @@
                                             <input type="text"
                                                 name="award_heading"
                                                 class="form-control"
+                                                placeholder="Enter Heading"
                                                 value="{{ $record->award_heading }}"
                                                 required>
                                         </div>

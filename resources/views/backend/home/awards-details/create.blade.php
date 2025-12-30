@@ -62,7 +62,7 @@
                         <div class="card-body row g-4">
                             <div class="col-md-6">
                                 <label class="form-label">Heading <span class="txt-danger">*</span></label>
-                                <input type="text" name="award_heading" class="form-control" required>
+                                <input type="text" name="award_heading" class="form-control" placeholder="Enter Heading" required>
                             </div>
 
                             <div class="col-md-6">

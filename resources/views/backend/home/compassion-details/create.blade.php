@@ -34,12 +34,12 @@
                             <div class="card-header bg-primary text-white"><strong>Compassion Details</strong></div>
                             <div class="card-body row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Heading *</label>
-                                    <input type="text" name="heading" class="form-control" required>
+                                    <label class="form-label">Heading <span class="txt-danger">*</span></label>
+                                    <input type="text" name="heading" class="form-control" placeholder="Enter Heading" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Description</label>
-                                    <input type="text" name="description" class="form-control">
+                                    <input type="text" name="description" placeholder="Enter Description" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -60,10 +60,14 @@
                                     </thead>
                                     <tbody>
                                         <tr class="item-row">
-                                            <td><input type="text" name="items[0][title]" class="form-control" required></td>
-                                            <td><input type="text" name="items[0][value]" class="form-control" required></td>
+                                            <td><input type="text" name="items[0][title]" class="form-control" placeholder="Enter Title" required></td>
+                                            <td><input type="text" name="items[0][value]" class="form-control" placeholder="Enter Value" required></td>
                                             <td>
                                                 <input type="file" name="items[0][icon]" class="form-control icon-input" accept=".jpg,.jpeg,.png,.svg">
+                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                                <br>
+                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
                                             </td>
                                             <td><img class="preview" style="width:50px;height:50px;object-fit:cover;display:none;"></td>
                                             <td><button type="button" class="btn btn-success add-row">+</button></td>
@@ -97,10 +101,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if(e.target.classList.contains('add-row')) {
             let html = `
             <tr class="item-row">
-                <td><input type="text" name="items[${counter}][title]" class="form-control" required></td>
-                <td><input type="text" name="items[${counter}][value]" class="form-control" required></td>
+                <td><input type="text" name="items[${counter}][title]" class="form-control" placeholder="Enter Title" required></td>
+                <td><input type="text" name="items[${counter}][value]" class="form-control" placeholder="Enter Value" required></td>
                 <td>
                     <input type="file" name="items[${counter}][icon]" class="form-control icon-input" accept=".jpg,.jpeg,.png,.svg">
+                    <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                    <br>
+                    <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
                 </td>
                 <td><img class="preview" style="width:50px;height:50px;object-fit:cover;display:none;"></td>
                 <td><button type="button" class="btn btn-danger remove-row">-</button></td>
