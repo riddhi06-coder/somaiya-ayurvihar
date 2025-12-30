@@ -52,14 +52,14 @@
 
 
                     <div class="table-responsive custom-scrollbar">
-                  <table class="table table-bordered display" id="basic-1">
+                  <table class="display" id="basic-1">
                       <thead>
                           <tr>
                               <th>#</th>
                               <th>Accreditation Heading</th>
                               <th>Accreditation Images</th>
                               <th>Award Heading</th>
-                              <th>Award Images</th>
+                              <!-- <th>Award Images</th> -->
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -93,7 +93,7 @@
                               <td>{{ $record->award_heading ?? '—' }}</td>
 
                               {{-- Award Images --}}
-                              <td>
+                              <!-- <td>
                                   @php
                                       $awardImages = is_array($record->award_images)
                                           ? $record->award_images
@@ -109,7 +109,7 @@
                                   @else
                                       —
                                   @endif
-                              </td>
+                              </td> -->
 
                               {{-- Actions --}}
                               <td>
@@ -117,7 +117,7 @@
                                     class="btn btn-sm btn-primary">
                                       Edit
                                   </a>
-<br><br>
+
                                   <form action="{{ route('admin.awards-details.destroy', $record->id) }}"
                                         method="POST"
                                         style="display:inline-block"

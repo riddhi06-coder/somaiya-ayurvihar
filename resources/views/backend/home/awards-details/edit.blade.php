@@ -40,7 +40,7 @@
 
                         <div class="card-body row g-4">
                             <div class="col-md-6">
-                                <label class="form-label">Heading *</label>
+                                <label class="form-label">Heading <span class="txt-danger">*</span></label>
                                 <input type="text"
                                     name="accreditation_heading"
                                     class="form-control"
@@ -54,13 +54,16 @@
                                     name="accreditation_images[]"
                                     class="form-control image-input"
                                     multiple accept="image/*">
+                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                <br>
+                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
 
                                 <!-- EXISTING IMAGES -->
                                 <div class="mt-2 d-flex gap-2 flex-wrap">
                                     @foreach($record->accreditation_images ?? [] as $img)
                                         <div style="position:relative">
                                             <img src="{{ asset('home/awards/'.$img) }}"
-                                                width="80" height="80"
+                                                width="150" height="150"
                                                 style="object-fit:cover;border-radius:6px;">
                                             <input type="hidden"
                                                 name="old_accreditation_images[]"
@@ -88,7 +91,7 @@
 
                                     <div class="card-body row g-4">
                                         <div class="col-md-6">
-                                            <label class="form-label">Heading *</label>
+                                            <label class="form-label">Heading <span class="txt-danger">*</span></label>
                                             <input type="text"
                                                 name="award_heading"
                                                 class="form-control"
@@ -102,13 +105,16 @@
                                                 name="award_images[]"
                                                 class="form-control image-input"
                                                 multiple accept="image/*">
+                                            <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                            <br>
+                                            <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
 
                                             <!-- EXISTING IMAGES -->
                                             <div class="mt-2 d-flex gap-2 flex-wrap">
                                                 @foreach($record->award_images ?? [] as $img)
                                                     <div style="position:relative">
                                                         <img src="{{ asset('home/awards/'.$img) }}"
-                                                            width="80" height="80"
+                                                            width="120" height="120"
                                                             style="object-fit:cover;border-radius:6px;">
                                                         <input type="hidden"
                                                             name="old_award_images[]"
@@ -133,7 +139,7 @@
                                     <a href="{{ route('admin.awards-details.index') }}" class="btn btn-danger">Cancel</a>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
-        </form>
+                            </form>
 
 
                         </div>

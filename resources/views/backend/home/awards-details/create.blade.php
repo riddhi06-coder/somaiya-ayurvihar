@@ -37,13 +37,17 @@
 
                         <div class="card-body row g-4">
                             <div class="col-md-6">
-                                <label class="form-label">Heading *</label>
-                                <input type="text" name="accreditation_heading" class="form-control" required>
+                                <label class="form-label">Heading <span class="txt-danger">*</span></label>
+                                <input type="text" name="accreditation_heading" class="form-control" placeholder="Enter Heading" required>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">Images *</label>
+                                <label class="form-label">Images <span class="txt-danger">*</span></label>
                                 <input type="file" name="accreditation_images[]" class="form-control image-input" multiple accept="image/*">
+                                 <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                <br>
+                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
                                 <div class="preview-box mt-2 d-flex gap-2 flex-wrap"></div>
                             </div>
                         </div>
@@ -57,13 +61,17 @@
 
                         <div class="card-body row g-4">
                             <div class="col-md-6">
-                                <label class="form-label">Heading *</label>
+                                <label class="form-label">Heading <span class="txt-danger">*</span></label>
                                 <input type="text" name="award_heading" class="form-control" required>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">Images *</label>
+                                <label class="form-label">Images <span class="txt-danger">*</span></label>
                                 <input type="file" name="award_images[]" class="form-control image-input" multiple accept="image/*">
+                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                <br>
+                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
                                 <div class="preview-box mt-2 d-flex gap-2 flex-wrap"></div>
                             </div>
                         </div>

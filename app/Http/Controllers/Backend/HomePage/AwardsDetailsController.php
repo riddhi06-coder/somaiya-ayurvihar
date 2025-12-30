@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AwardsDetailsController extends Controller
 {
+
     // ✅ Display list of records
     public function index()
     {
-        $records = AwardsDetails::whereNull('deleted_at')
-            ->orderBy('id', 'desc')
-            ->get();
+        $records = AwardsDetails::whereNull('deleted_at')->get();
 
         return view('backend.home.awards-details.index', compact('records'));
     }
@@ -61,13 +60,13 @@ class AwardsDetailsController extends Controller
         AwardsDetails::create([
             'accreditation_heading' => $request->accreditation_heading,
             'accreditation_images'  => $accreditationImages,
-            'award_heading'         => $request->award_heading,
-            'award_images'          => $awardImages,
-            'created_by'            => auth()->id(),
+            'award_heading'      => $request->award_heading,
+            'award_images'       => $awardImages,
+            'created_by'        =>Auth::id(),
+            'created_at'        => Carbon::now(),
         ]);
 
-        return redirect()->route('admin.awards-details.index')
-                         ->with('message', 'Awards & Accreditations added successfully.');
+        return redirect()->route('admin.awards-details.index')->with('message', 'Awards & Accreditations added successfully.');
     }
 
     // ✅ Edit form
@@ -121,21 +120,24 @@ class AwardsDetailsController extends Controller
             'accreditation_images'  => $accreditationImages,
             'award_heading'         => $request->award_heading,
             'award_images'          => $awardImages,
-            'updated_by'            => auth()->id(),
+            'updated_by'            => Auth::id(),
+            'updated_at'            => Carbon::now(),
         ]);
 
-        return redirect()->route('admin.awards-details.index')
-                         ->with('message', 'Awards & Accreditations updated successfully.');
+        return redirect()->route('admin.awards-details.index')->with('message', 'Awards & Accreditations updated successfully.');
     }
 
-    // ✅ Soft delete
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        $record = AwardsDetails::findOrFail($id);
-        $record->update(['deleted_by' => auth()->id()]);
-        $record->delete();
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = AwardsDetails::findOrFail($id);
+            $industries->update($data);
 
-        return redirect()->route('admin.awards-details.index')
-                         ->with('message', 'Record deleted successfully.');
+            return redirect()->route('admin.awards-details.index')->with('message', 'Details deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
     }
 }
