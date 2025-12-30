@@ -47,17 +47,17 @@
 									</ol>
 								</nav>
 
-								<a href="{{ route('admin.announcements-details.create') }}" class="btn btn-primary px-5 radius-30">+ Add Announcements Details</a>
+								<a href="{{ route('admin.announcements-details.create') }}" class="btn btn-primary px-5 radius-30">+ Add Details</a>
 							</div>
 
 
                     <div class="table-responsive custom-scrollbar">
-                   <table class="table table-bordered display" id="basic-1">
+                   <table class="display" id="basic-1">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Heading</th>
-                                <th>Title</th>
+                                <!-- <th>Title</th> -->
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -69,13 +69,13 @@
 
                                     <td>{{ $record->title }}</td>
 
-                                    <td>{{ $record->heading }}</td>
+                                    <!-- <td>{{ $record->heading }}</td> -->
                                     <td>
                                         <a href="{{ route('admin.announcements-details.edit', $record->id) }}"
                                           class="btn btn-sm btn-primary">
                                             Edit
                                         </a>
-<br><br>
+
                                         <form action="{{ route('admin.announcements-details.destroy', $record->id) }}"
                                               method="POST"
                                               style="display:inline-block"

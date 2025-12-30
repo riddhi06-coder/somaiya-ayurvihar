@@ -26,13 +26,14 @@ class AnnouncementsDetailsController extends Controller
             'heading' => 'required|string|max:255',
             'text.*' => 'nullable|string',
             'description.*' => 'nullable|string',
-            'image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $data = [
             'title' => $request->title,
             'heading' => $request->heading,
-            'created_by' => auth()->id(),
+            'created_by' => Auth::id(),
+            'created_at' =>Carbon::now(),
         ];
 
         $data['text'] = implode(',', $request->text ?? []);
@@ -56,83 +57,83 @@ class AnnouncementsDetailsController extends Controller
         return redirect()->route('admin.announcements-details.index')->with('message', 'Announcements Details added successfully!');
     }
 
+    public function edit($id)
+    {
+        $brandEthosDetails = AnnouncementsDetail::findOrFail($id);
 
-   public function edit($id)
-{
-    $brandEthosDetails = AnnouncementsDetail::findOrFail($id);
+        // Convert comma-separated values to arrays
+        $texts = explode('|', $brandEthosDetails->text ?? '');
+        $descriptions = explode('|', $brandEthosDetails->description ?? '');
+        $images = explode('|', $brandEthosDetails->images ?? '');
 
-    // Convert comma-separated values to arrays
-    $texts = explode('|', $brandEthosDetails->text ?? '');
-    $descriptions = explode('|', $brandEthosDetails->description ?? '');
-    $images = explode('|', $brandEthosDetails->images ?? '');
+        $counterItems = [];
+        $count = max(count($texts), count($descriptions), count($images));
 
-    $counterItems = [];
-    $count = max(count($texts), count($descriptions), count($images));
+        for ($i = 0; $i < $count; $i++) {
+            $counterItems[] = [
+                'text' => $texts[$i] ?? '',
+                'description' => $descriptions[$i] ?? '',
+                'image' => $images[$i] ?? '',
+            ];
+        }
 
-    for ($i = 0; $i < $count; $i++) {
-        $counterItems[] = [
-            'text' => $texts[$i] ?? '',
-            'description' => $descriptions[$i] ?? '',
-            'image' => $images[$i] ?? '',
-        ];
+        return view('backend.home.announcements-details.edit', compact('brandEthosDetails', 'counterItems'));
     }
 
-    return view('backend.home.announcements-details.edit', compact('brandEthosDetails', 'counterItems'));
-}
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'heading' => 'required|string|max:255',
+            'counter_text.*' => 'nullable|string',
+            'counter_description.*' => 'nullable|string',
+            'image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'heading' => 'required|string|max:255',
-        'counter_text.*' => 'nullable|string',
-        'counter_description.*' => 'nullable|string',
-        'image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-    ]);
+        $material = AnnouncementsDetail::findOrFail($id);
 
-    $material = AnnouncementsDetail::findOrFail($id);
+        $texts = $request->counter_text ?? [];
+        $descriptions = $request->counter_description ?? [];
+        $existingImages = $request->existing_images ?? [];
+        $newImages = $request->file('image') ?? [];
 
-    $texts = $request->counter_text ?? [];
-    $descriptions = $request->counter_description ?? [];
-    $existingImages = $request->existing_images ?? [];
-    $newImages = $request->file('image') ?? [];
+        $finalImages = [];
 
-    $finalImages = [];
+        foreach ($texts as $index => $text) {
+            if (isset($newImages[$index]) && $newImages[$index]->isValid()) {
+                $file = $newImages[$index];
+                $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('home/announcements'), $filename);
+                $finalImages[] = $filename;
+            } else {
+                $finalImages[] = $existingImages[$index] ?? '';
+            }
+        }
 
-    foreach ($texts as $index => $text) {
-        if (isset($newImages[$index]) && $newImages[$index]->isValid()) {
-            $file = $newImages[$index];
-            $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('home/announcements'), $filename);
-            $finalImages[] = $filename;
-        } else {
-            $finalImages[] = $existingImages[$index] ?? '';
+        $material->update([
+            'title' => $request->title,
+            'heading' => $request->heading,
+            'text' => implode('|', $texts),
+            'description' => implode('|', $descriptions),
+            'images' => implode('|', $finalImages),
+            'updated_by' => Auth::id(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        return redirect()->route('admin.announcements-details.index')->with('message', 'Announcements Details updated successfully!');
+    }
+
+    public function destroy(string $id)
+    {
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = AnnouncementsDetail::findOrFail($id);
+            $industries->update($data);
+
+            return redirect()->route('admin.announcements-details.index')->with('message', 'Details deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
         }
     }
-
-    $material->update([
-        'title' => $request->title,
-        'heading' => $request->heading,
-        'text' => implode('|', $texts),
-        'description' => implode('|', $descriptions),
-        'images' => implode('|', $finalImages),
-        'updated_by' => auth()->id(),
-    ]);
-
-    return redirect()->route('admin.announcements-details.index')->with('message', 'Announcements Details updated successfully!');
-}
-
-public function destroy($id)
-{
-    $record = AnnouncementsDetail::findOrFail($id);
-
-    $record->update([
-        'deleted_by' => auth()->id(),
-    ]);
-
-    $record->delete(); // Must call this for soft delete
-
-    return redirect()->route('admin.announcements-details.index')
-        ->with('message', 'Announcements deleted successfully!');
-}
 }

@@ -61,10 +61,11 @@
                                 <div class="col-md-3">
                                     <input type="text" name="counter_description[]" class="form-control" placeholder="Enter Description" value="{{ $item['description'] }}">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mt-5">
                                     <input type="file" name="image[]" class="form-control counter-image-input" accept="image/*">
                                     <input type="hidden" name="existing_images[]" value="{{ $item['image'] }}">
-                                    <small class="text-muted">Leave blank to keep existing image.</small>
+                                    <!-- <small class="text-muted">Leave blank to keep existing image.</small><br> -->
+                                    <small class="text-muted">Max size 2MB. JPG, PNG, JPEG, WEBP only.</small>
                                 </div>
                                 <div class="col-md-2 text-center">
                                     @if(!empty($item['image']))
@@ -133,9 +134,10 @@
                     <div class="col-md-3">
                         <input type="text" name="counter_description[]" class="form-control" placeholder="Enter Description">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-5">
                         <input type="file" name="image[]" class="form-control counter-image-input" accept="image/*">
                         <input type="hidden" name="existing_images[]" value="">
+                        <small class="text-muted">Max size 2MB. JPG, PNG, JPEG, WEBP only.</small>
                     </div>
                     <div class="col-md-2 text-center">
                         <img src="#" class="img-preview rounded" style="max-width: 80px; max-height: 80px; display: none;">

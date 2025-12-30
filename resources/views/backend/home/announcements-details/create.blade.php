@@ -63,7 +63,7 @@
                                     <label class="form-label">Description</label>
                                     <input type="text"  name="description[]" class="form-control" placeholder="Enter Description">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mt-5">
                                     <label class="form-label">Image</label>
                                     <input type="file" name="image[]" class="form-control counter-image-input" accept="image/*">
                                     <small class="text-muted">Max size 2MB. JPG, PNG, JPEG, WEBP only.</small>
@@ -122,7 +122,7 @@
                             <div class="col-md-3">
                                 <input type="text" name="description[]" class="form-control" placeholder="Enter Description">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-5">
                                 <input type="file" name="image[]" class="form-control counter-image-input" accept="image/*">
                                 <small class="text-muted">Max size 2MB. JPG, PNG, JPEG, WEBP only.</small>
                             </div>
