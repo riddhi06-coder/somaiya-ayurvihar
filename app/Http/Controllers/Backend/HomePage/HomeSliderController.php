@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\HomeSlider;
 
+
+
 class HomeSliderController extends Controller
 {
  
