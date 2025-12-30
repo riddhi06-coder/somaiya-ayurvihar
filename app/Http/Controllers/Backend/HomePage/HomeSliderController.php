@@ -30,7 +30,7 @@ class HomeSliderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'banner_media'   => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm',
+            'banner_media'   => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm|max:17384',
             'banner_heading' => 'nullable|string|max:255',
         ]);
 
@@ -103,7 +103,7 @@ class HomeSliderController extends Controller
         $slider = HomeSlider::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'banner_media'   => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm|max:5120',
+            'banner_media'   => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm|max:17384',
             'banner_heading' => 'nullable|string|max:255',
         ]);
 
@@ -118,7 +118,7 @@ class HomeSliderController extends Controller
 
                     $validator->errors()->add(
                         'banner_heading',
-                        'The banner heading field is required when banner media is an image.'
+                        'The banner heading field is required when image is uploaded.'
                     );
                 }
             }

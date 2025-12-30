@@ -44,15 +44,14 @@
                                 </a>
                             </div>
 
-                           <div class="table-responsive custom-scrollbar">
+                            <div class="table-responsive custom-scrollbar">
                                 <table class="display" id="basic-1">
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
-                                            <th>Heading</th>
+                                            <!-- <th>Heading</th> -->
                                             <th>Banner</th>
-                                            
-                                            <!-- <th>Type</th> -->
+          
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -61,31 +60,27 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
 
-                                                <td>{{ $slider->banner_heading }}</td>
+                                                <!-- <td>{{ $slider->banner_heading }}</td> -->
 
                                                 <td>
                                                     @if($slider->media_type === 'image')
                                                         <img src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}"
-                                                            width="120" class="img-thumbnail">
+                                                           style="max-height: 120px;" class="img-fluid rounded">
                                                     @else
-                                                        <video width="120" muted>
-                                                            <source src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}">
-                                                        </video>
+                                                        <div class="d-flex justify-content-center">
+                                                            <video muted autoplay style="max-height:180px;">
+                                                                <source src="{{ asset('home/bannerimagevideo/'.$slider->banner_media) }}">
+                                                            </video>
+                                                        </div>
                                                     @endif
                                                 </td>
-
-                                                <!-- <td>
-                                                    <span class="badge bg-{{ $slider->media_type === 'image' ? 'success' : 'primary' }}">
-                                                        {{ ucfirst($slider->media_type) }}
-                                                    </span>
-                                                </td> -->
 
                                                 <td>
                                                     <a href="{{ route('admin.banner-details.edit', $slider->id) }}"
                                                     class="btn btn-sm btn-primary">
                                                         Edit
                                                     </a>
-                                                    <br><br>
+                    
                                                     <form action="{{ route('admin.banner-details.destroy', $slider->id) }}"
                                                         method="POST"
                                                         style="display:inline-block"
