@@ -1,6 +1,7 @@
 @php
   $footer = \App\Models\FooterDetail::wherenull('deleted_by')->first();
   $social_links = $footer && $footer->social_links ? json_decode($footer->social_links, true) : [];
+
 @endphp
 
 
@@ -72,25 +73,32 @@
                   </ul>
                 </div>
 
-                  {{-- Social Icons --}}
-                  @if(!empty($footer?->social_links))
-                      <ul class="footer-social-links">
-                          @foreach($social_links as $link)
-                              @php
-                                  $icon = '';
-                                  switch($link['platform']) {
-                                      case '1': $icon = 'fa-facebook-f'; break;
-                                      case '2': $icon = 'fa-twitter'; break;
-                                      case '3': $icon = 'fa-instagram'; break;
-                                      case '4': $icon = 'fa-linkedin-in'; break;
-                                      case '5': $icon = 'fa-youtube'; break;
-                                      case '6': $icon = 'fa-pinterest'; break;
-                                  }
-                              @endphp
-                              <a href="{{ $link['link'] }}" target="_blank"><i class="fa-brands {{ $icon }}"></i></a>
-                          @endforeach
-                      </ul>
-                  @endif
+                @if(!empty($social_links))
+                    <ul class="footer-social-links">
+                        @foreach($social_links as $link)
+                            @php
+                                $icon = '';
+                                switch ((int)$link['platform']) {
+                                    case 1: $icon = 'fa-facebook'; break;
+                                    case 2: $icon = 'fa-twitter'; break;
+                                    case 3: $icon = 'fa-instagram'; break;
+                                    case 4: $icon = 'fa-linkedin'; break;
+                                    case 5: $icon = 'fa-youtube'; break;
+                                    case 6: $icon = 'fa-pinterest'; break;
+                                }
+                            @endphp
+
+                            @if($icon && !empty($link['link']))
+                                <li>
+                                    <a href="{{ $link['link'] }}" target="_blank" rel="noopener">
+                                        <i class="fa {{ $icon }}"></i>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
+             
 
             </div>
 

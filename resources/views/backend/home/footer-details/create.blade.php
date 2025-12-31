@@ -68,7 +68,7 @@
                                             placeholder="<iframe ...></iframe>">{{ old('map_iframe') }}</textarea>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-5">
                                     <label class="form-label">24x7 Enquiry Number</label>
                                     <input type="text"
                                         name="enquiry_number"
@@ -77,7 +77,7 @@
                                         placeholder="Enter 24x7 Enquiry Number">
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-5">
                                     <label class="form-label">Emergency Contact</label>
                                     <input type="text"
                                         name="emergency_contact"
