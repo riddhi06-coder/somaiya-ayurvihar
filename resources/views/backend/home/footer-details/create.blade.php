@@ -64,7 +64,7 @@
                                     <label class="form-label">Google Map Iframe</label>
                                     <textarea name="map_iframe"
                                             class="form-control"
-                                            rows="3"
+                                            rows="6"
                                             placeholder="<iframe ...></iframe>">{{ old('map_iframe') }}</textarea>
                                 </div>
 

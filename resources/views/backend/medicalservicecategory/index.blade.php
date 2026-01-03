@@ -40,7 +40,7 @@
                                     </ol>
                                 </nav>
                                 <a href="{{ route('admin.medicalservicecategory.create') }}" class="btn btn-primary px-5 radius-30">
-                                    + Add
+                                    + Add Category
                                 </a>
                             </div>
 

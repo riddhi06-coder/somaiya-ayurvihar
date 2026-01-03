@@ -8,12 +8,13 @@ use App\Models\MedicalServiceSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class MedicalServiceSubCategoryController extends Controller
 {
     public function index()
     {
-        $subcategories = MedicalServiceSubCategory::with('category')->get();
+        $subcategories = MedicalServiceSubCategory::with('category')->wherenull('deleted_by')->get();
         return view('backend.medicalservicesubcategory.index', compact('subcategories'));
     }
 
@@ -35,10 +36,11 @@ class MedicalServiceSubCategoryController extends Controller
             'subcategory_name' => $request->subcategory_name,
             'slug'             => Str::slug($request->subcategory_name),
             'created_by'       => Auth::id(),
+            'created_at'       => Carbon::now(),
         ]);
 
         return redirect()->route('admin.medicalservicesubcategory.index')
-            ->with('success', 'Medical Service Subcategory added!');
+            ->with('message', 'Medical Service Subcategory added!');
     }
 
     public function edit(MedicalServiceSubCategory $medicalservicesubcategory)
@@ -62,18 +64,24 @@ class MedicalServiceSubCategoryController extends Controller
             'subcategory_name' => $request->subcategory_name,
             'slug'             => Str::slug($request->subcategory_name),
             'updated_by'       => Auth::id(),
+            'updated_at'       => Carbon::now(),
         ]);
 
         return redirect()->route('admin.medicalservicesubcategory.index')
-            ->with('success', 'Medical Service Subcategory updated!');
+            ->with('message', 'Medical Service Subcategory updated!');
     }
 
-    public function destroy(MedicalServiceSubCategory $medicalservicesubcategory)
+    public function destroy(string $id)
     {
-        $medicalservicesubcategory->update(['deleted_by' => Auth::id()]);
-        $medicalservicesubcategory->delete();
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = MedicalServiceSubCategory::findOrFail($id);
+            $industries->update($data);
 
-        return redirect()->route('admin.medicalservicesubcategory.index')
-            ->with('success', 'Medical Service Subcategory deleted!');
+            return redirect()->route('admin.medicalservicesubcategory.index')->with('message', 'Data deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
     }
 }

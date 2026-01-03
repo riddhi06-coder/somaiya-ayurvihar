@@ -7,12 +7,14 @@ use App\Models\MedicalServiceMasterCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 
 class MedicalServiceCategoryController extends Controller
 {
     public function index()
     {
-        $categories = MedicalServiceMasterCategory::latest()->paginate(10);
+        $categories = MedicalServiceMasterCategory::wherenull('deleted_by')->get();
         return view('backend.medicalservicecategory.index', compact('categories'));
     }
 
@@ -31,10 +33,11 @@ class MedicalServiceCategoryController extends Controller
             'category_name' => $request->category_name,
             'slug'          => Str::slug($request->category_name),
             'created_by'    => Auth::id(),
+            'created_at'    => Carbon::now(),
         ]);
 
         return redirect()->route('admin.medicalservicecategory.index')
-            ->with('success', 'Medical Service Category added!');
+            ->with('message', 'Medical Service Category added!');
     }
 
     public function edit(MedicalServiceMasterCategory $medicalservicecategory)
@@ -52,18 +55,25 @@ class MedicalServiceCategoryController extends Controller
             'category_name' => $request->category_name,
             'slug'          => Str::slug($request->category_name),
             'updated_by'    => Auth::id(),
+            'updated_at'    => Carbon::now(),
         ]);
 
         return redirect()->route('admin.medicalservicecategory.index')
-            ->with('success', 'Medical Service Category updated!');
+            ->with('message', 'Medical Service Category updated!');
     }
 
-    public function destroy(MedicalServiceMasterCategory $medicalservicecategory)
+    public function destroy(string $id)
     {
-        $medicalservicecategory->update(['deleted_by' => Auth::id()]);
-        $medicalservicecategory->delete();
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = MedicalServiceMasterCategory::findOrFail($id);
+            $industries->update($data);
 
-        return redirect()->route('admin.medicalservicecategory.index')
-            ->with('success', 'Medical Service Category deleted!');
+            return redirect()->route('admin.medicalservicecategory.index')->with('message', 'Data deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
     }
+
 }

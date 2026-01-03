@@ -17,7 +17,7 @@ class MedicalServiceCategory extends Model
         'service_name',
         'created_by',
         'updated_by',
-        'deleted_by'
+        'deleted_by'    
     ];
 
     // 🔗 Master Category

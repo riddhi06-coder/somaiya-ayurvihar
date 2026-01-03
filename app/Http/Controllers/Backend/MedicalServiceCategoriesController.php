@@ -47,6 +47,7 @@ class MedicalServiceCategoriesController extends Controller
             'subcategory_id' => $request->subcategory_id,
             'service_name'   => $request->service_name,
             'created_by'     => Auth::id(),
+            'created_at'     => Carbon::now(), 
         ]);
 
         return redirect()

@@ -12,12 +12,12 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-6">
-                        <h4>Add All Categories</h4>
+                        <h4>Add Facilities</h4>
                     </div>
                     <div class="col-6">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.medicalservicecategory.index') }}">All Categories</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.medicalservicecategory.index') }}">Facilities</a></li>
                             <li class="breadcrumb-item active">Add New</li>
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4> All Categories Form</h4>
+                            <h4> Facilities Form</h4>
                             <p class="f-m-light mt-1">Fill up the details and submit the form.</p>
                         </div>
                         <div class="card-body">
@@ -40,26 +40,10 @@
 
                                     <div class="row g-3">
 
-                                        {{-- Subcategory --}}
-                                        <div class="col-md-6">
-                                            <label class="form-label">Subcategory *</label>
-                                            <select name="subcategory_id" id="subcategory_id" class="form-control" required>
-                                                <option value="">Select Subcategory</option>
-                                                @foreach($subCategories as $subcat)
-                                                    <option
-                                                        value="{{ $subcat->id }}"
-                                                        data-category="{{ $subcat->category_id }}"
-                                                        {{ $service->subcategory_id == $subcat->id ? 'selected' : '' }}
-                                                    >
-                                                        {{ $subcat->subcategory_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
 
                                         {{-- Master Category (Auto Selected) --}}
                                         <div class="col-md-6">
-                                            <label class="form-label">Master Category *</label>
+                                            <label class="form-label">Master Category <span class="txt-danger">*</span></label>
                                             <select name="category_id" id="category_id" class="form-control" readonly required>
                                                 @foreach($masterCategories as $cat)
                                                     <option
@@ -72,9 +56,29 @@
                                             </select>
                                         </div>
 
+
+
+                                        {{-- Subcategory --}}
+                                        <div class="col-md-6">
+                                            <label class="form-label">Sub Category <span class="txt-danger">*</span></label>
+                                            <select name="subcategory_id" id="subcategory_id" class="form-control" required>
+                                                <option value="">Select Sub Category</option>
+                                                @foreach($subCategories as $subcat)
+                                                    <option
+                                                        value="{{ $subcat->id }}"
+                                                        data-category="{{ $subcat->category_id }}"
+                                                        {{ $service->subcategory_id == $subcat->id ? 'selected' : '' }}
+                                                    >
+                                                        {{ $subcat->subcategory_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+
                                         {{-- Service Name --}}
                                         <div class="col-md-6">
-                                            <label class="form-label">Categories Name *</label>
+                                            <label class="form-label">Facility Name <span class="txt-danger">*</span></label>
                                             <input
                                                 type="text"
                                                 name="service_name"
@@ -96,18 +100,6 @@
                             </form>
 
 
-
-                        {{-- Script to fetch subcategories based on master category --}}
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                       
-                           <script>
-                                document.getElementById('subcategory_id').addEventListener('change', function () {
-                                    let categoryId = this.options[this.selectedIndex].dataset.category;
-                                    document.getElementById('category_id').value = categoryId;
-                                });
-                                </script>
-
-
                         </div>
                     </div>
                 </div>
@@ -117,5 +109,21 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
+
+
+    
+
+    {{-- Script to fetch subcategories based on master category --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        document.getElementById('subcategory_id').addEventListener('change', function () {
+            let categoryId = this.options[this.selectedIndex].dataset.category;
+            document.getElementById('category_id').value = categoryId;
+        });
+    </script>
+
+
+
 </body>
 </html>

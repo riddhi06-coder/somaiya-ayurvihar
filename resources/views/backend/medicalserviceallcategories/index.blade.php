@@ -36,11 +36,11 @@
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                        <li class="breadcrumb-item active"> Service All Categories</li>
+                                        <li class="breadcrumb-item active"> Facilities</li>
                                     </ol>
                                 </nav>
                                 <a href="{{ route('admin.medicalserviceallcategories.create') }}" class="btn btn-primary px-5 radius-30">
-                                    + Add
+                                    + Add Facilities
                                 </a>
                             </div>
 

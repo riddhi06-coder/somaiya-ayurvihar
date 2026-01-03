@@ -38,7 +38,7 @@
                                 @csrf
 
                                 <div class="row g-3">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <label for="category_id" class="form-label">Parent Category <span class="text-danger">*</span></label>
                                         <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                                             <option value="">Select Parent Category</option>
@@ -53,12 +53,12 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <label for="subcategory_name" class="form-label">Subcategory Name <span class="text-danger">*</span></label>
                                         <input type="text" name="subcategory_name" id="subcategory_name" 
                                                class="form-control @error('subcategory_name') is-invalid @enderror" 
                                                value="{{ old('subcategory_name') }}" 
-                                               placeholder="Enter subcategory name" required>
+                                               placeholder="Enter Sub Category name" required>
                                         @error('subcategory_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

@@ -37,7 +37,7 @@
                             <form action="{{ route('admin.medicalservicecategory.store') }}" method="POST">
                                 @csrf
                                 <div class="row g-3">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <label for="category_name" class="form-label">Master Category Name <span class="text-danger">*</span></label>
                                         <input type="text" name="category_name" id="category_name" 
                                                class="form-control @error('category_name') is-invalid @enderror" 

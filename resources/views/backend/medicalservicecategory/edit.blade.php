@@ -38,7 +38,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="row g-3">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <label for="category_name" class="form-label">Master Category Name <span class="text-danger">*</span></label>
                                         <input type="text" name="category_name" id="category_name" 
                                                class="form-control @error('category_name') is-invalid @enderror" 
@@ -49,11 +49,11 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-12">
+                                    <!-- <div class="col-12">
                                         <label class="form-label">Slug</label>
                                         <input type="text" class="form-control bg-light" value="{{ $medicalservicecategory->slug }}" readonly>
                                         <small class="text-muted">Auto-generated</small>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-12 text-end mt-4">
                                         <a href="{{ route('admin.medicalservicecategory.index') }}" class="btn btn-secondary me-2">Cancel</a>

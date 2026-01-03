@@ -67,9 +67,9 @@
                   <ul class="sidebar-submenu">
                    <!-- <li><a href="{{ route('admin.category.index') }}">Discover KJSH</a></li>
                    <li><a href="{{ route('admin.kjshsubcategory.index') }}">KJSH Sub Category</a></li> -->
-                   <li><a href="{{ route('admin.medicalservicecategory.index') }}">Master category</a></li>
+                   <li><a href="{{ route('admin.medicalservicecategory.index') }}">Category</a></li>
                    <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Sub Category</a></li>
-                   <li><a href="{{ route('admin.medicalserviceallcategories.index') }}">All Categories</a></li>
+                   <li><a href="{{ route('admin.medicalserviceallcategories.index') }}">Facilities</a></li>
 
                   </ul>
                 </li>
