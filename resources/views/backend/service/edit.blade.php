@@ -666,80 +666,28 @@
                 }
             }
 
-            function previewimage(event) {
-                const input = event.target;
-                const preview = document.getElementById('imagePreview');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+            function previewSectionImage(event) {
+                const img = document.getElementById('imagePreview');
+                img.src = URL.createObjectURL(event.target.files[0]);
+                img.classList.remove('d-none');
             }
 
-            function previewserviceimage(event) {
-                const input = event.target;
-                const preview = document.getElementById('serviceimagePreview');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+            function previewServiceImage(event) {
+                const img = document.getElementById('serviceimagePreview');
+                img.src = URL.createObjectURL(event.target.files[0]);
+                img.classList.remove('d-none');
             }
 
-            function previewfaqimage(event) {
-                const input = event.target;
-                const preview = document.getElementById('faqimagePreview');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+            function previewFaqImage(event) {
+                const img = document.getElementById('faqimagePreview');
+                img.src = URL.createObjectURL(event.target.files[0]);
+                img.classList.remove('d-none');
             }
 
-            function previewspecialimage(event) {
-                const input = event.target;
-                const preview = document.getElementById('specialimagePreview');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+            function previewSpecialImage(event) {
+                const img = document.getElementById('specialimagePreview');
+                img.src = URL.createObjectURL(event.target.files[0]);
+                img.classList.remove('d-none');
             }
         </script>
 

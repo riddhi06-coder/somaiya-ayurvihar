@@ -94,23 +94,21 @@ public function update(Request $request, $id)
     return redirect()
         ->route('admin.medicalserviceallcategories.index')
         ->with('message', 'Category updated messagefully');
-}
+    }
 
 
-public function destroy($id)
-{
-    $service = MedicalServiceCategory::findOrFail($id);
+    public function destroy(string $id)
+    {
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = MedicalServiceCategory::findOrFail($id);
+            $industries->update($data);
 
-    // Store who deleted it
-    $service->update([
-        'deleted_by' => Auth::id(),
-    ]);
+            return redirect()->route('admin.medicalserviceallcategories.index')->with('message', 'Details deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
+    }
 
-    // Soft delete
-    $service->delete();
-
-    return redirect()
-        ->route('admin.medicalserviceallcategories.index')
-        ->with('message', 'Category deleted messagefully');
-}
 }

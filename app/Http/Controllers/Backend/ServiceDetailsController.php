@@ -26,6 +26,7 @@ class ServiceDetailsController extends Controller
                 'subcategory:id,subcategory_name',
                 'service:id,service_name'
             ])
+            ->whereNull('deleted_by') 
             ->orderBy('category_id')
             ->orderBy('subcategory_id')
             ->get()
@@ -176,7 +177,7 @@ class ServiceDetailsController extends Controller
     }
 
 
-   public function edit($id)
+    public function edit($id)
     {
         $service_details = ManageServiceDetail::findOrFail($id);
 
@@ -194,4 +195,145 @@ class ServiceDetailsController extends Controller
     }
 
 
+    public function update(Request $request, $id)
+    {
+        // ================= VALIDATION =================
+        $request->validate([
+            'category_id'        => 'required',
+            'subcategory_id'     => 'required',
+            'service_id'         => 'nullable',
+
+            'banner_heading'     => 'required|string|max:255',
+            'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'section_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'desc'               => 'required|string',
+
+            'service_heading'    => 'required|string|max:255',
+            'service_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'service_desc'       => 'required|string',
+
+            'features'           => 'required|array',
+            'features.*.name'    => 'required|string',
+
+            'special_heading'    => 'required|string|max:255',
+            'special_desc'       => 'required|string',
+            'special_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'faq_heading'        => 'required|string|max:255',
+            'faq_image'          => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'faq'                => 'required|array',
+            'faq.*.question'     => 'required|string',
+            'faq.*.answer'       => 'required|string',
+        ], [
+            'category_id.required'    => 'Master category is required.',
+            'subcategory_id.required' => 'Sub category is required.',
+            'banner_heading.required' => 'Banner heading is required.',
+            'image.required'          => 'Banner image is required.',
+            'section_image.required'  => 'Section image is required.',
+            'service_heading.required'=> 'Service heading is required.',
+            'service_image.required'  => 'Service image is required.',
+            'faq_heading.required'    => 'FAQ heading is required.',
+            'faq_image.required'      => 'FAQ image is required.',
+        ]);
+
+        // ================= FETCH EXISTING RECORD =================
+        $service_details = ManageServiceDetail::findOrFail($id);
+
+        $uploadPath = public_path('uploads/service-details');
+
+        // ================= IMAGE UPDATES =================
+        // Banner Image
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $bannerImage = time().'_banner.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $bannerImage);
+            $service_details->banner_image = $bannerImage;
+        }
+
+        // Section Image
+        if ($request->hasFile('section_image')) {
+            $img = $request->file('section_image');
+            $sectionImage = time().'_section.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $sectionImage);
+            $service_details->section_image = $sectionImage;
+        }
+
+        // Service Image
+        if ($request->hasFile('service_image')) {
+            $img = $request->file('service_image');
+            $serviceImage = time().'_service.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $serviceImage);
+            $service_details->service_image = $serviceImage;
+        }
+
+        // Special Image
+        if ($request->hasFile('special_image')) {
+            $img = $request->file('special_image');
+            $specialImage = time().'_special.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $specialImage);
+            $service_details->special_image = $specialImage;
+        }
+
+        // FAQ Image
+        if ($request->hasFile('faq_image')) {
+            $img = $request->file('faq_image');
+            $faqImage = time().'_faq.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $faqImage);
+            $service_details->faq_image = $faqImage;
+        }
+
+        // ================= JSON ENCODE TABLE DATA =================
+        $featuresJson = json_encode($request->features);
+        $faqJson      = json_encode($request->faq);
+
+        // ================= UPDATE RECORD =================
+        $service_details->update([
+            'category_id'       => $request->category_id,
+            'subcategory_id'    => $request->subcategory_id,
+            'service_id'        => $request->service_id,
+
+            'banner_heading'    => $request->banner_heading,
+            'description'       => $request->desc,
+
+            'section_image'     => $service_details->section_image,
+            'service_heading'   => $request->service_heading,
+            'service_desc'      => $request->service_desc,
+            'service_image'     => $service_details->service_image,
+
+            'features'          => $featuresJson,
+
+            'special_heading'   => $request->special_heading,
+            'special_desc'      => $request->special_desc,
+            'special_image'     => $service_details->special_image,
+
+            'faq_heading'       => $request->faq_heading,
+            'faq'               => $faqJson,
+            'faq_image'         => $service_details->faq_image,
+
+            'updated_at'        => Carbon::now(),
+            'updated_by'        => Auth::id(),
+        ]);
+
+        return redirect()
+            ->route('admin.manage-service-details.index')
+            ->with('message', 'Service details updated successfully.');
+    }
+
+
+
+    public function destroy(string $id)
+    {
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = ManageServiceDetail::findOrFail($id);
+            $industries->update($data);
+
+            return redirect()->route('admin.manage-service-details.index')->with('message', 'Details deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
+    }
 }
