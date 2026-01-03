@@ -40,13 +40,15 @@
                                 <div class="row g-3">
 
 
-                                    {{-- Master Category (Auto Selected) --}}
+                                   {{-- Master Category --}}
+                                    {{-- Master Category --}}
                                     <div class="col-md-6">
-                                        <label class="form-label">Master Category <span class="txt-danger">*</span></label>
+                                        <label class="form-label">
+                                            Master Category <span class="txt-danger">*</span>
+                                        </label>
                                         <select name="category_id"
                                                 id="category_id"
                                                 class="form-control"
-                                                readonly
                                                 required>
                                             <option value="">Select Master Category</option>
                                             @foreach($masterCategories as $cat)
@@ -57,16 +59,16 @@
                                         </select>
                                     </div>
 
-
-
                                     {{-- Subcategory --}}
                                     <div class="col-md-6">
-                                        <label class="form-label">Subcategory <span class="txt-danger">*</span></label>
+                                        <label class="form-label">
+                                            Sub Category <span class="txt-danger">*</span>
+                                        </label>
                                         <select name="subcategory_id"
                                                 id="subcategory_id"
                                                 class="form-control"
                                                 required>
-                                            <option value="">Select Subcategory</option>
+                                            <option value="">Select Sub Category</option>
                                             @foreach($subCategories as $subcat)
                                                 <option value="{{ $subcat->id }}"
                                                         data-category="{{ $subcat->category_id }}">
@@ -75,6 +77,8 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+
 
                                     {{-- Facility Name --}}
                                     <div class="col-md-6">
@@ -120,14 +124,37 @@
     {{-- Script to fetch subcategories based on master category --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <script>
-        document.getElementById('subcategory_id').addEventListener('change', function () {
-            let categoryId = this.options[this.selectedIndex].dataset.category;
+   <script>
+    const categorySelect = document.getElementById('category_id');
+    const subcategorySelect = document.getElementById('subcategory_id');
 
-            let masterSelect = document.getElementById('category_id');
-            masterSelect.value = categoryId;
+    function filterSubcategories() {
+        const selectedCategory = categorySelect.value;
+        let hasVisibleOption = false;
+
+        Array.from(subcategorySelect.options).forEach(option => {
+            if (!option.value) return; // Skip placeholder
+
+            if (option.dataset.category === selectedCategory) {
+                option.style.display = 'block';
+                hasVisibleOption = true;
+            } else {
+                option.style.display = 'none';
+                option.selected = false;
+            }
         });
-    </script>
+
+        if (!hasVisibleOption) {
+            subcategorySelect.value = '';
+        }
+    }
+
+    categorySelect.addEventListener('change', filterSubcategories);
+
+    // Run on page load (for edit form)
+    document.addEventListener('DOMContentLoaded', filterSubcategories);
+</script>
+
 
 </body>
 </html>

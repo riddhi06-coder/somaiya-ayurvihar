@@ -45,52 +45,75 @@
                             </div>
 
                             <div class="table-responsive custom-scrollbar">
-                               <table class="display" id="basic-1">
+                                <table class="table table-bordered table-hover" id="basic-1">
                                     <thead>
                                         <tr>
-                                            <th>Sr No.</th>
+                                            <th width="60">#</th>
                                             <th>All Categories</th>
-                                            <th>Actions</th>
+                                            <th width="200">Actions</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @foreach($services as $key => $service)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
+                                        @php
+                                            $sr = 1;
+                                            $grouped = $services->groupBy('category_id');
+                                        @endphp
 
-                                                <td>
-                                                    <strong>{{ $service->category->category_name ?? '-' }}</strong>
-                                                    <br>
-                                                    <small>
-                                                        {{ $service->subcategory->subcategory_name ?? '-' }}
-                                                        → {{ $service->service_name }}
-                                                    </small>
-                                                </td>
-
-                                                <td>
-                                                    {{-- Edit --}}
-                                                    <a href="{{ route('admin.medicalserviceallcategories.edit', $service->id) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                        Edit
-                                                    </a>
-
-                                                    {{-- Delete --}}
-                                                    <form action="{{ route('admin.medicalserviceallcategories.destroy', $service->id) }}"
-                                                        method="POST"
-                                                        style="display:inline-block;"
-                                                        onsubmit="return confirm('Are you sure you want to delete this record?')">
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        <button type="submit" class="btn btn-sm btn-danger">
-                                                            Delete
-                                                        </button>
-                                                    </form>
+                                        @foreach($grouped as $categoryId => $categoryServices)
+                                            {{-- Main Category --}}
+                                            <tr class="table-light">
+                                                <td colspan="3">
+                                                    <strong>
+                                                        Main Category: {{ optional($categoryServices->first()->category)->category_name }}
+                                                    </strong>
                                                 </td>
                                             </tr>
+
+                                            @php
+                                                $subGrouped = $categoryServices->groupBy('subcategory_id');
+                                            @endphp
+
+                                            @foreach($subGrouped as $subCategoryId => $subServices)
+                                                {{-- Subcategory --}}
+                                                <tr class="table-secondary">
+                                                    <td colspan="3" style="padding-left: 30px;">
+                                                       Sub Category:  {{ optional($subServices->first()->subcategory)->subcategory_name }}
+                                                    </td>
+                                                </tr>
+
+                                                {{-- Services --}}
+                                                @foreach($subServices as $service)
+                                                    <tr>
+                                                        <td>{{ $sr++ }}</td>
+
+                                                        <td style="padding-left: 60px;">
+                                                            {{ $service->service_name }}
+                                                        </td>
+
+                                                        <td>
+                                                            <a href="{{ route('admin.medicalserviceallcategories.edit', $service->id) }}"
+                                                            class="btn btn-sm btn-primary">
+                                                                Edit
+                                                            </a>
+
+                                                            <form action="{{ route('admin.medicalserviceallcategories.destroy', $service->id) }}"
+                                                                method="POST"
+                                                                style="display:inline-block;"
+                                                                onsubmit="return confirm('Are you sure you want to delete this record?')">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endforeach
                                         @endforeach
                                     </tbody>
+                                    
                                 </table>
 
                             </div>

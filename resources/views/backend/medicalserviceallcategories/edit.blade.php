@@ -40,40 +40,45 @@
 
                                     <div class="row g-3">
 
-
-                                        {{-- Master Category (Auto Selected) --}}
+                                        {{-- Master Category --}}
                                         <div class="col-md-6">
-                                            <label class="form-label">Master Category <span class="txt-danger">*</span></label>
-                                            <select name="category_id" id="category_id" class="form-control" readonly required>
+                                            <label class="form-label">
+                                                Master Category <span class="txt-danger">*</span>
+                                            </label>
+                                            <select name="category_id"
+                                                    id="category_id"
+                                                    class="form-control"
+                                                    readonly
+                                                    required>
                                                 @foreach($masterCategories as $cat)
-                                                    <option
-                                                        value="{{ $cat->id }}"
-                                                        {{ $service->category_id == $cat->id ? 'selected' : '' }}
-                                                    >
+                                                    <option value="{{ $cat->id }}"
+                                                        {{ $service->category_id == $cat->id ? 'selected' : '' }}>
                                                         {{ $cat->category_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-
-
                                         {{-- Subcategory --}}
                                         <div class="col-md-6">
-                                            <label class="form-label">Sub Category <span class="txt-danger">*</span></label>
-                                            <select name="subcategory_id" id="subcategory_id" class="form-control" required>
+                                            <label class="form-label">
+                                                Sub Category <span class="txt-danger">*</span>
+                                            </label>
+                                            <select name="subcategory_id"
+                                                    id="subcategory_id"
+                                                    class="form-control"
+                                                    required>
                                                 <option value="">Select Sub Category</option>
                                                 @foreach($subCategories as $subcat)
-                                                    <option
-                                                        value="{{ $subcat->id }}"
-                                                        data-category="{{ $subcat->category_id }}"
-                                                        {{ $service->subcategory_id == $subcat->id ? 'selected' : '' }}
-                                                    >
+                                                    <option value="{{ $subcat->id }}"
+                                                            data-category="{{ $subcat->category_id }}"
+                                                            {{ $service->subcategory_id == $subcat->id ? 'selected' : '' }}>
                                                         {{ $subcat->subcategory_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
+
 
 
                                         {{-- Service Name --}}
@@ -117,9 +122,29 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script>
-        document.getElementById('subcategory_id').addEventListener('change', function () {
-            let categoryId = this.options[this.selectedIndex].dataset.category;
-            document.getElementById('category_id').value = categoryId;
+        document.addEventListener('DOMContentLoaded', function () {
+            const categorySelect = document.getElementById('category_id');
+            const subcategorySelect = document.getElementById('subcategory_id');
+
+            function filterSubcategories() {
+                const selectedCategory = categorySelect.value;
+
+                Array.from(subcategorySelect.options).forEach(option => {
+                    if (!option.value) return; // skip placeholder
+
+                    if (option.dataset.category === selectedCategory) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            }
+
+            // Run on page load (IMPORTANT for edit)
+            filterSubcategories();
+
+            // If category ever changes (future-proof)
+            categorySelect.addEventListener('change', filterSubcategories);
         });
     </script>
 

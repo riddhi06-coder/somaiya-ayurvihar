@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\MedicalServiceSubCategory;
 use App\Models\MedicalServiceCategory;
+use Carbon\Carbon;
 
 class MedicalServiceCategoriesController extends Controller
 {
@@ -46,6 +47,7 @@ class MedicalServiceCategoriesController extends Controller
             'category_id'    => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'service_name'   => $request->service_name,
+            'slug'           => Str::slug($request->service_name),
             'created_by'     => Auth::id(),
             'created_at'     => Carbon::now(), 
         ]);
@@ -86,12 +88,15 @@ public function update(Request $request, $id)
         'service_name'   => $request->service_name,
         'slug'           => Str::slug($request->service_name),
         'updated_by'     => Auth::id(),
+        'updated_at'     => Carbon::now(),
     ]);
 
     return redirect()
         ->route('admin.medicalserviceallcategories.index')
         ->with('message', 'Category updated messagefully');
 }
+
+
 public function destroy($id)
 {
     $service = MedicalServiceCategory::findOrFail($id);
