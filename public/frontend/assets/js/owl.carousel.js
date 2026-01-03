@@ -2605,7 +2605,7 @@
  * @author Bartosz Wojciechowski
  * @author Artus Kolanowski
  * @author David Deutsch
- * @author Tom De CaluwÃ©
+ * @author Tom De CaluwÃƒÂ©
  * @license The MIT License (MIT)
  */
 ;(function($, window, document, undefined) {

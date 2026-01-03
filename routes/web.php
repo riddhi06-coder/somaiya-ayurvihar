@@ -85,3 +85,4 @@ Route::prefix('admin')
 // ----------------------
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
+Route::get('/{slug}', [HomeController::class, 'service_details'])->name('frontend.service_details');
