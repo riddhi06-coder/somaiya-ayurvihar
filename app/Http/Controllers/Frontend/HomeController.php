@@ -45,23 +45,20 @@ class HomeController extends Controller
         ->whereNull('deleted_by') // optional: only active
         ->firstOrFail();
 
-    // 2️⃣ Fetch all service details for this subcategory
-    $services = ManageServiceDetail::with(['category', 'subcategory', 'service'])
+    $service = ManageServiceDetail::with(['category', 'subcategory', 'service'])
         ->where('subcategory_id', $subcategory->id)
-        ->whereNull('deleted_by') // only active
-        ->get();
+        ->whereNull('deleted_by')
+        ->firstOrFail(); // better than first()
+    // dd($service);
 
-    // 3️⃣ Decode features & faq for each service detail
-    $services->transform(function($service) {
-        $service->features = json_decode($service->features, true) ?? [];
-        $service->faq      = json_decode($service->faq, true) ?? [];
-        return $service;
-    });
+    // Decode JSON fields
+    $service->features = json_decode($service->features, true) ?? [];
+    $service->faq      = json_decode($service->faq, true) ?? [];
 
     // 4️⃣ Pass subcategory & services to view
     return view('frontend.service_details', [
         'subcategory' => $subcategory,
-        'services'    => $services,
+        'service'    => $service,
     ]);
 }
 

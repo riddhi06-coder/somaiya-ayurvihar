@@ -463,7 +463,7 @@ a {
 }
 
 
-/* When checkbox is checked â†’ show menu */
+/* When checkbox is checked → show menu */
 .menu-toggle:checked~.side-menu {
   right: 0;
 }
@@ -2752,7 +2752,7 @@ footer {
   padding: 130px 0px 100px 0px;
   background-color: #f4f4f4;
   background: linear-gradient(0deg, rgb(212 212 212) 0%, rgb(228 228 228 / 33%) 50%);
-  background-image: url(../img/medical-services/cardiology/cardiology-banner.jpg);
+  /* background-image: url(../img/medical-services/cardiology/cardiology-banner.jpg); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -2916,7 +2916,7 @@ footer {
   border-bottom: 1px solid #444;
 }
 
-/* When checkbox is checked â†’ open sidebar */
+/* When checkbox is checked → open sidebar */
 .side-checkbox:checked~.side-panel {
   left: 0;
 }
@@ -3116,7 +3116,7 @@ footer {
   display: block;
 }
 
-/* âœ… MOBILE PERFECT STACK */
+/* ✅ MOBILE PERFECT STACK */
 @media (max-width: 767px) {
 
   .medixal-card {
@@ -3209,7 +3209,7 @@ footer {
   transform: translateY(-6px);
 }
 
-/* âœ… MOBILE PERFECT */
+/* ✅ MOBILE PERFECT */
 @media (max-width: 767px) {
 
   .case-title {
@@ -4464,7 +4464,7 @@ footer {
 
 /*=============*/
 /* =========================================
-   Expert Doctor â€“ Single Button Section
+   Expert Doctor – Single Button Section
    ========================================= */
 
 .expert-doctor-team-button-sec-two {
@@ -5351,7 +5351,7 @@ screen and (max-height: 300px) {
 }
 
 .quote-modern::before {
-  content: "â€œ";
+  content: "“";
   position: absolute;
   top: 7px;
   left: 10px;

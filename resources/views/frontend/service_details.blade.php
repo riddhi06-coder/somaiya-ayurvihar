@@ -8,39 +8,23 @@
   <body>
 
 
+  
 
-    <section class="banner_section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="banner-content">
-              <h1>Cardiology</h1>
-              <h6>Compassionate Care for Every Heartbeat</h6>
-            </div>
-            <!-- <div class="breadcrumb-wrapper">
-              <ol class="breadcrumb custom-breadcrumb">
-                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span></a></li>
-                <li><a href="#">Medical Services</a></li>
-                <li class="active">Cardiology</li>
-              </ol>
-              </div> -->
-          </div>
-          <!--  <div class="col-md-4">
-            <div class="banner_phn">
-              <h6><i class="fa fa-phone"></i> <a href="tel:912261124800">+91 22 6112 4800</a> / <a href="tel:912250954700">5095 4700</a></h6>
-            </div>
-            <div class="banner_btn">
-              <div class="button-box">
-                <a class="twenty" href="#"><span>Find A Doctor</span></a>
-              </div>
-              <div class="button-box">
-                <a class="twenty" href="#"><span>Maps & Directions</span></a>
-              </div>
-            </div>
-            </div> -->
+
+<section class="banner_section" 
+         style="background-image: url('{{ asset('uploads/service-details/' . ($service->banner_image ?? 'default-banner.jpg')) }}');">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="banner-content">
+          <h1>{{ $subcategory->subcategory_name ?? 'No Subcategory' }}</h1>
+          <h6>{{ $service->banner_heading ?? 'Welcome to our services' }}</h6>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
 
         <!-- Tabs -->
 
@@ -949,6 +933,67 @@
      
     @include('components.frontend.main-js')
 
+
+    <script>
+      $(document).ready(function(){
+      
+        var tabs = $('.apollo-tabs');
+        var tabList = $('.tab-scroll');
+        var headerHeight = $('#header-sticky').outerHeight() || 90;
+        var tabOffset = tabs.offset().top;
+      
+        // Sticky tabs
+        $(window).on('scroll', function(){
+          if($(window).scrollTop() >= tabOffset - headerHeight){
+            tabs.addClass('is-sticky');
+          } else {
+            tabs.removeClass('is-sticky');
+          }
+        });
+      
+        // Click scroll (no hash)
+        $('.apollo-tabs a').on('click', function(){
+          var target = $('#' + $(this).data('target'));
+      
+          $('html, body').animate({
+            scrollTop: target.offset().top - headerHeight - tabs.outerHeight()
+          }, 600);
+      
+          $('.apollo-tabs li').removeClass('active');
+          $(this).parent().addClass('active');
+        });
+      
+        // Auto active on scroll
+        $(window).on('scroll', function(){
+          var scrollPos = $(window).scrollTop();
+      
+          $('section[id]').each(function(){
+            var top = $(this).offset().top - headerHeight - tabs.outerHeight() - 20;
+            var bottom = top + $(this).outerHeight();
+            var id = $(this).attr('id');
+      
+            if(scrollPos >= top && scrollPos < bottom){
+              $('.apollo-tabs li').removeClass('active');
+              var activeTab = $('.apollo-tabs a[data-target="'+id+'"]').parent().addClass('active');
+      
+              // auto scroll tab into view
+              tabList.animate({
+                scrollLeft: activeTab.position().left + tabList.scrollLeft() - 50
+              }, 200);
+            }
+          });
+        });
+      
+        // Arrow buttons
+        $('.tab-arrow.left').click(function(){
+          tabList.animate({ scrollLeft: '-=200' }, 300);
+        });
+        $('.tab-arrow.right').click(function(){
+          tabList.animate({ scrollLeft: '+=200' }, 300);
+        });
+      
+      });
+    </script>
 
     
 
