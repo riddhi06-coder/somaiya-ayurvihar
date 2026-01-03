@@ -176,4 +176,22 @@ class ServiceDetailsController extends Controller
     }
 
 
+   public function edit($id)
+    {
+        $service_details = ManageServiceDetail::findOrFail($id);
+
+        $service = MedicalServiceCategory::all();
+        $masterCategories = MedicalServiceMasterCategory::all();
+        $subCategories = MedicalServiceSubCategory::all();
+
+        $service_details->features = json_decode($service_details->features, true);
+        $service_details->faq = json_decode($service_details->faq, true);
+
+        return view(
+            'backend.service.edit',
+            compact('service_details','service', 'masterCategories', 'subCategories')
+        );
+    }
+
+
 }
