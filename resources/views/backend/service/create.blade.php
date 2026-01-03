@@ -17,14 +17,14 @@
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
-                  <h4>Add IB Diploma Programme Form</h4>
+                  <h4>Add Service Details Form</h4>
                 </div>
                 <div class="col-6">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                     <a href="{{ route('admin.manage-service-details.index') }}">Home</a>
                     </li>
-                    <li class="breadcrumb-item active">Add IB Diploma Programme</li>
+                    <li class="breadcrumb-item active">Add Service Details</li>
                 </ol>
 
                 </div>
@@ -37,7 +37,7 @@
                 <div class="col-md-12">
                     <div class="card">
                     <div class="card-header">
-                        <h4>IB Diploma Programme Form</h4>
+                        <h4>Service Details Form</h4>
                         <p class="f-m-light mt-1">Fill up your true details and submit the form.</p>
                     </div>
                     <div class="card-body">
@@ -180,7 +180,7 @@
 
 
                                         <!-- Service Image -->
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mt-5">
                                             <label class="form-label" for="service_image"> Service Image <span class="txt-danger">*</span> </label>
                                             <input class="form-control" id="service_image" type="file" name="service_image" onchange="previewserviceimage(event)" required>
                                             <div class="invalid-feedback">Please upload a Service image.</div>
@@ -239,6 +239,22 @@
                                         </div>
 
 
+                                        <!-- Special Image -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="special_image"> Special Image <span class="txt-danger">*</span> </label>
+                                            <input class="form-control" id="special_image" type="file" name="special_image" onchange="previewspecialimage(event)" required>
+                                            <div class="invalid-feedback">Please upload a Special image.</div>
+                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                                <br>
+                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
+                                            <!-- Image Preview -->
+                                            <div class="mt-2">
+                                                <img id="specialimagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                            </div>
+                                        </div>
+
+
 
                                         
                                          <!-- Special Description-->
@@ -265,7 +281,7 @@
 
 
                                         <!-- FAQ Image -->
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mt-5">
                                             <label class="form-label" for="faq_image"> FAQ Image <span class="txt-danger">*</span> </label>
                                             <input class="form-control" id="faq_image" type="file" name="faq_image" onchange="previewfaqimage(event)" required>
                                             <div class="invalid-feedback">Please upload a FAQ image.</div>
@@ -283,7 +299,7 @@
                 
                                         <!-- FAQ Table -->
                                         <!-- FAQ Table -->
-                                        <div class="col-12">
+                                        <div class="col-12 mt-5">
                                             <table class="table table-bordered mt-5" id="faqTable">
                                                 <thead>
                                                     <tr>
@@ -504,6 +520,25 @@
                     preview.classList.add('d-none'); // hide if no file
                 }
             }
+
+            function previewspecialimage(event) {
+                const input = event.target;
+                const preview = document.getElementById('specialimagePreview');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('d-none'); // show preview
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.src = "#";
+                    preview.classList.add('d-none'); // hide if no file
+                }
+            }
         </script>
 
 
@@ -568,8 +603,7 @@
         </script>
 
 
-
-
+        <!-- JS for editor -->
         <script>
             ClassicEditor.create(document.querySelector('#editor1'), {
                 toolbar: [
