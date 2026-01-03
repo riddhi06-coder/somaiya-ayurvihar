@@ -70,24 +70,23 @@
                    <li><a href="{{ route('admin.medicalservicecategory.index') }}">Category</a></li>
                    <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Sub Category</a></li>
                    <li><a href="{{ route('admin.medicalserviceallcategories.index') }}">Facilities</a></li>
+                   <li><a href="{{ route('admin.doctors.index') }}">Doctors</a></li>
 
                   </ul>
                 </li>
-                 <!-- Doctors Details -->
-                <li class="sidebar-list">
+
+
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-service-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
-                  <a class="sidebar-link sidebar-title" href="#">
-                    <svg class="stroke-icon">
-                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-landing-page') }}"></use>
+                  <a class="sidebar-link" href="{{ route('admin.manage-service-details.index') }}">
+                    <svg class="stroke-icon"> 
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-bonus-kit') }}"></use>
                     </svg>
                     <svg class="fill-icon">
-                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-landing-page') }}"></use>
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-bonus-kit') }}"></use>
                     </svg>
-                    <span>Doctors Details</span>
+                    <span>Service Details</span>
                   </a>
-                  <ul class="sidebar-submenu">
-                    <li><a href="{{ route('admin.doctors.index') }}">Doctors</a></li>
-                  </ul>
                 </li>
               
                 
