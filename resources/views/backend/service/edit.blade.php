@@ -177,6 +177,52 @@
                                         </div>
 
 
+                                        <hr class="mt-5">
+
+                                        <h4># Page Headers</h4>
+
+
+                                        <!-- Page Headers Table -->
+                                        <div class="col-12">
+                                            <table class="table table-bordered mt-5" id="pageHeadersTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Page Header <span class="txt-danger">*</span></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($service_details->page_headers ?? [] as $index => $header)
+                                                        <tr class="header-row">
+                                                            <td>
+                                                                <input type="text"
+                                                                    name="page_headers[{{ $index }}][title]"
+                                                                    class="form-control"
+                                                                    value="{{ $header['title'] }}">
+                                                            </td>
+                                                            <td>
+                                                                <button type="button"
+                                                                        class="btn {{ $index == 0 ? 'btn-success add-header' : 'btn-danger remove-header' }}">
+                                                                    {{ $index == 0 ? 'Add More' : 'Remove' }}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr class="header-row">
+                                                            <td>
+                                                                <input type="text" name="page_headers[0][title]" class="form-control" placeholder="Enter Page Header">
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-success add-header">Add More</button>
+                                                            </td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
 
                                         <hr class="mt-5">
 
@@ -748,6 +794,40 @@
                 // Remove faq row
                 $('#faqTable').on('click', '.remove-faq', function() {
                     $(this).closest('tr').remove();
+                });
+            });
+        </script>
+
+
+        <!---- js for page headers table---->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let headerIndex = {{ count($service_details->page_headers ?? []) }};
+
+                // Add new header row
+                document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
+                    if(e.target && e.target.classList.contains('add-header')){
+                        const tbody = this.querySelector('tbody');
+                        const newRow = document.createElement('tr');
+                        newRow.classList.add('header-row');
+                        newRow.innerHTML = `
+                            <td>
+                                <input type="text" name="page_headers[${headerIndex}][title]" class="form-control" placeholder="Enter Page Header">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove-header">Remove</button>
+                            </td>
+                        `;
+                        tbody.appendChild(newRow);
+                        headerIndex++;
+                    }
+                });
+
+                // Remove header row
+                document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
+                    if(e.target && e.target.classList.contains('remove-header')){
+                        e.target.closest('tr').remove();
+                    }
                 });
             });
         </script>

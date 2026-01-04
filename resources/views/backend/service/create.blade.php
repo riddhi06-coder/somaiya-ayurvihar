@@ -138,6 +138,35 @@
 
                                         <hr class="mt-5">
 
+                                        <h4># Page Headers</h4>
+
+
+                                        <!-- Page Headers Table -->
+                                        <div class="col-12">
+                                            <table class="table table-bordered mt-5" id="pageHeadersTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Page Header <span class="txt-danger">*</span></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="header-row">
+                                                        <td>
+                                                            <input type="text" name="page_headers[0][title]" class="form-control" placeholder="Enter Page Header">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success add-header">Add More</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+                                        <hr class="mt-5">
+
                                         <h4># Details</h4>
 
 
@@ -598,6 +627,38 @@
                 // Remove faq row
                 $('#faqTable').on('click', '.remove-faq', function() {
                     $(this).closest('tr').remove();
+                });
+            });
+        </script>
+
+        <!----- Js for page headers-------->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let headerIndex = 1; // Start from 1 because 0 is already in HTML
+
+                // Add new header row
+                document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
+                    if(e.target && e.target.classList.contains('add-header')){
+                        const tbody = this.querySelector('tbody');
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>
+                                <input type="text" name="page_headers[${headerIndex}][title]" class="form-control" placeholder="Enter Page Header">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove-header">Remove</button>
+                            </td>
+                        `;
+                        tbody.appendChild(newRow);
+                        headerIndex++;
+                    }
+                });
+
+                // Remove header row
+                document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
+                    if(e.target && e.target.classList.contains('remove-header')){
+                        e.target.closest('tr').remove();
+                    }
                 });
             });
         </script>

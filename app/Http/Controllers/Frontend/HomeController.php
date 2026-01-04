@@ -55,6 +55,9 @@ class HomeController extends Controller
         // Decode JSON fields
         $service->features = json_decode($service->features, true) ?? [];
         $service->faq      = json_decode($service->faq, true) ?? [];
+        $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
+
+        // dd($service);
 
         // 4️⃣ Pass subcategory & services to view
         return view('frontend.service_details', [

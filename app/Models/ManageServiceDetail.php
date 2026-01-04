@@ -19,6 +19,7 @@ class ManageServiceDetail extends Model
         'banner_heading',
         'banner_image',
         'section_image',
+        'page_headers',
 
         'description',
         'service_heading',

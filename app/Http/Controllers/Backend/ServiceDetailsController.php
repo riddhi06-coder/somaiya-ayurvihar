@@ -83,6 +83,10 @@ class ServiceDetailsController extends Controller
             'faq'                => 'required|array',
             'faq.*.question'     => 'required|string',
             'faq.*.answer'       => 'required|string',
+
+            'page_headers'       => 'nullable|array',
+            'page_headers.*.title' => 'required|string',
+
         ], [
             'category_id.required'    => 'Master category is required.',
             'subcategory_id.required' => 'Sub category is required.',
@@ -143,6 +147,7 @@ class ServiceDetailsController extends Controller
         // ================= JSON ENCODE TABLE DATA =================
         $featuresJson = json_encode($request->features);
         $faqJson      = json_encode($request->faq);
+        $pageHeadersJson  = json_encode($request->page_headers);
 
         // ================= STORE DATA =================
         ManageServiceDetail::create([
@@ -169,6 +174,9 @@ class ServiceDetailsController extends Controller
             'faq_heading'       => $request->faq_heading,
             'faq_image'         => $faqImage,
             'faq'               => $faqJson,
+
+            'page_headers'      => $pageHeadersJson,
+
             'created_at'        => Carbon::now(),
             'created_by'        => Auth::id(),
         ]);
@@ -187,6 +195,7 @@ class ServiceDetailsController extends Controller
 
         $service_details->features = json_decode($service_details->features, true);
         $service_details->faq = json_decode($service_details->faq, true);
+        $service_details->page_headers = json_decode($service_details->page_headers, true);
 
         return view(
             'backend.service.edit',
@@ -226,6 +235,11 @@ class ServiceDetailsController extends Controller
             'faq'                => 'required|array',
             'faq.*.question'     => 'required|string',
             'faq.*.answer'       => 'required|string',
+
+
+            'page_headers'       => 'nullable|array',
+            'page_headers.*.title'=> 'required|string',
+
         ], [
             'category_id.required'    => 'Master category is required.',
             'subcategory_id.required' => 'Sub category is required.',
@@ -287,6 +301,7 @@ class ServiceDetailsController extends Controller
         // ================= JSON ENCODE TABLE DATA =================
         $featuresJson = json_encode($request->features);
         $faqJson      = json_encode($request->faq);
+        $pageHeadersJson = json_encode($request->page_headers);
 
         // ================= UPDATE RECORD =================
         $service_details->update([
@@ -312,6 +327,8 @@ class ServiceDetailsController extends Controller
             'faq'               => $faqJson,
             'faq_image'         => $service_details->faq_image,
 
+            'page_headers'      => $pageHeadersJson, 
+
             'updated_at'        => Carbon::now(),
             'updated_by'        => Auth::id(),
         ]);
@@ -321,8 +338,7 @@ class ServiceDetailsController extends Controller
             ->with('message', 'Service details updated successfully.');
     }
 
-
-
+    
     public function destroy(string $id)
     {
         $data['deleted_by'] =  Auth::user()->id;

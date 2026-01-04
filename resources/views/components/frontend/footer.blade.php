@@ -5,7 +5,7 @@
 @endphp
 
 
-  <footer>
+    <footer>
       <div class="container">
         <div class="row main-footer">
           <div class="col-md-6">
@@ -153,17 +153,7 @@
                     </ul>
                   </div>
                 </div>
-                <!-- <div class="col-md-4"> -->
-                <!-- <div class="footer-contact">
-                  <h5>Contact Us</h5>
-                  <ul>
-                    <li><i class="fa fa-map-marker"></i> Somaiya Ayurvihar Complex, Eastern Express Highway, Sion(E), Mumbai - 400 022</li>
-                    <li><i class="fa fa-phone"></i> <a href="">+91 22 6112 4800</a></li>
-                    <li><i class="fa fa-phone"></i> <a href="">+91 22 5095 4700</a></li>
-                  </ul>
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.371678895254!2d72.87211882332116!3d19.047389252873817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c8c9d2d56e49%3A0xbc42afe04f7f411!2sSomaiya%20Ayurvihar!5e0!3m2!1sen!2sin!4v1761636818663!5m2!1sen!2sin" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                  </div> -->
-                <!-- </div> -->
+                
               </div>
               
               <hr>
@@ -182,5 +172,48 @@
                   </ul>
                 </div>
               </div>
+
+              <div id="videoModal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                      <iframe src="" allowfullscreen></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <a href="#" class="menu_contact_icon float float-search"><i class="fa fa-search"></i></a> 
+
+              <input type="checkbox" id="menuToggle" class="menu-toggle">
+
+              <label for="menuToggle" class="open-menu-btn float"><i class="fa fa-phone"></i></label>
+              <div class="side-menu">
+                <label for="menuToggle" class="closebtn">&times;</label>
+                <ul class="sidemenu_numbers">
+                  <li>24x7 Enquiry: <br><a href="tel:02261124800">022-6112 4800</a></li>
+                  <li>Emergency Contact: <br><a href="tel:02250954723">022-50954723</a></li>
+                  <li>Book OPD Appointment: <br><a href="tel:02250954700">022-50954700</a> / <a href="tel:9324960673">9324960673</a></li>
+                  <li>Wellness Appointment: <br><a href="tel:918090155888">+91-8090155888</a></li>
+                </ul>
+              </div>
+
+              <a id="button"></a>
+
+              <!-- ✅ Bootstrap 3 Modal -->
+              <div id="imageModal" class="modal fade">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <!-- <h4 class="modal-title">Full Image</h4> -->
+                    </div>
+                    <div class="modal-body text-center">
+                      <img id="fullImage">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
          </div>
     </footer>

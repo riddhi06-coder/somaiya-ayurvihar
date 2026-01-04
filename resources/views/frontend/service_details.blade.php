@@ -32,21 +32,31 @@
 
         <!--  <div id="sticky-anchor"></div> -->
         <div class="apollo-tabs-wrapper">
-          <div class="apollo-tabs" id="apolloTabs">
-              <button class="tab-arrow left" type="button">&#10094;</button>
-              <ul class="nav nav-tabs tab-scroll">
-              <li class="active"><a href="javascript:void(0)" data-target="overview">Cardiology</a></li>
-              <li><a href="javascript:void(0)" data-target="doctors">Expert Doctors Team</a></li>
-              <li><a href="javascript:void(0)" data-target="our-services">Services & Facilities</a></li>
-              <li><a href="javascript:void(0)" data-target="health-packages">Cardio Health Packages</a></li>
-              <li><a href="javascript:void(0)" data-target="make-special">What Makes Us Special</a></li>
-              <li><a href="javascript:void(0)" data-target="testimonials">Feedback and Review</a></li>
-              <li><a href="javascript:void(0)" data-target="announcements">Announcements</a></li>
-              <li><a href="javascript:void(0)" data-target="blogs">Blogs</a></li>
-              <li><a href="javascript:void(0)" data-target="faq">FAQ</a></li>
-              </ul>
-              <button class="tab-arrow right" type="button">&#10095;</button>
-          </div>
+            <div class="apollo-tabs" id="apolloTabs">
+                <button class="tab-arrow left" type="button">&#10094;</button>
+
+                <!-- Tab Buttons -->
+                <ul class="nav nav-tabs tab-scroll">
+                    @forelse($service->page_headers as $index => $header)
+                        @php
+                            // Generate a slug for each tab target
+                            $type  = Str::slug($header['title'] ?? 'tab');
+                            $title = $header['title'] ?? '';
+                        @endphp
+                        <li class="{{ $index == 0 ? 'active' : '' }}">
+                            <a href="javascript:void(0)" data-target="{{ $type }}">
+                                {{ $title }}
+                            </a>
+                        </li>
+                    @empty
+                        <li class="active">
+                            <a href="javascript:void(0)" data-target="overview">Overview</a>
+                        </li>
+                    @endforelse
+                </ul>
+
+                <button class="tab-arrow right" type="button">&#10095;</button>
+            </div>
         </div>
 
 
