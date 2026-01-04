@@ -3,28 +3,51 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Doctor;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Http\Requests\DoctorFormRequest;
+use DB;
+use Carbon\Carbon;
 
 use App\Models\MedicalServiceSubCategory;
 use App\Models\MedicalServiceCategory;
 use App\Models\MedicalServiceMasterCategory;
+use App\Models\Doctor;
 
 
-use DB;
 
 class DoctorController extends Controller
 {
+    
     public function index()
     {
-        $doctors = Doctor::with('subcategory')->get();
+        $doctors = Doctor::with([
+            'category:id,category_name',       
+            'subcategory:id,subcategory_name',
+            'service:id,service_name'
+        ])
+        ->whereNull('deleted_by')
+        ->orderBy('category_id')
+        ->orderBy('subcategory_id')
+        ->orderBy('service_id')
+        ->get()
+        ->groupBy([
+            'category.category_name',          
+            'subcategory.subcategory_name',
+            function ($item) {
+                return optional($item->service)->service_name ?? 'No Service';
+            }
+        ]);
+
+        // dd($doctors);
+
         return view('backend.doctors.index', compact('doctors'));
     }
+
 
     public function create()
     {
@@ -36,99 +59,137 @@ class DoctorController extends Controller
         return view('backend.doctors.create' ,compact('masterCategories', 'subCategories','facility'));
     }
 
-    public function store(DoctorFormRequest $request)
-    {
-        $data = $request->validated();
 
-        // Handle profile image
-        if ($request->hasFile('profile_image')) {
-            $data['profile_image'] = $request->file('profile_image')->store('doctors/profile', 'public');
+    public function store(Request $request)
+    {
+        // ================= VALIDATION =================
+        $request->validate([
+            'category_id'        => 'required',
+            'subcategory_id'     => 'required',
+            'service_id'         => 'nullable',
+
+            'image'              => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'doctor_name'        => 'required|string|max:255',
+            'doctor_image'       => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'doctor_exp'         => 'required|string|max:255',
+
+            'doctor_availability'=> 'required|array|min:1',
+            'doctor_availability.*' => 'string',
+
+            'time_slot.from'     => 'required|array',
+            'time_slot.to'       => 'required|array',
+            'time_slot.from.*'   => 'required',
+            'time_slot.to.*'     => 'required',
+
+            'languages_known'    => 'required|array|min:1',
+
+            'qualification'      => 'required|string',
+
+            'overview_heading'   => 'required|string|max:255',
+            'overview_desc'      => 'required|string',
+
+            'exp_heading'        => 'required|string|max:255',
+            'exp_desc'           => 'required|string',
+
+            'treatment_heading'  => 'required|string|max:255',
+            'treatment'          => 'required|array',
+            'treatment.*.name'   => 'required|string',
+
+            'faq_heading'        => 'required|string|max:255',
+            'faq'                => 'required|array',
+            'faq.*.question'     => 'required|string',
+            'faq.*.answer'       => 'required|string',
+
+        ], [
+            'category_id.required'        => 'Master category is required.',
+            'subcategory_id.required'     => 'Sub category is required.',
+            'image.required'              => 'Banner image is required.',
+            'doctor_name.required'        => 'Doctor name is required.',
+            'doctor_image.required'       => 'Doctor image is required.',
+            'doctor_exp.required'         => 'Doctor experience is required.',
+            'doctor_availability.required'=> 'Please select doctor availability.',
+            'languages_known.required'    => 'Please select at least one language.',
+            'qualification.required'      => 'Qualification is required.',
+            'overview_heading.required'   => 'Overview heading is required.',
+            'overview_desc.required'      => 'Overview description is required.',
+            'treatment_heading.required'  => 'Treatment heading is required.',
+            'faq_heading.required'        => 'FAQ heading is required.',
+        ]);
+
+        // ================= IMAGE UPLOADS =================
+        $uploadPath = public_path('uploads/doctors');
+
+        // Banner Image
+        $bannerImage = null;
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $bannerImage = time().'_banner.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $bannerImage);
         }
 
-        // Handle short video
-        if ($request->hasFile('short_video')) {
-            $data['short_video'] = $request->file('short_video')->store('doctors/video', 'public');
+        // Doctor Image
+        $doctorImage = null;
+        if ($request->hasFile('doctor_image')) {
+            $img = $request->file('doctor_image');
+            $doctorImage = time().'_doctor.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $doctorImage);
         }
 
-        // Save degrees as JSON
-        $data['degrees'] = json_encode($request->degree_id);
+        // ================= JSON ENCODE DATA =================
+        $availabilityJson = json_encode($request->doctor_availability);
+        $languagesJson    = json_encode($request->languages_known);
+        $treatmentJson    = json_encode($request->treatment);
+        $faqJson          = json_encode($request->faq);
 
-        // consultation_timings comes directly from slots[] – already perfect array!
-        $data['consultation_timings'] = $request->slots;
-
-        // Optional: created_by
-        $data['created_by'] = auth()->id();
-
-        Doctor::create($data);
-
-        return redirect()->route('admin.doctors.index')
-            ->with('success', 'Doctor created successfully!');
-    }
-
-    public function edit(Doctor $doctor)
-    {
-        $subcategories = MedicalServiceSubCategory::pluck('subcategory_name', 'id');
-        $degrees = DB::table('degrees')->get();
-        return view('backend.doctors.edit', compact('doctor', 'subcategories','degrees'));
-    }
-
-    public function update(DoctorFormRequest $request, Doctor $doctor)
-    {
-        $data = $request->validated();
-
-        // === PROFILE IMAGE ===
-        if ($request->hasFile('profile_image')) {
-            // Delete old image
-            if ($doctor->profile_image) {
-                Storage::disk('public')->delete($doctor->profile_image);
-            }
-            $data['profile_image'] = $request->file('profile_image')->store('doctors/profile', 'public');
+        // Time Slot JSON (FROM + TO)
+        $timeSlots = [];
+        foreach ($request->time_slot['from'] as $key => $from) {
+            $timeSlots[] = [
+                'from' => $from,
+                'to'   => $request->time_slot['to'][$key] ?? null,
+            ];
         }
+        $timeSlotJson = json_encode($timeSlots);
 
-        // === SHORT VIDEO ===
-        if ($request->hasFile('short_video')) {
-            if ($doctor->short_video) {
-                Storage::disk('public')->delete($doctor->short_video);
-            }
-            $data['short_video'] = $request->file('short_video')->store('doctors/video', 'public');
-        }
+        // ================= STORE DATA =================
+        Doctor::create([
+            'category_id'        => $request->category_id,
+            'subcategory_id'     => $request->subcategory_id,
+            'service_id'         => $request->service_id,
 
-        // === DEGREES ===
-        $data['degrees'] = json_encode($request->degree_id);
+            'banner_image'       => $bannerImage,
 
-        // === TIME SLOTS – THIS IS THE KEY CHANGE! ===
-        // We now use $request->slots (from dynamic slots[index][start/end])
-        $data['consultation_timings'] = $request->slots;
+            'doctor_name'        => $request->doctor_name,
+            'doctor_image'       => $doctorImage,
+            'doctor_exp'         => $request->doctor_exp,
 
-        // === AUDIT ===
-        $data['updated_by'] = auth()->id();
+            'doctor_availability'=> $availabilityJson,
+            'doctor_time_slot'   => $timeSlotJson,
+            'languages_known'    => $languagesJson,
 
-        $doctor->update($data);
+            'qualification'      => $request->qualification,
 
-        return redirect()->route('admin.doctors.index')
-            ->with('success', 'Doctor updated successfully!');
+            'overview_heading'   => $request->overview_heading,
+            'overview_desc'      => $request->overview_desc,
+
+            'exp_heading'        => $request->exp_heading,
+            'exp_desc'           => $request->exp_desc,
+
+            'treatment_heading'  => $request->treatment_heading,
+            'treatments'         => $treatmentJson,
+
+            'faq_heading'        => $request->faq_heading,
+            'faq'                => $faqJson,
+
+            'created_at'         => Carbon::now(),
+            'created_by'         => Auth::id(),
+        ]);
+
+        return redirect()
+            ->route('admin.manage-doctors.index')
+            ->with('message', 'Doctor added successfully.');
     }
 
-    public function destroy(Doctor $doctor)
-    {
-        collect([$doctor->profile_image, $doctor->short_video])->filter() 
-            ->each(fn($file) => Storage::disk('public')->delete($file));
 
-        $doctor->update(['deleted_by' => Auth::id()]);
-        $doctor->delete();
-
-        return redirect()->route('admin.doctors.index')->with('success', 'Doctor deleted!');
-    }
-
-    public function toggleFeatured(Doctor $doctor)
-    {
-        $doctor->update(['is_featured' => !$doctor->is_featured]);
-        return back();
-    }
-
-    public function toggleActive(Doctor $doctor)
-    {
-        $doctor->update(['is_active' => !$doctor->is_active]);
-        return back();
-    }
 }
