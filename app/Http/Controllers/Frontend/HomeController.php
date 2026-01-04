@@ -25,6 +25,8 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    // Home Page
     public function index()
     {
         $videoSlider = HomeSlider::where('media_type', 'video')->latest()->first();
@@ -37,7 +39,7 @@ class HomeController extends Controller
         return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'testimonial'));
     }
 
-
+    // Service Page
     public function service_details($slug)
     {
         // 1️⃣ Fetch the subcategory by slug
@@ -50,14 +52,12 @@ class HomeController extends Controller
             ->where('subcategory_id', $subcategory->id)
             ->whereNull('deleted_by')
             ->firstOrFail(); // better than first()
-        // dd($service);
 
         // Decode JSON fields
         $service->features = json_decode($service->features, true) ?? [];
         $service->faq      = json_decode($service->faq, true) ?? [];
         $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
 
-        // dd($service);
 
         // 4️⃣ Pass subcategory & services to view
         return view('frontend.service_details', [
