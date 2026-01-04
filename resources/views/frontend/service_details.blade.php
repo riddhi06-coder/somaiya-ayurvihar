@@ -6,15 +6,12 @@
     </head>
   <body>
 
-
-
         <!-- header start -->
         <div class="full_header" id="header-sticky">
           @include('components.frontend.header')
         </div>
         <!-- header end -->
   
-
 
         <section class="banner_section" 
                 style="background-image: url('{{ asset('uploads/service-details/' . ($service->banner_image ?? 'default-banner.jpg')) }}');">
