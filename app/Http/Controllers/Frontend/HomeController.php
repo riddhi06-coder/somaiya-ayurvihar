@@ -60,10 +60,17 @@ class HomeController extends Controller
         $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
 
 
+         // 4️⃣ Fetch doctors linked to this subcategory
+        $doctors = Doctor::where('subcategory_id', $subcategory->id)
+            ->whereNull('deleted_by')
+            ->get();
+
+
         // 4️⃣ Pass subcategory & services to view
         return view('frontend.service_details', [
             'subcategory' => $subcategory,
             'service'    => $service,
+            'doctors'    => $doctors,
         ]);
     }
 

@@ -145,105 +145,44 @@
 
 
         <div id="doctors" class="tab_section">
-          <div class="container">
-              <div class="row">
-              <div class="col-md-12">
-                  <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
-                  data-wow-duration="1500ms">
-                  <h2>Expert Doctors Team</h2>
-                  </div>
-              </div>
-              </div>
-              <div class="row">
-              <!-- Doctor 1 -->
-              <div class="col-md-12">
-                  <div class="owl-carousel owl-theme" id="doctor">
-                  <div class="item">
-                      <div class="cs_team cs_style_1 cs_type_1 exp-doc-team-style-1">
-                      <div class="cs_team_thumbnail cs_center">
-                          <img src="{{ asset('frontend/assets/img/medical-services/cardiology/doctors/dr-sadanand-shetty.png') }}" alt="Doctors">
-                      </div>
-                      <div class="cs_team_bio exp-doc-team-bio-custom-sec">
-                          <h3 class="cs_team_title"><a href="#">Dr. Sadanand R. Shetty</a></h3>
-                          <p class="cs_team_subtitle">MBBS, MD, DM</p>
-                          <p class="speciality-title"><span>Speciality:</span> Cardiology</p>
-                          <div class="expert-doctor-team-button-sec">
-                          <a href="doctor-profile.html" class="btn edtbs-outline">View Profile</a>
-                          <a href="#" type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn edtbs-filled">Appointment</a>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-                  <div class="item">
-                      <div class="cs_team cs_style_1 cs_type_1 exp-doc-team-style-1">
-                      <div class="cs_team_thumbnail cs_center">
-                          <img src="{{ asset('frontend/assets/img/medical-services/cardiology/doctors/dr-nitin-bote.png') }}" alt="Doctors">
-                      </div>
-                      <div class="cs_team_bio exp-doc-team-bio-custom-sec">
-                          <h3 class="cs_team_title"><a href="#">Dr. Nitin Nanasaheb Bote</a></h3>
-                          <p class="cs_team_subtitle">MBBS, MD, DM</p>
-                          <p class="speciality-title"><span>Speciality:</span> Cardiology</p>
-                          <div class="expert-doctor-team-button-sec">
-                          <a href="doctor-profile.html" class="btn edtbs-outline">View Profile</a>
-                          <a href="#" type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn edtbs-filled">Appointment</a>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-                  <div class="item">
-                      <div class="cs_team cs_style_1 cs_type_1 exp-doc-team-style-1">
-                      <div class="cs_team_thumbnail cs_center">
-                          <img src="{{ asset('frontend/assets/img/medical-services/cardiology/doctors/dr-nihar-mehta.jpg') }}"  alt="Doctors">
-                      </div>
-                      <div class="cs_team_bio exp-doc-team-bio-custom-sec">
-                          <h3 class="cs_team_title"><a href="#">Dr. Nihar Pradip Mehta</a></h3>
-                          <p class="cs_team_subtitle">MBBS, MD, DNB, DNB</p>
-                          <p class="speciality-title"><span>Speciality:</span> Cardiology</p>
-                          <div class="expert-doctor-team-button-sec">
-                          <a href="doctor-profile.html" class="btn edtbs-outline">View Profile</a>
-                          <a href="#" type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn edtbs-filled">Appointment</a>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-                  <div class="item">
-                      <div class="cs_team cs_style_1 cs_type_1 exp-doc-team-style-1">
-                      <div class="cs_team_thumbnail cs_center">
-                          <img src="{{ asset('frontend/assets/img/medical-services/cardiology/doctors/dr-ajay-pandey.png') }}" alt="Doctors">
-                      </div>
-                      <div class="cs_team_bio exp-doc-team-bio-custom-sec">
-                          <h3 class="cs_team_title"><a href="#">Dr. Ajay Pandey</a></h3>
-                          <p class="cs_team_subtitle">MBBS, MD, DM</p>
-                          <p class="speciality-title"><span>Speciality:</span> Cardiology</p>
-                          <div class="expert-doctor-team-button-sec">
-                          <a href="doctor-profile.html" class="btn edtbs-outline">View Profile</a>
-                          <a href="#" type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn edtbs-filled">Appointment</a>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-                  <div class="item">
-                      <div class="cs_team cs_style_1 cs_type_1 exp-doc-team-style-1">
-                      <div class="cs_team_thumbnail cs_center">
-                          <img src="{{ asset('frontend/assets/img/medical-services/cardiology/doctors/dr-nikesh-jain.jpg') }}" alt="Doctors">
-                      </div>
-                      <div class="cs_team_bio exp-doc-team-bio-custom-sec">
-                          <h3 class="cs_team_title"><a href="#">Dr. Nikesh Dinesh Jain</a></h3>
-                          <p class="cs_team_subtitle">MBBS, DNB, DNB</p>
-                          <p class="speciality-title"><span>Speciality:</span> Cardiology</p>
-                          <div class="expert-doctor-team-button-sec">
-                          <a href="doctor-profile.html" class="btn edtbs-outline">View Profile</a>
-                          <a href="#" type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn edtbs-filled">Appointment</a>
-                          </div>
-                      </div>
-                      </div>
-                  </div>
-                  </div>
-              </div>
-              </div>
-          </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-heading wow fadeInLeft" data-wow-delay="00ms" data-wow-duration="1500ms">
+                            <h2>Expert Doctors Team</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="owl-carousel owl-theme" id="doctor">
+                            @foreach($doctors as $doctor)
+                                <div class="item">
+                                    <div class="cs_team cs_style_1 cs_type_1 exp-doc-team-style-1">
+                                        <div class="cs_team_thumbnail cs_center">
+                                            <img src="{{ asset('uploads/doctors/'.$doctor->doctor_image) }}" alt="{{ $doctor->name }}">
+                                        </div>
+                                        <div class="cs_team_bio exp-doc-team-bio-custom-sec">
+                                            <h3 class="cs_team_title">
+                                                <a href="{{ route('frontend.doctor_details', $doctor->slug) }}">
+                                                    {{ $doctor->doctor_name }}
+                                                </a>
+                                            </h3>
+                                            <p class="cs_team_subtitle">{{ $doctor->qualifications }}</p>
+                                            <p class="speciality-title"><span>Speciality:</span> {{ $doctor->subcategory->subcategory_name ?? '' }}</p>
+                                            <div class="expert-doctor-team-button-sec">
+                                                <a href="{{ route('frontend.doctor_details', $doctor->slug) }}" class="btn edtbs-outline">View Profile</a>
+                                                <a href="#" type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn edtbs-filled">Appointment</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
 
     </div>
 
