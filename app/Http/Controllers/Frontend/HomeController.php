@@ -87,6 +87,8 @@ class HomeController extends Controller
         $doctor->treatments = json_decode($doctor->treatments, true);
         $doctor->faq        = json_decode($doctor->faq, true);
 
+        $doctor->social_media_links  = json_decode($doctor->social_media_links, true);
+
         // 3️⃣ Pass doctor to view
         return view('frontend.doctor_details', [
             'doctor' => $doctor

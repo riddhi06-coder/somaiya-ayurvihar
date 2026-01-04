@@ -430,6 +430,44 @@
                                         </div>
 
 
+
+                                        <!-- Social Media Links Table -->
+                                        <div class="col-12 mt-5">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <label class="form-label" for="social_media_links"><strong>Social Media Links </strong></label>
+                                                <button type="button" id="add-social-media-row" class="btn btn-success">Add Link</button>
+                                            </div>
+                                            <table class="table table-bordered p-3" id="dynamicTable" style="border: 2px solid #dee2e6;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Social Media Platform <span class="txt-danger">*</span></th>
+                                                        <th>Link <span class="txt-danger">*</span></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="social-media-table-body">
+                                                    <tr>
+                                                        <td>
+                                                            <select name="social_media[0][platform]" class="form-control" required>
+                                                                <option value="">Select Platform</option>
+                                                                <option value="1">Facebook</option>
+                                                                <option value="2">Twitter</option>
+                                                                <option value="3">Instagram</option>
+                                                                <option value="4">LinkedIn</option>
+                                                                <option value="5">YouTube</option>
+                                                                <option value="6">Pintrest</option>
+                                                                <option value="7">Watsapp</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="url" name="social_media[0][link]" class="form-control" placeholder="Enter Social Media URL" required></td>
+                                                        <td><button type="button" class="btn btn-danger remove-social-media-row">Remove</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
                                         <!-- Form Actions -->
                                         <div class="col-12 text-end">
                                             <a href="{{ route('admin.manage-doctors.index') }}" class="btn btn-danger px-4">Cancel</a>
@@ -483,6 +521,74 @@
                 });
             });
         </script>
+
+
+
+        <script>
+            document.getElementById('add-social-media-row').addEventListener('click', function () {
+                var tableBody = document.getElementById('social-media-table-body');
+                var rowCount = tableBody.rows.length;
+                var row = tableBody.insertRow();
+
+                // Platform Dropdown
+                var cell1 = row.insertCell(0);
+                var platformSelect = document.createElement('select');
+                platformSelect.name = `social_media[${rowCount}][platform]`;
+                platformSelect.classList.add('form-control');
+                platformSelect.required = true;
+
+                // Add options to the dropdown with numerical values
+                var platforms = [
+                    { id: 1, name: 'Facebook' },
+                    { id: 2, name: 'Twitter' },
+                    { id: 3, name: 'Instagram' },
+                    { id: 4, name: 'Linkedin' },
+                    { id: 5, name: 'Youtube' },
+                    { id: 6, name: 'Pintrest' },
+                    { id: 7, name: 'Watsapp' }
+                ];
+                platformSelect.innerHTML = '<option value="">Select Platform</option>';
+                platforms.forEach(function (platform) {
+                    var option = document.createElement('option');
+                    option.value = platform.id; // Numerical value
+                    option.textContent = platform.name.charAt(0).toUpperCase() + platform.name.slice(1); // Capitalized name
+                    platformSelect.appendChild(option);
+                });
+
+                cell1.appendChild(platformSelect);
+
+                // URL Input
+                var cell2 = row.insertCell(1);
+                var urlInput = document.createElement('input');
+                urlInput.type = 'url';
+                urlInput.name = `social_media[${rowCount}][link]`;
+                urlInput.classList.add('form-control');
+                urlInput.placeholder = 'Enter Social Media URL';
+                urlInput.required = true;
+                cell2.appendChild(urlInput);
+
+                // Remove Button
+                var cell3 = row.insertCell(2);
+                var removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.classList.add('btn', 'btn-danger', 'remove-social-media-row');
+                removeBtn.textContent = 'Remove';
+                removeBtn.addEventListener('click', function () {
+                    tableBody.deleteRow(row.rowIndex);
+                });
+                cell3.appendChild(removeBtn);
+            });
+
+
+            // Event delegation to remove rows
+            document.getElementById('social-media-table-body').addEventListener('click', function(e) {
+                if (e.target && e.target.classList.contains('remove-social-media-row')) {
+                    var row = e.target.closest('tr');
+                    row.remove();
+                }
+            });
+        </script>
+
 
 
         <script>

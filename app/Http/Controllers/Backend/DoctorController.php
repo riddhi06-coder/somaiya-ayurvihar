@@ -101,6 +101,10 @@ class DoctorController extends Controller
             'faq.*.question'     => 'required|string',
             'faq.*.answer'       => 'required|string',
 
+
+            'social_media.*.platform' => 'required|string',
+            'social_media.*.link'     => 'required|url',
+
         ], [
             'category_id.required'        => 'Master category is required.',
             'subcategory_id.required'     => 'Sub category is required.',
@@ -115,6 +119,9 @@ class DoctorController extends Controller
             'overview_desc.required'      => 'Overview description is required.',
             'treatment_heading.required'  => 'Treatment heading is required.',
             'faq_heading.required'        => 'FAQ heading is required.',
+            'social_media.*.platform.required' => 'Social Media Platform is required.',
+            'social_media.*.link.required'     => 'Social Media Link is required.',
+            'social_media.*.link.url'          => 'Please enter a valid URL for Social Media Link.',
         ]);
 
         // ================= IMAGE UPLOADS =================
@@ -193,6 +200,9 @@ class DoctorController extends Controller
 
             'faq_heading'        => $request->faq_heading,
             'faq'                => $faqJson,
+            'social_media_links' => json_encode($request->social_media),
+
+            'status'            => 0,
 
             'created_at'         => Carbon::now(),
             'created_by'         => Auth::id(),
@@ -219,9 +229,11 @@ class DoctorController extends Controller
         $service_details->treatments = json_decode($service_details->treatments, true);
         $service_details->faq = json_decode($service_details->faq, true);
 
+        $contact_details = $service_details->social_media_links ? json_decode($service_details->social_media_links, true) : [];
+
         return view(
             'backend.doctors.edit',
-            compact('service_details','service', 'masterCategories', 'subCategories')
+            compact('service_details','service', 'masterCategories', 'subCategories','contact_details')
         );
     }
 
@@ -269,6 +281,10 @@ class DoctorController extends Controller
             'faq.*.question'     => 'required|string',
             'faq.*.answer'       => 'required|string',
 
+            'social_media.*.platform' => 'required|string',
+            'social_media.*.link'     => 'required|url',
+
+
         ], [
             'category_id.required'        => 'Master category is required.',
             'subcategory_id.required'     => 'Sub category is required.',
@@ -281,6 +297,11 @@ class DoctorController extends Controller
             'overview_desc.required'      => 'Overview description is required.',
             'treatment_heading.required'  => 'Treatment heading is required.',
             'faq_heading.required'        => 'FAQ heading is required.',
+
+            'social_media.*.platform.required' => 'Social Media Platform is required.',
+            'social_media.*.link.required'     => 'Social Media Link is required.',
+            'social_media.*.link.url'          => 'Please enter a valid URL for Social Media Link.',
+
         ]);
 
         $uploadPath = public_path('uploads/doctors');
@@ -333,6 +354,7 @@ class DoctorController extends Controller
 
         $doctor->faq_heading        = $request->faq_heading;
         $doctor->faq                = json_encode($request->faq);
+        $doctor->social_media_links  = json_encode($request->social_media);
 
         // Time Slots
         $timeSlots = [];
@@ -362,7 +384,7 @@ class DoctorController extends Controller
 
         $doctor->slug = $slug;
 
-        
+
 
         $doctor->modified_at = Carbon::now();
         $doctor->modified_by = Auth::id();

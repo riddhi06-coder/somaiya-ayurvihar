@@ -53,6 +53,7 @@ class Doctor extends Model
         // FAQ
         'faq_heading',
         'faq',
+        'social_media_links',
         'status',
 
         // Meta

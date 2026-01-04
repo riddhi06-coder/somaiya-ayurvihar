@@ -69,30 +69,38 @@
                                 <div class="doctor-share-box">
                                     <span class="share-label">Share</span>
                                     <ul class="share-icons">
-                                        <li>
-                                        <a href="#" class="share-facebook" title="Share on Facebook">
-                                        <i class="fa fa-facebook"></i>
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a href="#" class="share-twitter" title="Share on Twitter">
-                                        <i class="fa fa-twitter"></i>
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a href="#" class="share-linkedin" title="Share on LinkedIn">
-                                        <i class="fa fa-linkedin"></i>
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a href="#" class="share-whatsapp" title="Share on WhatsApp">
-                                        <i class="fa fa-whatsapp"></i>
-                                        </a>
-                                        </li>
+                                        @php
+                                            $platformMap = [
+                                                "1" => ["class" => "fa-facebook", "title" => "Share on Facebook"],
+                                                "2" => ["class" => "fa-twitter", "title" => "Share on Twitter"],
+                                                "3" => ["class" => "fa-instagram", "title" => "Share on Instagram"],
+                                                "4" => ["class" => "fa-linkedin", "title" => "Share on LinkedIn"],
+                                                "5" => ["class" => "fa-youtube", "title" => "Share on YouTube"],
+                                                "6" => ["class" => "fa-pinterest", "title" => "Share on Pinterest"],
+                                                "7" => ["class" => "fa-whatsapp", "title" => "Share on WhatsApp"],
+                                            ];
+                                        @endphp
+
+                                        @if(!empty($doctor->social_media_links))
+                                            @foreach($doctor->social_media_links as $social)
+                                                @php
+                                                    $platformId = $social['platform'];
+                                                    $link = $social['link'] ?? '#';
+                                                @endphp
+
+                                                @if(isset($platformMap[$platformId]))
+                                                    <li>
+                                                        <a href="{{ $link }}" class="share-{{ strtolower(str_replace('fa-', '', $platformMap[$platformId]['class'])) }}" title="{{ $platformMap[$platformId]['title'] }}" target="_blank">
+                                                            <i class="fa {{ $platformMap[$platformId]['class'] }}"></i>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        @endif
                                     </ul>
                                 </div>
+                                
                             </div>
-
 
 
                             <ul class="doctor_time_list">
@@ -229,7 +237,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
             </div>
         </section>
