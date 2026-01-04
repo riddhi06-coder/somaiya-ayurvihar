@@ -1,66 +1,769 @@
 <!doctype html>
 <html lang="en">
+    
 <head>
     @include('components.backend.head')
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+
 </head>
-<body>
-    @include('components.backend.header')
-    @include('components.backend.sidebar')
+	   
+		@include('components.backend.header')
 
-    <div class="page-body">
-        <div class="container-fluid">
+	    <!--start sidebar wrapper-->	
+	    @include('components.backend.sidebar')
+	   <!--end sidebar wrapper-->
+
+
+        <div class="page-body">
+          <div class="container-fluid">
             <div class="page-title">
-                <div class="row">
-                    <div class="col-6"></div>
-                    <div class="col-6">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('admin.dashboard') }}">
-                                    <svg class="stroke-icon">
-                                        <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
-                                    </svg>
-                                </a>
-                            </li>
-                        </ol>
-                    </div>
+              <div class="row">
+                <div class="col-6">
+                  <h4>Add Doctor's Details Form</h4>
                 </div>
+                <div class="col-6">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                    <a href="{{ route('admin.manage-doctors.index') }}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Add Doctor's Details</li>
+                </ol>
+
+                </div>
+              </div>
             </div>
-        </div>
-
-        <div class="container-fluid">
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-md-12">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb mb-0">
-                                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('admin.doctors.index') }}">Doctors</a></li>
-                                        <li class="breadcrumb-item active">Add New Doctor</li>
-                                    </ol>
-                                </nav>
-                                <a href="{{ route('admin.doctors.index') }}" class="btn btn-secondary px-5 radius-30">
-                                    Back
-                                </a>
-                            </div>
+                    <div class="card-header">
+                        <h4>Doctor's Details Form</h4>
+                        <p class="f-m-light mt-1">Fill up your true details and submit the form.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="vertical-main-wizard">
+                        <div class="row g-3">    
+                            <!-- Removed empty col div -->
+                            <div class="col-12">
+                            <div class="tab-content" id="wizard-tabContent">
+                                <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
+                                    <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-doctors.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
 
-                            @include('backend.doctors._form', [
-                                'doctor' => null,
-                                'subcategories' => $subcategories,
-                                'action' => route('admin.doctors.store'),
-                                'method' => 'POST',
-                                'buttonText' => 'Save Doctor',
-                                'degrees' => $degrees,
-                            ])
+
+
+                                        {{-- Master Category --}}
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Master Category <span class="txt-danger">*</span>
+                                            </label>
+                                            <select name="category_id"
+                                                    id="category_id"
+                                                    class="form-control"
+                                                    required>
+                                                <option value="">Select Master Category</option>
+                                                @foreach($masterCategories as $cat)
+                                                    <option value="{{ $cat->id }}"
+                                                        {{ isset($service) && $service->category_id == $cat->id ? 'selected' : '' }}>
+                                                        {{ $cat->category_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        {{-- Subcategory --}}
+                                        <div class="col-md-6">
+                                            <label class="form-label">
+                                                Sub Category <span class="txt-danger">*</span>
+                                            </label>
+                                            <select name="subcategory_id"
+                                                    id="subcategory_id"
+                                                    class="form-control"
+                                                    required>
+                                                <option value="">Select Sub Category</option>
+                                                @foreach($subCategories as $subcat)
+                                                    <option value="{{ $subcat->id }}"
+                                                            data-category="{{ $subcat->category_id }}"
+                                                            {{ isset($service) && $service->subcategory_id == $subcat->id ? 'selected' : '' }}>
+                                                        {{ $subcat->subcategory_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        {{-- Service (Hidden Initially) --}}
+                                        <div class="col-md-6 d-none" id="service-wrapper">
+                                            <label class="form-label">
+                                                Service <span class="txt-danger">*</span>
+                                            </label>
+                                            <select name="service_id"
+                                                    id="service_id"
+                                                    class="form-control"
+                                                    {{ isset($service) && $service->service_id ? 'required' : '' }}>
+                                                <option value="">Select Service</option>
+                                                @foreach($facility as $f)
+                                                    <option value="{{ $f->id }}"
+                                                            data-subcategory="{{ $f->subcategory_id }}"
+                                                            {{ isset($service) && $service->service_id == $f->id ? 'selected' : '' }}>
+                                                        {{ $f->service_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        
+                                        <!-- Thumbnail Image -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="image"> Banner Image <span class="txt-danger">*</span> </label>
+                                            <input class="form-control" id="image" type="file" name="image" onchange="previewThumbnail(event)" required>
+                                            <div class="invalid-feedback">Please upload a Banner image.</div>
+                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                                <br>
+                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
+                                            <!-- Image Preview -->
+                                            <div class="mt-2">
+                                                <img id="thumbnailPreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                            </div>
+                                        </div>
+
+
+                                        <hr class="mt-5">
+
+                                        <h4># Doctor's Details</h4>
+
+
+                                        <!-- Doctor Name -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_name">Doctor Name <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="doctor_name" type="text" name="doctor_name" placeholder="Enter Doctor Name" required>
+                                            <div class="invalid-feedback">Please enter a Doctor Name.</div>
+                                        </div>
+
+
+
+                                        <!-- Doctor Image -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_image"> Doctor Image <span class="txt-danger">*</span> </label>
+                                            <input class="form-control" id="doctor_image" type="file" name="doctor_image" onchange="previewimage(event)" required>
+                                            <div class="invalid-feedback">Please upload a Doctor image.</div>
+                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                                <br>
+                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
+                                            <!-- Image Preview -->
+                                            <div class="mt-2">
+                                                <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- Doctor Experience -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_exp">Doctor Experience <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="doctor_exp" type="text" name="doctor_exp" placeholder="Enter Doctor Experience" required>
+                                            <div class="invalid-feedback">Please enter a Doctor Experience.</div>
+                                        </div>
+
+
+                                        <!-- Doctor Avaiability -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_availability">
+                                                Doctor Availability <span class="txt-danger">*</span>
+                                            </label>
+
+                                            <select
+                                                class="form-control select2"
+                                                id="doctor_availability"
+                                                name="doctor_availability[]"
+                                                multiple
+                                                required
+                                            >
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                            </select>
+
+                                            <div class="invalid-feedback">
+                                                Please select at least one available day.
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Doctor Time Slot -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label">
+                                                Doctor Time Slot <span class="txt-danger">*</span>
+                                            </label>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label mb-1">From Time</label>
+                                                    <input
+                                                        type="time"
+                                                        class="form-control"
+                                                        name="time_slot[from][]"
+                                                        required
+                                                    >
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="form-label mb-1">To Time</label>
+                                                    <input
+                                                        type="time"
+                                                        class="form-control"
+                                                        name="time_slot[to][]"
+                                                        required
+                                                    >
+                                                </div>
+                                            </div>
+
+
+                                            <div class="invalid-feedback">
+                                                Please enter doctor availability time.
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- Languages Known / Spoken -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="languages_known">
+                                                Languages Known / Spoken <span class="txt-danger">*</span>
+                                            </label>
+
+                                            <select
+                                                class="form-control select2"
+                                                id="languages_known"
+                                                name="languages_known[]"
+                                                multiple
+                                                required
+                                            >
+                                                <!-- Indian Languages -->
+                                                <option value="English">English</option>
+                                                <option value="Hindi">Hindi</option>
+                                                <option value="Marathi">Marathi</option>
+                                                <option value="Gujarati">Gujarati</option>
+                                                <option value="Tamil">Tamil</option>
+                                                <option value="Telugu">Telugu</option>
+                                                <option value="Kannada">Kannada</option>
+                                                <option value="Malayalam">Malayalam</option>
+                                                <option value="Punjabi">Punjabi</option>
+                                                <option value="Bengali">Bengali</option>
+                                                <option value="Urdu">Urdu</option>
+                                                <option value="Odia">Odia</option>
+                                                <option value="Assamese">Assamese</option>
+                                                <option value="Konkani">Konkani</option>
+                                                <option value="Sindhi">Sindhi</option>
+                                                <option value="Nepali">Nepali</option>
+                                                <option value="Maithili">Maithili</option>
+                                                <option value="Santhali">Santhali</option>
+                                                <option value="Kashmiri">Kashmiri</option>
+                                                <option value="Manipuri">Manipuri</option>
+                                                <option value="Bodo">Bodo</option>
+                                                <option value="Dogri">Dogri</option>
+
+                                                <!-- International Languages -->
+                                                <option value="Spanish">Spanish</option>
+                                                <option value="French">French</option>
+                                                <option value="German">German</option>
+                                                <option value="Portuguese">Portuguese</option>
+                                                <option value="Italian">Italian</option>
+                                                <option value="Russian">Russian</option>
+                                                <option value="Arabic">Arabic</option>
+                                                <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+                                                <option value="Japanese">Japanese</option>
+                                                <option value="Korean">Korean</option>
+                                                <option value="Thai">Thai</option>
+                                                <option value="Vietnamese">Vietnamese</option>
+                                                <option value="Indonesian">Indonesian</option>
+                                                <option value="Turkish">Turkish</option>
+                                                <option value="Persian">Persian</option>
+                                                <option value="Hebrew">Hebrew</option>
+                                                <option value="Greek">Greek</option>
+                                                <option value="Dutch">Dutch</option>
+                                                <option value="Swedish">Swedish</option>
+                                                <option value="Norwegian">Norwegian</option>
+                                                <option value="Danish">Danish</option>
+                                                <option value="Polish">Polish</option>
+                                                <option value="Czech">Czech</option>
+                                                <option value="Romanian">Romanian</option>
+                                                <option value="Hungarian">Hungarian</option>
+                                            </select>
+
+                                            <div class="invalid-feedback">
+                                                Please select at least one language.
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Qualification-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="qualification">Qualification<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="qualification" name="qualification" placeholder="Enter Qualification" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Qualification.</div>
+                                        </div>
+
+
+                                        <hr class="mt-5">
+
+                                        <h4># Basic Details</h4>
+
+                                        
+                                        <!-- Overview Heading -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="overview_heading">Overview Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="overview_heading" type="text" name="overview_heading" placeholder="Enter Overview Heading" required>
+                                            <div class="invalid-feedback">Please enter a Overview Heading.</div>
+                                        </div>
+
+
+
+                                        <!-- Overview Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="overview_desc">Overview Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="overview_desc" name="overview_desc" placeholder="Enter Overview Description" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Overview Description.</div>
+                                        </div>
+
+     
+                                        <hr class="mt-5">
+
+                                        <!-- Experience Heading -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="exp_heading">Experience Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="exp_heading" type="text" name="exp_heading" placeholder="Enter Experience Heading" required>
+                                            <div class="invalid-feedback">Please enter a Experience Heading.</div>
+                                        </div>
+
+
+                        
+                                        <!-- Experience Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="exp_desc">Experience Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="exp_desc" name="exp_desc" placeholder="Enter Experience Description" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Experience Description.</div>
+                                        </div>
+
+
+                                        <hr class="mt-5">
+
+
+                                        <!-- Treatments Heading -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="treatment_heading">Treatments Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="treatment_heading" type="text" name="treatment_heading" placeholder="Enter Treatments Heading" required>
+                                            <div class="invalid-feedback">Please enter a Treatments Heading.</div>
+                                        </div>
+
+
+                                        <!-- Treatments -->
+                                        <div class="col-12">
+                                            <table class="table table-bordered mt-2" id="treatmentTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Treatments <span class="txt-danger">*</span></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="treatment-row">
+                                                        <td>
+                                                            <input type="text" name="treatment[0][name]" class="form-control" placeholder="Enter Treatment">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success add-treatment">Add More</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <hr class="mt-5">
+
+                                         <!-- FAQ Heading -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="faq_heading">FAQ Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="faq_heading" type="text" name="faq_heading" placeholder="Enter FAQ Heading" required>
+                                            <div class="invalid-feedback">Please enter a FAQ Heading.</div>
+                                        </div>
+
+
+
+                                        <!-- FAQ Table -->
+                                        <div class="col-12">
+                                            <table class="table table-bordered mt-2" id="faqTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Question <span class="txt-danger">*</span></th>
+                                                        <th>Answer <span class="txt-danger">*</span></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="faq-row">
+                                                        <td>
+                                                            <input type="text" name="faq[0][question]" class="form-control" placeholder="Enter Question">
+                                                        </td>
+                                                        <td>
+                                                            <textarea name="faq[0][answer]"
+                                                                class="form-control"
+                                                                placeholder="Enter Answer"
+                                                                rows="3"></textarea>
+
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-success add-faq">Add More</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <!-- Form Actions -->
+                                        <div class="col-12 text-end">
+                                            <a href="{{ route('admin.manage-doctors.index') }}" class="btn btn-danger px-4">Cancel</a>
+                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    @include('components.backend.footer')
-    @include('components.backend.main-js')
+          </div>
+        </div>
+        <!-- footer start-->
+        @include('components.backend.footer')
+        </div>
+        </div>
+       
+       @include('components.backend.main-js')
+
+
+
+        {{-- Script to fetch subcategories based on master category --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+        <script>
+            $(document).ready(function () {
+                $('#doctor_availability').select2({
+                    placeholder: "Select available days",
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+        </script>
+        
+
+        <script>
+            $(document).ready(function () {
+                $('.select2').select2({
+                    placeholder: "Select options",
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+        </script>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const categorySelect = document.getElementById('category_id');
+                const subcategorySelect = document.getElementById('subcategory_id');
+                const serviceSelect = document.getElementById('service_id');
+                const serviceWrapper = document.getElementById('service-wrapper');
+
+                const SPECIALITY_NAME = 'specialities'; // lowercase
+
+                // Show/hide service wrapper based on category + subcategory
+                function updateServiceVisibility() {
+                    const selectedCategoryText =
+                        categorySelect.options[categorySelect.selectedIndex]?.text.toLowerCase().trim();
+
+                    const subcategorySelected = subcategorySelect.value;
+
+                    // Only show service if category is not "specialities"
+                    if (selectedCategoryText !== SPECIALITY_NAME) {
+                        serviceWrapper.classList.remove('d-none');
+                        serviceSelect.setAttribute('required', 'required');
+                    } else {
+                        serviceWrapper.classList.add('d-none');
+                        serviceSelect.value = '';
+                        serviceSelect.removeAttribute('required');
+                    }
+
+                    filterServices();
+                }
+
+                // Filter services based on subcategory
+                function filterServices() {
+                    const selectedSubcategory = subcategorySelect.value;
+
+                    Array.from(serviceSelect.options).forEach(option => {
+                        if (!option.value) return; // skip placeholder
+                        if (option.dataset.subcategory === selectedSubcategory) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                            option.selected = false;
+                        }
+                    });
+
+                    // If no subcategory is selected, hide all options (optional)
+                    if (!selectedSubcategory) {
+                        Array.from(serviceSelect.options).forEach(option => {
+                            if (!option.value) return;
+                            option.style.display = 'none';
+                        });
+                        serviceSelect.value = '';
+                    }
+                }
+
+                // Filter subcategories based on category
+                function filterSubcategories() {
+                    const selectedCategory = categorySelect.value;
+                    Array.from(subcategorySelect.options).forEach(option => {
+                        if (!option.value) return;
+                        if (option.dataset.category === selectedCategory) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                            option.selected = false;
+                        }
+                    });
+                }
+
+                // Event listeners
+                categorySelect.addEventListener('change', function () {
+                    filterSubcategories();
+                    updateServiceVisibility();
+                });
+
+                subcategorySelect.addEventListener('change', filterServices);
+
+                // Initial load (for edit mode)
+                filterSubcategories();
+                updateServiceVisibility();
+            });
+        </script>
+
+
+        <script>
+            function previewThumbnail(event) {
+                const input = event.target;
+                const preview = document.getElementById('thumbnailPreview');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('d-none'); // show preview
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.src = "#";
+                    preview.classList.add('d-none'); // hide if no file
+                }
+            }
+
+            function previewimage(event) {
+                const input = event.target;
+                const preview = document.getElementById('imagePreview');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('d-none'); // show preview
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.src = "#";
+                    preview.classList.add('d-none'); // hide if no file
+                }
+            }
+        </script>
+
+
+        <!-- JS for dynamic treatment and preview -->
+        <script>
+            let treatmentIndex = 1;
+
+            $(document).ready(function() {
+                // Add new treatment row
+                $('#treatmentTable').on('click', '.add-treatment', function() {
+                    const newRow = `<tr class="treatment-row">
+                        <td>
+                            <input type="text" name="treatment[${treatmentIndex}][name]" class="form-control" placeholder="Enter Treatment">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove-treatment">Remove</button>
+                        </td>
+                    </tr>`;
+                    $('#treatmentTable tbody').append(newRow);
+                    treatmentIndex++;
+                });
+
+                // Remove treatment row
+                $('#treatmentTable').on('click', '.remove-treatment', function() {
+                    $(this).closest('tr').remove();
+                });
+            });
+        </script>
+
+
+        
+        <!-- JS for dynamic faq table -->
+        <script>
+            let faqIndex = 1;
+
+            $(document).ready(function() {
+                // Add new faq row
+                $('#faqTable').on('click', '.add-faq', function() {
+                    const newRow = `<tr class="faq-row">
+                        <td>
+                            <input type="text" name="faq[${faqIndex}][question]" class="form-control" placeholder="Enter Question">
+                        </td>
+                        <td>
+                            <textarea name="faq[${faqIndex}][answer]"
+                            class="form-control"
+                            placeholder="Enter Answer"
+                            rows="3"></textarea>
+
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove-faq">Remove</button>
+                        </td>
+                    </tr>`;
+                    $('#faqTable tbody').append(newRow);
+                    faqIndex++;
+                });
+
+                // Remove faq row
+                $('#faqTable').on('click', '.remove-faq', function() {
+                    $(this).closest('tr').remove();
+                });
+            });
+        </script>
+
+
+        <!-- JS for editor -->
+        <script>
+            ClassicEditor.create(document.querySelector('#overview_desc'), {
+                toolbar: [
+                    'heading', 
+                    '|',
+                    'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript',
+                    'link', 'blockQuote', 'codeBlock',
+                    'bulletedList', 'numberedList', 'todoList',
+                    '|',
+                    'alignment', 'outdent', 'indent',
+                    '|',
+                    'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily',
+                    '|',
+                    'insertTable', 'imageUpload', 'mediaEmbed', 'horizontalLine', 'pageBreak',
+                    '|',
+                    'undo', 'redo', 'removeFormat', 'highlight', 'specialCharacters'
+                ],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                    ]
+                },
+                fontFamily: {
+                    options: [
+                        'default', 'Arial, Helvetica, sans-serif', 'Courier New, Courier, monospace',
+                        'Georgia, serif', 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif', 'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif', 'Verdana, Geneva, sans-serif'
+                    ]
+                },
+                fontSize: {
+                    options: [ 'tiny', 'small', 'default', 'big', 'huge' ]
+                },
+                alignment: {
+                    options: [ 'left', 'center', 'right', 'justify' ]
+                }
+            })
+            .catch(error => { console.error(error); });
+        </script>
+
+
+        <script>
+            ClassicEditor.create(document.querySelector('#exp_desc'), {
+                toolbar: [
+                    'heading', 
+                    '|',
+                    'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript',
+                    'link', 'blockQuote', 'codeBlock',
+                    'bulletedList', 'numberedList', 'todoList',
+                    '|',
+                    'alignment', 'outdent', 'indent',
+                    '|',
+                    'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily',
+                    '|',
+                    'insertTable', 'imageUpload', 'mediaEmbed', 'horizontalLine', 'pageBreak',
+                    '|',
+                    'undo', 'redo', 'removeFormat', 'highlight', 'specialCharacters'
+                ],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                    ]
+                },
+                fontFamily: {
+                    options: [
+                        'default', 'Arial, Helvetica, sans-serif', 'Courier New, Courier, monospace',
+                        'Georgia, serif', 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif', 'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif', 'Verdana, Geneva, sans-serif'
+                    ]
+                },
+                fontSize: {
+                    options: [ 'tiny', 'small', 'default', 'big', 'huge' ]
+                },
+                alignment: {
+                    options: [ 'left', 'center', 'right', 'justify' ]
+                }
+            })
+            .catch(error => { console.error(error); });
+        </script>
+
 </body>
+
 </html>

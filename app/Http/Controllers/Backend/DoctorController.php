@@ -4,12 +4,18 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
-use App\Models\MedicalServiceSubCategory;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Http\Requests\DoctorFormRequest;
+
+use App\Models\MedicalServiceSubCategory;
+use App\Models\MedicalServiceCategory;
+use App\Models\MedicalServiceMasterCategory;
+
+
 use DB;
 
 class DoctorController extends Controller
@@ -22,9 +28,12 @@ class DoctorController extends Controller
 
     public function create()
     {
-        $subcategories = MedicalServiceSubCategory::pluck('subcategory_name', 'id');
-        $degrees = DB::table('degrees')->get();
-        return view('backend.doctors.create', compact('subcategories','degrees'));
+
+        $masterCategories = MedicalServiceMasterCategory::all();
+        $subCategories = MedicalServiceSubCategory::all();
+        $facility = MedicalServiceCategory::all();
+        
+        return view('backend.doctors.create' ,compact('masterCategories', 'subCategories','facility'));
     }
 
     public function store(DoctorFormRequest $request)

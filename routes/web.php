@@ -60,9 +60,7 @@ Route::prefix('admin')
         Route::resource('medicalserviceallcategories', MedicalServiceCategoriesController::class);
 
         // Doctors 
-        Route::resource('doctors', DoctorController::class);
-        Route::post('doctors/{doctor}/toggle-featured', [DoctorController::class, 'toggleFeatured'])->name('doctors.toggleFeatured');
-        Route::post('doctors/{doctor}/toggle-active', [DoctorController::class, 'toggleActive'])->name('doctors.toggleActive');
+        Route::resource('manage-doctors', DoctorController::class);
       
         // Home slider
         Route::resource('banner-details', HomeSliderController::class);

@@ -32,7 +32,7 @@
                 </li>
 
                 <!-- Home slider banner Details -->
-                <li class="sidebar-list">
+                <li class="sidebar-list {{ request()->routeIs('admin.banner-details.index', 'admin.announcements-details.index', 'admin.awards-details.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
@@ -53,7 +53,7 @@
 
                   </ul>
                 </li>
-                <li class="sidebar-list">
+                <li class="sidebar-list {{ request()->routeIs('admin.medicalservicecategory.index', 'admin.medicalservicesubcategory.index', 'admin.medicalserviceallcategories.index','admin.manage-doctors.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"> </i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon"> 
@@ -70,7 +70,7 @@
                    <li><a href="{{ route('admin.medicalservicecategory.index') }}">Category</a></li>
                    <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Sub Category</a></li>
                    <li><a href="{{ route('admin.medicalserviceallcategories.index') }}">Facilities</a></li>
-                   <li><a href="{{ route('admin.doctors.index') }}">Doctors</a></li>
+                   <li><a href="{{ route('admin.manage-doctors.index') }}">Doctors</a></li>
 
                   </ul>
                 </li>

@@ -15,7 +15,7 @@
                     <div class="col-6">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admin.dashboard') }}">
+                                <a href="{{ route('admin.manage-doctors.index') }}">
                                     <svg class="stroke-icon">
                                         <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
                                     </svg>
@@ -35,23 +35,17 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0">
-                                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('admin.doctors.index') }}">Doctors</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('admin.manage-doctors.index') }}">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('admin.manage-doctors.index') }}">Doctors</a></li>
                                         <li class="breadcrumb-item active">Edit Doctor</li>
                                     </ol>
                                 </nav>
-                                <a href="{{ route('admin.doctors.index') }}" class="btn btn-secondary px-5 radius-30">
+                                <a href="{{ route('admin.manage-doctors.index') }}" class="btn btn-secondary px-5 radius-30">
                                     Back
                                 </a>
                             </div>
 
-                            @include('backend.doctors._form', [
-                                'doctor' => $doctor,
-                                'subcategories' => $subcategories,
-                                'action' => route('admin.doctors.update', $doctor->id),
-                                'method' => 'PUT',
-                                'buttonText' => 'Update Doctor'
-                            ])
+                          
                         </div>
                     </div>
                 </div>
