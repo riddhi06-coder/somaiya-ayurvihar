@@ -1,4 +1,22 @@
-<header class="header">
+
+      <!-- Floating Buttons -->
+      <div class="floating-icons floating-icons-inner">
+          <a type="button" data-toggle="modal" data-target="#bookappointment-services">
+          <img src="{{ asset('frontend/assets/img/icon/book-appointment-new.svg') }}">
+          <span class="tooltip-text">Book Appointment </span>
+          </a>
+          <a href="#find-doctor">
+          <img src="{{ asset('frontend/assets/img/icon/find-doctor-new.svg') }}">
+          <span class="tooltip-text">Find A Doctor </span>
+          </a>
+          <a type="button" data-toggle="modal" data-target="#health-checkup">
+          <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg') }}">
+          <span class="tooltip-text">Book Heath Check </span>
+          </a>
+      </div>
+
+
+      <header class="header">
         <div class="container-fluid">
           <div class="row v-center main-header">
             <div class="header-item item-left">
@@ -53,7 +71,7 @@
                             <ul class="nav nav-pills nav-stacked mega-vertical-tabs">
                               <li class="active"><a href="#v1" data-toggle="tab">Specialties <i class="fa fa-angle-right"></i></a></li>
                               <li><a href="#v2" data-toggle="tab">Diagnostic Services <i class="fa fa-angle-right"></i></a></li>
-                              <!--<li><a href="#v3" data-toggle="tab">Clinical Services <i class="fa fa-angle-right"></i></a></li>-->
+                              <li><a href="#v3" data-toggle="tab">Clinical Services <i class="fa fa-angle-right"></i></a></li>
                             </ul>
                           </div>
                           <!-- RIGHT CONTENT (DESKTOP) -->
@@ -559,3 +577,166 @@
           </div>
         </div>
       </header>
+
+
+      <!-- Modal -->
+      <div id="health-checkup" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Book Health Check</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <h6 class="form-title">please fill out all required fields meaning</h6>
+                <form class="book-appoint-form">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Name" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Package" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Date of Birth:</label>
+                    <input type="date" class="form-control" placeholder="" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Date of Appointment :</label>
+                    <input type="date" class="form-control" placeholder="" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email ID" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Mobile Number" required>
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                  <div class="button-box">
+                    <a class="twenty" href="#"><span>Submit</span></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div id="bookappointment-services" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Book Appointment</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <h6 class="form-title">please fill out all required fields meaning</h6>
+                <form class="book-appoint-form">
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter Patient Name" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option>--Select Gender--</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Mobile Number" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email Address" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Pincode" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option>--Select Country--</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option>--Select State--</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option>--Select City--</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <select class="form-control">
+                      <option>--Select Speciality--</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label></label>
+                    <input type="text" class="form-control" placeholder="Doctor Name" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Appointment Date:</label>
+                    <input type="date" class="form-control" placeholder="Appointment Date" required>
+                  </div>
+                </div>
+                <!-- <div class="col-md-12">
+                  <div class="form-group">
+                  <textarea class="form-control" rows="5" placeholder="Message" required></textarea>
+                  </div>
+                  </div> -->
+                <div class="col-md-12">
+                  <div class="button-box">
+                    <a class="twenty" href="#"><span>Submit</span></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+              </button>
+              </div> -->
+          </div>
+        </div>
+      </div>
+    <!-- Modal -->
+    

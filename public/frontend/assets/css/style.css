@@ -4064,7 +4064,7 @@ footer {
 #our-services {
   position: relative;
   padding: 60px 0px;
-  background-image: url(../img/medical-services/cardiology/services-bg.jpg);
+  /* background-image: url(../img/medical-services/cardiology/services-bg.jpg); */
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -4165,7 +4165,7 @@ footer {
 #make-special {
   position: relative;
   padding: 60px 0px;
-  background-image: url(../img/medical-services/cardiology/international-patient.jpg);
+  /* background-image: url(../img/medical-services/cardiology/international-patient.jpg); */
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

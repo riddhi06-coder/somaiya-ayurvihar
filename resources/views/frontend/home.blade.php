@@ -6,26 +6,13 @@
 
   </head>
   <body>
-    <!-- Floating Buttons -->
-    <div class="floating-icons" id="floatingIcons">
-      <a href="#home">
-      <img src="{{ asset('frontend/assets/img/icon/book-appointment-new.svg')}}">
-      <span class="tooltip-text">Book Appointment </span>
-      </a>
-      <a href="#find-doctor">
-      <img src="{{ asset('frontend/assets/img/icon/find-doctor-new.svg')}}">
-      <span class="tooltip-text">Find A Doctor </span>
-      </a>
-      <a href="#services">
-      <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg')}}">
-      <span class="tooltip-text">Book Heath Check </span>
-      </a>
-     
-    </div>
+   
     <!-- header start -->
     <div class="full_header" id="header-sticky">
      @include('components.frontend.header')
     </div>
+
+    
     <!-- header end -->
     <section class="outter hero-video">
       <div class="video-container">

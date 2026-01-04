@@ -38,29 +38,30 @@ class HomeController extends Controller
     }
 
 
- public function service_details($slug)
-{
-    // 1️⃣ Fetch the subcategory by slug
-    $subcategory = MedicalServiceSubCategory::where('slug', $slug)
-        ->whereNull('deleted_by') // optional: only active
-        ->firstOrFail();
+    public function service_details($slug)
+    {
+        // 1️⃣ Fetch the subcategory by slug
+        $subcategory = MedicalServiceSubCategory::where('slug', $slug)
+            ->whereNull('deleted_by') // optional: only active
+            ->firstOrFail();
 
-    $service = ManageServiceDetail::with(['category', 'subcategory', 'service'])
-        ->where('subcategory_id', $subcategory->id)
-        ->whereNull('deleted_by')
-        ->firstOrFail(); // better than first()
-    // dd($service);
 
-    // Decode JSON fields
-    $service->features = json_decode($service->features, true) ?? [];
-    $service->faq      = json_decode($service->faq, true) ?? [];
+        $service = ManageServiceDetail::with(['category', 'subcategory', 'service'])
+            ->where('subcategory_id', $subcategory->id)
+            ->whereNull('deleted_by')
+            ->firstOrFail(); // better than first()
+        // dd($service);
 
-    // 4️⃣ Pass subcategory & services to view
-    return view('frontend.service_details', [
-        'subcategory' => $subcategory,
-        'service'    => $service,
-    ]);
-}
+        // Decode JSON fields
+        $service->features = json_decode($service->features, true) ?? [];
+        $service->faq      = json_decode($service->faq, true) ?? [];
+
+        // 4️⃣ Pass subcategory & services to view
+        return view('frontend.service_details', [
+            'subcategory' => $subcategory,
+            'service'    => $service,
+        ]);
+    }
 
 
 }
