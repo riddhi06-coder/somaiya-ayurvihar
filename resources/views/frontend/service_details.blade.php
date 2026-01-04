@@ -30,18 +30,32 @@
           </div>
         </section>
 
-        <!--  <div id="sticky-anchor"></div> -->
+
         <div class="apollo-tabs-wrapper">
             <div class="apollo-tabs" id="apolloTabs">
                 <button class="tab-arrow left" type="button">&#10094;</button>
 
                 <!-- Tab Buttons -->
                 <ul class="nav nav-tabs tab-scroll">
+                    @php
+                        // Map titles to custom data-target values
+                        $targets = [
+                            'Cardiology'            => 'overview',
+                            'Expert Doctors Team'   => 'doctors',
+                            'Services & Facilities' => 'our-services',
+                            'Cardio Health Packages'=> 'health-packages',
+                            'What Makes Us Special' => 'make-special',
+                            'Feedback and Review'   => 'testimonials',
+                            'Announcements'         => 'announcements',
+                            'Blogs'                 => 'blogs',
+                            'FAQ'                   => 'faq',
+                        ];
+                    @endphp
+
                     @forelse($service->page_headers as $index => $header)
                         @php
-                            // Generate a slug for each tab target
-                            $type  = Str::slug($header['title'] ?? 'tab');
-                            $title = $header['title'] ?? '';
+                            $title = $header['title'] ?? 'Tab';
+                            $type  = $targets[$title] ?? Str::slug($title); // fallback to slug if not mapped
                         @endphp
                         <li class="{{ $index == 0 ? 'active' : '' }}">
                             <a href="javascript:void(0)" data-target="{{ $type }}">
