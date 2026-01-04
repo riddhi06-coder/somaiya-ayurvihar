@@ -191,5 +191,187 @@ class DoctorController extends Controller
             ->with('message', 'Doctor added successfully.');
     }
 
+    
+    public function edit($id)
+    {
+        $service_details = Doctor::findOrFail($id);
+
+        $service = MedicalServiceCategory::all();
+        $masterCategories = MedicalServiceMasterCategory::all();
+        $subCategories = MedicalServiceSubCategory::all();
+
+        $service_details->doctor_availability = json_decode($service_details->doctor_availability, true);
+        $service_details->doctor_time_slot = json_decode($service_details->doctor_time_slot, true);
+        $service_details->languages_known = json_decode($service_details->languages_known, true);
+
+        $service_details->treatments = json_decode($service_details->treatments, true);
+        $service_details->faq = json_decode($service_details->faq, true);
+
+        return view(
+            'backend.doctors.edit',
+            compact('service_details','service', 'masterCategories', 'subCategories')
+        );
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $doctor = Doctor::findOrFail($id);
+
+        // ================= VALIDATION =================
+        $request->validate([
+            'category_id'        => 'required',
+            'subcategory_id'     => 'required',
+            'service_id'         => 'nullable',
+
+            'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'doctor_image'       => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'doctor_name'        => 'required|string|max:255',
+            'doctor_exp'         => 'required|string|max:255',
+
+            'doctor_availability'=> 'required|array|min:1',
+            'doctor_availability.*' => 'string',
+
+            'time_slot.from'     => 'required|array',
+            'time_slot.to'       => 'required|array',
+            'time_slot.from.*'   => 'required',
+            'time_slot.to.*'     => 'required',
+
+            'languages_known'    => 'required|array|min:1',
+
+            'qualification'      => 'required|string',
+
+            'overview_heading'   => 'required|string|max:255',
+            'overview_desc'      => 'required|string',
+
+            'exp_heading'        => 'required|string|max:255',
+            'exp_desc'           => 'required|string',
+
+            'treatment_heading'  => 'required|string|max:255',
+            'treatment'          => 'required|array',
+            'treatment.*.name'   => 'required|string',
+
+            'faq_heading'        => 'required|string|max:255',
+            'faq'                => 'required|array',
+            'faq.*.question'     => 'required|string',
+            'faq.*.answer'       => 'required|string',
+
+        ], [
+            'category_id.required'        => 'Master category is required.',
+            'subcategory_id.required'     => 'Sub category is required.',
+            'doctor_name.required'        => 'Doctor name is required.',
+            'doctor_exp.required'         => 'Doctor experience is required.',
+            'doctor_availability.required'=> 'Please select doctor availability.',
+            'languages_known.required'    => 'Please select at least one language.',
+            'qualification.required'      => 'Qualification is required.',
+            'overview_heading.required'   => 'Overview heading is required.',
+            'overview_desc.required'      => 'Overview description is required.',
+            'treatment_heading.required'  => 'Treatment heading is required.',
+            'faq_heading.required'        => 'FAQ heading is required.',
+        ]);
+
+        $uploadPath = public_path('uploads/doctors');
+
+        // ================= IMAGE UPLOADS =================
+        // Banner Image
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($doctor->banner_image && file_exists($uploadPath.'/'.$doctor->banner_image)) {
+                unlink($uploadPath.'/'.$doctor->banner_image);
+            }
+            $img = $request->file('image');
+            $bannerImage = time().'_banner.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $bannerImage);
+            $doctor->banner_image = $bannerImage;
+        }
+
+        // Doctor Image
+        if ($request->hasFile('doctor_image')) {
+            // Delete old image if exists
+            if ($doctor->doctor_image && file_exists($uploadPath.'/'.$doctor->doctor_image)) {
+                unlink($uploadPath.'/'.$doctor->doctor_image);
+            }
+            $img = $request->file('doctor_image');
+            $doctorImage = time().'_doctor.'.$img->getClientOriginalExtension();
+            $img->move($uploadPath, $doctorImage);
+            $doctor->doctor_image = $doctorImage;
+        }
+
+        // ================= JSON ENCODE DATA =================
+        $doctor->category_id        = $request->category_id;
+        $doctor->subcategory_id     = $request->subcategory_id;
+        $doctor->service_id         = $request->service_id;
+
+        $doctor->doctor_name        = $request->doctor_name;
+        $doctor->doctor_exp         = $request->doctor_exp;
+
+        $doctor->doctor_availability = json_encode($request->doctor_availability);
+        $doctor->languages_known    = json_encode($request->languages_known);
+        $doctor->qualification      = $request->qualification;
+
+        $doctor->overview_heading   = $request->overview_heading;
+        $doctor->overview_desc      = $request->overview_desc;
+
+        $doctor->exp_heading        = $request->exp_heading;
+        $doctor->exp_desc           = $request->exp_desc;
+
+        $doctor->treatment_heading  = $request->treatment_heading;
+        $doctor->treatments         = json_encode($request->treatment);
+
+        $doctor->faq_heading        = $request->faq_heading;
+        $doctor->faq                = json_encode($request->faq);
+
+        // Time Slots
+        $timeSlots = [];
+        foreach ($request->time_slot['from'] as $key => $from) {
+            $timeSlots[] = [
+                'from' => $from,
+                'to'   => $request->time_slot['to'][$key] ?? null,
+            ];
+        }
+        $doctor->doctor_time_slot = json_encode($timeSlots);
+
+        $doctor->modified_at = Carbon::now();
+        $doctor->modified_by = Auth::id();
+
+        $doctor->save();
+
+        return redirect()
+            ->route('admin.manage-doctors.index')
+            ->with('message', 'Doctor updated successfully.');
+    }
+
+
+    public function destroy(string $id)
+    {
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = Doctor::findOrFail($id);
+            $industries->update($data);
+
+            return redirect()->route('admin.manage-doctors.index')->with('message', 'Details deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
+    }
+
+
+    public function toggleStatus($id)
+    {
+        $doctor = Doctor::findOrFail($id);
+
+        $doctor->status = $doctor->status ? 0 : 1;
+
+        $doctor->save();
+
+        return redirect()
+            ->route('admin.manage-doctors.index')
+            ->with('message', 'Doctor status updated successfully.');
+    }
+
+
+
 
 }

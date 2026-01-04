@@ -109,6 +109,16 @@
                                                                         Delete
                                                                     </button>
                                                                 </form>
+
+                                                                <!-- Active / Inactive Toggle -->
+                                                                <form action="{{ route('admin.admin.manage-doctors.toggleStatus', $doctor->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to change the status?');">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit" class="btn btn-sm {{ $doctor->status ? 'btn-success' : 'btn-warning' }}">
+                                                                        {{ $doctor->status ? 'Active' : 'Inactive' }}
+                                                                    </button>
+                                                                </form>
+
                                                             </td>
                                                         </tr>
                                                     @endforeach
