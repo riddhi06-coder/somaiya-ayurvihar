@@ -15,6 +15,7 @@ use App\Models\MedicalServiceSubCategory;
 use App\Models\MedicalServiceCategory;
 use App\Models\MedicalServiceMasterCategory;
 use App\Models\ManageServiceDetail;
+use App\Models\Doctor;
 
 
 use Illuminate\Http\Request;
@@ -63,6 +64,32 @@ class HomeController extends Controller
         return view('frontend.service_details', [
             'subcategory' => $subcategory,
             'service'    => $service,
+        ]);
+    }
+
+
+    // Doctor Details Page
+    public function doctor_details($doctoreslug)
+    {
+        // 1️⃣ Fetch the doctor by slug
+        $doctor = Doctor::with(['category', 'subcategory', 'service'])
+            ->where('slug', $doctoreslug)
+            ->whereNull('deleted_by') // optional: only active
+            ->firstOrFail();
+
+        // dd($doctor);
+
+        // 2️⃣ Decode JSON fields
+        $doctor->doctor_availability = json_decode($doctor->doctor_availability, true);
+        $doctor->doctor_time_slot   = json_decode($doctor->doctor_time_slot, true);
+        $doctor->languages_known    = json_decode($doctor->languages_known, true);
+
+        $doctor->treatments = json_decode($doctor->treatments, true);
+        $doctor->faq        = json_decode($doctor->faq, true);
+
+        // 3️⃣ Pass doctor to view
+        return view('frontend.doctor_details', [
+            'doctor' => $doctor
         ]);
     }
 

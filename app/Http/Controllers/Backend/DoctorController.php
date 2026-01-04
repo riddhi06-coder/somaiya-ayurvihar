@@ -152,6 +152,17 @@ class DoctorController extends Controller
         }
         $timeSlotJson = json_encode($timeSlots);
 
+
+
+         // ================= SLUG GENERATION =================
+        $slug = Str::slug($request->doctor_name);
+
+        // Ensure uniqueness
+        $count = Doctor::where('slug', 'LIKE', "$slug%")->count();
+        if ($count > 0) {
+            $slug .= '-' . ($count + 1);
+        }
+
         // ================= STORE DATA =================
         Doctor::create([
             'category_id'        => $request->category_id,
@@ -161,6 +172,7 @@ class DoctorController extends Controller
             'banner_image'       => $bannerImage,
 
             'doctor_name'        => $request->doctor_name,
+            'slug'               => $slug,
             'doctor_image'       => $doctorImage,
             'doctor_exp'         => $request->doctor_exp,
 
@@ -331,6 +343,26 @@ class DoctorController extends Controller
             ];
         }
         $doctor->doctor_time_slot = json_encode($timeSlots);
+
+
+
+        $doctor->doctor_name = $request->doctor_name;
+
+        // Always regenerate slug based on current name
+        $slug = Str::slug($request->doctor_name);
+
+        // Ensure uniqueness
+        $count = Doctor::where('slug', 'LIKE', "$slug%")
+                        ->where('id', '!=', $doctor->id)
+                        ->count();
+
+        if ($count > 0) {
+            $slug .= '-' . ($count + 1);
+        }
+
+        $doctor->slug = $slug;
+
+        
 
         $doctor->modified_at = Carbon::now();
         $doctor->modified_by = Auth::id();

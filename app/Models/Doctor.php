@@ -29,6 +29,7 @@ class Doctor extends Model
 
         // Doctor Basic Info
         'doctor_name',
+        'slug',
         'doctor_exp',
         'qualification',
 
