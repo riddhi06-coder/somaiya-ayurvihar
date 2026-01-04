@@ -21,12 +21,12 @@
           <div class="row v-center main-header">
             <div class="header-item item-left">
               <div class="logo white-logo custom-somaiya-custom-logo">
-                <a href="#">
+                <a href="{{ route('frontend.index') }}">
                   <img src="{{ asset('frontend/assets/img/logo/kj-somaiya-logo_W.webp')}}" class="img-responsive"><!-- <img src="img/logo/somaiya-trust-logo.png" class="img-responsive st-logo-custom-sec"> -->
                 </a>
               </div>
               <div class="logo colored-logo logo-custom-flex-sec">
-                <a href="#">
+                <a href="{{ route('frontend.index') }}">
                   <img src="{{ asset('frontend/assets/img/logo/kj-somaiya-logo.png')}}" class="img-responsive"><!-- <img src="img/logo/somaiya-trust-logo.png" class="img-responsive lcfsec-custom-sec"> -->
                 </a>
               </div>
@@ -41,6 +41,7 @@
                   <div class="mobile-menu-close">&times;</div>
                 </div>
                 <ul class="menu-main">
+
                   <li class="menu-item-has-children">
                     <a href="#">About Us <i class="fa fa-angle-down"></i></a>
                     <div class="sub-menu single-column-menu">
@@ -61,335 +62,174 @@
                       </ul>
                     </div>
                   </li>
+
+
                   <li class="menu-item-has-children">
                     <a href="#">Medical Services <i class="fa fa-angle-down"></i></a>
                     <div class="sub-menu mega-menu mega-menu-column-4">
+                    
                       <div class="list-item">
-                        <div class="row mega-menu-container">
-                          <!-- LEFT VERTICAL TABS (DESKTOP) -->
-                          <div class="col-sm-4 hidden-xs">
-                            <ul class="nav nav-pills nav-stacked mega-vertical-tabs">
-                              <li class="active"><a href="#v1" data-toggle="tab">Specialties <i class="fa fa-angle-right"></i></a></li>
-                              <li><a href="#v2" data-toggle="tab">Diagnostic Services <i class="fa fa-angle-right"></i></a></li>
-                              <li><a href="#v3" data-toggle="tab">Clinical Services <i class="fa fa-angle-right"></i></a></li>
-                            </ul>
+                          @php
+                              use Illuminate\Support\Facades\DB;
+
+                              // Fetch all master categories with subcategories and services
+                              $masters = DB::table('medical_service_master_categories as m')
+                                  ->select(
+                                      'm.id as master_id',
+                                      'm.category_name as master_name',
+                                      'm.slug as master_slug',
+                                      's.id as sub_id',
+                                      's.subcategory_name as sub_name',
+                                      's.slug as sub_slug',
+                                      'c.id as service_id',
+                                      'c.service_name as service_name',
+                                      'c.slug as service_slug'
+                                  )
+                                  ->leftJoin('medical_service_sub_categories as s', 's.category_id', '=', 'm.id')
+                                  ->leftJoin('medical_service_categorie as c', function($join){
+                                      $join->on('c.category_id', '=', 's.category_id')
+                                          ->on('c.subcategory_id', '=', 's.id');
+                                  })
+                                  ->orderBy('m.id')
+                                  ->orderBy('s.id')
+                                  ->orderBy('c.id')
+                                  ->get()
+                                  ->groupBy('master_id'); // Group by master category
+                          @endphp
+
+                          <div class="row mega-menu-container">
+
+                              <!-- LEFT VERTICAL TABS (DESKTOP) -->
+                              <div class="col-sm-4 hidden-xs">
+                                  <ul class="nav nav-pills nav-stacked mega-vertical-tabs">
+                                      @foreach($masters as $masterId => $masterItems)
+                                          <li class="{{ $loop->first ? 'active' : '' }}">
+                                              <a href="#v{{ $loop->index + 1 }}" data-toggle="tab">
+                                                  {{ $masterItems->first()->master_name }} <i class="fa fa-angle-right"></i>
+                                              </a>
+                                          </li>
+                                      @endforeach
+                                  </ul>
+                              </div>
+
+                              <!-- RIGHT CONTENT (DESKTOP) -->
+                              <div class="col-sm-8 hidden-xs">
+                                  <div class="tab-content">
+                                      @foreach($masters as $masterId => $masterItems)
+                                          <div class="tab-pane fade {{ $loop->first ? 'in active' : '' }}" id="v{{ $loop->index + 1 }}">
+                                              <div class="tab-box">
+                                                  <div class="row">
+                                                      @if($loop->first)
+                                                          <!-- First master category: show subcategories as plain list -->
+                                                          <div class="col-md-6">
+                                                              <ul class="menu_tab_list">
+                                                                  @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                                      <li>
+                                                                          <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
+                                                                              {{ $subItems->first()->sub_name }}
+                                                                          </a>
+                                                                      </li>
+                                                                  @endforeach
+                                                              </ul>
+                                                          </div>
+                                                      @else
+                                                          <!-- Other master categories: keep subcategory headings -->
+                                                          @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                              <div class="col-md-6">
+                                                                  <ul class="menu_tab_list">
+                                                                      @if($subItems->first()->sub_name)
+                                                                          <li class="heading_bullet">
+                                                                              <a href="#">
+                                                                                  <h5>{{ $subItems->first()->sub_name }}</h5>
+                                                                              </a>
+                                                                          </li>
+                                                                      @endif
+                                                                      @foreach($subItems as $service)
+                                                                          @if($service->service_id)
+                                                                              <li>
+                                                                                  <a href="{{ route('frontend.service_details', $service->service_slug) }}">
+                                                                                      {{ $service->service_name }}
+                                                                                  </a>
+                                                                              </li>
+                                                                          @endif
+                                                                      @endforeach
+                                                                  </ul>
+                                                              </div>
+                                                          @endforeach
+                                                      @endif
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      @endforeach
+                                  </div>
+                              </div>
+
+                              <!-- MOBILE ACCORDION -->
+                              <div class="visible-xs">
+                                  <div class="panel-group" id="mobileAccordion">
+                                      @foreach($masters as $masterId => $masterItems)
+                                          <div class="panel panel-default">
+                                              <div class="panel-heading">
+                                                  <h4 class="panel-title">
+                                                      <a data-toggle="collapse" data-parent="#mobileAccordion" href="#m{{ $loop->index + 1 }}">
+                                                          {{ $masterItems->first()->master_name }} <i class="fa fa-chevron-down"></i>
+                                                      </a>
+                                                  </h4>
+                                              </div>
+                                              <div id="m{{ $loop->index + 1 }}" class="panel-collapse collapse {{ $loop->first ? 'in' : '' }}">
+                                                  <div class="panel-body">
+                                                      <div class="row">
+                                                          @if($loop->first)
+                                                              <div class="col-md-6">
+                                                                  <ul class="menu_tab_list">
+                                                                      @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                                          <li>
+                                                                              <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
+                                                                                  {{ $subItems->first()->sub_name }}
+                                                                              </a>
+                                                                          </li>
+                                                                      @endforeach
+                                                                  </ul>
+                                                              </div>
+                                                          @else
+                                                              @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                                  <div class="col-md-6">
+                                                                      <ul class="menu_tab_list">
+                                                                          @if($subItems->first()->sub_name)
+                                                                              <li class="heading_bullet">
+                                                                                  <a href="#">
+                                                                                      <h5>{{ $subItems->first()->sub_name }}</h5>
+                                                                                  </a>
+                                                                              </li>
+                                                                          @endif
+                                                                          @foreach($subItems as $service)
+                                                                              @if($service->service_id)
+                                                                                  <li>
+                                                                                      <a href="{{ route('frontend.service_details', $service->service_slug) }}">
+                                                                                          {{ $service->service_name }}
+                                                                                      </a>
+                                                                                  </li>
+                                                                              @endif
+                                                                          @endforeach
+                                                                      </ul>
+                                                                  </div>
+                                                              @endforeach
+                                                          @endif
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      @endforeach
+                                  </div>
+                              </div>
+
                           </div>
-                          <!-- RIGHT CONTENT (DESKTOP) -->
-                          <div class="col-sm-8 hidden-xs">
-                            <div class="tab-content">
-                              <div class="tab-pane fade in active" id="v1">
-                                <div class="tab-box">
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <ul class="menu_tab_list">
-                                        <li><a href="#">Anaesthesia</a></li>
-                                        <li><a href="#">Cardiology</a></li>
-                                        <li><a href="#">Cardio Vascular Thoracic Surgery (CVTS)</a></li>
-                                        <li><a href="#">Dental</a></li>
-                                        <li><a href="#">Dermatology</a></li>
-                                        <li><a href="#">Ear Nose and Throat (ENT)</a></li>
-                                        <li><a href="#">Gastroenterology</a></li>
-                                        <li><a href="#">General & Laparoscopic Surgery</a></li>
-                                        <li><a href="#">General Medicine</a></li>
-                                        <li><a href="#">Haematology</a></li>
-                                        <li><a href="#">Interventional Radiology</a></li>
-                                        <li><a href="#">Medical Oncology</a></li>
-                                        <li><a href="#">Nephrology</a></li>
-                                        <li><a href="#">Nutrition & Dietetics</a></li>
-                                      </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <ul class="menu_tab_list">
-                                        <li><a href="#">Neurology</a></li>
-                                        <li><a href="#">Neurosurgery</a></li>
-                                        <li><a href="#">Obstetrics & Gynaecology</a></li>
-                                        <li><a href="#">Ophthalmology</a></li>
-                                        <li><a href="#">Orthopaedics</a></li>
-                                        <li><a href="#">Paediatrics</a></li>
-                                        <li><a href="#">Paediatric Surgery</a></li>
-                                        <li><a href="#">Plastic Surgery</a></li>
-                                        <li><a href="#">Psychiatry</a></li>
-                                        <li><a href="#">Radiology</a></li>
-                                        <li><a href="#">Respiratory Medicine</a></li>
-                                        <li><a href="#">Surgical Oncology</a></li>
-                                        <li><a href="#">Urology</a></li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="tab-pane fade" id="v2">
-                                <div class="tab-box">
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <ul class="menu_tab_list">
-                                        <li class="heading_bullet">
-                                          <a href="#">
-                                            <h5>Radiology</h5>
-                                          </a>
-                                        </li>
-                                        <li><a href="#">CTScan</a></li>
-                                        <li><a href="#">Xray</a></li>
-                                        <li><a href="#">MRI</a></li>
-                                        <li><a href="#">USG</a></li>
-                                        <li><a href="#">Mammography</a></li>
-                                        <li class="heading_bullet">
-                                          <a href="#">
-                                            <h5>Laboratory</h5>
-                                          </a>
-                                        </li>
-                                        <li><a href="#">Biochemistry</a></li>
-                                        <li><a href="#">Hematology</a></li>
-                                        <li><a href="#">Microbiology</a></li>
-                                        <li><a href="#">Histopathology</a></li>
-                                        <li><a href="#">Clinical Pathology</a></li>
-                                      </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <ul class="menu_tab_list">
-                                        <li class="heading_bullet">
-                                          <a href="#">
-                                            <h5>Non Invasive</h5>
-                                          </a>
-                                        </li>
-                                        <li><a href="#">ECG</a></li>
-                                        <li><a href="#">2D Echo/Stress Test/ Holter Monitor</a></li>
-                                        <li class="heading_bullet">
-                                          <a href="#">
-                                            <h5>Neuro Diagnostics</h5>
-                                          </a>
-                                        </li>
-                                        <li><a href="#">EEG</a></li>
-                                        <li><a href="#">EMG</a></li>
-                                        <li><a href="#">NCV</a></li>
-                                        <li class="heading_bullet">
-                                          <a href="#">
-                                            <h5>Audiometry</h5>
-                                          </a>
-                                        </li>
-                                        <li class="heading_bullet">
-                                          <a href="#">
-                                            <h5>PFT</h5>
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <!--<div class="tab-pane fade" id="v3">-->
-                              <!--  <div class="tab-box">-->
-                              <!--    <div class="row">-->
-                              <!--      <div class="col-md-6">-->
-                              <!--        <ul class="menu_tab_list">-->
-                              <!--          <li><a href="#">CTScan</a></li>-->
-                              <!--          <li><a href="#">Xray</a></li>-->
-                              <!--          <li><a href="#">MRI</a></li>-->
-                              <!--          <li><a href="#">USG</a></li>-->
-                              <!--        </ul>-->
-                              <!--      </div>-->
-                              <!--      <div class="col-md-6">-->
-                              <!--        <ul class="menu_tab_list">-->
-                              <!--          <li><a href="#">CTScan</a></li>-->
-                              <!--          <li><a href="#">Xray</a></li>-->
-                              <!--          <li><a href="#">MRI</a></li>-->
-                              <!--          <li><a href="#">USG</a></li>-->
-                              <!--        </ul>-->
-                              <!--      </div>-->
-                              <!--    </div>-->
-                              <!--  </div>-->
-                              <!--</div>-->
-                            </div>
-                          </div>
-                          <!-- MOBILE ACCORDION -->
-                          <div class="visible-xs">
-                            <div class="panel-group" id="mobileAccordion">
-                              <div class="panel panel-default">
-                                <div class="panel-heading">
-                                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="#mobileAccordion" href="#m1">Specialities <i class="fa fa-chevron-down"></i></a></h4>
-                                </div>
-                                <div id="m1" class="panel-collapse collapse in">
-                                  <div class="panel-body">
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <ul class="menu_tab_list">
-                                          <li><a href="#">Anaesthesia</a></li>
-                                          <li><a href="#">Cardiology</a></li>
-                                          <li><a href="#">Cardio Vascular Thoracic Surgery (CVTS)</a></li>
-                                          <li><a href="#">Dental</a></li>
-                                          <li><a href="#">Dermatology</a></li>
-                                          <li><a href="#">Ear Nose and Throat (ENT)</a></li>
-                                          <li><a href="#">Gastroenterology</a></li>
-                                          <li><a href="#">General & Laparoscopic Surgery</a></li>
-                                          <li><a href="#">General Medicine</a></li>
-                                          <li><a href="#">Haematology</a></li>
-                                          <li><a href="#">Interventional Radiology</a></li>
-                                          <li><a href="#">Medical Oncology</a></li>
-                                          <li><a href="#">Nephrology</a></li>
-                                          <li><a href="#">Nutrition & Dietetics</a></li>
-                                        </ul>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <ul class="menu_tab_list">
-                                          <li><a href="#">Neurology</a></li>
-                                          <li><a href="#">Neurosurgery</a></li>
-                                          <li><a href="#">Obstetrics & Gynaecology</a></li>
-                                          <li><a href="#">Ophthalmology</a></li>
-                                          <li><a href="#">Orthopaedics</a></li>
-                                          <li><a href="#">Paediatrics</a></li>
-                                          <li><a href="#">Paediatric Surgery</a></li>
-                                          <li><a href="#">Plastic Surgery</a></li>
-                                          <li><a href="#">Psychiatry</a></li>
-                                          <li><a href="#">Radiology</a></li>
-                                          <li><a href="#">Respiratory Medicine</a></li>
-                                          <li><a href="#">Surgical Oncology</a></li>
-                                          <li><a href="#">Urology</a></li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="panel panel-default">
-                                <div class="panel-heading">
-                                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="#mobileAccordion" href="#m2">Diagnostic Services <i class="fa fa-chevron-down"></i></a></h4>
-                                </div>
-                                <div id="m2" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <ul class="menu_tab_list">
-                                          <li class="heading_bullet">
-                                            <a href="#">
-                                              <h5>Radiology</h5>
-                                            </a>
-                                          </li>
-                                          <li><a href="#">CTScan</a></li>
-                                          <li><a href="#">Xray</a></li>
-                                          <li><a href="#">MRI</a></li>
-                                          <li><a href="#">USG</a></li>
-                                          <li><a href="#">Mammography</a></li>
-                                          <li class="heading_bullet">
-                                            <a href="#">
-                                              <h5>Laboratory</h5>
-                                            </a>
-                                          </li>
-                                          <li><a href="#">Biochemistry</a></li>
-                                          <li><a href="#">Hematology</a></li>
-                                          <li><a href="#">Microbiology</a></li>
-                                          <li><a href="#">Histopathology</a></li>
-                                          <li><a href="#">Clinical Pathology</a></li>
-                                        </ul>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <ul class="menu_tab_list">
-                                          <li class="heading_bullet">
-                                            <a href="#">
-                                              <h5>Non Invasive</h5>
-                                            </a>
-                                          </li>
-                                          <li><a href="#">ECG</a></li>
-                                          <li><a href="#">2D Echo/Stress Test/ Holter Monitor</a></li>
-                                          <li class="heading_bullet">
-                                            <a href="#">
-                                              <h5>Neuro Diagnostics</h5>
-                                            </a>
-                                          </li>
-                                          <li><a href="#">EEG</a></li>
-                                          <li><a href="#">EMG</a></li>
-                                          <li><a href="#">NCV</a></li>
-                                          <li class="heading_bullet">
-                                            <a href="#">
-                                              <h5>Audiometry</h5>
-                                            </a>
-                                          </li>
-                                          <li class="heading_bullet">
-                                            <a href="#">
-                                              <h5>PFT</h5>
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="panel panel-default">
-                                <div class="panel-heading">
-                                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="#mobileAccordion" href="#m3">Clinical Services <i class="fa fa-chevron-down"></i></a></h4>
-                                </div>
-                                <div id="m3" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <ul class="menu_tab_list">
-                                          <li><a href="#">CTScan</a></li>
-                                          <li><a href="#">Xray</a></li>
-                                          <li><a href="#">MRI</a></li>
-                                          <li><a href="#">USG</a></li>
-                                        </ul>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <ul class="menu_tab_list">
-                                          <li><a href="#">CTScan</a></li>
-                                          <li><a href="#">Xray</a></li>
-                                          <li><a href="#">MRI</a></li>
-                                          <li><a href="#">USG</a></li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
-                      <!-- <div class="list-item">
-                        <h4 class="title empty-title-menu"></h4>
-                        <ul>
-                          <li><a href="#">General Medicine</a></li>
-                          <li><a href="#">Haematology</a></li>
-                          <li><a href="#">Interventional Radiology</a></li>
-                          <li><a href="#">Medical Oncology</a></li>
-                          <li><a href="#">Nephrology</a></li>
-                          <li><a href="#">Nutrition & Dietetics</a></li>
-                          <li><a href="#">Neurology</a></li>
-                          <li><a href="#">Neurosurgery</a></li>
-                          <li><a href="#">Obstetrics & Gynaecology</a></li>
-                          <li><a href="#">Ophthalmology</a></li>
-                        </ul>
-                        </div>
-                        <div class="list-item">
-                        <h4 class="title empty-title-menu"></h4>
-                        <ul>
-                          <li><a href="#">Orthopaedics</a></li>
-                          <li><a href="#">Paediatrics</a></li>
-                          <li><a href="#">Paediatric Surgery</a></li>
-                          <li><a href="#">Plastic Surgery</a></li>
-                          <li><a href="#">Psychiatry</a></li>
-                          <li><a href="#">Radiology</a></li>
-                          <li><a href="#">Respiratory Medicine</a></li>
-                          <li><a href="#">Surgical Oncology</a></li>
-                          <li><a href="#">Urology</a></li>
-                        </ul>
-                        </div>
-                        <div class="list-item">
-                        <h4 class="title">Diagnostic Services</h4>
-                        <ul>
-                          <li><a href="#">Biochemistry</a></li>
-                          <li><a href="#">Microbiology</a></li>
-                          <li><a href="#">Pathology</a></li>
-                        </ul>
-                        <h4 class="title">Subsites</h4>
-                        <ul>
-                          <li><a href="#">Physiotherapy</a></li>
-                          <li><a href="#">Ayurveda</a></li>
-                          <li><a href="#">Blood Bank</a></li>
-                        </ul>
-                        </div> -->
+
                     </div>
                   </li>
+
+
                   <li class="menu-item-has-children">
                     <a href="#">Patient Services <i class="fa fa-angle-down"></i></a>
                     <div class="sub-menu single-column-menu">
@@ -412,6 +252,8 @@
                       </ul>
                     </div>
                   </li>
+
+
                   <li class="menu-item-has-children">
                     <a href="#"> Wellness Centre <i class="fa fa-angle-down"></i></a>
                     <div class="sub-menu single-column-menu">
