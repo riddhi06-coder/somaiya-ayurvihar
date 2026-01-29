@@ -161,7 +161,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="copyright-text">
-                    <p>Copyright © 2025 K J Somaiya Hospital. All Rights Reserved. | Crafted by <a href="https://www.matrixbricks.com/" target="_blank">Matrix Bricks</a></p>
+                    <p>Copyright © {{ date('Y') }} K J Somaiya Hospital. All Rights Reserved. | Crafted by <a href="https://www.matrixbricks.com/" target="_blank">Matrix Bricks</a></p>
                   </div>
                 </div>
                 <div class="col-md-6">
