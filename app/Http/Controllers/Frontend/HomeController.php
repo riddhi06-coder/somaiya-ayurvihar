@@ -74,7 +74,6 @@ class HomeController extends Controller
         ]);
     }
 
-
     // Doctor Details Page
     public function doctor_details($doctoreslug)
     {
@@ -87,14 +86,11 @@ class HomeController extends Controller
         // dd($doctor);
 
         // 2️⃣ Decode JSON fields
-        $doctor->doctor_availability = json_decode($doctor->doctor_availability, true);
         $doctor->doctor_time_slot   = json_decode($doctor->doctor_time_slot, true);
-        $doctor->languages_known    = json_decode($doctor->languages_known, true);
-
-        $doctor->treatments = json_decode($doctor->treatments, true);
-        $doctor->faq        = json_decode($doctor->faq, true);
 
         $doctor->social_media_links  = json_decode($doctor->social_media_links, true);
+
+        // dd($doctor->social_media_links);
 
         // 3️⃣ Pass doctor to view
         return view('frontend.doctor_details', [
