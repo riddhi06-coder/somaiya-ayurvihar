@@ -24,35 +24,18 @@ class Doctor extends Model
         'service_id',
 
         // Images
-        'banner_image',
         'doctor_image',
+        'profile_desc',
+        'designation',
 
         // Doctor Basic Info
         'doctor_name',
         'slug',
-        'doctor_exp',
         'qualification',
 
         // Availability & Timings
-        'doctor_availability',
         'doctor_time_slot',
-        'languages_known',
 
-        // Overview Section
-        'overview_heading',
-        'overview_desc',
-
-        // Experience Section
-        'exp_heading',
-        'exp_desc',
-
-        // Treatments
-        'treatment_heading',
-        'treatments',
-
-        // FAQ
-        'faq_heading',
-        'faq',
         'social_media_links',
         'status',
 

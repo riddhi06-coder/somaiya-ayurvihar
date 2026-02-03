@@ -61,7 +61,7 @@ Route::prefix('admin')
 
         // Doctors 
         Route::resource('manage-doctors', DoctorController::class);
-        Route::patch('manage-doctors/{id}/toggle-status', [DoctorController::class, 'toggleStatus'])->name('admin.manage-doctors.toggleStatus'); 
+        Route::patch('manage-doctors/{id}/toggle-status', [DoctorController::class, 'toggleStatus'])->name('manage-doctors.toggleStatus'); 
     
     
         // Home slider

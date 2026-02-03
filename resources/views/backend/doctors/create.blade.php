@@ -114,23 +114,6 @@
                                             </select>
                                         </div>
 
-                                        
-                                        <!-- Thumbnail Image -->
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="image"> Banner Image <span class="txt-danger">*</span> </label>
-                                            <input class="form-control" id="image" type="file" name="image" onchange="previewThumbnail(event)" required>
-                                            <div class="invalid-feedback">Please upload a Banner image.</div>
-                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
-                                                <br>
-                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
-                                            
-                                            <!-- Image Preview -->
-                                            <div class="mt-2">
-                                                <img id="thumbnailPreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
-                                            </div>
-                                        </div>
-
-
                                         <hr class="mt-5">
 
                                         <h4># Doctor's Details</h4>
@@ -143,6 +126,13 @@
                                             <div class="invalid-feedback">Please enter a Doctor Name.</div>
                                         </div>
 
+
+                                        <!-- Doctor Designation -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_designation">Doctor Designation <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="doctor_designation" type="text" name="doctor_designation" placeholder="Enter Doctor Designation" required>
+                                            <div class="invalid-feedback">Please enter a Doctor Designation.</div>
+                                        </div>
 
 
                                         <!-- Doctor Image -->
@@ -159,44 +149,6 @@
                                                 <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
                                             </div>
                                         </div>
-
-
-
-                                        <!-- Doctor Experience -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_exp">Doctor Experience <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="doctor_exp" type="text" name="doctor_exp" placeholder="Enter Doctor Experience" required>
-                                            <div class="invalid-feedback">Please enter a Doctor Experience.</div>
-                                        </div>
-
-
-                                        <!-- Doctor Avaiability -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_availability">
-                                                Doctor Availability <span class="txt-danger">*</span>
-                                            </label>
-
-                                            <select
-                                                class="form-control select2"
-                                                id="doctor_availability"
-                                                name="doctor_availability[]"
-                                                multiple
-                                                required
-                                            >
-                                                <option value="Monday">Monday</option>
-                                                <option value="Tuesday">Tuesday</option>
-                                                <option value="Wednesday">Wednesday</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
-                                                <option value="Saturday">Saturday</option>
-                                                <option value="Sunday">Sunday</option>
-                                            </select>
-
-                                            <div class="invalid-feedback">
-                                                Please select at least one available day.
-                                            </div>
-                                        </div>
-
 
                                         <!-- Doctor Time Slot -->
                                         <div class="col-md-6 mt-5">
@@ -233,78 +185,6 @@
                                         </div>
 
 
-
-                                        <!-- Languages Known / Spoken -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="languages_known">
-                                                Languages Known / Spoken <span class="txt-danger">*</span>
-                                            </label>
-
-                                            <select
-                                                class="form-control select2"
-                                                id="languages_known"
-                                                name="languages_known[]"
-                                                multiple
-                                                required
-                                            >
-                                                <!-- Indian Languages -->
-                                                <option value="English">English</option>
-                                                <option value="Hindi">Hindi</option>
-                                                <option value="Marathi">Marathi</option>
-                                                <option value="Gujarati">Gujarati</option>
-                                                <option value="Tamil">Tamil</option>
-                                                <option value="Telugu">Telugu</option>
-                                                <option value="Kannada">Kannada</option>
-                                                <option value="Malayalam">Malayalam</option>
-                                                <option value="Punjabi">Punjabi</option>
-                                                <option value="Bengali">Bengali</option>
-                                                <option value="Urdu">Urdu</option>
-                                                <option value="Odia">Odia</option>
-                                                <option value="Assamese">Assamese</option>
-                                                <option value="Konkani">Konkani</option>
-                                                <option value="Sindhi">Sindhi</option>
-                                                <option value="Nepali">Nepali</option>
-                                                <option value="Maithili">Maithili</option>
-                                                <option value="Santhali">Santhali</option>
-                                                <option value="Kashmiri">Kashmiri</option>
-                                                <option value="Manipuri">Manipuri</option>
-                                                <option value="Bodo">Bodo</option>
-                                                <option value="Dogri">Dogri</option>
-
-                                                <!-- International Languages -->
-                                                <option value="Spanish">Spanish</option>
-                                                <option value="French">French</option>
-                                                <option value="German">German</option>
-                                                <option value="Portuguese">Portuguese</option>
-                                                <option value="Italian">Italian</option>
-                                                <option value="Russian">Russian</option>
-                                                <option value="Arabic">Arabic</option>
-                                                <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
-                                                <option value="Japanese">Japanese</option>
-                                                <option value="Korean">Korean</option>
-                                                <option value="Thai">Thai</option>
-                                                <option value="Vietnamese">Vietnamese</option>
-                                                <option value="Indonesian">Indonesian</option>
-                                                <option value="Turkish">Turkish</option>
-                                                <option value="Persian">Persian</option>
-                                                <option value="Hebrew">Hebrew</option>
-                                                <option value="Greek">Greek</option>
-                                                <option value="Dutch">Dutch</option>
-                                                <option value="Swedish">Swedish</option>
-                                                <option value="Norwegian">Norwegian</option>
-                                                <option value="Danish">Danish</option>
-                                                <option value="Polish">Polish</option>
-                                                <option value="Czech">Czech</option>
-                                                <option value="Romanian">Romanian</option>
-                                                <option value="Hungarian">Hungarian</option>
-                                            </select>
-
-                                            <div class="invalid-feedback">
-                                                Please select at least one language.
-                                            </div>
-                                        </div>
-
-
                                         <!-- Qualification-->
                                         <div class="col-md-12">
                                             <label class="form-label" for="qualification">Qualification<span class="txt-danger">*</span></label>
@@ -313,123 +193,18 @@
                                         </div>
 
 
-                                        <hr class="mt-5">
+                                        <!-- Profile Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="profile_desc">Profile Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="editor" name="profile_desc" placeholder="Enter Profile Description" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Profile Description.</div>
+                                        </div>
 
-                                        <h4># Basic Details</h4>
+
+
+                                        <hr class="mt-5">
 
                                         
-                                        <!-- Overview Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="overview_heading">Overview Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="overview_heading" type="text" name="overview_heading" placeholder="Enter Overview Heading" required>
-                                            <div class="invalid-feedback">Please enter a Overview Heading.</div>
-                                        </div>
-
-
-
-                                        <!-- Overview Description-->
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="overview_desc">Overview Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="overview_desc" name="overview_desc" placeholder="Enter Overview Description" required></textarea>
-                                            <div class="invalid-feedback">Please enter an Overview Description.</div>
-                                        </div>
-
-     
-                                        <hr class="mt-5">
-
-                                        <!-- Experience Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="exp_heading">Experience Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="exp_heading" type="text" name="exp_heading" placeholder="Enter Experience Heading" required>
-                                            <div class="invalid-feedback">Please enter a Experience Heading.</div>
-                                        </div>
-
-
-                        
-                                        <!-- Experience Description-->
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="exp_desc">Experience Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="exp_desc" name="exp_desc" placeholder="Enter Experience Description" required></textarea>
-                                            <div class="invalid-feedback">Please enter an Experience Description.</div>
-                                        </div>
-
-
-                                        <hr class="mt-5">
-
-
-                                        <!-- Treatments Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="treatment_heading">Treatments Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="treatment_heading" type="text" name="treatment_heading" placeholder="Enter Treatments Heading" required>
-                                            <div class="invalid-feedback">Please enter a Treatments Heading.</div>
-                                        </div>
-
-
-                                        <!-- Treatments -->
-                                        <div class="col-12">
-                                            <table class="table table-bordered mt-2" id="treatmentTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Treatments <span class="txt-danger">*</span></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="treatment-row">
-                                                        <td>
-                                                            <input type="text" name="treatment[0][name]" class="form-control" placeholder="Enter Treatment">
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-success add-treatment">Add More</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-
-                                        <hr class="mt-5">
-
-                                         <!-- FAQ Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="faq_heading">FAQ Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="faq_heading" type="text" name="faq_heading" placeholder="Enter FAQ Heading" required>
-                                            <div class="invalid-feedback">Please enter a FAQ Heading.</div>
-                                        </div>
-
-
-
-                                        <!-- FAQ Table -->
-                                        <div class="col-12">
-                                            <table class="table table-bordered mt-2" id="faqTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Question <span class="txt-danger">*</span></th>
-                                                        <th>Answer <span class="txt-danger">*</span></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="faq-row">
-                                                        <td>
-                                                            <input type="text" name="faq[0][question]" class="form-control" placeholder="Enter Question">
-                                                        </td>
-                                                        <td>
-                                                            <textarea name="faq[0][answer]"
-                                                                class="form-control"
-                                                                placeholder="Enter Answer"
-                                                                rows="3"></textarea>
-
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-success add-faq">Add More</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-
 
                                         <!-- Social Media Links Table -->
                                         <div class="col-12 mt-5">

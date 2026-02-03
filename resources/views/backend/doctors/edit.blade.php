@@ -108,26 +108,6 @@
                                             </select>
                                         </div>
 
-
-                                        
-                                        <!-- Thumbnail Image -->
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="image"> Banner Image <span class="txt-danger">*</span> </label>
-                                            <input class="form-control" id="image" type="file" name="image" onchange="previewThumbnail(event)" required>
-                                            <div class="invalid-feedback">Please upload a Banner image.</div>
-                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
-                                                <br>
-                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
-                                            
-                                            <!-- Image Preview -->
-                                            <div class="mt-2">
-                                                <img id="thumbnailPreview" 
-                                                    src="{{ asset('uploads/doctors/' . $service_details->banner_image) }}" 
-                                                    class="img-fluid rounded border" style="max-height: 150px;">
-                                            </div>
-                                        </div>
-
-
                                         <hr class="mt-5">
 
                                         <h4># Doctor's Details</h4>
@@ -138,6 +118,14 @@
                                             <label class="form-label" for="doctor_name">Doctor Name <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="doctor_name" type="text" name="doctor_name" placeholder="Enter Doctor Name" value="{{ $service_details->doctor_name }}" required>
                                             <div class="invalid-feedback">Please enter a Doctor Name.</div>
+                                        </div>
+
+
+                                        <!-- Doctor Designation -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_designation">Doctor Designation <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="doctor_designation" type="text" name="doctor_designation" placeholder="Enter Doctor Designation" value="{{ $service_details->designation }}" required>
+                                            <div class="invalid-feedback">Please enter a Doctor Designation.</div>
                                         </div>
 
 
@@ -156,37 +144,6 @@
                                                 <img id="imagePreview" 
                                                     src="{{ asset('uploads/doctors/' . $service_details->doctor_image) }}" 
                                                     class="img-fluid rounded border" style="max-height: 150px;">
-                                            </div>
-                                        </div>
-
-
-
-                                        <!-- Doctor Experience -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_exp">Doctor Experience <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="doctor_exp" type="text" name="doctor_exp" placeholder="Enter Doctor Experience" value="{{ $service_details->doctor_exp }}" required>
-                                            <div class="invalid-feedback">Please enter a Doctor Experience.</div>
-                                        </div>
-
-
-                                        <!-- Doctor Avaiability -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_availability">
-                                                Doctor Availability <span class="txt-danger">*</span>
-                                            </label>
-
-                                            <select name="doctor_availability[]" class="form-control select2" multiple required>
-                                                @php $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']; @endphp
-                                                @foreach($days as $day)
-                                                    <option value="{{ $day }}" 
-                                                        {{ in_array($day, $service_details->doctor_availability ?? []) ? 'selected' : '' }}>
-                                                        {{ $day }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-
-                                            <div class="invalid-feedback">
-                                                Please select at least one available day.
                                             </div>
                                         </div>
 
@@ -216,32 +173,6 @@
                                         </div>
 
 
-
-                                        <!-- Languages Known / Spoken -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="languages_known">
-                                                Languages Known / Spoken <span class="txt-danger">*</span>
-                                            </label>
-
-                                            <select name="languages_known[]" class="form-control select2" multiple required>
-                                                @php
-                                                    $languages = ['English','Hindi','Marathi','Gujarati','Tamil','Telugu','Kannada','Malayalam','Punjabi','Bengali','Urdu','Odia','Assamese','Konkani','Sindhi','Nepali','Maithili','Santhali','Kashmiri','Manipuri','Bodo','Dogri','Spanish','French','German','Portuguese','Italian','Russian','Arabic','Chinese (Mandarin)','Japanese','Korean','Thai','Vietnamese','Indonesian','Turkish','Persian','Hebrew','Greek','Dutch','Swedish','Norwegian','Danish','Polish','Czech','Romanian','Hungarian'];
-                                                @endphp
-
-                                                @foreach($languages as $lang)
-                                                    <option value="{{ $lang }}" 
-                                                        {{ in_array($lang, $service_details->languages_known ?? []) ? 'selected' : '' }}>
-                                                        {{ $lang }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-
-                                            <div class="invalid-feedback">
-                                                Please select at least one language.
-                                            </div>
-                                        </div>
-
-
                                         <!-- Qualification-->
                                         <div class="col-md-12">
                                             <label class="form-label" for="qualification">Qualification<span class="txt-danger">*</span></label>
@@ -250,157 +181,16 @@
                                         </div>
 
 
-                                        <hr class="mt-5">
-
-                                        <h4># Basic Details</h4>
-
-                                        
-                                        <!-- Overview Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="overview_heading">Overview Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="overview_heading" type="text" name="overview_heading" placeholder="Enter Overview Heading" value="{{ $service_details->overview_heading }}" required>
-                                            <div class="invalid-feedback">Please enter a Overview Heading.</div>
-                                        </div>
-
-
-
-                                        <!-- Overview Description-->
+                                        <!-- Profile Description-->
                                         <div class="col-md-12">
-                                            <label class="form-label" for="overview_desc">Overview Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="overview_desc" name="overview_desc" placeholder="Enter Overview Description" required>{{ $service_details->overview_desc }}</textarea>
-                                            <div class="invalid-feedback">Please enter an Overview Description.</div>
+                                            <label class="form-label" for="profile_desc">Profile Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="editor" name="profile_desc" placeholder="Enter Profile Description" required>{{ $service_details->profile_desc }}</textarea>
+                                            <div class="invalid-feedback">Please enter an Profile Description.</div>
                                         </div>
-
-     
-                                        <hr class="mt-5">
-
-                                        <!-- Experience Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="exp_heading">Experience Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="exp_heading" type="text" name="exp_heading" placeholder="Enter Experience Heading" value="{{ $service_details->exp_heading }}" required>
-                                            <div class="invalid-feedback">Please enter a Experience Heading.</div>
-                                        </div>
-
-
-                        
-                                        <!-- Experience Description-->
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="exp_desc">Experience Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="exp_desc" name="exp_desc" placeholder="Enter Experience Description" required>{{ $service_details->exp_desc }}</textarea>
-                                            <div class="invalid-feedback">Please enter an Experience Description.</div>
-                                        </div>
-
 
                                         <hr class="mt-5">
 
-
-                                        <!-- Treatments Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="treatment_heading">Treatments Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="treatment_heading" type="text" name="treatment_heading" placeholder="Enter Treatments Heading" value="{{ $service_details->treatment_heading }}" required>
-                                            <div class="invalid-feedback">Please enter a Treatments Heading.</div>
-                                        </div>
-
-
-                                        <!-- Treatments -->
-                                        <div class="col-12">
-                                            <table class="table table-bordered mt-2" id="treatmentTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Treatments <span class="txt-danger">*</span></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($service_details->treatments ?? [] as $i => $treatment)
-                                                        <tr class="treatment-row">
-                                                            <td>
-                                                                <input type="text" name="treatment[{{ $i }}][name]" class="form-control" value="{{ $treatment['name'] }}">
-                                                            </td>
-                                                            <td>
-                                                                @if($i == 0)
-                                                                    <button type="button" class="btn btn-success add-treatment">Add More</button>
-                                                                @else
-                                                                    <button type="button" class="btn btn-danger remove-treatment">Remove</button>
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr class="treatment-row">
-                                                            <td>
-                                                                <input type="text" name="treatment[0][name]" class="form-control">
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-success add-treatment">Add More</button>
-                                                            </td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-
-
-                                            </table>
-                                        </div>
-
-
-                                        <hr class="mt-5">
-
-                                         <!-- FAQ Heading -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="faq_heading">FAQ Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="faq_heading" type="text" name="faq_heading" placeholder="Enter FAQ Heading" value="{{ $service_details->faq_heading }}" required>
-                                            <div class="invalid-feedback">Please enter a FAQ Heading.</div>
-                                        </div>
-
-
-
-                                        <!-- FAQ Table -->
-                                        <div class="col-12">
-                                            <table class="table table-bordered mt-2" id="faqTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Question <span class="txt-danger">*</span></th>
-                                                        <th>Answer <span class="txt-danger">*</span></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($service_details->faq ?? [] as $i => $faq)
-                                                        <tr class="faq-row">
-                                                            <td>
-                                                                <input type="text" name="faq[{{ $i }}][question]" class="form-control" value="{{ $faq['question'] }}">
-                                                            </td>
-                                                            <td>
-                                                                <textarea name="faq[{{ $i }}][answer]" class="form-control" rows="3">{{ $faq['answer'] }}</textarea>
-                                                            </td>
-                                                            <td>
-                                                                @if($i == 0)
-                                                                    <button type="button" class="btn btn-success add-faq">Add More</button>
-                                                                @else
-                                                                    <button type="button" class="btn btn-danger remove-faq">Remove</button>
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr class="faq-row">
-                                                            <td>
-                                                                <input type="text" name="faq[0][question]" class="form-control">
-                                                            </td>
-                                                            <td>
-                                                                <textarea name="faq[0][answer]" class="form-control" rows="3"></textarea>
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-success add-faq">Add More</button>
-                                                            </td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-
-
-                                            </table>
-                                        </div>
-
-
-                                         <!-- Social Media Links -->
+                                        <!-- Social Media Links -->
                                         <div class="col-12 mt-5">
                                             <div class="d-flex justify-content-between align-items-center mb-3">
                                                 <label class="form-label"><strong>Social Media Links</strong></label>
@@ -426,7 +216,7 @@
                                                                     <option value="4" {{ $social['platform'] == 4 ? 'selected' : '' }}>LinkedIn</option>
                                                                     <option value="5" {{ $social['platform'] == 5 ? 'selected' : '' }}>YouTube</option>
                                                                     <option value="6" {{ $social['platform'] == 6 ? 'selected' : '' }}>Pinterest</option>
-                                                                    <option value="7" {{ $social['platform'] == 6 ? 'selected' : '' }}>Watsapp</option>
+                                                                    <option value="7" {{ $social['platform'] == 7 ? 'selected' : '' }}>Watsapp</option>
                                                                 </select>
                                                             </td>
                                                             <td><input type="url" name="social_media[{{ $index }}][link]" class="form-control" value="{{ $social['link'] }}" required></td>
