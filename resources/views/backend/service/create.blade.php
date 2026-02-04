@@ -48,7 +48,7 @@
                             <div class="tab-content" id="wizard-tabContent">
                                 <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
                                     <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-service-details.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
+                                            @csrf
 
 
 
@@ -112,30 +112,22 @@
                                         </div>
 
 
-                                        <!-- Section Title -->
+                                        <!-- Banner Heading -->
                                         <div class="col-md-6">
                                             <label class="form-label" for="banner_heading">Banner Heading <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="banner_heading" type="text" name="banner_heading" placeholder="Enter Banner Heading" required>
                                             <div class="invalid-feedback">Please enter a Banner Heading.</div>
                                         </div>
 
-                                        
-                                        <!-- Thumbnail Image -->
+
+                                        <!-- Banner Title -->
                                         <div class="col-md-6">
-                                            <label class="form-label" for="image"> Banner Image <span class="txt-danger">*</span> </label>
-                                            <input class="form-control" id="image" type="file" name="image" onchange="previewThumbnail(event)" required>
-                                            <div class="invalid-feedback">Please upload a Banner image.</div>
-                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
-                                                <br>
-                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
-                                            
-                                            <!-- Image Preview -->
-                                            <div class="mt-2">
-                                                <img id="thumbnailPreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
-                                            </div>
+                                            <label class="form-label" for="banner_title">Banner Title <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="banner_title" type="text" name="banner_title" placeholder="Enter Banner Heading" required>
+                                            <div class="invalid-feedback">Please enter a Banner Heading.</div>
                                         </div>
 
-
+                                     
                                         <hr class="mt-5">
 
                                         <h4># Page Headers</h4>
@@ -173,27 +165,50 @@
                                         <!-- Section Image -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="section_image"> Section Image <span class="txt-danger">*</span> </label>
-                                            <input class="form-control" id="section_image" type="file" name="section_image" onchange="previewimage(event)" required>
+                                            <input class="form-control"
+                                                id="section_image"
+                                                type="file"
+                                                name="section_image[]"
+                                                multiple
+                                                onchange="previewimage(event)"
+                                                required>
                                             <div class="invalid-feedback">Please upload a Section image.</div>
                                                 <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
                                                 <br>
                                                 <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
                                             
                                             <!-- Image Preview -->
-                                            <div class="mt-2">
-                                                <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
-                                            </div>
+                                            <div class="mt-2 d-flex flex-wrap gap-2" id="imagePreview"></div>
                                         </div>
 
 
 
-                                         <!-- Short Description-->
+                                        <!-- Short Description-->
                                         <div class="col-md-12">
                                             <label class="form-label" for="about">Description<span class="txt-danger">*</span></label>
                                             <textarea class="form-control" id="editor" name="desc" placeholder="Enter Description" required></textarea>
                                             <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
 
+
+
+                                        <hr class="mt-5">
+
+                                        <h4># Doctor Section</h4>
+
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_heading">Doctor Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="doctor_heading" type="text" name="doctor_heading" placeholder="Enter Doctor Heading" required>
+                                            <div class="invalid-feedback">Please enter a Doctor Heading.</div>
+                                        </div>
+
+
+                                        <!-- Short Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="about">Short Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="doctor_desc" name="doctor_desc" placeholder="Enter Short Description" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Short Description.</div>
+                                        </div>
 
                                         <hr class="mt-5">
 
@@ -236,15 +251,22 @@
                                             <table class="table table-bordered mt-5" id="featuresTable">
                                                 <thead>
                                                     <tr>
-                                                        <th>Feature <span class="txt-danger">*</span></th>
+                                                        <th>Service / Procedure <span class="txt-danger">*</span></th>
+                                                        <th>Description <span class="txt-danger">*</span></th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
+
                                                 <tbody>
                                                     <tr class="feature-row">
                                                         <td>
-                                                            <input type="text" name="features[0][name]" class="form-control" placeholder="Enter Features">
+                                                            <input type="text" name="features[0][title]" class="form-control" placeholder="Enter Service / Procedure">
                                                         </td>
+
+                                                        <td>
+                                                            <textarea name="features[0][description]" class="form-control editor" placeholder="Enter Description"></textarea>
+                                                        </td>
+
                                                         <td>
                                                             <button type="button" class="btn btn-success add-feature">Add More</button>
                                                         </td>
@@ -254,25 +276,26 @@
                                         </div>
 
 
+
                                         <hr class="mt-5">
 
-                                        <h4># What's Special</h4>
+                                        <h4># Why Choose</h4>
 
 
 
                                         <!-- Special Heading -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="special_heading">Special Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="special_heading" type="text" name="special_heading" placeholder="Enter Special Heading" required>
-                                            <div class="invalid-feedback">Please enter a Special Heading.</div>
+                                            <label class="form-label" for="special_heading"> Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="special_heading" type="text" name="special_heading" placeholder="Enter Heading" required>
+                                            <div class="invalid-feedback">Please enter a  Heading.</div>
                                         </div>
 
 
                                         <!-- Special Image -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="special_image"> Special Image <span class="txt-danger">*</span> </label>
+                                            <label class="form-label" for="special_image"> Image <span class="txt-danger">*</span> </label>
                                             <input class="form-control" id="special_image" type="file" name="special_image" onchange="previewspecialimage(event)" required>
-                                            <div class="invalid-feedback">Please upload a Special image.</div>
+                                            <div class="invalid-feedback">Please upload a image.</div>
                                                 <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
                                                 <br>
                                                 <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
@@ -282,15 +305,12 @@
                                                 <img id="specialimagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
                                             </div>
                                         </div>
-
-
-
                                         
-                                         <!-- Special Description-->
+                                        <!-- Special Description-->
                                         <div class="col-md-12">
-                                            <label class="form-label" for="special_desc">Special Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="editor1" name="special_desc" placeholder="Enter Special Description" required></textarea>
-                                            <div class="invalid-feedback">Please enter an Special Description.</div>
+                                            <label class="form-label" for="special_desc"> Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="editor1" name="special_desc" placeholder="Enter Description" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
 
 
@@ -301,7 +321,7 @@
 
 
 
-                                         <!-- FAQ Heading -->
+                                        <!-- FAQ Heading -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="faq_heading">FAQ Heading <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="faq_heading" type="text" name="faq_heading" placeholder="Enter FAQ Heading" required>
@@ -357,6 +377,42 @@
                                             </table>
                                         </div>
 
+
+
+                                        <hr class="mt-5">
+
+                                        <h4># Booking Information</h4>
+
+
+                                        <!-- Booking Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="book_desc"> Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="book_desc" name="book_desc" placeholder="Enter Description" required></textarea>
+                                            <div class="invalid-feedback">Please enter an Description.</div>
+                                        </div>
+
+                                        <!-- Booking Heading -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="book_heading">Booking Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="book_heading" type="text" name="book_heading" placeholder="Enter Booking Heading" required>
+                                            <div class="invalid-feedback">Please enter a Booking Heading.</div>
+                                        </div>
+
+
+                                        <!-- Booking Image -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="book_image"> Booking Image <span class="txt-danger">*</span> </label>
+                                            <input class="form-control" id="book_image" type="file" name="book_image" onchange="previewbookimage(event)" required>
+                                            <div class="invalid-feedback">Please upload a Booking image.</div>
+                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                                <br>
+                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
+                                            <!-- Image Preview -->
+                                            <div class="mt-2">
+                                                <img id="bookimagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                            </div>
+                                        </div>
 
 
 
@@ -473,44 +529,87 @@
         </script>
 
 
+        {{-- Script to fetch multiples files forthe section --}}
         <script>
-            function previewThumbnail(event) {
-                const input = event.target;
-                const preview = document.getElementById('thumbnailPreview');
+            let selectedFiles = [];
 
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+            function previewimage(event)
+            {
+                selectedFiles = Array.from(event.target.files);
+                renderPreviews();
             }
 
-            function previewimage(event) {
-                const input = event.target;
+            function renderPreviews()
+            {
                 const preview = document.getElementById('imagePreview');
+                preview.innerHTML = "";
 
-                if (input.files && input.files[0]) {
+                selectedFiles.forEach((file, index) => {
+
                     const reader = new FileReader();
 
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
+                    reader.onload = function(e)
+                    {
+                        const wrapper = document.createElement('div');
+                        wrapper.style.position = 'relative';
+                        wrapper.style.display = 'inline-block';
+                        wrapper.style.marginRight = '10px';
 
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'img-fluid rounded border';
+                        img.style.maxHeight = '150px';
+                        img.style.background = 'black';
+
+                        const close = document.createElement('span');
+                        close.innerHTML = '&times;';
+                        close.style.position = 'absolute';
+                        close.style.top = '2px';
+                        close.style.right = '6px';
+                        close.style.cursor = 'pointer';
+                        close.style.background = 'red';
+                        close.style.color = 'white';
+                        close.style.borderRadius = '50%';
+                        close.style.padding = '0px 6px';
+                        close.style.fontSize = '16px';
+
+                        close.onclick = function () {
+                            removeImage(index);
+                        };
+
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(close);
+                        preview.appendChild(wrapper);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+
+                updateInputFiles();
             }
+
+            function removeImage(index)
+            {
+                selectedFiles.splice(index, 1);
+                renderPreviews();
+            }
+
+            function updateInputFiles()
+            {
+                const input = document.getElementById('section_image');
+                const dataTransfer = new DataTransfer();
+
+                selectedFiles.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+
+                input.files = dataTransfer.files;
+            }
+        </script>
+
+
+        <script>
+            
 
             function previewserviceimage(event) {
                 const input = event.target;
@@ -568,6 +667,25 @@
                     preview.classList.add('d-none'); // hide if no file
                 }
             }
+
+            function previewbookimage(event) {
+                const input = event.target;
+                const preview = document.getElementById('bookimagePreview');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('d-none'); // show preview
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.src = "#";
+                    preview.classList.add('d-none'); // hide if no file
+                }
+            }
         </script>
 
 
@@ -576,26 +694,36 @@
             let featureIndex = 1;
 
             $(document).ready(function() {
-                // Add new feature row
+
                 $('#featuresTable').on('click', '.add-feature', function() {
-                    const newRow = `<tr class="feature-row">
+
+                    const newRow = `
+                    <tr class="feature-row">
                         <td>
-                            <input type="text" name="features[${featureIndex}][name]" class="form-control" placeholder="Enter Features">
+                            <input type="text" name="features[${featureIndex}][title]" class="form-control" placeholder="Enter Service / Procedure">
                         </td>
+
+                        <td>
+                            <textarea name="features[${featureIndex}][description]" class="form-control editor" placeholder="Enter Description"></textarea>
+                        </td>
+
                         <td>
                             <button type="button" class="btn btn-danger remove-feature">Remove</button>
                         </td>
                     </tr>`;
+
                     $('#featuresTable tbody').append(newRow);
                     featureIndex++;
+                    initEditors();
                 });
 
-                // Remove feature row
                 $('#featuresTable').on('click', '.remove-feature', function() {
                     $(this).closest('tr').remove();
                 });
+
             });
         </script>
+
 
         
         <!-- JS for dynamic faq table -->
@@ -710,6 +838,78 @@
             })
             .catch(error => { console.error(error); });
         </script>
+
+
+        <!-- JS for featured table editor -->
+        <script>
+            function initEditors() {
+
+                document.querySelectorAll('.editor').forEach(textarea => {
+
+                    if (textarea.classList.contains('ck-loaded')) return;
+
+                    ClassicEditor.create(textarea, {
+
+                        toolbar: [
+                            'heading', '|',
+                            'bold','italic','underline','strikethrough','subscript','superscript',
+                            'link','blockQuote','codeBlock',
+                            'bulletedList','numberedList','todoList',
+                            '|',
+                            'alignment','outdent','indent',
+                            '|',
+                            'fontColor','fontBackgroundColor','fontSize','fontFamily',
+                            '|',
+                            'undo','redo','removeFormat','highlight','specialCharacters'
+                        ],
+
+                        heading: {
+                            options: [
+                                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                                { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                                { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                            ]
+                        },
+
+                        fontFamily: {
+                            options: [
+                                'default',
+                                'Arial, Helvetica, sans-serif',
+                                'Courier New, Courier, monospace',
+                                'Georgia, serif',
+                                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                                'Tahoma, Geneva, sans-serif',
+                                'Times New Roman, Times, serif',
+                                'Trebuchet MS, Helvetica, sans-serif',
+                                'Verdana, Geneva, sans-serif'
+                            ]
+                        },
+
+                        fontSize: {
+                            options: [ 'tiny','small','default','big','huge' ]
+                        },
+
+                        alignment: {
+                            options: [ 'left','center','right','justify' ]
+                        }
+
+                    }).then(editor => {
+                        textarea.classList.add('ck-loaded');
+                    })
+                    .catch(error => console.error(error));
+                });
+            }
+
+            // Initial load
+            document.addEventListener('DOMContentLoaded', function () {
+                initEditors();
+            });
+        </script>
+
 
 </body>
 
