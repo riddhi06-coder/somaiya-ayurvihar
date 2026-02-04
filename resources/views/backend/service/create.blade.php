@@ -364,7 +364,7 @@
                                                         </td>
                                                         <td>
                                                             <textarea name="faq[0][answer]"
-                                                                class="form-control"
+                                                                class="form-control faq-editor"
                                                                 placeholder="Enter Answer"
                                                                 rows="3"></textarea>
 
@@ -401,8 +401,8 @@
 
                                         <!-- Booking Image -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="book_image"> Booking Image <span class="txt-danger">*</span> </label>
-                                            <input class="form-control" id="book_image" type="file" name="book_image" onchange="previewbookimage(event)" required>
+                                            <label class="form-label" for="book_image"> Booking Image </label>
+                                            <input class="form-control" id="book_image" type="file" name="book_image" onchange="previewbookimage(event)">
                                             <div class="invalid-feedback">Please upload a Booking image.</div>
                                                 <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
                                                 <br>
@@ -725,40 +725,6 @@
         </script>
 
 
-        
-        <!-- JS for dynamic faq table -->
-        <script>
-            let faqIndex = 1;
-
-            $(document).ready(function() {
-                // Add new faq row
-                $('#faqTable').on('click', '.add-faq', function() {
-                    const newRow = `<tr class="faq-row">
-                        <td>
-                            <input type="text" name="faq[${faqIndex}][question]" class="form-control" placeholder="Enter Question">
-                        </td>
-                        <td>
-                            <textarea name="faq[${faqIndex}][answer]"
-                            class="form-control"
-                            placeholder="Enter Answer"
-                            rows="3"></textarea>
-
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger remove-faq">Remove</button>
-                        </td>
-                    </tr>`;
-                    $('#faqTable tbody').append(newRow);
-                    faqIndex++;
-                });
-
-                // Remove faq row
-                $('#faqTable').on('click', '.remove-faq', function() {
-                    $(this).closest('tr').remove();
-                });
-            });
-        </script>
-
         <!----- Js for page headers-------->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -909,6 +875,71 @@
                 initEditors();
             });
         </script>
+
+
+        <!-- JS for dynamic faq table -->
+        <script>
+            let faqIndex = 1;
+
+            // CKEditor config (reuse everywhere)
+            const editorConfig = {
+                toolbar: [
+                    'heading','|',
+                    'bold','italic','underline','strikethrough',
+                    'link','bulletedList','numberedList',
+                    '|','alignment',
+                    '|','fontColor','fontBackgroundColor','fontSize','fontFamily',
+                    '|','insertTable','horizontalLine',
+                    '|','undo','redo'
+                ]
+            };
+
+            $(document).ready(function() {
+
+                // Initialize first editor safely
+                document.querySelectorAll('.faq-editor').forEach(el => {
+                    ClassicEditor.create(el, editorConfig);
+                    el.classList.add('editor-loaded');
+                });
+
+                $('#faqTable').on('click', '.add-faq', function() {
+
+                    const newRow = `
+                    <tr class="faq-row">
+                        <td>
+                            <input type="text" name="faq[${faqIndex}][question]" class="form-control" placeholder="Enter Question">
+                        </td>
+                        <td>
+                            <textarea name="faq[${faqIndex}][answer]"
+                                class="form-control faq-editor"
+                                placeholder="Enter Answer"
+                                rows="3"></textarea>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove-faq">Remove</button>
+                        </td>
+                    </tr>`;
+
+                    $('#faqTable tbody').append(newRow);
+
+                    // Init CKEditor on newly added textarea
+                    document.querySelectorAll('.faq-editor').forEach(el => {
+                        if (!el.classList.contains('editor-loaded')) {
+                            ClassicEditor.create(el, editorConfig);
+                            el.classList.add('editor-loaded');
+                        }
+                    });
+
+                    faqIndex++;
+                });
+
+                $('#faqTable').on('click', '.remove-faq', function() {
+                    $(this).closest('tr').remove();
+                });
+
+            });
+        </script>
+
 
 
 </body>
