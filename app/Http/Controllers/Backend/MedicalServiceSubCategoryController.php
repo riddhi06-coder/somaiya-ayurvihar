@@ -29,11 +29,13 @@ class MedicalServiceSubCategoryController extends Controller
         $request->validate([
             'category_id'      => 'required|exists:medical_service_master_categories,id',
             'subcategory_name' => 'required|string|max:255|unique:medical_service_sub_categories,subcategory_name',
+            'desc' => 'required|string|max:255',
         ]);
 
         MedicalServiceSubCategory::create([
             'category_id'      => $request->category_id,
             'subcategory_name' => $request->subcategory_name,
+            'desc'             => $request->desc,
             'slug'             => Str::slug($request->subcategory_name),
             'created_by'       => Auth::id(),
             'created_at'       => Carbon::now(),
@@ -57,12 +59,14 @@ class MedicalServiceSubCategoryController extends Controller
         $request->validate([
             'category_id'      => 'required|exists:medical_service_master_categories,id',
             'subcategory_name' => 'required|string|max:255|unique:medical_service_sub_categories,subcategory_name,' . $medicalservicesubcategory->id,
+            'desc' => 'required|string|max:255',
         ]);
 
         $medicalservicesubcategory->update([
             'category_id'      => $request->category_id,
             'subcategory_name' => $request->subcategory_name,
             'slug'             => Str::slug($request->subcategory_name),
+            'desc'             => $request->desc,
             'updated_by'       => Auth::id(),
             'updated_at'       => Carbon::now(),
         ]);
@@ -84,4 +88,15 @@ class MedicalServiceSubCategoryController extends Controller
             return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
         }
     }
+
+    public function toggleHighlight(Request $request)
+    {
+        $subcategory = MedicalServiceSubCategory::findOrFail($request->id);
+
+        $subcategory->status = $request->has('status') ? 1 : 0;
+        $subcategory->save();
+
+        return redirect()->route('admin.medicalservicesubcategory.index')->with('message', 'Status updated!');
+    }
+
 }

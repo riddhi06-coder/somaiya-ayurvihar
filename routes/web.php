@@ -57,6 +57,8 @@ Route::prefix('admin')
         // Medical Services Menus
         Route::resource('medicalservicecategory', MedicalServiceCategoryController::class);
         Route::resource('medicalservicesubcategory', MedicalServiceSubCategoryController::class);
+        Route::post('/admin/medicalsubcategory-toggle-highlight',[MedicalServiceSubCategoryController::class,'toggleHighlight'])->name('medicalsubcategory.toggle.highlight');
+
         Route::resource('medicalserviceallcategories', MedicalServiceCategoriesController::class);
 
         // Doctors 

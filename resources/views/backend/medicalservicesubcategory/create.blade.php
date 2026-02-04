@@ -64,6 +64,13 @@
                                         @enderror
                                     </div>
 
+                                    <!-- Short Description-->
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="about">Short Description<span class="txt-danger">*</span></label>
+                                        <textarea class="form-control" id="desc" name="desc" placeholder="Enter Description" required></textarea>
+                                        <div class="invalid-feedback">Please enter an Description.</div>
+                                    </div>
+
                                     <div class="col-12 text-end mt-4">
                                         <a href="{{ route('admin.medicalservicesubcategory.index') }}" class="btn btn-secondary me-2">
                                             Cancel
