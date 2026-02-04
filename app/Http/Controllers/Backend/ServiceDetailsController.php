@@ -201,134 +201,152 @@ class ServiceDetailsController extends Controller
     {
         // ================= VALIDATION =================
         $request->validate([
-            'category_id'        => 'required',
-            'subcategory_id'     => 'required',
-            'service_id'         => 'nullable',
 
-            'banner_heading'     => 'required|string|max:255',
-            'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
 
-            'section_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'desc'               => 'required|string',
+            'banner_heading' => 'required|string|max:255',
+            'banner_title' => 'required|string|max:255',
 
-            'service_heading'    => 'required|string|max:255',
-            'service_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'service_desc'       => 'required|string',
+            'section_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
-            'features'           => 'required|array',
-            'features.*.name'    => 'required|string',
+            'desc' => 'required',
 
-            'special_heading'    => 'required|string|max:255',
-            'special_desc'       => 'required|string',
-            'special_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'doctor_heading' => 'required',
+            'doctor_desc' => 'required',
 
-            'faq_heading'        => 'required|string|max:255',
-            'faq_image'          => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'service_heading' => 'required',
+            'service_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'service_desc' => 'required',
 
-            'faq'                => 'required|array',
-            'faq.*.question'     => 'required|string',
-            'faq.*.answer'       => 'required|string',
+            'features' => 'required|array',
+            'features.*.title' => 'required|string',
+            'features.*.description' => 'required',
 
+            'special_heading' => 'required',
+            'special_desc' => 'required',
 
-            'page_headers'       => 'nullable|array',
-            'page_headers.*.title'=> 'required|string',
+            'faq_heading' => 'required',
+            'faq_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
-        ], [
-            'category_id.required'    => 'Master category is required.',
-            'subcategory_id.required' => 'Sub category is required.',
-            'banner_heading.required' => 'Banner heading is required.',
-            'image.required'          => 'Banner image is required.',
-            'section_image.required'  => 'Section image is required.',
-            'service_heading.required'=> 'Service heading is required.',
-            'service_image.required'  => 'Service image is required.',
-            'faq_heading.required'    => 'FAQ heading is required.',
-            'faq_image.required'      => 'FAQ image is required.',
+            'faq' => 'required|array',
+            'faq.*.question' => 'required',
+            'faq.*.answer' => 'required',
+
+            'page_headers' => 'nullable|array',
+            'page_headers.*.title' => 'required',
+
+            'book_desc' => 'required',
+            'book_heading' => 'required',
+            'book_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
         ]);
 
-        // ================= FETCH EXISTING RECORD =================
         $service_details = ManageServiceDetail::findOrFail($id);
 
         $uploadPath = public_path('uploads/service-details');
 
-        // ================= IMAGE UPDATES =================
-        // Banner Image
-        if ($request->hasFile('image')) {
-            $img = $request->file('image');
-            $bannerImage = time().'_banner.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $bannerImage);
-            $service_details->banner_image = $bannerImage;
+        // ================= EXISTING SECTION IMAGES =================
+
+        
+
+        $existingSectionImages = json_decode($service_details->section_image, true) ?? [];
+
+        $removed = json_decode($request->removed_section_images, true) ?? [];
+
+        foreach ($removed as $img) {
+
+            if (file_exists($uploadPath.'/'.$img)) {
+                unlink($uploadPath.'/'.$img);
+            }
+
+            $existingSectionImages = array_values(array_diff($existingSectionImages, [$img]));
         }
 
-        // Section Image
+
+
+        // ================= MULTI SECTION IMAGES =================
+
         if ($request->hasFile('section_image')) {
-            $img = $request->file('section_image');
-            $sectionImage = time().'_section.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $sectionImage);
-            $service_details->section_image = $sectionImage;
+
+            foreach ($request->file('section_image') as $img) {
+
+                $name = time().'_'.rand(1000,9999).'_section.'.$img->getClientOriginalExtension();
+                $img->move($uploadPath, $name);
+
+                $existingSectionImages[] = $name;
+            }
         }
 
-        // Service Image
-        if ($request->hasFile('service_image')) {
-            $img = $request->file('service_image');
-            $serviceImage = time().'_service.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $serviceImage);
-            $service_details->service_image = $serviceImage;
+        // ================= SINGLE IMAGE UPLOAD HELPER =================
+
+        function uploadSingleUpdate($request, $field, $suffix, $oldValue)
+        {
+            if ($request->hasFile($field)) {
+                $img = $request->file($field);
+                $name = time().'_'.rand(1000,9999).'_'.$suffix.'.'.$img->getClientOriginalExtension();
+                $img->move(public_path('uploads/service-details'), $name);
+                return $name;
+            }
+
+            return $oldValue;
         }
 
-        // Special Image
-        if ($request->hasFile('special_image')) {
-            $img = $request->file('special_image');
-            $specialImage = time().'_special.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $specialImage);
-            $service_details->special_image = $specialImage;
-        }
+        $serviceImage = uploadSingleUpdate($request,'service_image','service',$service_details->service_image);
+        $specialImage = uploadSingleUpdate($request,'special_image','special',$service_details->special_image);
+        $faqImage     = uploadSingleUpdate($request,'faq_image','faq',$service_details->faq_image);
+        $bookImage    = uploadSingleUpdate($request,'book_image','book',$service_details->book_image);
 
-        // FAQ Image
-        if ($request->hasFile('faq_image')) {
-            $img = $request->file('faq_image');
-            $faqImage = time().'_faq.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $faqImage);
-            $service_details->faq_image = $faqImage;
-        }
+        // ================= JSON ENCODE =================
 
-        // ================= JSON ENCODE TABLE DATA =================
-        $featuresJson = json_encode($request->features);
-        $faqJson      = json_encode($request->faq);
-        $pageHeadersJson = json_encode($request->page_headers);
+        $featuresJson      = json_encode($request->features, JSON_UNESCAPED_UNICODE);
+        $faqJson           = json_encode($request->faq, JSON_UNESCAPED_UNICODE);
+        $pageHeadersJson   = json_encode($request->page_headers, JSON_UNESCAPED_UNICODE);
+        $sectionImagesJson = json_encode($existingSectionImages);
 
-        // ================= UPDATE RECORD =================
+        // ================= UPDATE =================
+
         $service_details->update([
-            'category_id'       => $request->category_id,
-            'subcategory_id'    => $request->subcategory_id,
-            'service_id'        => $request->service_id,
 
-            'banner_heading'    => $request->banner_heading,
-            'description'       => $request->desc,
+            'category_id' => $request->category_id,
+            'subcategory_id' => $request->subcategory_id,
+            'service_id' => $request->service_id,
 
-            'section_image'     => $service_details->section_image,
-            'service_heading'   => $request->service_heading,
-            'service_desc'      => $request->service_desc,
-            'service_image'     => $service_details->service_image,
+            'banner_heading' => $request->banner_heading,
+            'banner_title' => $request->banner_title,
 
-            'features'          => $featuresJson,
+            'section_image' => $sectionImagesJson,
+            'description' => $request->desc,
 
-            'special_heading'   => $request->special_heading,
-            'special_desc'      => $request->special_desc,
-            'special_image'     => $service_details->special_image,
+            'doctor_heading' => $request->doctor_heading,
+            'doctor_desc' => $request->doctor_desc,
 
-            'faq_heading'       => $request->faq_heading,
-            'faq'               => $faqJson,
-            'faq_image'         => $service_details->faq_image,
+            'service_heading' => $request->service_heading,
+            'service_image' => $serviceImage,
+            'service_desc' => $request->service_desc,
 
-            'page_headers'      => $pageHeadersJson, 
+            'features' => $featuresJson,
 
-            'updated_at'        => Carbon::now(),
-            'updated_by'        => Auth::id(),
+            'special_heading' => $request->special_heading,
+            'special_image' => $specialImage,
+            'special_desc' => $request->special_desc,
+
+            'faq_heading' => $request->faq_heading,
+            'faq_image' => $faqImage,
+            'faq' => $faqJson,
+
+            'page_headers' => $pageHeadersJson,
+
+            'book_desc' => $request->book_desc,
+            'book_heading' => $request->book_heading,
+            'book_image' => $bookImage,
+
+            'updated_by' => Auth::id(),
+            'updated_at' => Carbon::now(),
         ]);
 
         return redirect()
             ->route('admin.manage-service-details.index')
-            ->with('message', 'Service details updated successfully.');
+            ->with('message','Service details updated successfully!');
     }
 
     public function destroy(string $id)

@@ -212,6 +212,8 @@
                                                 <b>Note: Only .jpg, .jpeg, .png, .webp, .svg format allowed.</b>
                                             </small>
 
+                                            <input type="hidden" name="removed_section_images" id="removed_section_images">
+
                                             <!-- Image Preview -->
                                             <div class="mt-2" id="imagePreview">
 
@@ -224,7 +226,7 @@
                                                             class="img-fluid rounded border"
                                                             style="max-height:150px;background:black;">
 
-                                                        <span onclick="removeExistingImage({{ $key }})"
+                                                        <span onclick="removeExistingImage('{{ $img }}', this)"
                                                             style="
                                                                 position:absolute;
                                                                 top:2px;
@@ -734,6 +736,7 @@
         </script>
 
 
+
         {{-- Script to fetch multiples files forthe section --}}
         <script>
             let selectedFiles = [];
@@ -750,13 +753,7 @@
             {
                 let preview = document.getElementById('imagePreview');
 
-                if(!preview){
-                    preview = document.createElement('div');
-                    preview.id = 'imagePreview';
-                    fileInput.closest('.col-md-6').appendChild(preview);
-                }
-
-                preview.innerHTML = "";
+                preview.innerHTML = '';   // CLEAR FIRST
 
                 selectedFiles.forEach((file, index) => {
 
@@ -803,6 +800,7 @@
                 updateInputFiles();
             }
 
+
             function removeImage(index)
             {
                 selectedFiles.splice(index, 1);
@@ -823,17 +821,21 @@
 
         {{-- Script to fetch multiples files forthe section --}}
         <script>
-            function removeExistingImage(index)
+            let removedImages = [];
+
+            function removeExistingImage(filename, el)
             {
                 if(confirm('Remove this image?')){
-                    document.querySelectorAll('#imagePreview > div')[index].remove();
 
-                    // Optional: store removed index in hidden input
+                    removedImages.push(filename);
+
+                    document.getElementById('removed_section_images').value =
+                        JSON.stringify(removedImages);
+
+                    el.parentElement.remove();
                 }
             }
         </script>
-
-
 
 
         <script>

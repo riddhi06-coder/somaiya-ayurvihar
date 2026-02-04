@@ -16,27 +16,29 @@
 
 
         <section class="speciality_banner">
-      <div class="container">
-        <div class="row speciality_banner_img">
-          <div class="col-md-12">
-            <div class="speciality_banner_content wow fadeInUp" data-wow-delay="00ms"
-                data-wow-duration="1500ms">
+          <div class="container">
+            <div class="row speciality_banner_img">
+              <div class="col-md-12">
+                <div class="speciality_banner_content wow fadeInUp" data-wow-delay="00ms"
+                    data-wow-duration="1500ms">
 
-              <h1>Cardiology Care You Can Trust at Every Stage</h1>
-              <h2>From early diagnosis to advanced heart procedures, guided by experienced specialists</h2>
-              <div class="breadcrumb-wrapper">
-              <ol class="breadcrumb custom-breadcrumb">
-                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span></a></li>
-                <li><a href="#">Medical Services</a></li>
-                <li class="active">Cardiology</li>
-              </ol>
-            </div>
+                  <h1>Cardiology Care You Can Trust at Every Stage</h1>
+                  <h2>From early diagnosis to advanced heart procedures, guided by experienced specialists</h2>
+                  <div class="breadcrumb-wrapper">
+                  <ol class="breadcrumb custom-breadcrumb">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"></span></a></li>
+                    <li><a href="#">Medical Services</a></li>
+                    <li class="active">Cardiology</li>
+                  </ol>
+                </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <!--  <div id="sticky-anchor"></div> -->
+        </section>
+   
+
+
     <section class="speciality-tabs">
       <div class="container">
         <div class="row">
