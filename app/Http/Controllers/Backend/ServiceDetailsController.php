@@ -18,7 +18,6 @@ use App\Models\ManageServiceDetail;
 class ServiceDetailsController extends Controller
 {
 
-
     public function index()
     {
         $services = ManageServiceDetail::with([
@@ -40,7 +39,6 @@ class ServiceDetailsController extends Controller
 
         return view('backend.service.index', compact('services'));
     }
-
 
     public function create()
     {
@@ -180,8 +178,6 @@ class ServiceDetailsController extends Controller
             ->with('message','Service details added successfully!');
     }
 
-
-
     public function edit($id)
     {
         $service_details = ManageServiceDetail::findOrFail($id);
@@ -190,6 +186,7 @@ class ServiceDetailsController extends Controller
         $masterCategories = MedicalServiceMasterCategory::all();
         $subCategories = MedicalServiceSubCategory::all();
 
+        $service_details->section_image = json_decode($service_details->section_image, true);
         $service_details->features = json_decode($service_details->features, true);
         $service_details->faq = json_decode($service_details->faq, true);
         $service_details->page_headers = json_decode($service_details->page_headers, true);
@@ -199,7 +196,6 @@ class ServiceDetailsController extends Controller
             compact('service_details','service', 'masterCategories', 'subCategories')
         );
     }
-
 
     public function update(Request $request, $id)
     {
@@ -335,7 +331,6 @@ class ServiceDetailsController extends Controller
             ->with('message', 'Service details updated successfully.');
     }
 
-    
     public function destroy(string $id)
     {
         $data['deleted_by'] =  Auth::user()->id;

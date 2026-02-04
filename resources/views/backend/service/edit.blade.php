@@ -127,55 +127,12 @@
                                         </div>
 
                                         
-                                        <!-- Banner Image -->
+                                        <!-- Banner Title -->
                                         <div class="col-md-6">
-                                            <label class="form-label" for="image">
-                                                Banner Image <span class="txt-danger">*</span>
-                                                @if(empty($service_details->image))
-                                                    <span class="txt-danger">*</span>
-                                                @endif
-                                            </label>
-
-                                            <input
-                                                class="form-control"
-                                                id="image"
-                                                type="file"
-                                                name="image"
-                                                onchange="previewThumbnail(event)"
-                                                {{ empty($service_details->image) ? 'required' : '' }}
-                                            >
-
-                                            <div class="invalid-feedback">Please upload a Banner image.</div>
-
-                                            <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small><br>
-                                            <small class="text-secondary">
-                                                <b>Note: Only .jpg, .jpeg, .png, .webp, .svg files allowed.</b>
-                                            </small>
-
-                                            <!-- Image Preview -->
-                                            <div class="mt-2">
-                                                @if(!empty($service_details->banner_image))
-                                                    <!-- EXISTING IMAGE -->
-                                                    <img
-                                                        id="thumbnailPreview"
-                                                        src="{{ asset('uploads/service-details/'.$service_details->banner_image) }}"
-                                                        alt="Banner Image"
-                                                        class="img-fluid rounded border"
-                                                        style="max-height: 150px; background:black;"
-                                                    >
-                                                @else
-                                                    <!-- NEW IMAGE PREVIEW -->
-                                                    <img
-                                                        id="thumbnailPreview"
-                                                        src="#"
-                                                        alt="Preview"
-                                                        class="img-fluid rounded border d-none"
-                                                        style="max-height: 150px; background:black;"
-                                                    >
-                                                @endif
-                                            </div>
+                                            <label class="form-label" for="banner_title">Banner Title <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="banner_title" type="text" name="banner_title" placeholder="Enter Banner Heading" value="{{ old('banner_title', $service_details->banner_title) }}" required>
+                                            <div class="invalid-feedback">Please enter a Banner Heading.</div>
                                         </div>
-
 
                                         <hr class="mt-5">
 
@@ -242,7 +199,8 @@
                                                 class="form-control"
                                                 id="section_image"
                                                 type="file"
-                                                name="section_image"
+                                                multiple
+                                                name="section_image[]"
                                                 onchange="previewSectionImage(event)"
                                                 {{ empty($service_details->section_image) ? 'required' : '' }}
                                             >
@@ -255,27 +213,40 @@
                                             </small>
 
                                             <!-- Image Preview -->
-                                            <div class="mt-2">
+                                            <div class="mt-2" id="imagePreview">
+
                                                 @if(!empty($service_details->section_image))
-                                                    <!-- EXISTING IMAGE -->
-                                                    <img
-                                                        id="imagePreview"
-                                                        src="{{ asset('uploads/service-details/'.$service_details->section_image) }}"
-                                                        alt="Section Image"
-                                                        class="img-fluid rounded border"
-                                                        style="max-height: 150px; background:black;"
-                                                    >
-                                                @else
-                                                    <!-- NEW IMAGE PREVIEW -->
-                                                    <img
-                                                        id="imagePreview"
-                                                        src="#"
-                                                        alt="Preview"
-                                                        class="img-fluid rounded border d-none"
-                                                        style="max-height: 150px; background:black;"
-                                                    >
+                                                    @foreach($service_details->section_image as $key => $img)
+
+                                                    <div style="position:relative;display:inline-block;margin-right:10px">
+
+                                                        <img src="{{ asset('uploads/service-details/'.$img) }}"
+                                                            class="img-fluid rounded border"
+                                                            style="max-height:150px;background:black;">
+
+                                                        <span onclick="removeExistingImage({{ $key }})"
+                                                            style="
+                                                                position:absolute;
+                                                                top:2px;
+                                                                right:6px;
+                                                                cursor:pointer;
+                                                                background:red;
+                                                                color:white;
+                                                                border-radius:50%;
+                                                                padding:0 6px;
+                                                                font-size:18px;
+                                                                line-height:18px;
+                                                            ">
+                                                            &times;
+                                                        </span>
+
+                                                    </div>
+
+                                                    @endforeach
                                                 @endif
+
                                             </div>
+
                                         </div>
 
 
@@ -287,6 +258,28 @@
                                             <textarea class="form-control" id="editor" name="desc" placeholder="Enter Description" required>{{ old('desc', $service_details->description) }}</textarea>
                                             <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
+
+
+
+                                        <hr class="mt-5">
+
+                                        <h4># Doctor Section</h4>
+
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="doctor_heading">Doctor Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="doctor_heading" type="text" name="doctor_heading" placeholder="Enter Doctor Heading"  value="{{ old('doctor_heading', $service_details->doctor_heading) }}" required>
+                                            <div class="invalid-feedback">Please enter a Doctor Heading.</div>
+                                        </div>
+
+
+                                        <!-- Short Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="about">Short Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="doctor_desc" name="doctor_desc" placeholder="Enter Short Description" required>{{ old('doctor_desc', $service_details->doctor_desc) }}</textarea>
+                                            <div class="invalid-feedback">Please enter an Short Description.</div>
+                                        </div>
+
+                                    
 
 
                                         <hr class="mt-5">
@@ -374,13 +367,20 @@
                                                     <tr class="feature-row">
                                                         <td>
                                                             <input type="text"
-                                                                name="features[{{ $index }}][name]"
+                                                                name="features[{{ $index }}][title]"
                                                                 class="form-control"
-                                                                value="{{ $feature['name'] }}">
+                                                                value="{{ $feature['title'] ?? '' }}">
                                                         </td>
+
+                                                        <td>
+                                                            <textarea name="features[{{ $index }}][description]"
+                                                                class="form-control editor"
+                                                                placeholder="Enter Description">{{ $feature['description'] ?? '' }}</textarea>
+                                                        </td>
+
                                                         <td>
                                                             <button type="button"
-                                                                    class="btn {{ $index == 0 ? 'btn-success add-feature' : 'btn-danger remove-feature' }}">
+                                                                class="btn {{ $index == 0 ? 'btn-success add-feature' : 'btn-danger remove-feature' }}">
                                                                 {{ $index == 0 ? 'Add More' : 'Remove' }}
                                                             </button>
                                                         </td>
@@ -388,36 +388,40 @@
                                                     @empty
                                                     <tr class="feature-row">
                                                         <td>
-                                                            <input type="text" name="features[0][name]" class="form-control">
+                                                            <input type="text" name="features[0][title]" class="form-control">
+                                                        </td>
+                                                        <td>
+                                                            <textarea name="features[0][description]" class="form-control editor"></textarea>
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-success add-feature">Add More</button>
                                                         </td>
                                                     </tr>
                                                     @endforelse
-                                                </tbody>
+                                                    </tbody>
+
                                             </table>
                                         </div>
 
 
                                         <hr class="mt-5">
 
-                                        <h4># What's Special</h4>
+                                        <h4># Why Choose</h4>
 
 
 
                                         <!-- Special Heading -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="special_heading">Special Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="special_heading" type="text" name="special_heading" placeholder="Enter Special Heading" value="{{ old('special_heading', $service_details->special_heading) }}" required>
-                                            <div class="invalid-feedback">Please enter a Special Heading.</div>
+                                            <label class="form-label" for="special_heading"> Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="special_heading" type="text" name="special_heading" placeholder="Enter Heading" value="{{ old('special_heading', $service_details->special_heading) }}" required>
+                                            <div class="invalid-feedback">Please enter a Heading.</div>
                                         </div>
 
 
                                         <!-- Special Image -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="special_image">
-                                                Special Image
+                                                 Image
                                                 @if(empty($service_details->special_image))
                                                     <span class="txt-danger">*</span>
                                                 @endif
@@ -432,7 +436,7 @@
                                                 {{ empty($service_details->special_image) ? 'required' : '' }}
                                             >
 
-                                            <div class="invalid-feedback">Please upload a Special image.</div>
+                                            <div class="invalid-feedback">Please upload a image.</div>
 
                                             <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small><br>
                                             <small class="text-secondary">
@@ -466,9 +470,9 @@
 
                                         <!-- Special Description-->
                                         <div class="col-md-12">
-                                            <label class="form-label" for="special_desc">Special Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="editor1" name="special_desc" placeholder="Enter Special Description" required>{{ old('special_desc', $service_details->special_desc) }}</textarea>
-                                            <div class="invalid-feedback">Please enter an Special Description.</div>
+                                            <label class="form-label" for="special_desc"> Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="editor1" name="special_desc" placeholder="Enter Description" required>{{ old('special_desc', $service_details->special_desc) }}</textarea>
+                                            <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
 
 
@@ -558,7 +562,7 @@
                                                         </td>
                                                         <td>
                                                             <textarea name="faq[{{ $index }}][answer]"
-                                                                    class="form-control"
+                                                                    class="form-control faq-editor"
                                                                     rows="3">{{ $faq['answer'] }}</textarea>
                                                         </td>
                                                         <td>
@@ -579,6 +583,44 @@
 
                                             </table>
                                         </div>
+                                        
+
+                                        <hr class="mt-5">
+
+                                        <h4># Booking Information</h4>
+
+
+                             
+                                        <!-- Booking Description-->
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="book_desc"> Description<span class="txt-danger">*</span></label>
+                                            <textarea class="form-control" id="book_desc" name="book_desc" placeholder="Enter Description" required>{{ old('book_desc', $service_details->book_desc) }}</textarea>
+                                            <div class="invalid-feedback">Please enter an Description.</div>
+                                        </div>
+
+                                        <!-- Booking Heading -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="book_heading">Booking Heading <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="book_heading" type="text" name="book_heading" placeholder="Enter Booking Heading" value="{{ old('book_heading', $service_details->book_heading) }}" required>
+                                            <div class="invalid-feedback">Please enter a Booking Heading.</div>
+                                        </div>
+
+
+                                        <!-- Booking Image -->
+                                        <!-- <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="book_image"> Booking Image </label>
+                                            <input class="form-control" id="book_image" type="file" name="book_image" onchange="previewbookimage(event)">
+                                            <div class="invalid-feedback">Please upload a Booking image.</div>
+                                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                                <br>
+                                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                                            
+                                      
+                                            <div class="mt-2">
+                                                <img id="bookimagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                            </div>
+                                        </div> -->
+
 
                                         <!-- Form Actions -->
                                         <div class="col-12 text-end">
@@ -692,26 +734,109 @@
         </script>
 
 
+        {{-- Script to fetch multiples files forthe section --}}
         <script>
-            function previewThumbnail(event) {
-                const input = event.target;
-                const preview = document.getElementById('thumbnailPreview');
+            let selectedFiles = [];
+            let fileInput = null;
 
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
+            function previewSectionImage(event)
+            {
+                fileInput = event.target;   // STORE INPUT
+                selectedFiles = Array.from(fileInput.files);
+                renderPreviews();
             }
 
+            function renderPreviews()
+            {
+                let preview = document.getElementById('imagePreview');
+
+                if(!preview){
+                    preview = document.createElement('div');
+                    preview.id = 'imagePreview';
+                    fileInput.closest('.col-md-6').appendChild(preview);
+                }
+
+                preview.innerHTML = "";
+
+                selectedFiles.forEach((file, index) => {
+
+                    const reader = new FileReader();
+
+                    reader.onload = function(e)
+                    {
+                        const wrapper = document.createElement('div');
+                        wrapper.style.position = 'relative';
+                        wrapper.style.display = 'inline-block';
+                        wrapper.style.marginRight = '10px';
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'img-fluid rounded border';
+                        img.style.maxHeight = '150px';
+                        img.style.background = 'black';
+
+                        const close = document.createElement('span');
+                        close.innerHTML = '&times;';
+                        close.style.position = 'absolute';
+                        close.style.top = '2px';
+                        close.style.right = '6px';
+                        close.style.cursor = 'pointer';
+                        close.style.background = 'red';
+                        close.style.color = 'white';
+                        close.style.borderRadius = '50%';
+                        close.style.padding = '0px 6px';
+                        close.style.fontSize = '18px';
+                        close.style.lineHeight = '18px';
+
+                        close.onclick = function () {
+                            removeImage(index);
+                        };
+
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(close);
+                        preview.appendChild(wrapper);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+
+                updateInputFiles();
+            }
+
+            function removeImage(index)
+            {
+                selectedFiles.splice(index, 1);
+                renderPreviews();
+            }
+
+            function updateInputFiles()
+            {
+                const dataTransfer = new DataTransfer();
+
+                selectedFiles.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+
+                fileInput.files = dataTransfer.files;
+            }
+        </script>
+
+        {{-- Script to fetch multiples files forthe section --}}
+        <script>
+            function removeExistingImage(index)
+            {
+                if(confirm('Remove this image?')){
+                    document.querySelectorAll('#imagePreview > div')[index].remove();
+
+                    // Optional: store removed index in hidden input
+                }
+            }
+        </script>
+
+
+
+
+        <script>
             function previewSectionImage(event) {
                 const img = document.getElementById('imagePreview');
                 img.src = URL.createObjectURL(event.target.files[0]);
@@ -747,7 +872,11 @@
                 $('#featuresTable').on('click', '.add-feature', function() {
                     const newRow = `<tr class="feature-row">
                         <td>
-                            <input type="text" name="features[${featureIndex}][name]" class="form-control" placeholder="Enter Features">
+                            <input type="text" name="features[${featureIndex}][title]" class="form-control" placeholder="Enter Service / Procedure">
+                        </td>
+
+                        <td>
+                            <textarea name="features[${featureIndex}][description]" class="form-control editor" placeholder="Enter Description"></textarea>
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger remove-feature">Remove</button>
@@ -755,6 +884,7 @@
                     </tr>`;
                     $('#featuresTable tbody').append(newRow);
                     featureIndex++;
+                    initEditors();
                 });
 
                 // Remove feature row
@@ -764,40 +894,141 @@
             });
         </script>
 
+
+            <!-- JS for featured table editor -->
+        <script>
+            function initEditors() {
+
+                document.querySelectorAll('.editor').forEach(textarea => {
+
+                    if (textarea.classList.contains('ck-loaded')) return;
+
+                    ClassicEditor.create(textarea, {
+
+                        toolbar: [
+                            'heading', '|',
+                            'bold','italic','underline','strikethrough','subscript','superscript',
+                            'link','blockQuote','codeBlock',
+                            'bulletedList','numberedList','todoList',
+                            '|',
+                            'alignment','outdent','indent',
+                            '|',
+                            'fontColor','fontBackgroundColor','fontSize','fontFamily',
+                            '|',
+                            'undo','redo','removeFormat','highlight','specialCharacters'
+                        ],
+
+                        heading: {
+                            options: [
+                                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                                { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                                { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                            ]
+                        },
+
+                        fontFamily: {
+                            options: [
+                                'default',
+                                'Arial, Helvetica, sans-serif',
+                                'Courier New, Courier, monospace',
+                                'Georgia, serif',
+                                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                                'Tahoma, Geneva, sans-serif',
+                                'Times New Roman, Times, serif',
+                                'Trebuchet MS, Helvetica, sans-serif',
+                                'Verdana, Geneva, sans-serif'
+                            ]
+                        },
+
+                        fontSize: {
+                            options: [ 'tiny','small','default','big','huge' ]
+                        },
+
+                        alignment: {
+                            options: [ 'left','center','right','justify' ]
+                        }
+
+                    }).then(editor => {
+                        textarea.classList.add('ck-loaded');
+                    })
+                    .catch(error => console.error(error));
+                });
+            }
+
+            // Initial load
+            document.addEventListener('DOMContentLoaded', function () {
+                initEditors();
+            });
+        </script>
+
         
         <!-- JS for dynamic faq table -->
+         <!-- JS for dynamic faq table -->
         <script>
             let faqIndex = 1;
 
+            // CKEditor config (reuse everywhere)
+            const editorConfig = {
+                toolbar: [
+                    'heading','|',
+                    'bold','italic','underline','strikethrough',
+                    'link','bulletedList','numberedList',
+                    '|','alignment',
+                    '|','fontColor','fontBackgroundColor','fontSize','fontFamily',
+                    '|','insertTable','horizontalLine',
+                    '|','undo','redo'
+                ]
+            };
+
             $(document).ready(function() {
-                // Add new faq row
+
+                // Initialize first editor safely
+                document.querySelectorAll('.faq-editor').forEach(el => {
+                    ClassicEditor.create(el, editorConfig);
+                    el.classList.add('editor-loaded');
+                });
+
                 $('#faqTable').on('click', '.add-faq', function() {
-                    const newRow = `<tr class="faq-row">
+
+                    const newRow = `
+                    <tr class="faq-row">
                         <td>
                             <input type="text" name="faq[${faqIndex}][question]" class="form-control" placeholder="Enter Question">
                         </td>
                         <td>
                             <textarea name="faq[${faqIndex}][answer]"
-                            class="form-control"
-                            placeholder="Enter Answer"
-                            rows="3"></textarea>
-
+                                class="form-control faq-editor"
+                                placeholder="Enter Answer"
+                                rows="3"></textarea>
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger remove-faq">Remove</button>
                         </td>
                     </tr>`;
+
                     $('#faqTable tbody').append(newRow);
+
+                    // Init CKEditor on newly added textarea
+                    document.querySelectorAll('.faq-editor').forEach(el => {
+                        if (!el.classList.contains('editor-loaded')) {
+                            ClassicEditor.create(el, editorConfig);
+                            el.classList.add('editor-loaded');
+                        }
+                    });
+
                     faqIndex++;
                 });
 
-                // Remove faq row
                 $('#faqTable').on('click', '.remove-faq', function() {
                     $(this).closest('tr').remove();
                 });
+
             });
         </script>
-
 
         <!---- js for page headers table---->
         <script>
@@ -879,6 +1110,8 @@
             })
             .catch(error => { console.error(error); });
         </script>
+
+
 
 </body>
 

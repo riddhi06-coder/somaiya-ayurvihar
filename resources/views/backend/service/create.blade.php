@@ -400,7 +400,7 @@
 
 
                                         <!-- Booking Image -->
-                                        <div class="col-md-6 mt-5">
+                                        <!-- <div class="col-md-6 mt-5">
                                             <label class="form-label" for="book_image"> Booking Image </label>
                                             <input class="form-control" id="book_image" type="file" name="book_image" onchange="previewbookimage(event)">
                                             <div class="invalid-feedback">Please upload a Booking image.</div>
@@ -408,11 +408,11 @@
                                                 <br>
                                                 <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
                                             
-                                            <!-- Image Preview -->
+                           
                                             <div class="mt-2">
                                                 <img id="bookimagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
                                             </div>
-                                        </div>
+                                        </div> -->
 
 
 
