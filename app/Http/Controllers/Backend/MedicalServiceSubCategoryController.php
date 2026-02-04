@@ -24,24 +24,45 @@ class MedicalServiceSubCategoryController extends Controller
         return view('backend.medicalservicesubcategory.create', compact('categories'));
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
             'category_id'      => 'required|exists:medical_service_master_categories,id',
-            'subcategory_name' => 'required|string|max:255|unique:medical_service_sub_categories,subcategory_name',
-            'desc' => 'required|string|max:255',
+            'subcategory_name' => 'required|string|max:255',
+            'desc'             => 'required|string|max:255',
         ]);
+
+        // Base slug
+        $baseSlug = Str::slug($request->subcategory_name);
+
+        // Check if slug already exists
+        $slugExists = MedicalServiceSubCategory::where('slug', $baseSlug)->exists();
+
+        if ($slugExists) {
+
+            // Get category name
+            $categoryName = MedicalServiceMasterCategory::where('id', $request->category_id)
+                                ->value('category_name');
+
+            // Category + Subcategory slug
+            $slug = Str::slug($categoryName . '-' . $request->subcategory_name);
+
+        } else {
+            $slug = $baseSlug;
+        }
 
         MedicalServiceSubCategory::create([
             'category_id'      => $request->category_id,
-            'subcategory_name' => $request->subcategory_name,
+            'subcategory_name'=> $request->subcategory_name,
             'desc'             => $request->desc,
-            'slug'             => Str::slug($request->subcategory_name),
+            'slug'             => $slug,
             'created_by'       => Auth::id(),
             'created_at'       => Carbon::now(),
         ]);
 
-        return redirect()->route('admin.medicalservicesubcategory.index')
+        return redirect()
+            ->route('admin.medicalservicesubcategory.index')
             ->with('message', 'Medical Service Subcategory added!');
     }
 
@@ -57,21 +78,42 @@ class MedicalServiceSubCategoryController extends Controller
     public function update(Request $request, MedicalServiceSubCategory $medicalservicesubcategory)
     {
         $request->validate([
-            'category_id'      => 'required|exists:medical_service_master_categories,id',
-            'subcategory_name' => 'required|string|max:255|unique:medical_service_sub_categories,subcategory_name,' . $medicalservicesubcategory->id,
+            'category_id' => 'required|exists:medical_service_master_categories,id',
+            'subcategory_name' => 'required|string|max:255',
             'desc' => 'required|string|max:255',
         ]);
 
+        // Base slug
+        $baseSlug = Str::slug($request->subcategory_name);
+
+        // Check if slug already exists (excluding current record)
+        $slugExists = MedicalServiceSubCategory::where('slug', $baseSlug)
+                        ->where('id', '!=', $medicalservicesubcategory->id)
+                        ->exists();
+
+        if ($slugExists) {
+
+            // Get category name
+            $categoryName = MedicalServiceMasterCategory::where('id', $request->category_id)
+                                ->value('category_name');
+
+            // Create category-subcategory slug
+            $slug = Str::slug($categoryName . '-' . $request->subcategory_name);
+
+        } else {
+            $slug = $baseSlug;
+        }
+
         $medicalservicesubcategory->update([
             'category_id'      => $request->category_id,
-            'subcategory_name' => $request->subcategory_name,
-            'slug'             => Str::slug($request->subcategory_name),
+            'subcategory_name'=> $request->subcategory_name,
+            'slug'             => $slug,
             'desc'             => $request->desc,
             'updated_by'       => Auth::id(),
-            'updated_at'       => Carbon::now(),
         ]);
 
-        return redirect()->route('admin.medicalservicesubcategory.index')
+        return redirect()
+            ->route('admin.medicalservicesubcategory.index')
             ->with('message', 'Medical Service Subcategory updated!');
     }
 

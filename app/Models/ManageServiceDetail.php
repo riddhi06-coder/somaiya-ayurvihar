@@ -16,19 +16,33 @@ class ManageServiceDetail extends Model
         'category_id',
         'subcategory_id',
         'service_id',
+        
         'banner_heading',
-        'banner_image',
+        'banner_title',
+
         'section_image',
+        'description',
+
+        'doctor_heading',
+        'doctor_desc',
+
         'page_headers',
 
-        'description',
         'service_heading',
         'service_image',
         'service_desc',
+
+
+        'book_desc',
+        'book_heading',
+        'book_image',
+
         'features',
+
         'special_heading',
         'special_image',
         'special_desc',
+
         'faq_heading',
         'faq_image',
         'faq',

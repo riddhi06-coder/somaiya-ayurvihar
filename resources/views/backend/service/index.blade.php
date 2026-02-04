@@ -57,7 +57,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Banner Heading</th>
-                                    <th>Banner Image</th>
+                                    <!-- <th>Banner Image</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -91,13 +91,13 @@
                                                 <tr>
                                                     <td>{{ $i++ }}</td>
                                                     <td>{{ $item->banner_heading }}</td>
-                                                    <td>
+                                                    <!-- <td>
                                                         @if($item->section_image)
                                                             <img src="{{ asset('uploads/service-details/'.$item->section_image) }}"
                                                                 width="180px;"
                                                                 class="img-thumbnail">
                                                         @endif
-                                                    </td>
+                                                    </td> -->
                                                     <td>
                                                         <a href="{{ route('admin.manage-service-details.edit', $item->id) }}"
                                                         class="btn btn-sm btn-primary">Edit</a>

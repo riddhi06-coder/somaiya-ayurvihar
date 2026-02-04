@@ -53,136 +53,266 @@ class ServiceDetailsController extends Controller
     }
 
 
+    // public function store(Request $request)
+    // {
+    //     // ================= VALIDATION =================
+    //     $request->validate([
+    //         'category_id'        => 'required',
+    //         'subcategory_id'     => 'required',
+    //         'service_id'         => 'nullable',
+
+    //         'banner_heading'     => 'required|string|max:255',
+    //         'image'              => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+    //         'section_image'      => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+    //         'desc'               => 'required|string',
+
+    //         'service_heading'    => 'required|string|max:255',
+    //         'service_image'      => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+    //         'service_desc'       => 'required|string',
+
+    //         'features'           => 'required|array',
+    //         'features.*.name'    => 'required|string',
+
+    //         'special_heading'    => 'required|string|max:255',
+    //         'special_desc'       => 'required|string',
+
+    //         'faq_heading'        => 'required|string|max:255',
+    //         'faq_image'          => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+    //         'faq'                => 'required|array',
+    //         'faq.*.question'     => 'required|string',
+    //         'faq.*.answer'       => 'required|string',
+
+    //         'page_headers'       => 'nullable|array',
+    //         'page_headers.*.title' => 'required|string',
+
+    //     ], [
+    //         'category_id.required'    => 'Master category is required.',
+    //         'subcategory_id.required' => 'Sub category is required.',
+    //         'banner_heading.required' => 'Banner heading is required.',
+    //         'image.required'          => 'Banner image is required.',
+    //         'section_image.required'  => 'Section image is required.',
+    //         'service_heading.required'=> 'Service heading is required.',
+    //         'service_image.required'  => 'Service image is required.',
+    //         'faq_heading.required'    => 'FAQ heading is required.',
+    //         'faq_image.required'      => 'FAQ image is required.',
+    //     ]);
+
+    //     // ================= IMAGE UPLOADS =================
+    //     $uploadPath = public_path('uploads/service-details');
+
+    //     // Banner Image
+    //     $bannerImage = null;
+    //     if ($request->hasFile('image')) {
+    //         $img = $request->file('image');
+    //         $bannerImage = time().'_banner.'.$img->getClientOriginalExtension();
+    //         $img->move($uploadPath, $bannerImage);
+    //     }
+
+    //     // Section Image
+    //     $sectionImage = null;
+    //     if ($request->hasFile('section_image')) {
+    //         $img = $request->file('section_image');
+    //         $sectionImage = time().'_section.'.$img->getClientOriginalExtension();
+    //         $img->move($uploadPath, $sectionImage);
+    //     }
+
+    //     // Service Image
+    //     $serviceImage = null;
+    //     if ($request->hasFile('service_image')) {
+    //         $img = $request->file('service_image');
+    //         $serviceImage = time().'_service.'.$img->getClientOriginalExtension();
+    //         $img->move($uploadPath, $serviceImage);
+    //     }
+
+    //     // FAQ Image
+    //     $faqImage = null;
+    //     if ($request->hasFile('faq_image')) {
+    //         $img = $request->file('faq_image');
+    //         $faqImage = time().'_faq.'.$img->getClientOriginalExtension();
+    //         $img->move($uploadPath, $faqImage);
+    //     }
+
+
+    //     // Special Image
+    //     $specialImage = null;
+    //     if ($request->hasFile('special_image')) {
+    //         $img = $request->file('special_image');
+    //         $specialImage = time().'_special.'.$img->getClientOriginalExtension();
+    //         $img->move($uploadPath, $specialImage);
+    //     }
+
+
+    //     // ================= JSON ENCODE TABLE DATA =================
+    //     $featuresJson = json_encode($request->features);
+    //     $faqJson      = json_encode($request->faq);
+    //     $pageHeadersJson  = json_encode($request->page_headers);
+
+    //     // ================= STORE DATA =================
+    //     ManageServiceDetail::create([
+    //         'category_id'       => $request->category_id,
+    //         'subcategory_id'    => $request->subcategory_id,
+    //         'service_id'        => $request->service_id,
+
+    //         'banner_heading'    => $request->banner_heading,
+    //         'banner_image'      => $bannerImage,
+
+    //         'section_image'     => $sectionImage,
+    //         'description'       => $request->desc,
+
+    //         'service_heading'   => $request->service_heading,
+    //         'service_image'     => $serviceImage,
+    //         'service_desc'      => $request->service_desc,
+
+    //         'features'          => $featuresJson,
+
+    //         'special_heading'   => $request->special_heading,
+    //         'special_image'     => $specialImage,
+    //         'special_desc'      => $request->special_desc,
+
+    //         'faq_heading'       => $request->faq_heading,
+    //         'faq_image'         => $faqImage,
+    //         'faq'               => $faqJson,
+
+    //         'page_headers'      => $pageHeadersJson,
+
+    //         'created_at'        => Carbon::now(),
+    //         'created_by'        => Auth::id(),
+    //     ]);
+
+    //     return redirect()->route('admin.manage-service-details.index')->with('message', 'Service details added successfully.');
+    // }
+
+
     public function store(Request $request)
     {
-        // ================= VALIDATION =================
         $request->validate([
-            'category_id'        => 'required',
-            'subcategory_id'     => 'required',
-            'service_id'         => 'nullable',
 
-            'banner_heading'     => 'required|string|max:255',
-            'image'              => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
 
-            'section_image'      => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'desc'               => 'required|string',
+            'banner_heading' => 'required|string|max:255',
+            'banner_title' => 'required|string|max:255',
 
-            'service_heading'    => 'required|string|max:255',
-            'service_image'      => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'service_desc'       => 'required|string',
+            'section_image.*' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
-            'features'           => 'required|array',
-            'features.*.name'    => 'required|string',
+            'desc' => 'required',
 
-            'special_heading'    => 'required|string|max:255',
-            'special_desc'       => 'required|string',
+            'doctor_heading' => 'required',
+            'doctor_desc' => 'required',
 
-            'faq_heading'        => 'required|string|max:255',
-            'faq_image'          => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'service_heading' => 'required',
+            'service_image' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'service_desc' => 'required',
 
-            'faq'                => 'required|array',
-            'faq.*.question'     => 'required|string',
-            'faq.*.answer'       => 'required|string',
+            'features' => 'required|array',
+            'features.*.title' => 'required|string',
+            'features.*.description' => 'required', // CKEditor HTML
 
-            'page_headers'       => 'nullable|array',
-            'page_headers.*.title' => 'required|string',
+            'special_heading' => 'required',
+            'special_desc' => 'required',
 
-        ], [
-            'category_id.required'    => 'Master category is required.',
-            'subcategory_id.required' => 'Sub category is required.',
-            'banner_heading.required' => 'Banner heading is required.',
-            'image.required'          => 'Banner image is required.',
-            'section_image.required'  => 'Section image is required.',
-            'service_heading.required'=> 'Service heading is required.',
-            'service_image.required'  => 'Service image is required.',
-            'faq_heading.required'    => 'FAQ heading is required.',
-            'faq_image.required'      => 'FAQ image is required.',
+            'faq_heading' => 'required',
+            'faq_image' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'faq' => 'required|array',
+            'faq.*.question' => 'required',
+            'faq.*.answer' => 'required',
+
+            'page_headers' => 'nullable|array',
+            'page_headers.*.title' => 'required',
+
+            'book_desc' => 'required',
+            'book_heading' => 'required',
+            'book_image' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
         ]);
 
-        // ================= IMAGE UPLOADS =================
         $uploadPath = public_path('uploads/service-details');
 
-        // Banner Image
-        $bannerImage = null;
-        if ($request->hasFile('image')) {
-            $img = $request->file('image');
-            $bannerImage = time().'_banner.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $bannerImage);
-        }
+        // ================= MULTI SECTION IMAGES =================
 
-        // Section Image
-        $sectionImage = null;
+        $sectionImages = [];
+
         if ($request->hasFile('section_image')) {
-            $img = $request->file('section_image');
-            $sectionImage = time().'_section.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $sectionImage);
+            foreach ($request->file('section_image') as $img) {
+                $name = time().'_'.rand(1000,9999).'_section.'.$img->getClientOriginalExtension();
+                $img->move($uploadPath, $name);
+                $sectionImages[] = $name;
+            }
         }
 
-        // Service Image
-        $serviceImage = null;
-        if ($request->hasFile('service_image')) {
-            $img = $request->file('service_image');
-            $serviceImage = time().'_service.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $serviceImage);
+        // ================= SINGLE IMAGES =================
+
+        function uploadSingle($request, $field, $suffix)
+        {
+            if ($request->hasFile($field)) {
+                $img = $request->file($field);
+               $name = time().'_'.rand(1000,9999).'_'.$suffix.'.'.$img->getClientOriginalExtension();
+                $img->move(public_path('uploads/service-details'), $name);
+                return $name;
+            }
+            return null;
         }
 
-        // FAQ Image
-        $faqImage = null;
-        if ($request->hasFile('faq_image')) {
-            $img = $request->file('faq_image');
-            $faqImage = time().'_faq.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $faqImage);
-        }
+        $serviceImage = uploadSingle($request,'service_image','service');
+        $specialImage = uploadSingle($request,'special_image','special');
+        $faqImage     = uploadSingle($request,'faq_image','faq');
+        $bookImage    = uploadSingle($request,'book_image','book');
 
+        // ================= JSON ENCODE TABLES =================
 
-        // Special Image
-        $specialImage = null;
-        if ($request->hasFile('special_image')) {
-            $img = $request->file('special_image');
-            $specialImage = time().'_special.'.$img->getClientOriginalExtension();
-            $img->move($uploadPath, $specialImage);
-        }
+        $featuresJson     = json_encode($request->features, JSON_UNESCAPED_UNICODE);
+        $faqJson          = json_encode($request->faq, JSON_UNESCAPED_UNICODE);
+        $pageHeadersJson  = json_encode($request->page_headers, JSON_UNESCAPED_UNICODE);
+        $sectionImagesJson = json_encode($sectionImages);
 
+        // ================= STORE =================
 
-        // ================= JSON ENCODE TABLE DATA =================
-        $featuresJson = json_encode($request->features);
-        $faqJson      = json_encode($request->faq);
-        $pageHeadersJson  = json_encode($request->page_headers);
-
-        // ================= STORE DATA =================
         ManageServiceDetail::create([
-            'category_id'       => $request->category_id,
-            'subcategory_id'    => $request->subcategory_id,
-            'service_id'        => $request->service_id,
 
-            'banner_heading'    => $request->banner_heading,
-            'banner_image'      => $bannerImage,
+            'category_id' => $request->category_id,
+            'subcategory_id' => $request->subcategory_id,
+            'service_id' => $request->service_id,
 
-            'section_image'     => $sectionImage,
-            'description'       => $request->desc,
+            'banner_heading' => $request->banner_heading,
+            'banner_title' => $request->banner_title,
 
-            'service_heading'   => $request->service_heading,
-            'service_image'     => $serviceImage,
-            'service_desc'      => $request->service_desc,
+            'section_image' => $sectionImagesJson,
+            'description' => $request->desc,
 
-            'features'          => $featuresJson,
+            'doctor_heading' => $request->doctor_heading,
+            'doctor_desc' => $request->doctor_desc,
 
-            'special_heading'   => $request->special_heading,
-            'special_image'     => $specialImage,
-            'special_desc'      => $request->special_desc,
+            'service_heading' => $request->service_heading,
+            'service_image' => $serviceImage,
+            'service_desc' => $request->service_desc,
 
-            'faq_heading'       => $request->faq_heading,
-            'faq_image'         => $faqImage,
-            'faq'               => $faqJson,
+            'features' => $featuresJson,
 
-            'page_headers'      => $pageHeadersJson,
+            'special_heading' => $request->special_heading,
+            'special_image' => $specialImage,
+            'special_desc' => $request->special_desc,
 
-            'created_at'        => Carbon::now(),
-            'created_by'        => Auth::id(),
+            'faq_heading' => $request->faq_heading,
+            'faq_image' => $faqImage,
+            'faq' => $faqJson,
+
+            'page_headers' => $pageHeadersJson,
+
+            'book_desc' => $request->book_desc,
+            'book_heading' => $request->book_heading,
+            'book_image' => $bookImage,
+
+            'created_by' => Auth::id(),
+            'created_at' => Carbon::now(),
         ]);
 
-        return redirect()->route('admin.manage-service-details.index')->with('message', 'Service details added successfully.');
+        return redirect()->route('admin.manage-service-details.index')
+            ->with('message','Service details added successfully!');
     }
+
 
 
     public function edit($id)
