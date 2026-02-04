@@ -346,6 +346,93 @@ $('#ourservices-items').owlCarousel({
     }
   }
 });
+$('#csr-gallery').owlCarousel({
+  loop: true,
+  margin: 30,
+  /*stagePadding: 20,*/
+  dots: true,
+  navigation: true,
+  autoplay: true,
+  autoplaySpeed: 1000,
+  /*slideTransition: 'linear',*/
+  autoplayTimeout: 5000,
+  autoplaySpeed: 5000,
+  autoplayHoverPause: true,
+  navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+  responsiveClass: true,
+  responsive: {
+    0: {
+      items: 1
+    },
+    500: {
+      items: 2
+    },
+    768: {
+      items: 2
+    },
+    1000: {
+      items: 4
+    }
+  }
+});
+$('#announcements-slider').owlCarousel({
+  loop: true,
+  margin: 30,
+  /*stagePadding: 20,*/
+  dots: true,
+  navigation: true,
+  autoplay: true,
+  autoplaySpeed: 1000,
+  /*slideTransition: 'linear',*/
+  autoplayTimeout: 5000,
+  autoplaySpeed: 5000,
+  autoplayHoverPause: true,
+  navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+  responsiveClass: true,
+  responsive: {
+    0: {
+      items: 1
+    },
+    500: {
+      items: 1
+    },
+    768: {
+      items: 1
+    },
+    1000: {
+      items: 3
+    }
+  }
+});
+$('#health-package-slider').owlCarousel({
+  loop: true,
+  margin: 30,
+  /*stagePadding: 20,*/
+  dots: true,
+  navigation: true,
+  autoplay: true,
+  autoplaySpeed: 1000,
+  /*slideTransition: 'linear',*/
+  autoplayTimeout: 5000,
+  autoplaySpeed: 5000,
+  autoplayHoverPause: true,
+  navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+  responsiveClass: true,
+  responsive: {
+    0: {
+      items: 1
+    },
+    500: {
+      items: 1
+    },
+    768: {
+      items: 1
+    },
+    1000: {
+      items: 3
+    }
+  }
+});
 $(document).ready(function () {
   $('.process-slider').owlCarousel({
     loop: false,
@@ -522,8 +609,8 @@ $(window).scroll(function () {
 document.addEventListener("DOMContentLoaded", function () {
 
   var sidebar = document.querySelector(".sidebar_filter");
-  var section = document.querySelector(".health_package_wrap");
-  var parentCol = document.querySelector(".health_package_wrap .col-md-3");
+  var section = document.querySelector(".health_package_wrap, .find_doctor_wrap");
+  var parentCol = document.querySelector(".health_package_wrap .col-md-3, .find_doctor_wrap .doctor-card");
   var header = document.querySelector("header");
 
   // Run script only if all required elements exist

@@ -48,22 +48,28 @@ class HomeController extends Controller
             ->whereNull('deleted_by') // optional: only active
             ->firstOrFail();
 
+       
 
         $service = ManageServiceDetail::with(['category', 'subcategory', 'service'])
             ->where('subcategory_id', $subcategory->id)
             ->whereNull('deleted_by')
             ->firstOrFail(); // better than first()
 
+        //  dd($service);
+
+
         // Decode JSON fields
         $service->features = json_decode($service->features, true) ?? [];
         $service->faq      = json_decode($service->faq, true) ?? [];
         $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
-
+        $service->section_image = json_decode($service->section_image, true) ?? [];
 
          // 4️⃣ Fetch doctors linked to this subcategory
         $doctors = Doctor::where('subcategory_id', $subcategory->id)
             ->whereNull('deleted_by')
             ->get();
+
+        // dd($doctors);
 
 
         // 4️⃣ Pass subcategory & services to view
