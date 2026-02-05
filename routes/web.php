@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\HomePage\CompassionDetailsController;
 use App\Http\Controllers\Backend\HomePage\TestimonialsDetailsController;
 use App\Http\Controllers\Backend\HomePage\FooterDetailsController;
 use App\Http\Controllers\Backend\ServiceDetailsController;
+use App\Http\Controllers\Backend\AboutIntroController;
 
 
 
@@ -73,6 +74,10 @@ Route::prefix('admin')
         Route::resource('compassion-details', CompassionDetailsController::class);
         Route::resource('testimonial-details', TestimonialsDetailsController::class);
         Route::resource('footer-details', FooterDetailsController::class);
+
+
+        // About Us
+        Route::resource('manage-about-intro', AboutIntroController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);

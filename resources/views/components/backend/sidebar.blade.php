@@ -53,6 +53,8 @@
 
                   </ul>
                 </li>
+
+
                 <li class="sidebar-list {{ request()->routeIs('admin.medicalservicecategory.index', 'admin.medicalservicesubcategory.index', 'admin.medicalserviceallcategories.index','admin.manage-doctors.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"> </i>
                   <a class="sidebar-link sidebar-title" href="#">
@@ -73,6 +75,26 @@
                    <li><a href="{{ route('admin.manage-doctors.index') }}">Doctors</a></li>
 
                   </ul>
+                </li>
+
+
+
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.announcements-details.index', 'admin.awards-details.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
+                  <i class="fa fa-thumb-tack"></i>
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-layout') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-layout') }}"></use>
+                    </svg>
+                    <span>About Us</span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                      <li><a href="{{ route('admin.manage-about-intro.index') }}">Introduction</a></li>
+                   
+                  </ul>
+                  
                 </li>
 
 
