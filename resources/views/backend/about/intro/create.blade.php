@@ -95,7 +95,7 @@
 
                                         <!-- Image -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label">Images <</label>
+                                            <label class="form-label">Images </label>
 
                                             <input class="form-control"
                                                 id="image"
@@ -109,7 +109,7 @@
                                             <div class="invalid-feedback">Please upload images.</div>
 
                                             <small class="text-secondary"><b>Note: Each file should be less than 2MB.</b></small><br>
-                                            <small class="text-secondary"><b>Allowed: jpg, jpeg, png, webp, svg</b></small>
+                                            <small class="text-secondary"><b>Allowed: jpg, jpeg, png, webp</b></small>
 
                                             <!-- Preview Area -->
                                             <div id="imagePreviewContainer" class="d-flex flex-wrap mt-3"></div>

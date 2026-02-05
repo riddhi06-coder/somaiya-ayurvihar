@@ -79,7 +79,7 @@
 
 
 
-                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.announcements-details.index', 'admin.awards-details.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.manage-vision-mission.index', 'admin.awards-details.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
@@ -92,9 +92,10 @@
                   </a>
                   <ul class="sidebar-submenu">
                       <li><a href="{{ route('admin.manage-about-intro.index') }}">Introduction</a></li>
+                      <li><a href="{{ route('admin.manage-vision-mission.index') }}">Vision & Mision</a></li>
                    
                   </ul>
-                  
+
                 </li>
 
 

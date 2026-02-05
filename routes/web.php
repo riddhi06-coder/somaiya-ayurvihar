@@ -17,7 +17,7 @@ use App\Http\Controllers\Backend\HomePage\TestimonialsDetailsController;
 use App\Http\Controllers\Backend\HomePage\FooterDetailsController;
 use App\Http\Controllers\Backend\ServiceDetailsController;
 use App\Http\Controllers\Backend\AboutIntroController;
-
+use App\Http\Controllers\Backend\AboutVisionController;
 
 
 
@@ -78,6 +78,7 @@ Route::prefix('admin')
 
         // About Us
         Route::resource('manage-about-intro', AboutIntroController::class);
+        Route::resource('manage-vision-mission', AboutVisionController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
