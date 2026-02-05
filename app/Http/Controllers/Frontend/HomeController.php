@@ -16,6 +16,7 @@ use App\Models\MedicalServiceCategory;
 use App\Models\MedicalServiceMasterCategory;
 use App\Models\ManageServiceDetail;
 use App\Models\Doctor;
+use App\Models\AboutIntro;
 
 
 use Illuminate\Http\Request;
@@ -23,9 +24,6 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
     // Home Page
     public function index()
@@ -102,6 +100,14 @@ class HomeController extends Controller
         return view('frontend.doctor_details', [
             'doctor' => $doctor
         ]);
+    }
+
+
+    // About Intro
+    public function introduction()
+    {
+        $sections  = AboutIntro::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
+        return view('frontend.introduction', compact('sections'));
     }
 
 

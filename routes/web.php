@@ -94,5 +94,13 @@ Route::prefix('admin')
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 
+
+//======About Us Pages
+Route::get('/introduction', [HomeController::class, 'introduction'])->name('frontend.introduction');
+
+
+//======Service Page
 Route::get('/{slug}', [HomeController::class, 'service_details'])->name('frontend.service_details');
+
+//=========Doctor Detailed Page
 Route::get('doctor/{doctoreslug}', [HomeController::class, 'doctor_details'])->name('frontend.doctor_details');

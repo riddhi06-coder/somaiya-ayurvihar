@@ -30,6 +30,7 @@
                   </a>
                 </div>
               </div>
+
               <!-- menu start here -->
               <div class="header-item item-center">
                 <div class="menu-overlay"></div>
@@ -44,7 +45,7 @@
                       <a href="#">About Us <i class="fa fa-angle-down"></i></a>
                       <div class="sub-menu single-column-menu">
                         <ul>
-                          <li><a href="introduction.html">Introduction</a></li>
+                          <li><a href="{{ route('frontend.introduction') }}">Introduction</a></li>
                           <li><a href="vision-and-mission.html">Vision & Mission</a></li>
                           <li><a href="chairmans-message.html">Chairman’s Message</a></li>
                           <li><a href="associations.html">Associations</a></li>
@@ -273,6 +274,7 @@
                 </nav>
               </div>
               <!-- menu end here -->
+
               <div class="header-item item-right">
                 <ul class="somaiya_sidelogo">
                   <li><img src="{{ asset('frontend/assets/img/logo/NABH-logo.png')}}"></li>
@@ -400,18 +402,11 @@
                   <option value="yo">Yoruba</option>
                   <option value="zu">Zulu</option>
                 </select>
-                <!--  <ul class="somaiya_sidelogo">
-                  <li><img src="img/logo/NABH-logo.png"></li>
-                  <li><img src="img/logo/nabl.png"></li>
-                  <li><img src="img/logo/somaiya-trust-logo.png"></li>
-                  </ul> -->
-                <!-- <a href="#" class="serach_bar"><img src="img/icon/phone.png"></a>
-                  <a href="#" class="serach_bar"><img src="img/icon/search.svg"></a> -->
-                <!-- <a href="#" class="emergency_bar"><img src="img/icon/emergency-bell.svg"></a> -->
-                <!-- mobile menu trigger -->
+                
                 <div class="mobile-menu-trigger">
                   <span></span>
                 </div>
+                
               </div>
             </div>
           </div>
