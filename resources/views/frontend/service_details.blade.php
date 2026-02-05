@@ -227,7 +227,7 @@
 
                                         {{-- Check if description is an array --}}
                                         @if(!empty($featureGroup['description']) && is_array($featureGroup['description']))
-                                          <ul class="lists ck-content">
+                                          <ul class="lists">
                                               @foreach($featureGroup['description'] as $desc)
                                                   <li>
                                                       <!-- <svg class="cs_accent_color" width="20" height="20" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,6 +254,7 @@
                           </div>
                       </div>
                   </div>
+               
 
                   <div class="col-md-6">
                     <div class="ourservices_img">
@@ -262,6 +263,7 @@
               </div>
           </div>
       </div>
+</div>
 
 
       <!------------- Health Check Packages ------------->

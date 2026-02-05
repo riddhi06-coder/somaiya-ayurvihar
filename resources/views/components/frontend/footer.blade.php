@@ -7,7 +7,7 @@
 
     <footer>
       <div class="container">
-        <div class="row main-footer">
+        <div class="row main-footer" id="exclude">
           <div class="col-md-6">
             <div class="footer-about">
 
