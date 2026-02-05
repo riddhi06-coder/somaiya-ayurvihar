@@ -107,7 +107,7 @@
 
 
       <!------------- Main Desciption------------->
-      <div id="overview" class="tab_section ck-content lists">
+      <div id="overview" class="tab_section ck-content">
           <div class="container">
               <div class="row">
                   <div class="col-md-6">
@@ -207,7 +207,7 @@
 
       
       <!------------- Services / Procedures We Offer ------------->
-      <div id="our-services" class="tab_section ck-content white-text">
+      <div id="our-services" class="tab_section ck-content">
           <div class="container">
               <div class="row">
                   <div class="col-md-6">
@@ -227,18 +227,19 @@
 
                                         {{-- Check if description is an array --}}
                                         @if(!empty($featureGroup['description']) && is_array($featureGroup['description']))
-                                            <ul class="lists">
-                                                @foreach($featureGroup['description'] as $desc)
-                                                    <li>
-                                                        <svg class="cs_accent_color" width="20" height="20" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M13.0097 25.9988C8.06573 25.9993 3.50673 23.1663 1.32323 18.7073C-0.886265 14.1938 -0.217265 8.56483 2.98873 4.70033C6.19124 0.839828 11.3977 -0.844672 16.2517 0.408828C16.7862 0.546828 17.1077 1.09233 16.9702 1.62733C16.8322 2.16233 16.2862 2.48333 15.7517 2.34583C11.6457 1.28533 7.23874 2.71033 4.52823 5.97783C1.81624 9.24733 1.25023 14.0098 3.11974 17.8288C4.98223 21.6328 9.09073 24.1108 13.3077 23.9958C17.5242 23.8808 21.3507 21.3163 23.0562 17.4628C24.0577 15.1998 24.2697 12.6373 23.6522 10.2468C23.5142 9.71233 23.8357 9.16683 24.3707 9.02833C24.9042 8.88983 25.4507 9.21183 25.5892 9.74683C26.3182 12.5713 26.0687 15.5993 24.8857 18.2723C22.8697 22.8273 18.3462 25.8588 13.3627 25.9948C13.2447 25.9973 13.1267 25.9988 13.0097 25.9988Z" fill="#f58220"></path>
-                                                            <path d="M12.9999 16.1171C12.7439 16.1171 12.4879 16.0196 12.2929 15.8241C11.9024 15.4336 11.9024 14.8006 12.2929 14.4101L24.2929 2.41006C24.6829 2.01956 25.3169 2.01956 25.7069 2.41006C26.0974 2.80056 26.0974 3.43356 25.7069 3.82406L13.7069 15.8241C13.5119 16.0191 13.2559 16.1171 12.9999 16.1171Z" fill="#f58220"></path>
-                                                            <path d="M13.0002 16.1174C12.7442 16.1174 12.4882 16.0199 12.2932 15.8244L8.05069 11.5819C7.66019 11.1914 7.66019 10.5584 8.05069 10.1679C8.44069 9.77737 9.07469 9.77737 9.46469 10.1679L13.7072 14.4104C14.0977 14.8009 14.0977 15.4339 13.7072 15.8244C13.5122 16.0194 13.2562 16.1174 13.0002 16.1174Z" fill="#f58220"></path>
-                                                        </svg>
-                                                        <span>{{ $desc }}</span>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+                                          <ul class="lists ck-content">
+                                              @foreach($featureGroup['description'] as $desc)
+                                                  <li>
+                                                      <!-- <svg class="cs_accent_color" width="20" height="20" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                          <path d="M13.0097 25.9988C8.06573 25.9993 3.50673 23.1663 1.32323 18.7073C-0.886265 14.1938 -0.217265 8.56483 2.98873 4.70033C6.19124 0.839828 11.3977 -0.844672 16.2517 0.408828C16.7862 0.546828 17.1077 1.09233 16.9702 1.62733C16.8322 2.16233 16.2862 2.48333 15.7517 2.34583C11.6457 1.28533 7.23874 2.71033 4.52823 5.97783C1.81624 9.24733 1.25023 14.0098 3.11974 17.8288C4.98223 21.6328 9.09073 24.1108 13.3077 23.9958C17.5242 23.8808 21.3507 21.3163 23.0562 17.4628C24.0577 15.1998 24.2697 12.6373 23.6522 10.2468C23.5142 9.71233 23.8357 9.16683 24.3707 9.02833C24.9042 8.88983 25.4507 9.21183 25.5892 9.74683C26.3182 12.5713 26.0687 15.5993 24.8857 18.2723C22.8697 22.8273 18.3462 25.8588 13.3627 25.9948C13.2447 25.9973 13.1267 25.9988 13.0097 25.9988Z" fill="#f58220"/>
+                                                          <path d="M12.9999 16.1171C12.7439 16.1171 12.4879 16.0196 12.2929 15.8241C11.9024 15.4336 11.9024 14.8006 12.2929 14.4101L24.2929 2.41006C24.6829 2.01956 25.3169 2.01956 25.7069 2.41006C26.0974 2.80056 26.0974 3.43356 25.7069 3.82406L13.7069 15.8241C13.5119 16.0191 13.2559 16.1171 12.9999 16.1171Z" fill="#f58220"/>
+                                                          <path d="M13.0002 16.1174C12.7442 16.1174 12.4882 16.0199 12.2932 15.8244L8.05069 11.5819C7.66019 11.1914 7.66019 10.5584 8.05069 10.1679C8.44069 9.77737 9.07469 9.77737 9.46469 10.1679L13.7072 14.4104C14.0977 14.8009 14.0977 15.4339 13.7072 15.8244C13.5122 16.0194 13.2562 16.1174 13.0002 16.1174Z" fill="#f58220"/>
+                                                      </svg> -->
+                                                      <span>{{ $desc }}</span>
+                                                  </li>
+                                              @endforeach
+                                          </ul>
+
                                         @else
                                             {{-- Otherwise, render the description directly as HTML --}}
                                             <div class="lists">
@@ -392,7 +393,7 @@
 
 
       <!------------- Why Choose Us ------------->
-      <div id="make-special" class="tab_section">
+      <div id="make-special" class="tab_section ck-content">
           <div class="container-fluid">
               <div class="row">
                   <div class="col-md-6 no-padding">
@@ -540,221 +541,9 @@
         </div>
       </div>
 
-      
-      <!-------------announcements ------------->
-      <div id="announcements" class="tab_section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
-                data-wow-duration="1500ms">
-                <h2>Announcements </h2>
-              </div>
-            </div>
-          </div>
-          <div class"row">
-            <div class="owl-carousel owl-theme" id="announcements-slider">
-            <div class="item">
-              <div class="case-card">
-                <div class="case-img">
-                  <img src="{{ asset('frontend/assets/img/awards/award1.jpg')}}" class="img-responsive">
-                </div>
-                <div class="case_title">
-                  <span class="case-cat">2022</span>
-                  <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h3>
-                  <a href="#" class="case-link">Learn More <span>↗</span></a>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="case-card">
-                <div class="case-img">
-                  <img src="{{ asset('frontend/assets/img/awards/award2.jpg')}}" class="img-responsive">
-                </div>
-                <div class="case_title">
-                  <span class="case-cat">2022</span>
-                  <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h3>
-                  <a href="#" class="case-link">Learn More <span>↗</span></a>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="case-card">
-                <div class="case-img">
-                  <img src="{{ asset('frontend/assets/img/awards/award3.jpg')}}" class="img-responsive">
-                </div>
-                <div class="case_title">
-                  <span class="case-cat">2022</span>
-                  <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h3>
-                  <a href="#" class="case-link">Learn More <span>↗</span></a>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="case-card">
-                <div class="case-img">
-                  <img src="{{ asset('frontend/assets/img/awards/award2.jpg')}}" class="img-responsive">
-                </div>
-                <div class="case_title">
-                  <span class="case-cat">2022</span>
-                  <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry</h3>
-                  <a href="#" class="case-link">Learn More <span>↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-------------Blogs ------------->
-      <div id="blogs" class="tab_section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
-                data-wow-duration="1500ms">
-                <h2>Blogs</h2>
-              </div>
-            </div>
-          </div>
-          <div class="owl-carousel owl-theme" id="services-blog">
-            <div class="item">
-              <div class="single-blog-post">
-                <div class="post-image">
-                  <a href="blog-details.html">
-                    <figure>
-                      <img src="{{ asset('frontend/assets/img/blog/blog1.jpg')}}" alt="blog one">
-                    </figure>
-                  </a>
-                </div>
-                <div class="post-content">
-                  <ul class="post-meta">
-                    <li>
-                      <a href="#">
-                      <i class="fa fa-user"></i>
-                      <span>By: Admin</span>
-                      </a>
-                    </li>
-                    <li>
-                      <i class="fa fa-calendar"></i>
-                      <span>March 14, 2025</span>
-                    </li>
-                  </ul>
-                  <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <div class="blog-list-button">
-                    <div class="button-box">
-                      <a class="twenty" href="blog-details.html"><span>Read More</span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="single-blog-post">
-                <div class="post-image">
-                  <a href="blog-details.html">
-                    <figure>
-                      <img src="{{ asset('frontend/assets/img/blog/blog2.jpg')}}" alt="blog two">
-                    </figure>
-                  </a>
-                </div>
-                <div class="post-content">
-                  <ul class="post-meta">
-                    <li>
-                      <a href="#">
-                      <i class="fa fa-user"></i>
-                      <span>By: Admin</span>
-                      </a>
-                    </li>
-                    <li>
-                      <i class="fa fa-calendar"></i>
-                      <span>March 14, 2025</span>
-                    </li>
-                  </ul>
-                  <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <div class="blog-list-button">
-                    <div class="button-box">
-                      <a class="twenty" href="blog-details.html"><span>Read More</span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="single-blog-post">
-                <div class="post-image">
-                  <a href="blog-details.html">
-                    <figure>
-                      <img src="{{ asset('frontend/assets/img/blog/blog3.jpg')}}" alt="blog three">
-                    </figure>
-                  </a>
-                </div>
-                <div class="post-content">
-                  <ul class="post-meta">
-                    <li>
-                      <a href="#">
-                      <i class="fa fa-user"></i>
-                      <span>By: Admin</span>
-                      </a>
-                    </li>
-                    <li>
-                      <i class="fa fa-calendar"></i>
-                      <span>March 14, 2025</span>
-                    </li>
-                  </ul>
-                  <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <div class="blog-list-button">
-                    <div class="button-box">
-                      <a class="twenty" href="blog-details.html"><span>Read More</span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="single-blog-post">
-                <div class="post-image">
-                  <a href="blog-details.html">
-                    <figure>
-                      <img src="{{ asset('frontend/assets/img/blog/blog1.jpg')}}" alt="blog one">
-                    </figure>
-                  </a>
-                </div>
-                <div class="post-content">
-                  <ul class="post-meta">
-                    <li>
-                      <a href="#">
-                      <i class="fa fa-user"></i>
-                      <span>By: Admin</span>
-                      </a>
-                    </li>
-                    <li>
-                      <i class="fa fa-calendar"></i>
-                      <span>March 14, 2025</span>
-                    </li>
-                  </ul>
-                  <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <div class="blog-list-button">
-                    <div class="button-box">
-                      <a class="twenty" href="blog-details.html"><span>Read More</span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
 
       <!-------------faq ------------->
-      <div id="faq" class="tab_section">
+      <div id="faq" class="tab_section ck-content">
           <div class="container">
               <div class="row">
                   <div class="col-md-12">
