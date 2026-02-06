@@ -64,47 +64,7 @@
                             </thead>
                            <tbody>
 
-                                @php $i = 1; @endphp
-
-                                @foreach($services as $categoryName => $subcategories)
-                                    @foreach($subcategories as $subcategoryName => $serviceGroups)
-                                        @foreach($serviceGroups as $serviceName => $items)
-                                            @foreach($items as $item)
-
-                                            <tr>
-                                                <td>{{ $i++ }}</td>
-
-                                                {{-- Main Category --}}
-                                                <td>{{ $categoryName }}</td>
-
-                                                {{-- Sub Category --}}
-                                                <td>{{ $subcategoryName }}</td>
-
-                                                {{-- Banner Heading --}}
-                                                <td>{{ $item->banner_heading }}</td>
-
-                                                {{-- Action --}}
-                                                <td>
-                                                    <a href="{{ route('admin.manage-service-details.edit', $item->id) }}"
-                                                        class="btn btn-sm btn-primary">Edit</a>
-
-                                                    <form action="{{ route('admin.manage-service-details.destroy', $item->id) }}"
-                                                        method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-sm btn-danger"
-                                                                onclick="return confirm('Delete this record?')">
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-
-                                            @endforeach
-                                        @endforeach
-                                    @endforeach
-                                @endforeach
+                          
 
                             </tbody>
 

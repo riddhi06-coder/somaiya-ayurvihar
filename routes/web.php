@@ -18,7 +18,7 @@ use App\Http\Controllers\Backend\HomePage\FooterDetailsController;
 use App\Http\Controllers\Backend\ServiceDetailsController;
 use App\Http\Controllers\Backend\AboutIntroController;
 use App\Http\Controllers\Backend\AboutVisionController;
-
+use App\Http\Controllers\Backend\DiagnosticCriticalDetailsController;
 
 
 
@@ -82,6 +82,7 @@ Route::prefix('admin')
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
+        Route::resource('manage-diagnostic-critical-details', DiagnosticCriticalDetailsController::class);
 
     
     
