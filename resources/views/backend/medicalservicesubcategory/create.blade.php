@@ -66,7 +66,7 @@
 
                                     <!-- Short Description-->
                                     <div class="col-md-12">
-                                        <label class="form-label" for="about">Short Description<span class="txt-danger">*</span></label>
+                                        <label class="form-label" for="about">Short Description </label>
                                         <textarea class="form-control" id="desc" name="desc" placeholder="Enter Description"></textarea>
                                         <div class="invalid-feedback">Please enter an Description.</div>
                                     </div>
