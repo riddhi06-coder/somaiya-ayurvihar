@@ -113,7 +113,7 @@
                   </a>
                   <ul class="sidebar-submenu">
                       <li><a href="{{ route('admin.manage-service-details.index') }}">Specialities</a></li>
-                      <li><a href="{{ route('admin.manage-diagnostic-critical.index') }}">Diagnostic Services</a></li>
+                      <li><a href="{{ route('admin.manage-diagnostic-critical.index') }}">Diagnostic & Critical</a></li>
                    
                   </ul>
 

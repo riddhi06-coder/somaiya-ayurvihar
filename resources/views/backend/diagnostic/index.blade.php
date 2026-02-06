@@ -41,13 +41,13 @@
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('admin.manage-service-details.index') }}">Home</a>
+                                    <a href="{{ route('admin.manage-diagnostic-critical.index') }}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">Service Details</li>
                             </ol>
                         </nav>
 
-                        <a href="{{ route('admin.manage-service-details.create') }}" class="btn btn-primary px-5 radius-30">+ Add Details</a>
+                        <a href="{{ route('admin.manage-diagnostic-critical.create') }}" class="btn btn-primary px-5 radius-30">+ Add Details</a>
                     </div>
 
 

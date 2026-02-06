@@ -30,7 +30,7 @@ class MedicalServiceSubCategoryController extends Controller
         $request->validate([
             'category_id'      => 'required|exists:medical_service_master_categories,id',
             'subcategory_name' => 'required|string|max:255',
-            'desc'             => 'required|string|max:255',
+            'desc'             => 'nullable|string|max:255',
         ]);
 
         // Base slug
@@ -80,7 +80,7 @@ class MedicalServiceSubCategoryController extends Controller
         $request->validate([
             'category_id' => 'required|exists:medical_service_master_categories,id',
             'subcategory_name' => 'required|string|max:255',
-            'desc' => 'required|string|max:255',
+            'desc' => 'nullable|string|max:255',
         ]);
 
         // Base slug

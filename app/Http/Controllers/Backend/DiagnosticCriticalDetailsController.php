@@ -12,10 +12,10 @@ use Carbon\Carbon;
 use App\Models\MedicalServiceSubCategory;
 use App\Models\MedicalServiceCategory;
 use App\Models\MedicalServiceMasterCategory;
-use App\Models\ManageServiceDetail;
+use App\Models\ManageDiagnosticDetail;
 
 
-class ServiceDetailsController extends Controller
+class DiagnosticCriticalDetailsController extends Controller
 {
 
     public function index()
