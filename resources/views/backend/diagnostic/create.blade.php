@@ -62,12 +62,13 @@
                                                     class="form-control"
                                                     required>
                                                 <option value="">Select Master Category</option>
-                                                @if($masterCategories)
-                                                    <option value="{{ $masterCategories->id }}"
-                                                        {{ isset($service) && $service->category_id == $masterCategories->id ? 'selected' : '' }}>
-                                                        {{ $masterCategories->category_name }}
+                                                @foreach($masterCategories as $cat)
+                                                    <option value="{{ $cat->id }}"
+                                                        {{ isset($service) && $service->category_id == $cat->id ? 'selected' : '' }}>
+                                                        {{ $cat->category_name }}
                                                     </option>
-                                                @endif
+                                                @endforeach
+
                                             </select>
                                         </div>
 
@@ -113,19 +114,19 @@
 
 
                                         <!-- Banner Heading -->
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <label class="form-label" for="banner_heading">Banner Heading <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="banner_heading" type="text" name="banner_heading" placeholder="Enter Banner Heading" required>
                                             <div class="invalid-feedback">Please enter a Banner Heading.</div>
                                         </div>
 
 
-                                        <!-- Banner Title -->
+                                        Banner Title
                                         <div class="col-md-6">
                                             <label class="form-label" for="banner_title">Banner Title <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="banner_title" type="text" name="banner_title" placeholder="Enter Banner Heading" required>
                                             <div class="invalid-feedback">Please enter a Banner Heading.</div>
-                                        </div>
+                                        </div> -->
 
                                      
                                         <hr class="mt-5">
@@ -190,26 +191,7 @@
                                             <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
 
-
-
-                                        <hr class="mt-5">
-
-                                        <h4># Doctor Section</h4>
-
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_heading">Doctor Heading <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="doctor_heading" type="text" name="doctor_heading" placeholder="Enter Doctor Heading" required>
-                                            <div class="invalid-feedback">Please enter a Doctor Heading.</div>
-                                        </div>
-
-
-                                        <!-- Short Description-->
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="about">Short Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="doctor_desc" name="doctor_desc" placeholder="Enter Short Description" required></textarea>
-                                            <div class="invalid-feedback">Please enter an Short Description.</div>
-                                        </div>
-
+                                       
                                         <hr class="mt-5">
 
                                         <h4># Services & Facilities</h4>
@@ -226,7 +208,15 @@
                                         <!-- Service Image -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="service_image"> Service Image <span class="txt-danger">*</span> </label>
-                                            <input class="form-control" id="service_image" type="file" name="service_image" onchange="previewserviceimage(event)" required>
+                                            <input class="form-control"
+                                                id="service_image"
+                                                type="file"
+                                                name="service_image[]"
+                                                multiple
+                                                accept=".jpg,.jpeg,.png,.webp,.svg"
+                                                onchange="previewserviceimage(event)"
+                                                required>
+
                                             <div class="invalid-feedback">Please upload a Service image.</div>
                                                 <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
                                                 <br>
@@ -234,7 +224,7 @@
                                             
                                             <!-- Image Preview -->
                                             <div class="mt-2">
-                                                <img id="serviceimagePreview" src="#" alt="Preview" class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                                <div class="mt-2 d-flex flex-wrap" id="serviceimagePreview"></div>
                                             </div>
                                         </div>
 
@@ -246,42 +236,11 @@
                                             <div class="invalid-feedback">Please enter an Service Description.</div>
                                         </div>
 
-                                        <!-- Features Table -->
-                                        <div class="col-12">
-                                            <table class="table table-bordered mt-5" id="featuresTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Service / Procedure <span class="txt-danger">*</span></th>
-                                                        <th>Description <span class="txt-danger">*</span></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    <tr class="feature-row">
-                                                        <td>
-                                                            <input type="text" name="features[0][title]" class="form-control" placeholder="Enter Service / Procedure">
-                                                        </td>
-
-                                                        <td>
-                                                            <textarea name="features[0][description]" class="form-control editor" placeholder="Enter Description"></textarea>
-                                                        </td>
-
-                                                        <td>
-                                                            <button type="button" class="btn btn-success add-feature">Add More</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-
+                                  
 
                                         <hr class="mt-5">
 
-                                        <h4># Why Choose</h4>
-
-
+                                        <h4># Technology, Safety & Reporting Standards</h4>
 
                                         <!-- Special Heading -->
                                         <div class="col-md-6 mt-5">
@@ -443,9 +402,147 @@
        @include('components.backend.main-js')
 
 
-
         {{-- Script to fetch subcategories based on master category --}}
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+        <!-----------------Service detialed Multiple image Js----->
+        <script>
+            let selectedFiles = [];
+
+            window.previewserviceimage = function(event) {
+
+                const preview = document.getElementById('serviceimagePreview');
+                const files = Array.from(event.target.files);
+
+                files.forEach(file => {
+
+                    selectedFiles.push(file);
+
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+
+                        const wrapper = document.createElement('div');
+                        wrapper.style.position = 'relative';
+                        wrapper.style.margin = '5px';
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.maxHeight = '120px';
+                        img.style.border = '1px solid #ddd';
+                        img.style.borderRadius = '6px';
+                        img.style.padding = '3px';
+
+                        const removeBtn = document.createElement('span');
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.style.position = 'absolute';
+                        removeBtn.style.top = '2px';
+                        removeBtn.style.right = '6px';
+                        removeBtn.style.cursor = 'pointer';
+                        removeBtn.style.background = '#000';
+                        removeBtn.style.color = '#fff';
+                        removeBtn.style.borderRadius = '50%';
+                        removeBtn.style.padding = '0 6px';
+                        removeBtn.style.fontSize = '16px';
+
+                        removeBtn.onclick = function() {
+                            wrapper.remove();
+                            selectedFiles = selectedFiles.filter(f => f !== file);
+                            updateInputFiles();
+                        };
+
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(removeBtn);
+                        preview.appendChild(wrapper);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+
+                updateInputFiles();
+            }
+
+            window.updateInputFiles = function() {
+                const input = document.getElementById('service_image');
+                const dataTransfer = new DataTransfer();
+
+                selectedFiles.forEach(file => dataTransfer.items.add(file));
+
+                input.files = dataTransfer.files;
+            }
+        </script>
+
+
+        {{-- Script to fetch multiples files forthe section --}}
+        <script>
+            let sectionFiles = [];
+
+            window.previewimage = function(event)
+            {
+                sectionFiles = Array.from(event.target.files);
+                renderSectionPreviews();
+            }
+
+            function renderSectionPreviews()
+            {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = "";
+
+                sectionFiles.forEach((file, index) => {
+
+                    const reader = new FileReader();
+
+                    reader.onload = function(e)
+                    {
+                        const wrapper = document.createElement('div');
+                        wrapper.style.position = 'relative';
+                        wrapper.style.margin = '5px';
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.maxHeight = '150px';
+                        img.style.border = '1px solid #ddd';
+                        img.style.borderRadius = '6px';
+
+                        const close = document.createElement('span');
+                        close.innerHTML = '&times;';
+                        close.style.position = 'absolute';
+                        close.style.top = '2px';
+                        close.style.right = '6px';
+                        close.style.cursor = 'pointer';
+                        close.style.background = 'red';
+                        close.style.color = 'white';
+                        close.style.borderRadius = '50%';
+                        close.style.padding = '0 6px';
+
+                        close.onclick = function () {
+                            sectionFiles.splice(index, 1);
+                            renderSectionPreviews();
+                        };
+
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(close);
+                        preview.appendChild(wrapper);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+
+                updateSectionInput();
+            }
+
+            function updateSectionInput()
+            {
+                const input = document.getElementById('section_image');
+                const dataTransfer = new DataTransfer();
+
+                sectionFiles.forEach(file => dataTransfer.items.add(file));
+
+                input.files = dataTransfer.files;
+            }
+        </script>
+
     
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -529,107 +626,9 @@
         </script>
 
 
-        {{-- Script to fetch multiples files forthe section --}}
-        <script>
-            let selectedFiles = [];
-
-            function previewimage(event)
-            {
-                selectedFiles = Array.from(event.target.files);
-                renderPreviews();
-            }
-
-            function renderPreviews()
-            {
-                const preview = document.getElementById('imagePreview');
-                preview.innerHTML = "";
-
-                selectedFiles.forEach((file, index) => {
-
-                    const reader = new FileReader();
-
-                    reader.onload = function(e)
-                    {
-                        const wrapper = document.createElement('div');
-                        wrapper.style.position = 'relative';
-                        wrapper.style.display = 'inline-block';
-                        wrapper.style.marginRight = '10px';
-
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.className = 'img-fluid rounded border';
-                        img.style.maxHeight = '150px';
-                        img.style.background = 'black';
-
-                        const close = document.createElement('span');
-                        close.innerHTML = '&times;';
-                        close.style.position = 'absolute';
-                        close.style.top = '2px';
-                        close.style.right = '6px';
-                        close.style.cursor = 'pointer';
-                        close.style.background = 'red';
-                        close.style.color = 'white';
-                        close.style.borderRadius = '50%';
-                        close.style.padding = '0px 6px';
-                        close.style.fontSize = '16px';
-
-                        close.onclick = function () {
-                            removeImage(index);
-                        };
-
-                        wrapper.appendChild(img);
-                        wrapper.appendChild(close);
-                        preview.appendChild(wrapper);
-                    };
-
-                    reader.readAsDataURL(file);
-                });
-
-                updateInputFiles();
-            }
-
-            function removeImage(index)
-            {
-                selectedFiles.splice(index, 1);
-                renderPreviews();
-            }
-
-            function updateInputFiles()
-            {
-                const input = document.getElementById('section_image');
-                const dataTransfer = new DataTransfer();
-
-                selectedFiles.forEach(file => {
-                    dataTransfer.items.add(file);
-                });
-
-                input.files = dataTransfer.files;
-            }
-        </script>
-
 
         <script>
             
-
-            function previewserviceimage(event) {
-                const input = event.target;
-                const preview = document.getElementById('serviceimagePreview');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.classList.remove('d-none'); // show preview
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                } else {
-                    preview.src = "#";
-                    preview.classList.add('d-none'); // hide if no file
-                }
-            }
-
             function previewfaqimage(event) {
                 const input = event.target;
                 const preview = document.getElementById('faqimagePreview');
@@ -938,6 +937,54 @@
                 });
 
             });
+        </script>
+
+
+        <!-- JS for service editor -->
+        <script>
+            ClassicEditor.create(document.querySelector('#service_desc'), {
+                toolbar: [
+                    'heading', 
+                    '|',
+                    'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript',
+                    'link', 'blockQuote', 'codeBlock',
+                    'bulletedList', 'numberedList', 'todoList',
+                    '|',
+                    'alignment', 'outdent', 'indent',
+                    '|',
+                    'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily',
+                    '|',
+                    'insertTable', 'imageUpload', 'mediaEmbed', 'horizontalLine', 'pageBreak',
+                    '|',
+                    'undo', 'redo', 'removeFormat', 'highlight', 'specialCharacters'
+                ],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                    ]
+                },
+                fontFamily: {
+                    options: [
+                        'default', 'Arial, Helvetica, sans-serif', 'Courier New, Courier, monospace',
+                        'Georgia, serif', 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif', 'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif', 'Verdana, Geneva, sans-serif'
+                    ]
+                },
+                fontSize: {
+                    options: [ 'tiny', 'small', 'default', 'big', 'huge' ]
+                },
+                alignment: {
+                    options: [ 'left', 'center', 'right', 'justify' ]
+                }
+            })
+            .catch(error => { console.error(error); });
         </script>
 
 
