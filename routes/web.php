@@ -82,7 +82,7 @@ Route::prefix('admin')
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
-        Route::resource('manage-diagnostic-critical-details', DiagnosticCriticalDetailsController::class);
+        Route::resource('manage-diagnostic-critical', DiagnosticCriticalDetailsController::class);
 
     
     
