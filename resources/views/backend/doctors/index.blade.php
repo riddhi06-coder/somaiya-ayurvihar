@@ -45,89 +45,105 @@
                             </div>
 
 
-                            <div class="d-flex mb-4">
-                                <div class="ms-auto">
-                                    <input type="text" id="doctorSearch" class="form-control" placeholder="Search by Category, Subcategory, Service or Doctor name" style="width: 300px;">
-                                </div>
-                            </div>
-
-
-                            <div class="table-responsive custom-scrollbar mt-3">
-                                <table class="table table-bordered">
+                            <div class="table-responsive custom-scrollbar">
+                                <table class="display table table-bordered" id="basic-1">
                                     <thead>
+                  
                                         <tr>
-                                            <th>Sr No.</th>
+                                            <th>#</th>
+                                            <th>Main Category</th>
+                                            <th>Sub Category</th>
+                                            <th>Service</th>
                                             <th>Doctor Name</th>
                                             <th>Image</th>
-                                            
                                             <th>Action</th>
                                         </tr>
+                    
                                     </thead>
                                     <tbody>
                                         @php $sr = 1; @endphp
 
                                         @foreach($doctors as $masterName => $subcategories)
-                                            {{-- Master Category --}}
-                                            <tr class="table-light">
-                                                <td colspan="4"><strong>Main Category: {{ $masterName }}</strong></td>
-                                            </tr>
+
                                             @foreach($subcategories as $subName => $services)
-                                                {{-- Subcategory --}}
-                                                <tr class="table-info">
-                                                    <td colspan="4" style="padding-left:20px;"><strong>Sub Category: {{ $subName }}</strong></td>
-                                                </tr>
 
                                                 @foreach($services as $serviceName => $doctorsList)
+
                                                     @php
-                                                        // Skip "No Service" group
                                                         if($serviceName === 'No Service') {
-                                                            $serviceName = null;
+                                                            $serviceName = '';
                                                         }
                                                     @endphp
 
-                                                    {{-- Show service name as a separate row --}}
-                                                    @if($serviceName)
-                                                        <tr class="table-success">
-                                                            <td colspan="4" style="padding-left:40px;"><strong>Service: {{ $serviceName }}</strong></td>
-                                                        </tr>
-                                                    @endif
-
                                                     @foreach($doctorsList as $doctor)
-                                                        <tr>
-                                                            <td style="padding-left:60px;">{{ $sr++ }}</td>
-                                                            <td>{{ $doctor->doctor_name }}</td>
-                                                            <td>
-                                                                <img src="{{ asset('uploads/doctors/' . $doctor->doctor_image) }}" width="120px">
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ route('admin.manage-doctors.edit', $doctor->id) }}" class="btn btn-sm btn-primary">Edit</a>
 
-                                                                <form action="{{ route('admin.manage-doctors.destroy', $doctor->id) }}" method="POST" class="d-inline">
+                                                        <tr>
+                                                            <td>{{ $sr++ }}</td>
+
+                                                            {{-- Main Category --}}
+                                                            <td>{{ $masterName }}</td>
+
+                                                            {{-- Sub Category --}}
+                                                            <td>{{ $subName }}</td>
+
+                                                            {{-- Service --}}
+                                                            <td>{{ $serviceName ?? '-'}}</td>
+
+                                                            {{-- Doctor Name --}}
+                                                            <td>{{ $doctor->doctor_name }}</td>
+
+                                                            {{-- Image --}}
+                                                            <td>
+                                                                <img src="{{ asset('uploads/doctors/'.$doctor->doctor_image) }}"
+                                                                    width="120">
+                                                            </td>
+
+                                                            {{-- Action --}}
+                                                            <td>
+
+                                                                <a href="{{ route('admin.manage-doctors.edit', $doctor->id) }}"
+                                                                class="btn btn-sm btn-primary">
+                                                                    Edit
+                                                                </a>
+
+                                                                <form action="{{ route('admin.manage-doctors.destroy', $doctor->id) }}"
+                                                                    method="POST"
+                                                                    class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this record?')">
+
+                                                                    <button class="btn btn-sm btn-danger"
+                                                                            onclick="return confirm('Delete this record?')">
                                                                         Delete
                                                                     </button>
-                                                                </form>
+                                                                </form><br><br>
 
-                                                                <!-- Active / Inactive Toggle -->
-                                                                <form action="{{ route('admin.manage-doctors.toggleStatus', $doctor->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to change the status?');">
+                                                                <form action="{{ route('admin.manage-doctors.toggleStatus', $doctor->id) }}"
+                                                                    method="POST"
+                                                                    class="d-inline"
+                                                                    onsubmit="return confirm('Change status?');">
+
                                                                     @csrf
                                                                     @method('PATCH')
-                                                                    <button type="submit" class="btn btn-sm {{ $doctor->status ? 'btn-success' : 'btn-warning' }}">
+
+                                                                    <button type="submit"
+                                                                            class="btn btn-sm {{ $doctor->status ? 'btn-success' : 'btn-warning' }}">
                                                                         {{ $doctor->status ? 'Active' : 'Inactive' }}
                                                                     </button>
                                                                 </form>
 
                                                             </td>
                                                         </tr>
+
                                                     @endforeach
+
                                                 @endforeach
+
                                             @endforeach
 
                                         @endforeach
-
                                     </tbody>
+
                                 </table>
 
 
