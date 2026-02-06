@@ -202,4 +202,155 @@ class DiagnosticCriticalDetailsController extends Controller
         );
     }
 
+    public function update(Request $request, $id)
+    {
+        // ================= VALIDATION =================
+        $request->validate([
+
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+
+            'desc' => 'required',
+
+            'section_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'service_heading' => 'required',
+            'service_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'service_desc' => 'required',
+
+            'special_heading' => 'required',
+            'special_desc' => 'required',
+
+            'faq_heading' => 'required',
+            'faq_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+
+            'faq' => 'required|array',
+            'faq.*.question' => 'required',
+            'faq.*.answer' => 'required',
+
+            'page_headers' => 'nullable|array',
+            'page_headers.*.title' => 'required',
+
+            'book_desc' => 'required',
+            'book_heading' => 'required',
+        ]);
+
+        $service_details = ManageDiagnosticDetail::findOrFail($id);
+
+        $uploadPath = public_path('uploads/service-details');
+
+        // ================= SECTION IMAGES =================
+
+        $existingSectionImages = json_decode($service_details->section_image, true) ?? [];
+        $removedSection = json_decode($request->removed_section_images, true) ?? [];
+
+        foreach ($removedSection as $img) {
+            if (file_exists($uploadPath.'/'.$img)) unlink($uploadPath.'/'.$img);
+            $existingSectionImages = array_values(array_diff($existingSectionImages, [$img]));
+        }
+
+        if ($request->hasFile('section_image')) {
+            foreach ($request->file('section_image') as $img) {
+                $name = time().'_'.rand(1000,9999).'_section.'.$img->getClientOriginalExtension();
+                $img->move($uploadPath, $name);
+                $existingSectionImages[] = $name;
+            }
+        }
+
+        // ================= SERVICE IMAGES =================
+
+        $existingServiceImages = json_decode($service_details->service_image, true) ?? [];
+        $removedService = json_decode($request->removed_service_images, true) ?? [];
+
+        foreach ($removedService as $img) {
+            if (file_exists($uploadPath.'/'.$img)) unlink($uploadPath.'/'.$img);
+            $existingServiceImages = array_values(array_diff($existingServiceImages, [$img]));
+        }
+
+        if ($request->hasFile('service_image')) {
+            foreach ($request->file('service_image') as $img) {
+                $name = time().'_'.rand(1000,9999).'_service.'.$img->getClientOriginalExtension();
+                $img->move($uploadPath, $name);
+                $existingServiceImages[] = $name;
+            }
+        }
+
+        // ================= SINGLE IMAGE HELPER =================
+
+        function uploadSingleUpdate($request,$field,$suffix,$old)
+        {
+            if ($request->hasFile($field)) {
+                $img = $request->file($field);
+                $name = time().'_'.rand(1000,9999).'_'.$suffix.'.'.$img->getClientOriginalExtension();
+                $img->move(public_path('uploads/service-details'), $name);
+                return $name;
+            }
+            return $old;
+        }
+
+        $specialImage = uploadSingleUpdate($request,'special_image','special',$service_details->special_image);
+        $faqImage     = uploadSingleUpdate($request,'faq_image','faq',$service_details->faq_image);
+
+        // ================= JSON =================
+
+        $featuresJson    = json_encode($request->features);
+        $faqJson         = json_encode($request->faq);
+        $pageHeadersJson = json_encode($request->page_headers);
+        $sectionJson     = json_encode($existingSectionImages);
+        $serviceJson     = json_encode($existingServiceImages);
+
+        // ================= UPDATE =================
+
+        $service_details->update([
+
+            'category_id' => $request->category_id,
+            'subcategory_id' => $request->subcategory_id,
+            'service_id' => $request->service_id,
+
+            'section_image' => $sectionJson,
+            'description' => $request->desc,
+
+            'service_heading' => $request->service_heading,
+            'service_image' => $serviceJson,
+            'service_desc' => $request->service_desc,
+
+            'features' => $featuresJson,
+
+            'special_heading' => $request->special_heading,
+            'special_image' => $specialImage,
+            'special_desc' => $request->special_desc,
+
+            'faq_heading' => $request->faq_heading,
+            'faq_image' => $faqImage,
+            'faq' => $faqJson,
+
+            'page_headers' => $pageHeadersJson,
+
+            'book_desc' => $request->book_desc,
+            'book_heading' => $request->book_heading,
+
+            'updated_by' => Auth::id(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('admin.manage-diagnostic-critical.index')
+            ->with('message','Service details updated successfully!');
+    }
+
+    public function destroy(string $id)
+    {
+        $data['deleted_by'] =  Auth::user()->id;
+        $data['deleted_at'] =  Carbon::now();
+        try {
+            $industries = ManageDiagnosticDetail::findOrFail($id);
+            $industries->update($data);
+
+            return redirect()->route('admin.manage-diagnostic-critical.index')->with('message', 'Details deleted successfully!');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
+        }
+    }
+
+
 }

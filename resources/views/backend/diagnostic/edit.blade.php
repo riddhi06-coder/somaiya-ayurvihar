@@ -22,7 +22,7 @@
                 <div class="col-6">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                    <a href="{{ route('admin.manage-service-details.index') }}">Home</a>
+                    <a href="{{ route('admin.manage-diagnostic-critical.index') }}">Home</a>
                     </li>
                     <li class="breadcrumb-item active">Edit Service Details</li>
                 </ol>
@@ -49,7 +49,7 @@
                                 <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
                                     <form class="row g-3 needs-validation custom-input"
                                         novalidate
-                                        action="{{ route('admin.manage-service-details.update', $service_details->id) }}"
+                                        action="{{ route('admin.manage-diagnostic-critical.update', $service_details->id) }}"
                                         method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
@@ -342,56 +342,6 @@
                                             <div class="invalid-feedback">Please enter an Service Description.</div>
                                         </div>
 
-                                        <!-- Features Table -->
-                                        <div class="col-12">
-                                            <table class="table table-bordered mt-5" id="featuresTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Feature <span class="txt-danger">*</span></th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($service_details->features ?? [] as $index => $feature)
-                                                    <tr class="feature-row">
-                                                        <td>
-                                                            <input type="text"
-                                                                name="features[{{ $index }}][title]"
-                                                                class="form-control"
-                                                                value="{{ $feature['title'] ?? '' }}">
-                                                        </td>
-
-                                                        <td>
-                                                            <textarea name="features[{{ $index }}][description]"
-                                                                class="form-control editor"
-                                                                placeholder="Enter Description">{{ $feature['description'] ?? '' }}</textarea>
-                                                        </td>
-
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn {{ $index == 0 ? 'btn-success add-feature' : 'btn-danger remove-feature' }}">
-                                                                {{ $index == 0 ? 'Add More' : 'Remove' }}
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    @empty
-                                                    <tr class="feature-row">
-                                                        <td>
-                                                            <input type="text" name="features[0][title]" class="form-control">
-                                                        </td>
-                                                        <td>
-                                                            <textarea name="features[0][description]" class="form-control editor"></textarea>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-success add-feature">Add More</button>
-                                                        </td>
-                                                    </tr>
-                                                    @endforelse
-                                                    </tbody>
-
-                                            </table>
-                                        </div>
-
 
                                         <hr class="mt-5">
 
@@ -613,7 +563,7 @@
 
                                         <!-- Form Actions -->
                                         <div class="col-12 text-end">
-                                            <a href="{{ route('admin.manage-service-details.index') }}" class="btn btn-danger px-4">Cancel</a>
+                                            <a href="{{ route('admin.manage-diagnostic-critical.index') }}" class="btn btn-danger px-4">Cancel</a>
                                             <button class="btn btn-primary" type="submit">Submit</button>
                                         </div>
                                     </form>
@@ -641,8 +591,8 @@
         <script>
             let selectedFiles = [];
 
-            window.previewserviceimage = function(event) {
-
+            function previewServiceImage(event)
+            {
                 const preview = document.getElementById('serviceimagePreview');
                 const files = Array.from(event.target.files);
 
@@ -652,8 +602,8 @@
 
                     const reader = new FileReader();
 
-                    reader.onload = function(e) {
-
+                    reader.onload = function(e)
+                    {
                         const wrapper = document.createElement('div');
                         wrapper.style.position = 'relative';
                         wrapper.style.margin = '5px';
@@ -663,7 +613,6 @@
                         img.style.maxHeight = '120px';
                         img.style.border = '1px solid #ddd';
                         img.style.borderRadius = '6px';
-                        img.style.padding = '3px';
 
                         const removeBtn = document.createElement('span');
                         removeBtn.innerHTML = '&times;';
@@ -671,16 +620,15 @@
                         removeBtn.style.top = '2px';
                         removeBtn.style.right = '6px';
                         removeBtn.style.cursor = 'pointer';
-                        removeBtn.style.background = '#000';
-                        removeBtn.style.color = '#fff';
+                        removeBtn.style.background = 'red';
+                        removeBtn.style.color = 'white';
                         removeBtn.style.borderRadius = '50%';
                         removeBtn.style.padding = '0 6px';
-                        removeBtn.style.fontSize = '16px';
 
-                        removeBtn.onclick = function() {
+                        removeBtn.onclick = function () {
                             wrapper.remove();
                             selectedFiles = selectedFiles.filter(f => f !== file);
-                            updateInputFiles();
+                            updateServiceInput();
                         };
 
                         wrapper.appendChild(img);
@@ -691,36 +639,45 @@
                     reader.readAsDataURL(file);
                 });
 
-                updateInputFiles();
+                updateServiceInput();
             }
 
-            window.updateInputFiles = function() {
+            function updateServiceInput()
+            {
                 const input = document.getElementById('service_image');
                 const dataTransfer = new DataTransfer();
 
                 selectedFiles.forEach(file => dataTransfer.items.add(file));
-
                 input.files = dataTransfer.files;
             }
+
+            let removedServiceImages = [];
+
+            function removeExistingServiceImage(img, el)
+            {
+                removedServiceImages.push(img);
+                document.getElementById('removed_service_images').value =
+                    JSON.stringify(removedServiceImages);
+
+                el.parentElement.remove();
+            }
+
         </script>
 
 
-        {{-- Script to fetch multiples files forthe section --}}
+
+        {{-- Script to Section Image fetch multiples files forthe section --}}
         <script>
             let sectionFiles = [];
 
-            window.previewimage = function(event)
-            {
-                sectionFiles = Array.from(event.target.files);
-                renderSectionPreviews();
-            }
-
-            function renderSectionPreviews()
+            function previewSectionImage(event)
             {
                 const preview = document.getElementById('imagePreview');
-                preview.innerHTML = "";
+                const files = Array.from(event.target.files);
 
-                sectionFiles.forEach((file, index) => {
+                files.forEach(file => {
+
+                    sectionFiles.push(file);
 
                     const reader = new FileReader();
 
@@ -728,7 +685,8 @@
                     {
                         const wrapper = document.createElement('div');
                         wrapper.style.position = 'relative';
-                        wrapper.style.margin = '5px';
+                        wrapper.style.display = 'inline-block';
+                        wrapper.style.marginRight = '10px';
 
                         const img = document.createElement('img');
                         img.src = e.target.result;
@@ -748,8 +706,9 @@
                         close.style.padding = '0 6px';
 
                         close.onclick = function () {
-                            sectionFiles.splice(index, 1);
-                            renderSectionPreviews();
+                            wrapper.remove();
+                            sectionFiles = sectionFiles.filter(f => f !== file);
+                            updateSectionInput();
                         };
 
                         wrapper.appendChild(img);
@@ -773,22 +732,17 @@
                 input.files = dataTransfer.files;
             }
 
+            let removedSectionImages = [];
 
-            let removedServiceImages = [];
-
-            function removeExistingServiceImage(img, el)
+            function removeExistingImage(img, el)
             {
-                removedServiceImages.push(img);
+                removedSectionImages.push(img);
 
-                document.getElementById('removed_service_images').value =
-                    JSON.stringify(removedServiceImages);
+                document.getElementById('removed_section_images').value =
+                    JSON.stringify(removedSectionImages);
 
                 el.parentElement.remove();
             }
-
-
-
-            
         </script>
 
     
