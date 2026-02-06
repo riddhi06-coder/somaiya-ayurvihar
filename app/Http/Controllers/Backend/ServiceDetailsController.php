@@ -43,7 +43,7 @@ class ServiceDetailsController extends Controller
     public function create()
     {
 
-        $masterCategories = MedicalServiceMasterCategory::all();
+        $masterCategories = MedicalServiceMasterCategory::orderBy('created_at', 'asc')->first();
         $subCategories = MedicalServiceSubCategory::all();
         $facility = MedicalServiceCategory::all();
         
@@ -183,7 +183,8 @@ class ServiceDetailsController extends Controller
         $service_details = ManageServiceDetail::findOrFail($id);
 
         $service = MedicalServiceCategory::all();
-        $masterCategories = MedicalServiceMasterCategory::all();
+        $masterCategories = MedicalServiceMasterCategory::orderBy('created_at','asc')->first();
+
         $subCategories = MedicalServiceSubCategory::all();
 
         $service_details->section_image = json_decode($service_details->section_image, true);

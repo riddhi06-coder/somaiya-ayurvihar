@@ -62,12 +62,12 @@
                                                     class="form-control"
                                                     required>
                                                 <option value="">Select Master Category</option>
-                                                @foreach($masterCategories as $cat)
-                                                    <option value="{{ $cat->id }}"
-                                                        {{ isset($service) && $service->category_id == $cat->id ? 'selected' : '' }}>
-                                                        {{ $cat->category_name }}
+                                                @if($masterCategories)
+                                                    <option value="{{ $masterCategories->id }}"
+                                                        {{ isset($service) && $service->category_id == $masterCategories->id ? 'selected' : '' }}>
+                                                        {{ $masterCategories->category_name }}
                                                     </option>
-                                                @endforeach
+                                                @endif
                                             </select>
                                         </div>
 

@@ -99,10 +99,11 @@
                 </li>
 
 
-                <li class="sidebar-list {{ request()->routeIs('admin.manage-service-details.index') ? 'active' : '' }}">
+
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-service-details.index', 'admin.manage-vision-mission.index', 'admin.awards-details.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
-                  <a class="sidebar-link" href="{{ route('admin.manage-service-details.index') }}">
-                    <svg class="stroke-icon"> 
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
                       <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-bonus-kit') }}"></use>
                     </svg>
                     <svg class="fill-icon">
@@ -110,8 +111,15 @@
                     </svg>
                     <span>Service Details</span>
                   </a>
+                  <ul class="sidebar-submenu">
+                      <li><a href="{{ route('admin.manage-service-details.index') }}">Specialities</a></li>
+                      <li><a href="{{ route('admin.manage-vision-mission.index') }}">Diagnostic Services</a></li>
+                   
+                  </ul>
+
                 </li>
-              
+
+
                 
               </ul>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
