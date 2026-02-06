@@ -98,6 +98,7 @@ Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 
 //======About Us Pages
 Route::get('/introduction', [HomeController::class, 'introduction'])->name('frontend.introduction');
+Route::get('/vision-and-mision', [HomeController::class, 'vision_and_mision'])->name('frontend.vision_and_mision');
 
 
 //======Service Page

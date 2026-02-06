@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+
 use App\Models\HomeSlider;
 use App\Models\AnnouncementsDetail;
 use App\Models\AwardsDetails;
@@ -17,10 +22,8 @@ use App\Models\MedicalServiceMasterCategory;
 use App\Models\ManageServiceDetail;
 use App\Models\Doctor;
 use App\Models\AboutIntro;
+use App\Models\VisionMission;
 
-
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -102,12 +105,18 @@ class HomeController extends Controller
         ]);
     }
 
-
     // About Intro
     public function introduction()
     {
         $sections  = AboutIntro::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
         return view('frontend.introduction', compact('sections'));
+    }
+
+    // About Vision & Mission
+    public function vision_and_mision()
+    {
+        $vision_and_mision  = VisionMission::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.vision_and_mision', compact('vision_and_mision'));
     }
 
 
