@@ -50,7 +50,7 @@
                           <li><a href="{{ route('frontend.chairmans_message') }}">Chairman’s Message</a></li>
                           <li><a href="{{ route('frontend.associations') }}">Associations</a></li>
                           <!-- <li><a href="#">Our Journey</a></li> -->
-                          <li><a href="somaiya-prayer.html">Somaiya Prayer</a></li>
+                          <li><a href="{{ route('frontend.somaiya_prayer') }}">Somaiya Prayer</a></li>
                           <!-- 
                             <li><a href="#">Associations</a></li> -->
                           <li><a href="management-team.html">Management Team</a></li>

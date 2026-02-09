@@ -26,6 +26,9 @@ use App\Models\VisionMission;
 use App\Models\ManageDiagnosticDetail;
 use App\Models\ManageChairmanMessage;
 use App\Models\ManageAssociation;
+use App\Models\ManagePrayer;
+
+
 
 
 class HomeController extends Controller
@@ -83,7 +86,6 @@ class HomeController extends Controller
             'doctors'    => $doctors,
         ]);
     }
-
 
     // Diagnostic Service Page
     public function diagnostic_details($slug)
@@ -165,6 +167,13 @@ class HomeController extends Controller
     {
         $associations  = ManageAssociation::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
         return view('frontend.associations', compact('associations'));
+    }
+
+    // About somaiya_prayer
+    public function somaiya_prayer()
+    {
+        $somaiya_prayer  = ManagePrayer::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.somaiya_prayer', compact('somaiya_prayer'));
     }
 
 }
