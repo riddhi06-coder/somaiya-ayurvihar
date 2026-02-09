@@ -32,4 +32,6 @@ class MedicalServiceCategory extends Model
     {
         return $this->belongsTo(MedicalServiceSubCategory::class, 'subcategory_id');
     }
+
+    
 }

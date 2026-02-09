@@ -21,7 +21,7 @@ use App\Http\Controllers\Backend\AboutVisionController;
 use App\Http\Controllers\Backend\DiagnosticCriticalDetailsController;
 use App\Http\Controllers\Backend\ChairmanMessageController;
 use App\Http\Controllers\Backend\AssociationController;
-
+use App\Http\Controllers\Backend\PrayerController;
 
 
 //frontend controller
@@ -83,6 +83,7 @@ Route::prefix('admin')
         Route::resource('manage-vision-mission', AboutVisionController::class);
         Route::resource('manage-chairman-message', ChairmanMessageController::class);
         Route::resource('manage-associations', AssociationController::class);
+        Route::resource('manage-prayer', PrayerController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);

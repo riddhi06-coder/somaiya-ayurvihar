@@ -108,14 +108,22 @@
                     <div class="services-overview">
                         <div class="cs_about_thumbnail">
                             <div class="cs_about_thumbnail_1">
-                                <img src="{{ asset('uploads/service-details/' . $service->section_image[1]) }}" class="img-responsive" alt="Image">
+                                @if(!empty($service->section_image[1]))
+                                    <img src="{{ asset('uploads/service-details/' . $service->section_image[1]) }}" class="img-responsive" alt="Image">
+                                @endif
                                 <a href="https://www.youtube.com/embed/rRid6GCJtgc" class="cs_player_btn cs_style_1 cs_video_open">
-                                    <span class="cs_play_btn_text cs_fs_18 cs_semibold cs_accent_color">{{ $service->subcategory->subcategory_name ?? '' }}</span>
+                                    <span class="cs_play_btn_text cs_fs_18 cs_semibold cs_accent_color">
+                                        {{ $service->subcategory->subcategory_name ?? '' }}
+                                    </span>
                                 </a>
                             </div>
+
                             <div class="cs_about_thumbnail_2">
-                                <img src="{{ asset('uploads/service-details/' . $service->section_image[0]) }}" class="img-responsive" alt="About Image">
+                                @if(!empty($service->section_image[0]))
+                                    <img src="{{ asset('uploads/service-details/' . $service->section_image[0]) }}" class="img-responsive" alt="About Image">
+                                @endif
                             </div>
+
                         </div>
                     </div>
                 </div>

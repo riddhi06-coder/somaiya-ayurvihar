@@ -88,26 +88,32 @@ class HomeController extends Controller
     // Diagnostic Service Page
     public function diagnostic_details($slug)
     {
+        // Step 1: Fetch service mapping using slug
         $mapping = MedicalServiceCategory::where('slug', $slug)
             ->whereNull('deleted_by')
             ->firstOrFail();
 
+        // Step 2: Fetch diagnostic detail using service_id
         $service = ManageDiagnosticDetail::with(['category', 'subcategory', 'service'])
-            ->where('subcategory_id', $mapping->subcategory_id)
+            ->where('service_id', $mapping->id)
             ->whereNull('deleted_by')
             ->firstOrFail();
 
-        // dd($service);
-
+            // dd($service);
         // Decode JSON fields
         $service->faq = json_decode($service->faq, true) ?? [];
-        $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
-        $service->section_image = json_decode($service->section_image, true) ?? [];
-        $service->service_image = json_decode($service->service_image, true) ?? [];
+
+        $service->page_headers = json_decode($service->page_headers, true);
+        $service->page_headers = is_array($service->page_headers) ? array_values($service->page_headers) : [];
+
+        $service->section_image = json_decode($service->section_image, true);
+        $service->section_image = is_array($service->section_image) ? $service->section_image : [];
+
+        $service->service_image = json_decode($service->service_image, true);
+        $service->service_image = is_array($service->service_image) ? $service->service_image : [];
 
         return view('frontend.diagnostic_details', compact('service'));
     }
-
 
     // Doctor Details Page
     public function doctor_details($doctoreslug)
@@ -154,6 +160,7 @@ class HomeController extends Controller
         return view('frontend.chairmans_message', compact('chairmans_message'));
     }
 
+    // About Assosciations
     public function associations()
     {
         $associations  = ManageAssociation::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();

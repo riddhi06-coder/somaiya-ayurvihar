@@ -79,7 +79,7 @@
 
 
 
-                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.manage-vision-mission.index', 'admin.manage-chairman-message.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.manage-vision-mission.index', 'admin.manage-chairman-message.index','admin.associations.index','admin.prayer.index','admin.footer-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
@@ -91,11 +91,12 @@
                     <span>About Us</span>
                   </a>
                   <ul class="sidebar-submenu">
-                    
+
                       <li><a href="{{ route('admin.manage-about-intro.index') }}">Introduction</a></li>
                       <li><a href="{{ route('admin.manage-vision-mission.index') }}">Vision & Mision</a></li>
                       <li><a href="{{ route('admin.manage-chairman-message.index') }}">Chairman’s Message</a></li>
                       <li><a href="{{ route('admin.manage-associations.index') }}">Associations</a></li>
+                      <li><a href="{{ route('admin.manage-prayer.index') }}">Somaiya Prayer</a></li>
                    
                   </ul>
 
