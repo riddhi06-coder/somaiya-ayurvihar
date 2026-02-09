@@ -19,7 +19,7 @@ use App\Http\Controllers\Backend\ServiceDetailsController;
 use App\Http\Controllers\Backend\AboutIntroController;
 use App\Http\Controllers\Backend\AboutVisionController;
 use App\Http\Controllers\Backend\DiagnosticCriticalDetailsController;
-
+use App\Http\Controllers\Backend\ChairmanMessageController;
 
 
 //frontend controller
@@ -79,6 +79,7 @@ Route::prefix('admin')
         // About Us
         Route::resource('manage-about-intro', AboutIntroController::class);
         Route::resource('manage-vision-mission', AboutVisionController::class);
+        Route::resource('manage-chairman-message', ChairmanMessageController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);

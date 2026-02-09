@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ManageDiagnosticDetail extends Model
 {
-        use HasFactory;
+    use HasFactory;
 
     protected $table = 'diagnostic_details';
     public $timestamps = false;
