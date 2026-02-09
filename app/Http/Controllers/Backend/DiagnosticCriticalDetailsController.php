@@ -58,8 +58,8 @@ class DiagnosticCriticalDetailsController extends Controller
             'category_id' => 'required',
             'subcategory_id' => 'required',
 
-            // 'banner_heading' => 'required|string|max:255',
-            // 'banner_title' => 'required|string|max:255',
+            'banner_heading' => 'required|string|max:255',
+            'banner_title' => 'required|string|max:255',
 
             'section_image.*' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
@@ -212,6 +212,9 @@ class DiagnosticCriticalDetailsController extends Controller
 
             'desc' => 'required',
 
+            'banner_heading' => 'required|string|max:255',
+            'banner_title' => 'required|string|max:255',
+
             'section_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
             'service_heading' => 'required',
@@ -306,6 +309,10 @@ class DiagnosticCriticalDetailsController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'service_id' => $request->service_id,
+
+
+            'banner_heading' => $request->banner_heading,
+            'banner_title' => $request->banner_title,
 
             'section_image' => $sectionJson,
             'description' => $request->desc,

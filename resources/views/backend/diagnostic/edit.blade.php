@@ -121,19 +121,19 @@
 
 
                                         <!-- Section Title -->
-                                        <!-- <div class="col-md-6">
+                                        <div class="col-md-6">
                                             <label class="form-label" for="banner_heading">Banner Heading <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="banner_heading" type="text" name="banner_heading" placeholder="Enter Banner Heading"  value="{{ old('banner_heading', $service_details->banner_heading) }}" required>
                                             <div class="invalid-feedback">Please enter a Banner Heading.</div>
                                         </div>
 
                                         
-                                        Banner Title
+                                        <!-- Banner Title -->
                                         <div class="col-md-6">
                                             <label class="form-label" for="banner_title">Banner Title <span class="txt-danger">*</span></label>
                                             <input class="form-control" id="banner_title" type="text" name="banner_title" placeholder="Enter Banner Heading" value="{{ old('banner_title', $service_details->banner_title) }}" required>
                                             <div class="invalid-feedback">Please enter a Banner Heading.</div>
-                                        </div> -->
+                                        </div>
 
                                         <hr class="mt-5">
 
