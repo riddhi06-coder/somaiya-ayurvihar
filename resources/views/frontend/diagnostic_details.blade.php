@@ -77,7 +77,7 @@
                     $targets = [
                         'overview',
                         'our-services',
-                        'technology-safety-and-reporting-standards-section',
+                        'technology-safety-reporting-standards',
                         'faq'
                     ];
                     @endphp
