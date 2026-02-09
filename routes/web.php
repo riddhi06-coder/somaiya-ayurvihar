@@ -105,6 +105,7 @@ Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 Route::get('/introduction', [HomeController::class, 'introduction'])->name('frontend.introduction');
 Route::get('/vision-and-mision', [HomeController::class, 'vision_and_mision'])->name('frontend.vision_and_mision');
 Route::get('/chairmans-message', [HomeController::class, 'chairmans_message'])->name('frontend.chairmans_message');
+Route::get('/associations', [HomeController::class, 'associations'])->name('frontend.associations');
 
 
 

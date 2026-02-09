@@ -25,6 +25,7 @@ use App\Models\AboutIntro;
 use App\Models\VisionMission;
 use App\Models\ManageDiagnosticDetail;
 use App\Models\ManageChairmanMessage;
+use App\Models\ManageAssociation;
 
 
 class HomeController extends Controller
@@ -153,5 +154,10 @@ class HomeController extends Controller
         return view('frontend.chairmans_message', compact('chairmans_message'));
     }
 
+    public function associations()
+    {
+        $associations  = ManageAssociation::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
+        return view('frontend.associations', compact('associations'));
+    }
 
 }

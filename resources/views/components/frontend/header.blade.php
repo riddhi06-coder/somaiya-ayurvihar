@@ -48,7 +48,7 @@
                           <li><a href="{{ route('frontend.introduction') }}">Introduction</a></li>
                           <li><a href="{{ route('frontend.vision_and_mision') }}">Vision & Mission</a></li>
                           <li><a href="{{ route('frontend.chairmans_message') }}">Chairman’s Message</a></li>
-                          <li><a href="associations.html">Associations</a></li>
+                          <li><a href="{{ route('frontend.associations') }}">Associations</a></li>
                           <!-- <li><a href="#">Our Journey</a></li> -->
                           <li><a href="somaiya-prayer.html">Somaiya Prayer</a></li>
                           <!-- 
