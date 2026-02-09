@@ -49,12 +49,33 @@
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
+                                            <th>Heading</th>
                                             <th>Image</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     
+                                        @foreach($prayers as $key => $prayer)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $prayer->heading }}</td>
+                                                <td>
+                                                    @if($prayer->image)
+                                                        <img src="{{ asset('uploads/prayer/'.$prayer->image) }}" alt="Prayer Image" width="80">
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('admin.manage-prayer.edit', $prayer->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                    <form action="{{ route('admin.manage-prayer.destroy', $prayer->id) }}" method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
 

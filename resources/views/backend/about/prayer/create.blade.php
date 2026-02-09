@@ -79,43 +79,58 @@
                         <div class="row g-3">    
                             <!-- Removed empty col div -->
                             <div class="col-12">
-                            <div class="tab-content" id="wizard-tabContent">
-                                <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
-                                    <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-prayer.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
+                                <div class="tab-content" id="wizard-tabContent">
+                                    <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
+                                        <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-prayer.store') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
 
 
-                                        <!-- Image -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label">Images <span class="text-danger">*</span></label>
-
-                                            <input class="form-control"
-                                                id="image"
-                                                type="file"
-                                                name="image"
-                                                accept=".jpg,.jpeg,.png,.webp,.svg"
-                                                required
-                                                onchange="previewImages(event)"
-                                            >
-
-                                            <div class="invalid-feedback">Please upload images.</div>
-
-                                            <small class="text-secondary"><b>Note: Each file should be less than 2MB.</b></small><br>
-                                            <small class="text-secondary"><b>Allowed: jpg, jpeg, png, webp, svg</b></small>
-
-                                            <!-- Preview Area -->
-                                            <div id="imagePreviewContainer" class="d-flex flex-wrap mt-3"></div>
-                                        </div>
+                                            <div class="col-md-6 mt-5">
+                                                <label class="form-label" for="heading"> Heading <span class="text-danger">*</span> </label>
+                                                <input class="form-control" id="heading" type="text" name="heading" placeholder="Enter Heading" required>
+                                                <div class="invalid-feedback">Please enter a Heading.</div>
+                                            </div>
 
 
-                                        <!-- Form Actions -->
-                                        <div class="col-12 text-end">
-                                            <a href="{{ route('admin.manage-prayer.index') }}" class="btn btn-danger px-4">Cancel</a>
-                                            <button class="btn btn-primary" type="submit">Submit</button>
-                                        </div>
-                                    </form>
+                                            <!-- Image -->
+                                            <div class="col-md-6 mt-5">
+                                                <label class="form-label">Images <span class="text-danger">*</span></label>
+
+                                                <input class="form-control"
+                                                    id="image"
+                                                    type="file"
+                                                    name="image"
+                                                    accept=".jpg,.jpeg,.png,.webp,.svg"
+                                                    required
+                                                    onchange="previewImages(event)"
+                                                >
+
+                                                <div class="invalid-feedback">Please upload images.</div>
+
+                                                <small class="text-secondary"><b>Note: Each file should be less than 2MB.</b></small><br>
+                                                <small class="text-secondary"><b>Allowed: jpg, jpeg, png, webp, svg</b></small>
+
+                                                <!-- Preview Area -->
+                                                <div id="imagePreviewContainer" class="d-flex flex-wrap mt-3"></div>
+                                            </div>
+
+
+
+                                            <!--  Description -->
+                                            <div class="form-group">
+                                                <label> Description <span class="text-danger">*</span> </label>
+                                                <textarea name="description" id="editor" class="form-control" rows="5" required></textarea>
+                                            </div>
+
+
+                                            <!-- Form Actions -->
+                                            <div class="col-12 text-end">
+                                                <a href="{{ route('admin.manage-prayer.index') }}" class="btn btn-danger px-4">Cancel</a>
+                                                <button class="btn btn-primary" type="submit">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                         </div>

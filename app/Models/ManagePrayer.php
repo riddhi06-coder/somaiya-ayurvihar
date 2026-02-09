@@ -14,6 +14,8 @@ class ManagePrayer extends Model
 
     protected $fillable = [
         'image',
+        'heading',
+        'description',
       
         'created_at',
         'created_by',
