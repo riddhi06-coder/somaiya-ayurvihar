@@ -24,6 +24,8 @@ use App\Models\Doctor;
 use App\Models\AboutIntro;
 use App\Models\VisionMission;
 use App\Models\ManageDiagnosticDetail;
+use App\Models\ManageChairmanMessage;
+
 
 class HomeController extends Controller
 {
@@ -142,6 +144,13 @@ class HomeController extends Controller
     {
         $vision_and_mision  = VisionMission::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
         return view('frontend.vision_and_mision', compact('vision_and_mision'));
+    }
+
+    // About Chairman's Message
+    public function chairmans_message()
+    {
+        $chairmans_message  = ManageChairmanMessage::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.chairmans_message', compact('chairmans_message'));
     }
 
 

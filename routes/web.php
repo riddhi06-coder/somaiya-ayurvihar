@@ -101,13 +101,14 @@ Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 //======About Us Pages
 Route::get('/introduction', [HomeController::class, 'introduction'])->name('frontend.introduction');
 Route::get('/vision-and-mision', [HomeController::class, 'vision_and_mision'])->name('frontend.vision_and_mision');
+Route::get('/chairmans-message', [HomeController::class, 'chairmans_message'])->name('frontend.chairmans_message');
 
-
-Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
 
 
 //======Service Page
+Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
 Route::get('/{slug}', [HomeController::class, 'service_details'])->name('frontend.service_details');
+
 
 //=========Doctor Detailed Page
 Route::get('doctor/{doctoreslug}', [HomeController::class, 'doctor_details'])->name('frontend.doctor_details');
