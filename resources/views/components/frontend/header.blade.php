@@ -146,7 +146,7 @@
                                                                         @foreach($subItems as $service)
                                                                             @if($service->service_id)
                                                                                 <li>
-                                                                                    <a href="{{ route('frontend.service_details', $service->service_slug) }}">
+                                                                                    <a href="{{ route('frontend.diagnostic_details', $service->service_slug) }}">
                                                                                         {{ $service->service_name }}
                                                                                     </a>
                                                                                 </li>
@@ -204,7 +204,7 @@
                                                                             @foreach($subItems as $service)
                                                                                 @if($service->service_id)
                                                                                     <li>
-                                                                                        <a href="{{ route('frontend.service_details', $service->service_slug) }}">
+                                                                                        <a href="{{ route('frontend.diagnostic_details', $service->service_slug) }}">
                                                                                             {{ $service->service_name }}
                                                                                         </a>
                                                                                     </li>

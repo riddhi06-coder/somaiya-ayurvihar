@@ -23,7 +23,7 @@ use App\Models\ManageServiceDetail;
 use App\Models\Doctor;
 use App\Models\AboutIntro;
 use App\Models\VisionMission;
-
+use App\Models\ManageDiagnosticDetail;
 
 class HomeController extends Controller
 {
@@ -80,6 +80,31 @@ class HomeController extends Controller
             'doctors'    => $doctors,
         ]);
     }
+
+
+    // Diagnostic Service Page
+    public function diagnostic_details($slug)
+    {
+        $mapping = MedicalServiceCategory::where('slug', $slug)
+            ->whereNull('deleted_by')
+            ->firstOrFail();
+
+        $service = ManageDiagnosticDetail::with(['category', 'subcategory', 'service'])
+            ->where('subcategory_id', $mapping->subcategory_id)
+            ->whereNull('deleted_by')
+            ->firstOrFail();
+
+        // dd($service);
+
+        // Decode JSON fields
+        $service->faq = json_decode($service->faq, true) ?? [];
+        $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
+        $service->section_image = json_decode($service->section_image, true) ?? [];
+        $service->service_image = json_decode($service->service_image, true) ?? [];
+
+        return view('frontend.diagnostic_details', compact('service'));
+    }
+
 
     // Doctor Details Page
     public function doctor_details($doctoreslug)

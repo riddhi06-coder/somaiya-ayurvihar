@@ -102,6 +102,9 @@ Route::get('/introduction', [HomeController::class, 'introduction'])->name('fron
 Route::get('/vision-and-mision', [HomeController::class, 'vision_and_mision'])->name('frontend.vision_and_mision');
 
 
+Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
+
+
 //======Service Page
 Route::get('/{slug}', [HomeController::class, 'service_details'])->name('frontend.service_details');
 
