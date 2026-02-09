@@ -20,6 +20,8 @@ use App\Http\Controllers\Backend\AboutIntroController;
 use App\Http\Controllers\Backend\AboutVisionController;
 use App\Http\Controllers\Backend\DiagnosticCriticalDetailsController;
 use App\Http\Controllers\Backend\ChairmanMessageController;
+use App\Http\Controllers\Backend\AssociationController;
+
 
 
 //frontend controller
@@ -80,6 +82,7 @@ Route::prefix('admin')
         Route::resource('manage-about-intro', AboutIntroController::class);
         Route::resource('manage-vision-mission', AboutVisionController::class);
         Route::resource('manage-chairman-message', ChairmanMessageController::class);
+        Route::resource('manage-associations', AssociationController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);

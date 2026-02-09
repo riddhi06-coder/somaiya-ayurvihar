@@ -91,9 +91,11 @@
                     <span>About Us</span>
                   </a>
                   <ul class="sidebar-submenu">
+                    
                       <li><a href="{{ route('admin.manage-about-intro.index') }}">Introduction</a></li>
                       <li><a href="{{ route('admin.manage-vision-mission.index') }}">Vision & Mision</a></li>
                       <li><a href="{{ route('admin.manage-chairman-message.index') }}">Chairman’s Message</a></li>
+                      <li><a href="{{ route('admin.manage-associations.index') }}">Associations</a></li>
                    
                   </ul>
 
