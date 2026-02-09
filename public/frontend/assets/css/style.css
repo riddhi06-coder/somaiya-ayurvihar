@@ -8773,7 +8773,7 @@ left: 170px;
     position:relative;
     padding-left:30px;
     margin-bottom:15px;
-    display:flex;
+    /* display:flex; */
     gap:10px;
     font-size:16px;
     color:#fff;
