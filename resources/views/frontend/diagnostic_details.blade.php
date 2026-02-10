@@ -113,7 +113,7 @@
                                 @endif
                                 <a href="https://www.youtube.com/embed/rRid6GCJtgc" class="cs_player_btn cs_style_1 cs_video_open">
                                     <span class="cs_play_btn_text cs_fs_18 cs_semibold cs_accent_color">
-                                        {{ $service->subcategory->subcategory_name ?? '' }}
+                                        {{ $service->service->service_name ?? '' }}
                                     </span>
                                 </a>
                             </div>
