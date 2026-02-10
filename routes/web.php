@@ -89,6 +89,7 @@ Route::prefix('admin')
         Route::resource('manage-associations', AssociationController::class);
         Route::resource('manage-prayer', PrayerController::class);
         Route::resource('manage-management-team', ManagementTeamController::class);
+        Route::resource('csr-sustainability', CSRSustainabilityController::class);
         Route::resource('manage-accreditations', AccreditationsController::class);
 
 
@@ -119,6 +120,7 @@ Route::get('/chairmans-message', [HomeController::class, 'chairmans_message'])->
 Route::get('/associations', [HomeController::class, 'associations'])->name('frontend.associations');
 Route::get('/somaiya-prayer', [HomeController::class, 'somaiya_prayer'])->name('frontend.somaiya_prayer');
 Route::get('/management-team', [HomeController::class, 'management_team'])->name('frontend.management_team');
+Route::get('/csr-sustainability', [HomeController::class, 'csr_sustainability'])->name('frontend.csr_sustainability');
 Route::get('/accreditations', [HomeController::class, 'accreditations'])->name('frontend.accreditations');
 
 

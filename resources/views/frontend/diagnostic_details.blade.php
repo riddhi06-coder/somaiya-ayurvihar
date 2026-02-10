@@ -3,6 +3,31 @@
 <html lang="en">
     <head>
         @include('components.frontend.head')
+
+        <style>
+
+            .services-content table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+
+            .services-content th,
+            .services-content td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: left;
+            }
+
+            .services-content thead {
+                background: #f5f5f5;
+            }
+
+            .services-content figure.table {
+                overflow-x: auto;
+            }
+            
+        </style>
     </head>
   <body>
 

@@ -38,7 +38,7 @@ class KjshSubCategoryController extends Controller
         ]);
 
         return redirect()->route('admin.kjshsubcategory.index')
-            ->with('success', 'KJSH Subcategory added successfully!');
+            ->with('message', 'KJSH Subcategory added successfully!');
     }
 
     public function edit(KjshSubCategory $kjshsubcategory)
@@ -62,7 +62,7 @@ class KjshSubCategoryController extends Controller
         ]);
 
         return redirect()->route('admin.kjshsubcategory.index')
-            ->with('success', 'KJSH Subcategory updated successfully!');
+            ->with('message', 'KJSH Subcategory updated successfully!');
     }
 
     public function destroy(KjshSubCategory $kjshsubcategory)
@@ -71,6 +71,6 @@ class KjshSubCategoryController extends Controller
         $kjshsubcategory->delete();
 
         return redirect()->route('admin.kjshsubcategory.index')
-            ->with('success', 'KJSH Subcategory deleted successfully!');
+            ->with('message', 'KJSH Subcategory deleted successfully!');
     }
 }
