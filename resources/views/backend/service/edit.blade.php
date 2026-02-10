@@ -1033,36 +1033,47 @@
         </script>
 
         <!---- js for page headers table---->
-        <script>
+               <script>
             document.addEventListener('DOMContentLoaded', function () {
-                let headerIndex = {{ count($service_details->page_headers ?? []) }};
-
-                // Add new header row
-                document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
-                    if(e.target && e.target.classList.contains('add-header')){
-                        const tbody = this.querySelector('tbody');
-                        const newRow = document.createElement('tr');
-                        newRow.classList.add('header-row');
-                        newRow.innerHTML = `
-                            <td>
-                                <input type="text" name="page_headers[${headerIndex}][title]" class="form-control" placeholder="Enter Page Header">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger remove-header">Remove</button>
-                            </td>
-                        `;
-                        tbody.appendChild(newRow);
-                        headerIndex++;
-                    }
-                });
-
-                // Remove header row
-                document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
-                    if(e.target && e.target.classList.contains('remove-header')){
-                        e.target.closest('tr').remove();
-                    }
-                });
+        
+            let existingHeaders = @json(array_keys($service_details->page_headers ?? []));
+        
+            // get highest index + 1
+            let headerIndex = existingHeaders.length
+                ? Math.max(...existingHeaders) + 1
+                : 0;
+        
+            document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
+        
+                if(e.target && e.target.classList.contains('add-header')){
+        
+                    const tbody = this.querySelector('tbody');
+        
+                    const newRow = document.createElement('tr');
+                    newRow.classList.add('header-row');
+        
+                    newRow.innerHTML = `
+                        <td>
+                            <input type="text" name="page_headers[${headerIndex}][title]" class="form-control" placeholder="Enter Page Header">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger remove-header">Remove</button>
+                        </td>
+                    `;
+        
+                    tbody.appendChild(newRow);
+        
+                    headerIndex++; // increment AFTER append
+                }
             });
+        
+            document.querySelector('#pageHeadersTable').addEventListener('click', function(e){
+                if(e.target && e.target.classList.contains('remove-header')){
+                    e.target.closest('tr').remove();
+                }
+            });
+        
+        });
         </script>
 
 
