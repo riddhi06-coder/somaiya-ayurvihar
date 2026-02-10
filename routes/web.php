@@ -22,6 +22,10 @@ use App\Http\Controllers\Backend\DiagnosticCriticalDetailsController;
 use App\Http\Controllers\Backend\ChairmanMessageController;
 use App\Http\Controllers\Backend\AssociationController;
 use App\Http\Controllers\Backend\PrayerController;
+use App\Http\Controllers\Backend\ManagementTeamController;
+
+
+
 
 
 //frontend controller
@@ -84,6 +88,7 @@ Route::prefix('admin')
         Route::resource('manage-chairman-message', ChairmanMessageController::class);
         Route::resource('manage-associations', AssociationController::class);
         Route::resource('manage-prayer', PrayerController::class);
+        Route::resource('manage-management-team', ManagementTeamController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
