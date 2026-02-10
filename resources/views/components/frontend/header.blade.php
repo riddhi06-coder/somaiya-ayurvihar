@@ -53,7 +53,7 @@
                           <li><a href="{{ route('frontend.somaiya_prayer') }}">Somaiya Prayer</a></li>
                           <!-- 
                             <li><a href="#">Associations</a></li> -->
-                          <li><a href="management-team.html">Management Team</a></li>
+                          <li><a href="{{ route('frontend.management_team') }}">Management Team</a></li>
                           <li><a href="csr-and-sustainability.html">CSR & Sustainability</a></li>
                           <li><a href="accreditations.html">Accreditations</a></li>
                           <li><a href="community-outreach.html">Community Outreach</a></li>

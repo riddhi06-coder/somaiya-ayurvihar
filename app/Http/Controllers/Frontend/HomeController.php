@@ -27,7 +27,7 @@ use App\Models\ManageDiagnosticDetail;
 use App\Models\ManageChairmanMessage;
 use App\Models\ManageAssociation;
 use App\Models\ManagePrayer;
-
+use App\Models\ManageManagementTeam;
 
 
 
@@ -174,6 +174,13 @@ class HomeController extends Controller
     {
         $somaiya_prayer  = ManagePrayer::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
         return view('frontend.somaiya_prayer', compact('somaiya_prayer'));
+    }
+
+    // About Management Team
+    public function management_team()
+    {
+        $management_team  = ManageManagementTeam::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
+        return view('frontend.management_team', compact('management_team'));
     }
 
 }
