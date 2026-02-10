@@ -28,7 +28,7 @@ use App\Models\ManageChairmanMessage;
 use App\Models\ManageAssociation;
 use App\Models\ManagePrayer;
 use App\Models\ManageManagementTeam;
-
+use App\Models\ManageAccreditations;
 
 
 class HomeController extends Controller
@@ -181,6 +181,13 @@ class HomeController extends Controller
     {
         $management_team  = ManageManagementTeam::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
         return view('frontend.management_team', compact('management_team'));
+    }
+
+    // About Accreditations
+    public function accreditations()
+    {
+        $accreditations  = ManageAccreditations::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
+        return view('frontend.accreditations', compact('accreditations'));
     }
 
 }

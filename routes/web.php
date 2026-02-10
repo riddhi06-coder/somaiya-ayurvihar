@@ -119,6 +119,7 @@ Route::get('/chairmans-message', [HomeController::class, 'chairmans_message'])->
 Route::get('/associations', [HomeController::class, 'associations'])->name('frontend.associations');
 Route::get('/somaiya-prayer', [HomeController::class, 'somaiya_prayer'])->name('frontend.somaiya_prayer');
 Route::get('/management-team', [HomeController::class, 'management_team'])->name('frontend.management_team');
+Route::get('/accreditations', [HomeController::class, 'accreditations'])->name('frontend.accreditations');
 
 
 
