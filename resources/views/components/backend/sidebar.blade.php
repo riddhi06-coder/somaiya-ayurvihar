@@ -98,6 +98,7 @@
                       <li><a href="{{ route('admin.manage-associations.index') }}">Associations</a></li>
                       <li><a href="{{ route('admin.manage-prayer.index') }}">Somaiya Prayer</a></li>
                       <li><a href="{{ route('admin.manage-management-team.index') }}">Management Team</a></li>
+                      <li><a href="{{ route('admin.manage-accreditations.index') }}">Accreditations</a></li>
                   </ul>
 
                 </li>

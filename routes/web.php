@@ -23,7 +23,7 @@ use App\Http\Controllers\Backend\ChairmanMessageController;
 use App\Http\Controllers\Backend\AssociationController;
 use App\Http\Controllers\Backend\PrayerController;
 use App\Http\Controllers\Backend\ManagementTeamController;
-
+use App\Http\Controllers\Backend\AccreditationsController;
 
 
 
@@ -89,6 +89,11 @@ Route::prefix('admin')
         Route::resource('manage-associations', AssociationController::class);
         Route::resource('manage-prayer', PrayerController::class);
         Route::resource('manage-management-team', ManagementTeamController::class);
+        Route::resource('manage-accreditations', AccreditationsController::class);
+
+
+
+
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
