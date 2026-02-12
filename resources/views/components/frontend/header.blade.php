@@ -119,19 +119,39 @@
                                                 <div class="tab-box">
                                                     <div class="row">
                                                         @if($loop->first)
-                                                            <!-- First master category: show subcategories as plain list -->
-                                                            <div class="col-md-6">
-                                                                <ul class="menu_tab_list">
-                                                                    @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
-                                                                        <li>
-                                                                            <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
-                                                                                {{ $subItems->first()->sub_name }}
-                                                                            </a>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        @else
+
+                                                          @php
+                                                              $subs = $masterItems->groupBy('sub_id')->values();
+                                                              $half = ceil($subs->count() / 2);
+                                                          @endphp
+
+                                                          <div class="col-md-6">
+                                                              <ul class="menu_tab_list">
+                                                                  @foreach($subs->slice(0,$half) as $subItems)
+                                                                      <li>
+                                                                          <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
+                                                                              {{ $subItems->first()->sub_name }}
+                                                                          </a>
+                                                                      </li>
+                                                                  @endforeach
+                                                              </ul>
+                                                          </div>
+
+                                                          <div class="col-md-6">
+                                                              <ul class="menu_tab_list">
+                                                                  @foreach($subs->slice($half) as $subItems)
+                                                                      <li>
+                                                                          <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
+                                                                              {{ $subItems->first()->sub_name }}
+                                                                          </a>
+                                                                      </li>
+                                                                  @endforeach
+                                                              </ul>
+                                                          </div>
+
+                                                          @else
+
+                                               
                                                             <!-- Other master categories: keep subcategory headings -->
                                                             @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
                                                                 <div class="col-md-6">
