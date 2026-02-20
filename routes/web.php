@@ -25,7 +25,7 @@ use App\Http\Controllers\Backend\PrayerController;
 use App\Http\Controllers\Backend\ManagementTeamController;
 use App\Http\Controllers\Backend\AccreditationsController;
 use App\Http\Controllers\Backend\CSRSustainabilityController;
-
+use App\Http\Controllers\Backend\MediaCoveragesController;
 
 
 //frontend controller
@@ -93,12 +93,12 @@ Route::prefix('admin')
         Route::resource('manage-accreditations', AccreditationsController::class);
 
 
-
-
-
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
         Route::resource('manage-diagnostic-critical', DiagnosticCriticalDetailsController::class);
+
+        // Media Coverages
+        Route::resource('manage-media-coverages', MediaCoveragesController::class);
 
     
     

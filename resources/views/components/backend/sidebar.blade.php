@@ -126,6 +126,21 @@
                 </li>
 
 
+
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-media-coverages.index') ? 'active' : '' }}">
+                  <i class="fa fa-thumb-tack"></i>
+                  <a class="sidebar-link" href="{{ route('admin.manage-media-coverages.index') }}">
+                    <svg class="stroke-icon"> 
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-ecommerce') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-ecommerce') }}"></use>
+                    </svg>
+                    <span>Media Coverages</span>
+                  </a>
+                </li>
+
+
                 
               </ul>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
