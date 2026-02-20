@@ -107,21 +107,22 @@
                   <div class="footer-links">
                     <h5>Quick Links</h5>
                     <ul>
-                      <li><a href="#">Specialties</a></li>
-                      <li><a href="#">Billing Process</a></li>
-                      <li><a href="#">TPA</a></li>
-                      <li><a href="#">Donation</a></li>
-                      <li><a href="#">Biomedical Waste</a></li>
+                      <li><a href="specialties.html">Specialties</a></li>
+                      <li><a href="billing-process.html">Billing Process</a></li>
+                      <li><a href="insurance-and-tpa.html">Insurance & TPA</a></li>
+                      <!-- <li><a href="#">Donation</a></li> -->
+                      <li><a href="biomedical-waste.html">Biomedical Waste</a></li>
                       <!-- <li><a href="#">Vision &amp; Mission</a></li>
                         <li><a href="#">Chairman’s Message</a></li>
                         <li><a href="#">Our Journey</a></li> -->
                       <!-- <li><a href="#">Somaiya Prayer</a></li> -->
-                      <li><a href="#">Associations</a></li>
-                      <li><a href="#">Management Team</a></li>
+                      <!-- <li><a href="associations.html">Associations</a></li> -->
+                      <li><a href="management-team.html">Management Team</a></li>
                       <!--  <li><a href="#">CSR &amp; Sustainability and Community OutReach</a></li> -->
-                      <li><a href="#">Accreditations</a></li>
-                      <li><a href="#">Awards &amp; Accolades</a></li>
-                      <li><a href="#">Contact Us</a></li>
+                      <li><a href="accreditations.html">Accreditations</a></li>
+                      <li><a href="awards-accolades.html">Awards &amp; Accolades</a></li>
+                      <li><a href="contact-us.html">Contact Us</a></li>
+                      <li><a href="blogs.html">Blogs</a></li>
                       <!-- <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Disclaimer</a></li>
                         <li><a href="#">Terms of use</a></li> -->
@@ -132,25 +133,23 @@
                   <div class="footer-links">
                     <h5>Wellness Centre</h5>
                     <ul>
-                      <li><a href="#">Health Packages</a></li>
-                      <li><a href="#">Ayurveda</a></li>
-                      <!-- <li><a href="#">Acupressure and Acupuncture</a></li>
-                        <li><a href="#">Yoga</a></li>
-                        <li><a href="#">Physiotherapy</a></li> -->
+                      <li><a href="health-packages.html">Health Packages</a></li>
+                      <li><a href="ayurveda.html">Ayurveda</a></li>
                       <li>
-                        <a href="#">
+                        <a href="alternative-therapies.html">
                           <!-- Other --> Alternative Therapies
                         </a>
                       </li>
                     </ul>
-                    <h5><a href="#">Virtual Tour</a></h5>
                     <h5>News &amp; Events</h5>
                     <ul>
                       <!-- <li><a href="#">News &amp; Events</a></li> -->
-                      <li><a href="#">Announcements</a></li>
-                      <li><a href="#">Gallery</a></li>
-                      <li><a href="#">Career</a></li>
+                      <li><a href="announcements.html">Announcements</a></li>
+                      <li><a href="gallery.html">Gallery</a></li>
+                      <li><a href="{{ route('frontend.media_coverage') }}">Media Coverage</a></li>
+                      <li><a href="career.html">Career</a></li>
                     </ul>
+                    <!-- <h5><a href="#">Virtual Tour</a></h5> -->
                   </div>
                 </div>
                 

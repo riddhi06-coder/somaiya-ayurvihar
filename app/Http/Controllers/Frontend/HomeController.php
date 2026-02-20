@@ -29,6 +29,9 @@ use App\Models\ManageAssociation;
 use App\Models\ManagePrayer;
 use App\Models\ManageManagementTeam;
 use App\Models\ManageAccreditations;
+use App\Models\ManageMediaCoverage;
+
+
 
 
 class HomeController extends Controller
@@ -188,6 +191,81 @@ class HomeController extends Controller
     {
         $accreditations  = ManageAccreditations::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
         return view('frontend.accreditations', compact('accreditations'));
+    }
+
+    // Media Coverage
+    public function media_coverage(Request $request)
+    {
+        $query = ManageMediaCoverage::whereNull('deleted_by');
+
+        // 🔎 Search
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('media_heading', 'like', '%' . $request->search . '%')
+                ->orWhere('media_publication', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // 📅 Year Filter (FIXED)
+        if ($request->filled('year')) {
+            $query->whereYear('media_publication_date', $request->year);
+        }
+
+        // 📆 Month Filter (FIXED)
+        if ($request->filled('month')) {
+            $query->whereMonth('media_publication_date', $request->month);
+        }
+
+        // 📰 Source Filter
+        // Source Filter
+        if ($request->filled('source')) {
+            $query->whereRaw('LOWER(TRIM(media_publication)) = ?', [
+                strtolower(trim($request->source))
+            ]);
+        }
+
+        // Type Filter
+        if ($request->filled('type')) {
+            $query->whereRaw('LOWER(TRIM(media_type)) = ?', [
+                strtolower(trim($request->type))
+            ]);
+        }
+
+
+        // dd($query->toSql(), $query->getBindings());
+
+        $media_coverage = $query->orderBy('created_at', 'asc')->get();
+
+        $years = ManageMediaCoverage::selectRaw('YEAR(media_publication_date) as year')
+            ->whereNull('deleted_by')
+            ->whereNotNull('media_publication_date')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
+        $months = ManageMediaCoverage::selectRaw('MONTH(media_publication_date) as month')
+            ->whereNull('deleted_by')
+            ->whereNotNull('media_publication_date')
+            ->distinct()
+            ->orderBy('month')
+            ->pluck('month');
+
+        $sources = ManageMediaCoverage::whereNull('deleted_by')
+            ->distinct()
+            ->pluck('media_publication');
+
+        $types = ManageMediaCoverage::whereNull('deleted_by')
+            ->distinct()
+            ->pluck('media_type');
+
+        return view('frontend.media_coverage', compact(
+            'media_coverage',
+            'years',
+            'months',
+            'sources',
+            'types'
+        ));
     }
 
 }
