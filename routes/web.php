@@ -133,6 +133,10 @@ Route::get('/accreditations', [HomeController::class, 'accreditations'])->name('
 Route::get('/media-coverage', [HomeController::class, 'media_coverage'])->name('frontend.media_coverage');
 
 
+//=========Wellness Pages
+Route::get('ayurveda', [HomeController::class, 'ayurveda'])->name('frontend.ayurveda');
+
+
 //======Service Page
 Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
 Route::get('/{slug}', [HomeController::class, 'service_details'])->name('frontend.service_details');
@@ -140,3 +144,4 @@ Route::get('/{slug}', [HomeController::class, 'service_details'])->name('fronten
 
 //=========Doctor Detailed Page
 Route::get('doctor/{doctoreslug}', [HomeController::class, 'doctor_details'])->name('frontend.doctor_details');
+

@@ -30,7 +30,7 @@ use App\Models\ManagePrayer;
 use App\Models\ManageManagementTeam;
 use App\Models\ManageAccreditations;
 use App\Models\ManageMediaCoverage;
-
+use App\Models\ManageAyurveda;
 
 
 
@@ -268,4 +268,11 @@ class HomeController extends Controller
         ));
     }
 
+
+    // Wellness Ayurveda
+    public function ayurveda()
+    {
+        $ayurveda  = ManageAyurveda::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.ayurveda', compact('ayurveda'));
+    }
 }
