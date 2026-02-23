@@ -26,6 +26,10 @@ use App\Http\Controllers\Backend\ManagementTeamController;
 use App\Http\Controllers\Backend\AccreditationsController;
 use App\Http\Controllers\Backend\CSRSustainabilityController;
 use App\Http\Controllers\Backend\MediaCoveragesController;
+use App\Http\Controllers\Backend\AyurvedaController;
+
+
+
 
 
 //frontend controller
@@ -91,6 +95,10 @@ Route::prefix('admin')
         Route::resource('manage-management-team', ManagementTeamController::class);
         Route::resource('manage-csr-sustainability', CSRSustainabilityController::class);
         Route::resource('manage-accreditations', AccreditationsController::class);
+
+
+        // Wellness Center
+        Route::resource('manage-ayurveda', AyurvedaController::class);
 
 
         // Sevice Page Details

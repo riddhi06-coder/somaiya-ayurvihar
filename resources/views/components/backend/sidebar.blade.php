@@ -141,6 +141,27 @@
                 </li>
 
 
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.manage-ayurveda.index', 'admin.manage-chairman-message.index') ? 'active' : '' }}">
+                  <i class="fa fa-thumb-tack"></i>
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-chat') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-chat') }}"></use>
+                    </svg>
+                    <span>Wellness Centre </span>
+                  </a>
+                  <ul class="sidebar-submenu">
+
+                      <li><a href="{{ route('admin.manage-about-intro.index') }}">Health Packages</a></li>
+                      <li><a href="{{ route('admin.manage-ayurveda.index') }}">Ayurveda</a></li>
+                      <li><a href="{{ route('admin.manage-chairman-message.index') }}">Alternative Therapies</a></li>
+                  </ul>
+
+                </li>
+
+
                 
               </ul>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
