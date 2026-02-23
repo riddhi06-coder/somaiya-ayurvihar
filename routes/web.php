@@ -27,7 +27,7 @@ use App\Http\Controllers\Backend\AccreditationsController;
 use App\Http\Controllers\Backend\CSRSustainabilityController;
 use App\Http\Controllers\Backend\MediaCoveragesController;
 use App\Http\Controllers\Backend\AyurvedaController;
-
+use App\Http\Controllers\Backend\AlternativeTherapyController;
 
 
 
@@ -99,6 +99,7 @@ Route::prefix('admin')
 
         // Wellness Center
         Route::resource('manage-ayurveda', AyurvedaController::class);
+        Route::resource('manage-alternative-therapy', AlternativeTherapyController::class);  
 
 
         // Sevice Page Details
