@@ -28,7 +28,7 @@ use App\Http\Controllers\Backend\CSRSustainabilityController;
 use App\Http\Controllers\Backend\MediaCoveragesController;
 use App\Http\Controllers\Backend\AyurvedaController;
 use App\Http\Controllers\Backend\AlternativeTherapyController;
-
+use App\Http\Controllers\Backend\HealthPackagesController;
 
 
 
@@ -100,6 +100,8 @@ Route::prefix('admin')
         // Wellness Center
         Route::resource('manage-ayurveda', AyurvedaController::class);
         Route::resource('manage-alternative-therapy', AlternativeTherapyController::class);  
+        Route::resource('manage-health-packages', HealthPackagesController::class);  
+
 
 
         // Sevice Page Details

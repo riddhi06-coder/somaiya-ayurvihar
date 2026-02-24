@@ -141,7 +141,7 @@
                 </li>
 
 
-                <li class="sidebar-list {{ request()->routeIs('admin.manage-about-intro.index', 'admin.manage-ayurveda.index', 'admin.manage-alternative-therapy.index') ? 'active' : '' }}">
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-health-packages.index', 'admin.manage-ayurveda.index', 'admin.manage-alternative-therapy.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
@@ -154,7 +154,12 @@
                   </a>
                   <ul class="sidebar-submenu">
 
-                      <li><a href="{{ route('admin.manage-about-intro.index') }}">Health Packages</a></li>
+                    <li><a class="submenu-title" href="#">Health Packages<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
+                      <ul class="nav-sub-childmenu submenu-content">
+                        <li><a href="{{ route('admin.manage-health-packages.index') }}">Packages</a></li>
+                       
+                      </ul>
+                    </li>
                       <li><a href="{{ route('admin.manage-ayurveda.index') }}">Ayurveda</a></li>
                       <li><a href="{{ route('admin.manage-alternative-therapy.index') }}">Alternative Therapies</a></li>
                   </ul>
