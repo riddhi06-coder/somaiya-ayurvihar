@@ -282,7 +282,7 @@
                           <!-- <li><a href="#">Yoga</a></li> -->
                           <!-- <li><a href="#">Physiotherapy</a></li> -->
                           <li>
-                            <a href="alternative-therapies.html">
+                            <a href="{{ route('frontend.alternative_therapies') }}">
                               <!-- Other --> Alternative Therapies
                             </a>
                           </li>

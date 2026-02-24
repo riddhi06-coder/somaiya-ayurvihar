@@ -31,7 +31,7 @@ use App\Models\ManageManagementTeam;
 use App\Models\ManageAccreditations;
 use App\Models\ManageMediaCoverage;
 use App\Models\ManageAyurveda;
-
+use App\Models\ManageAlternateTherapy;
 
 
 class HomeController extends Controller
@@ -268,11 +268,17 @@ class HomeController extends Controller
         ));
     }
 
-
     // Wellness Ayurveda
     public function ayurveda()
     {
         $ayurveda  = ManageAyurveda::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
         return view('frontend.ayurveda', compact('ayurveda'));
+    }
+
+    // Alternative Therapies
+    public function alternative_therapies()
+    {
+        $alternative_therapies  = ManageAlternateTherapy::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
+        return view('frontend.alternative_therapies', compact('alternative_therapies'));
     }
 }

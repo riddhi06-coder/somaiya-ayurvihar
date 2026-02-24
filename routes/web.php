@@ -136,6 +136,7 @@ Route::get('/media-coverage', [HomeController::class, 'media_coverage'])->name('
 
 //=========Wellness Pages
 Route::get('ayurveda', [HomeController::class, 'ayurveda'])->name('frontend.ayurveda');
+Route::get('alternative-therapies', [HomeController::class, 'alternative_therapies'])->name('frontend.alternative_therapies');
 
 
 //======Service Page
