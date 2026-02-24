@@ -55,7 +55,50 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     
+                                        @forelse($therapies as $key => $therapy)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+
+                                                <td>{{ $therapy->heading }}</td>
+
+                                                <td>
+                                                    @if($therapy->image)
+                                                        <img src="{{ asset('uploads/alternative-therapy/'.$therapy->image) }}" 
+                                                            width="100px" 
+                                                            height="80px" 
+                                                            style="object-fit:cover; border-radius:6px;">
+                                                    @else
+                                                        <span class="text-muted">No Image</span>
+                                                    @endif
+                                                </td>
+
+                                                <td>
+                                                    <a href="{{ route('admin.manage-alternative-therapy.edit', $therapy->id) }}" 
+                                                    class="btn btn-sm btn-primary">
+                                                    Edit
+                                                    </a>
+
+                                                    <form action="{{ route('admin.manage-alternative-therapy.destroy', $therapy->id) }}" 
+                                                        method="POST" 
+                                                        style="display:inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit" 
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this record?')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center text-muted">
+                                                    No records found.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
 
                                 </table>
