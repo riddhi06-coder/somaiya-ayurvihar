@@ -29,7 +29,7 @@ use App\Http\Controllers\Backend\MediaCoveragesController;
 use App\Http\Controllers\Backend\AyurvedaController;
 use App\Http\Controllers\Backend\AlternativeTherapyController;
 use App\Http\Controllers\Backend\HealthPackagesController;
-
+use App\Http\Controllers\Backend\HealthPackagesDetailsController;
 
 
 //frontend controller
@@ -101,6 +101,7 @@ Route::prefix('admin')
         Route::resource('manage-ayurveda', AyurvedaController::class);
         Route::resource('manage-alternative-therapy', AlternativeTherapyController::class);  
         Route::resource('manage-health-packages', HealthPackagesController::class);  
+        Route::resource('manage-packages-details', HealthPackagesDetailsController::class);  
 
 
 
