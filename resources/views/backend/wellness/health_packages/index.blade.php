@@ -50,7 +50,7 @@
                                         <tr>
                                             <th>Sr No.</th>
                                             <th>Package Name</th>
-                                            <th>Age Range</th>
+                                            <!-- <th>Age Range</th> -->
                                             <th>Actual Price</th>
                                             <th>Discounted Price</th>
                                             <th>Actions</th>
@@ -61,7 +61,7 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $package->package_name }}</td>
-                                                <td>{{ $package->age_range }}</td>
+                                                <!-- <td>{{ $package->age_range }}</td> -->
                                                 <td>
                                                     @if($package->actual_price)
                                                         ₹{{ number_format($package->actual_price) }}
