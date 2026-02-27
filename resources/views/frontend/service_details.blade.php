@@ -262,8 +262,8 @@
                   </div>
               </div>
           </div>
+        </div>
       </div>
-</div>
 
 
       <!------------- Health Check Packages ------------->
@@ -274,120 +274,81 @@
               <div class="opd-timing-content">
                 <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
                   data-wow-duration="1500ms">
-                  <h2>Health Check Packages - Cardiology</h2>
+                  <h2>Health Check Packages -  {{ $subcategory->subcategory_name }}</h2>
                 </div>
               </div>
             </div>
           </div>
           <div class="row pricing-col">
             <div class="owl-carousel owl-theme" id="health-package-slider">
-            <div class="item">
-              <div class="pricing-col">
-                <div class="pricing-card-wrapper">
-                  <!-- Background Accent Card -->
-                  <div class="pricing-bg-card">
-                    <a href="view-package.html" class="btn pricing-btn">View Package <span>→</span></a>
-                    <a type="button" data-toggle="modal" data-target="#health-checkup" class="btn pricing-btn book_packages">Book Package <span>→</span></a>
-                  </div>
-                  <!-- Main Card -->
-                  <div class="pricing-card">
-                    <!--  <div class="pricing-icon">
-                      <span class="glyphicon glyphicon-stats"></span>
-                      </div> -->
-                    <h4 class="plan-title red-title">Cardiac Screening</h4>
-                    <div class="price">
-                      <span class="old-price">Rs.2700/-</span>
-                      <sup>Rs.</sup>1000
-                    </div>
-                    <ul class="pricing-features">
-                      <li>Age Range: 17+</li>
-                      <li>Gender: Male, Female</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="pricing-col">
-                <div class="pricing-card-wrapper">
-                  <!-- Background Accent Card -->
-                  <div class="pricing-bg-card blue-card">
-                    <a href="view-package.html" class="btn pricing-btn">View Package <span>→</span></a>
-                    <a type="button" data-toggle="modal" data-target="#health-checkup" class="btn pricing-btn book_packages">Book Package <span>→</span></a>
-                  </div>
-                  <!-- Main Card -->
-                  <div class="pricing-card">
-                    <!--  <div class="pricing-icon">
-                      <span class="glyphicon glyphicon-stats"></span>
-                      </div> -->
-                    <h4 class="plan-title blue-title">Cardiac Plus</h4>
-                    <div class="price">
-                      <span class="old-price">Rs.5000/-</span>
-                      <sup>Rs.</sup>3100
-                    </div>
-                    <ul class="pricing-features">
-                      <li>Age Range: 17+</li>
-                      <li>Gender: Male, Female</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
 
+              @php
+                  $bgClasses = ['', 'blue-card', 'green-card'];
+                  $titleClasses = ['red-title', 'blue-title', 'green-title'];
+              @endphp
 
-            <div class="item">
-              <div class="pricing-col">
-                <div class="pricing-card-wrapper">
-                  <!-- Background Accent Card -->
-                  <div class="pricing-bg-card green-card">
-                    <a href="view-package.html" class="btn pricing-btn">View Package <span>→</span></a>
-                    <a type="button" data-toggle="modal" data-target="#health-checkup" class="btn pricing-btn book_packages">Book Package <span>→</span></a>
-                  </div>
-                  <!-- Main Card -->
-                  <div class="pricing-card">
-                    <!--  <div class="pricing-icon">
-                      <span class="glyphicon glyphicon-stats"></span>
-                      </div> -->
-                    <h4 class="plan-title green-title">Cardiac Supreme</h4>
-                    <div class="price">
-                      <span class="old-price">Rs.12000/-</span>
-                      <sup>Rs.</sup>6900
+              @foreach($healthPackages as $index => $package)
+
+              @php
+                  $bgClass = $bgClasses[$index % 3];
+                  $titleClass = $titleClasses[$index % 3];
+              @endphp
+
+              <div class="item">
+                <div class="pricing-col">
+                  <div class="pricing-card-wrapper">
+
+                    <!-- Background Accent Card -->
+                    <div class="pricing-bg-card {{ $bgClass }}">
+                      <a href="#" class="btn pricing-btn">
+                        View Package <span>→</span>
+                      </a>
+
+                      <a type="button"
+                        data-toggle="modal"
+                        data-target="#health-checkup"
+                        class="btn pricing-btn book_packages"
+                        data-package="{{ $package->package_name }}">
+                        Book Package <span>→</span>
+                      </a>
                     </div>
-                    <ul class="pricing-features">
-                      <li>Age Range: 17+</li>
-                      <li>Gender: Male, Female</li>
-                    </ul>
+
+                    <!-- Main Card -->
+                    <div class="pricing-card">
+
+                      <h4 class="plan-title {{ $titleClass }}">
+                        {{ $package->package_name }}
+                      </h4>
+
+                      <div class="price">
+                        @if($package->actual_price)
+                          <span class="old-price">
+                            Rs.{{ number_format($package->actual_price) }}/-
+                          </span>
+                        @endif
+
+                        @if($package->discounted_price)
+                          <sup>Rs.</sup>{{ number_format($package->discounted_price) }}
+                        @endif
+                      </div>
+
+                      <ul class="pricing-features">
+                        <li>Age Range: {{ $package->age_range }}</li>
+                        <li>
+                          Gender:
+                          {{ implode(', ', json_decode($package->gender, true) ?? []) }}
+                        </li>
+                      </ul>
+
+                    </div>
+
                   </div>
                 </div>
               </div>
+
+              @endforeach
+
             </div>
-            <div class="item">
-              <div class="pricing-col">
-                <div class="pricing-card-wrapper">
-                  <!-- Background Accent Card -->
-                  <div class="pricing-bg-card green-card">
-                    <a href="view-package.html" class="btn pricing-btn">View Package <span>→</span></a>
-                    <a type="button" data-toggle="modal" data-target="#health-checkup" class="btn pricing-btn book_packages">Book Package <span>→</span></a>
-                  </div>
-                  <!-- Main Card -->
-                  <div class="pricing-card">
-                    <!--  <div class="pricing-icon">
-                      <span class="glyphicon glyphicon-stats"></span>
-                      </div> -->
-                    <h4 class="plan-title green-title">Cardiac Supreme</h4>
-                    <div class="price">
-                      <span class="old-price">Rs.12000/-</span>
-                      <sup>Rs.</sup>6900
-                    </div>
-                    <ul class="pricing-features">
-                      <li>Age Range: 17+</li>
-                      <li>Gender: Male, Female</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
            
           </div>
         </div>

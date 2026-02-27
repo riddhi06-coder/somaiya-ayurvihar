@@ -32,6 +32,7 @@ use App\Models\ManageAccreditations;
 use App\Models\ManageMediaCoverage;
 use App\Models\ManageAyurveda;
 use App\Models\ManageAlternateTherapy;
+use App\Models\ManageHealthPackages;
 
 
 class HomeController extends Controller
@@ -82,11 +83,19 @@ class HomeController extends Controller
         // dd($doctors);
 
 
+        // 4️⃣ Fetch Health Packages (NEW 🔥)
+        $healthPackages = ManageHealthPackages::where('sub_category_id', $subcategory->id)
+                    ->whereNull('deleted_at')
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+
         // 4️⃣ Pass subcategory & services to view
         return view('frontend.service_details', [
             'subcategory' => $subcategory,
             'service'    => $service,
             'doctors'    => $doctors,
+            'healthPackages'  => $healthPackages,
         ]);
     }
 
@@ -281,4 +290,73 @@ class HomeController extends Controller
         $alternative_therapies  = ManageAlternateTherapy::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
         return view('frontend.alternative_therapies', compact('alternative_therapies'));
     }
+
+    // Health Packages
+    public function health_packages(Request $request)
+    {
+        $query = ManageHealthPackages::whereNull('deleted_by');
+
+        // ✅ Category Filter
+        if ($request->category_id != null) {
+            $query->where('sub_category_id', $request->category_id);
+            // ⚠️ If your DB column name is different, change here
+            // example: ->where('medical_service_subcategory_id', $request->category_id);
+        }
+
+        // ✅ Gender Filter
+        if ($request->has('gender') && count($request->gender) > 0) {
+            $query->where(function ($q) use ($request) {
+                foreach ($request->gender as $gender) {
+                    $q->orWhere('gender', 'LIKE', '%'.$gender.'%');
+                }
+            });
+        }
+
+        // ✅ Age Range Filter
+        if ($request->has('age_range') && count($request->age_range) > 0) {
+            $query->whereIn('age_range', $request->age_range);
+        }
+
+        // ✅ Get Filtered Packages
+        $health_packages = $query->orderBy('created_at', 'asc')->paginate(6)->appends($request->query());
+
+
+        // =========================
+        // FILTER PANEL DATA
+        // =========================
+
+        // Categories
+        $categories = MedicalServiceSubCategory::whereNull('deleted_by')
+                            ->orderBy('subcategory_name', 'ASC')
+                            ->get();
+
+        // Genders (from ALL packages for filter display)
+        $allPackages = ManageHealthPackages::whereNull('deleted_by')->get();
+
+        $genders = $allPackages
+                    ->pluck('gender')
+                    ->filter()
+                    ->map(fn($gender) => json_decode($gender, true))
+                    ->filter()
+                    ->flatten()
+                    ->filter(fn($value) => !empty($value))
+                    ->unique()
+                    ->values();
+
+        // Age Ranges
+        $ageRanges = $allPackages
+                        ->pluck('age_range')
+                        ->filter()
+                        ->unique()
+                        ->values();
+
+        return view('frontend.health_packages', compact(
+            'health_packages',
+            'categories',
+            'genders',
+            'ageRanges'
+        ));
+    }
+
+
 }

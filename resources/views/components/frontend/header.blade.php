@@ -276,7 +276,7 @@
                       <a href="#"> Wellness Centre <i class="fa fa-angle-down"></i></a>
                       <div class="sub-menu single-column-menu">
                         <ul>
-                          <li><a href="health-packages.html">Health Packages</a></li>
+                          <li><a href="{{ route('frontend.health_packages') }}">Health Packages</a></li>
                           <li><a href="{{ route('frontend.ayurveda') }}">Ayurveda</a></li>
                           <!-- <li><a href="#">Acupressure and Acupuncture</a></li> -->
                           <!-- <li><a href="#">Yoga</a></li> -->
