@@ -53,6 +53,27 @@
                                     <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-health-packages.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
 
+                                        <!-- Category -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="category_id">
+                                                Category <span class="text-danger">*</span>
+                                            </label>
+
+                                            <select class="form-select" name="category_id" required>
+                                                <option value="">Select Category</option>
+
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->subcategory_name }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                            <div class="invalid-feedback">Please select a category.</div>
+                                        </div>
+
 
                                         <!-- Package Name -->
                                         <div class="col-md-6 mt-5">

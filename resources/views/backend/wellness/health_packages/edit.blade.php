@@ -58,6 +58,25 @@
                                         @csrf
                                         @method('PUT')
 
+
+                                        <!-- Category -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label">
+                                                Category <span class="text-danger">*</span>
+                                            </label>
+
+                                            <select class="form-select" name="category_id" required>
+                                                <option value="">Select Category</option>
+
+                                                @foreach($subcategories as $subcategory)
+                                                    <option value="{{ $subcategory->id }}"
+                                                        {{ old('sub_category_id', $health_packages->sub_category_id) == $subcategory->id ? 'selected' : '' }}>
+                                                        {{ $subcategory->subcategory_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
                                         <!-- Package Name -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="package_name">

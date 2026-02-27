@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ManageHealthPackages;
+use App\Models\MedicalServiceSubCategory;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -14,16 +15,22 @@ class HealthPackagesController extends Controller
 
     public function index()
     {
-        $packages = ManageHealthPackages::whereNull('deleted_at')
-                        ->orderBy('id', 'desc')
-                        ->get();
+        
+        $packages = ManageHealthPackages::with('subcategory')
+                    ->whereNull('deleted_at')
+                    ->orderBy('id', 'desc')
+                    ->get();
 
         return view('backend.wellness.health_packages.index', compact('packages'));
     }
 
     public function create()
     {
-        return view('backend.wellness.health_packages.create');
+        $categories = MedicalServiceSubCategory::wherenull('deleted_by')
+                        ->orderBy('subcategory_name', 'ASC')
+                        ->get();
+
+        return view('backend.wellness.health_packages.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -43,6 +50,7 @@ class HealthPackagesController extends Controller
             'age_range'         => 'required|string|max:100',
             'gender' => 'required|array|min:1',
             'gender.*' => 'in:Male,Female,Other',
+            'category_id' => 'required|exists:medical_service_sub_categories,id',
         ], [
             'package_name.required'     => 'Package Name is required.',
             'actual_price.required'     => 'Actual Price is required.',
@@ -68,6 +76,7 @@ class HealthPackagesController extends Controller
 
         // ✅ Store Data
         ManageHealthPackages::create([
+            'sub_category_id'  => $request->category_id, 
             'package_name'     => $request->package_name,
             'slug'             => $slug,
             'actual_price'     => $request->actual_price,
@@ -84,7 +93,12 @@ class HealthPackagesController extends Controller
     public function edit($id)
     {
         $health_packages = ManageHealthPackages::findOrFail($id);
-        return view('backend.wellness.health_packages.edit', compact('health_packages'));
+
+        $subcategories = MedicalServiceSubCategory::wherenull('deleted_by')
+                        ->orderBy('subcategory_name', 'ASC')
+                        ->get();
+
+        return view('backend.wellness.health_packages.edit', compact('health_packages','subcategories'));
     }
 
     public function update(Request $request, $id)
@@ -107,6 +121,7 @@ class HealthPackagesController extends Controller
             'age_range'         => 'required|string|max:100',
             'gender'            => 'required|array|min:1',
             'gender.*'          => 'in:Male,Female,Other',
+            'category_id'       => 'required|exists:medical_service_sub_categories,id',
         ], [
             'package_name.required'     => 'Package Name is required.',
             'discounted_price.lte'      => 'Discounted Price must be less than or equal to Actual Price.',
@@ -130,6 +145,7 @@ class HealthPackagesController extends Controller
 
         // ✅ Update Data
         $healthPackage->update([
+            'sub_category_id'       => $request->category_id,
             'package_name'     => $request->package_name,
             'slug'             => $slug,
             'actual_price'     => $request->actual_price,

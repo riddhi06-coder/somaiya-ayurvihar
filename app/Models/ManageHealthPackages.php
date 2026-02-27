@@ -13,6 +13,7 @@ class ManageHealthPackages extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'sub_category_id',
         'package_name',
         'slug',
         'actual_price',
@@ -27,4 +28,10 @@ class ManageHealthPackages extends Model
         'deleted_at',
         'deleted_by',
     ];
+
+    public function subcategory()
+    {
+        return $this->belongsTo(MedicalServiceSubCategory::class, 'sub_category_id');
+    }
+
 }
