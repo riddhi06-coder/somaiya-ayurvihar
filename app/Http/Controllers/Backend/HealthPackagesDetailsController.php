@@ -109,7 +109,7 @@ class HealthPackagesDetailsController extends Controller
             'package_id' => [
                 'required',
                 'exists:health_packages,id',
-                'unique:health_packages_details,package_id'
+                // 'unique:health_packages_details,package_id'
             ],
             'sub_category_id'   => 'required|exists:medical_service_sub_categories,id',
             'location'          => 'required|string|max:255',
@@ -178,4 +178,6 @@ class HealthPackagesDetailsController extends Controller
             return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
         }
     }
+
+
 }

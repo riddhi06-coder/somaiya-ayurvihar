@@ -33,6 +33,7 @@ use App\Models\ManageMediaCoverage;
 use App\Models\ManageAyurveda;
 use App\Models\ManageAlternateTherapy;
 use App\Models\ManageHealthPackages;
+use App\Models\ManageHealthPackagesDetails;
 
 
 class HomeController extends Controller
@@ -356,6 +357,28 @@ class HomeController extends Controller
             'genders',
             'ageRanges'
         ));
+    }
+
+    public function health_packages_details($slug)
+    {
+        // Fetch package basic info
+        $package = ManageHealthPackages::where('slug', $slug)->firstOrFail();
+
+        // Fetch package detailed info
+        $details = ManageHealthPackagesDetails::where('package_id', $package->id)->first();
+
+        // Decode genders if stored as JSON
+        // Decode genders if stored as JSON, handle single string as well
+        if (!empty($package->gender)) {
+            $decoded = json_decode($package->gender, true);
+            $genders = is_array($decoded) ? $decoded : [$package->gender];
+        } else {
+            $genders = [];
+        }
+
+        // dd($package,$details,$genders);
+
+        return view('frontend.health_package_detail', compact('package', 'details', 'genders'));
     }
 
 

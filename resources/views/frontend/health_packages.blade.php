@@ -151,7 +151,7 @@
 
                                         <!-- Background Accent Card -->
                                         <div class="pricing-bg-card {{ $bgClass }}">
-                                            <a href="#" class="btn pricing-btn">
+                                            <a href="{{ route('frontend.health_packages_details', $package->slug) }}" class="btn pricing-btn">
                                                 View Package <span>→</span>
                                             </a>
 
