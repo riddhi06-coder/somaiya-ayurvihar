@@ -117,9 +117,9 @@
                         <li><a href="#">Our Journey</a></li> -->
                       <!-- <li><a href="#">Somaiya Prayer</a></li> -->
                       <!-- <li><a href="associations.html">Associations</a></li> -->
-                      <li><a href="management-team.html">Management Team</a></li>
+                      <li><a href="{{ route('frontend.management_team') }}">Management Team</a></li>
                       <!--  <li><a href="#">CSR &amp; Sustainability and Community OutReach</a></li> -->
-                      <li><a href="accreditations.html">Accreditations</a></li>
+                      <li><a href="{{ route('frontend.accreditations') }}">Accreditations</a></li>
                       <li><a href="awards-accolades.html">Awards &amp; Accolades</a></li>
                       <li><a href="contact-us.html">Contact Us</a></li>
                       <li><a href="blogs.html">Blogs</a></li>
@@ -133,10 +133,10 @@
                   <div class="footer-links">
                     <h5>Wellness Centre</h5>
                     <ul>
-                      <li><a href="health-packages.html">Health Packages</a></li>
-                      <li><a href="ayurveda.html">Ayurveda</a></li>
+                      <li><a href="{{ route('frontend.health_packages') }}">Health Packages</a></li>
+                      <li><a href="{{ route('frontend.ayurveda') }}">Ayurveda</a></li>
                       <li>
-                        <a href="alternative-therapies.html">
+                        <a href="{{ route('frontend.alternative_therapies') }}">
                           <!-- Other --> Alternative Therapies
                         </a>
                       </li>
