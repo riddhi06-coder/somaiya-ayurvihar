@@ -30,6 +30,9 @@ use App\Http\Controllers\Backend\AyurvedaController;
 use App\Http\Controllers\Backend\AlternativeTherapyController;
 use App\Http\Controllers\Backend\HealthPackagesController;
 use App\Http\Controllers\Backend\HealthPackagesDetailsController;
+use App\Http\Controllers\Backend\ContactUsController;
+
+
 
 
 //frontend controller
@@ -111,6 +114,9 @@ Route::prefix('admin')
 
         // Media Coverages
         Route::resource('manage-media-coverages', MediaCoveragesController::class);
+
+        // Contact Us
+        Route::resource('manage-contact-us', ContactUsController::class);
 
     
     
