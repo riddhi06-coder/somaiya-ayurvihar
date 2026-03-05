@@ -35,6 +35,10 @@ use App\Models\ManageAlternateTherapy;
 use App\Models\ManageHealthPackages;
 use App\Models\ManageHealthPackagesDetails;
 use App\Models\Contact;
+use App\Models\Disclaimer;
+
+
+
 
 class HomeController extends Controller
 {
@@ -388,6 +392,12 @@ class HomeController extends Controller
         return view('frontend.contact_us', compact('contact_us'));
     }
 
+    // Disclaimer
+    public function disclaimer()
+    {
+        $disclaimer  = Disclaimer::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.disclaimer', compact('disclaimer'));
+    }
 
 
 }

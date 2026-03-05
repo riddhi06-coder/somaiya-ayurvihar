@@ -160,7 +160,7 @@
                 <div class="col-md-6">
                   <ul class="privacy_links">
                     <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Disclaimers</a></li>
+                    <li><a href="{{ route('frontend.disclaimer') }}">Disclaimers</a></li>
                     <li><a href="#">Terms and Conditions</a></li>
                   </ul>
                 </div>

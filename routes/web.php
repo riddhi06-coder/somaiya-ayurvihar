@@ -156,6 +156,9 @@ Route::get('alternative-therapies', [HomeController::class, 'alternative_therapi
 //=========Contact
 Route::get('contact-us', [HomeController::class, 'contact_us'])->name('frontend.contact_us');
 
+//=========Policy Pages
+Route::get('disclaimers', [HomeController::class, 'disclaimer'])->name('frontend.disclaimer');
+
 
 //======Service Page
 Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
