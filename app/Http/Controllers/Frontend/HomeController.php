@@ -34,7 +34,7 @@ use App\Models\ManageAyurveda;
 use App\Models\ManageAlternateTherapy;
 use App\Models\ManageHealthPackages;
 use App\Models\ManageHealthPackagesDetails;
-
+use App\Models\Contact;
 
 class HomeController extends Controller
 {
@@ -380,6 +380,14 @@ class HomeController extends Controller
 
         return view('frontend.health_package_detail', compact('package', 'details', 'genders'));
     }
+
+    // Contact Us
+    public function contact_us()
+    {
+        $contact_us  = Contact::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.contact_us', compact('contact_us'));
+    }
+
 
 
 }

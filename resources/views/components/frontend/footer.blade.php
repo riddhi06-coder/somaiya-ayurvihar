@@ -110,18 +110,12 @@
                       <li><a href="specialties.html">Specialties</a></li>
                       <li><a href="billing-process.html">Billing Process</a></li>
                       <li><a href="insurance-and-tpa.html">Insurance & TPA</a></li>
-                      <!-- <li><a href="#">Donation</a></li> -->
                       <li><a href="biomedical-waste.html">Biomedical Waste</a></li>
-                      <!-- <li><a href="#">Vision &amp; Mission</a></li>
-                        <li><a href="#">Chairman’s Message</a></li>
-                        <li><a href="#">Our Journey</a></li> -->
-                      <!-- <li><a href="#">Somaiya Prayer</a></li> -->
-                      <!-- <li><a href="associations.html">Associations</a></li> -->
+
                       <li><a href="{{ route('frontend.management_team') }}">Management Team</a></li>
-                      <!--  <li><a href="#">CSR &amp; Sustainability and Community OutReach</a></li> -->
                       <li><a href="{{ route('frontend.accreditations') }}">Accreditations</a></li>
                       <li><a href="awards-accolades.html">Awards &amp; Accolades</a></li>
-                      <li><a href="contact-us.html">Contact Us</a></li>
+                      <li><a href="{{ route('frontend.contact_us') }}">Contact Us</a></li>
                       <li><a href="blogs.html">Blogs</a></li>
                       <!-- <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Disclaimer</a></li>

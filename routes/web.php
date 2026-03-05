@@ -31,7 +31,7 @@ use App\Http\Controllers\Backend\AlternativeTherapyController;
 use App\Http\Controllers\Backend\HealthPackagesController;
 use App\Http\Controllers\Backend\HealthPackagesDetailsController;
 use App\Http\Controllers\Backend\ContactUsController;
-
+use App\Http\Controllers\Backend\DisclaimerController;
 
 
 
@@ -118,6 +118,9 @@ Route::prefix('admin')
         // Contact Us
         Route::resource('manage-contact-us', ContactUsController::class);
 
+        // Policy Pages
+        Route::resource('manage-disclaimer', DisclaimerController::class);
+
     
     
     
@@ -148,6 +151,10 @@ Route::get('health-packages', [HomeController::class, 'health_packages'])->name(
 Route::get('/details/{slug}', [HomeController::class, 'health_packages_details'])->name('frontend.health_packages_details');
 Route::get('ayurveda', [HomeController::class, 'ayurveda'])->name('frontend.ayurveda');
 Route::get('alternative-therapies', [HomeController::class, 'alternative_therapies'])->name('frontend.alternative_therapies');
+
+
+//=========Contact
+Route::get('contact-us', [HomeController::class, 'contact_us'])->name('frontend.contact_us');
 
 
 //======Service Page

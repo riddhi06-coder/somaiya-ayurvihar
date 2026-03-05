@@ -183,6 +183,27 @@
                 </li>
 
 
+
+                 <li class="sidebar-list {{ request()->routeIs('admin.manage-disclaimer.index', 'admin.manage-ayurveda.index', 'admin.manage-alternative-therapy.index','admin.manage-packages-details.index') ? 'active' : '' }}">
+                  <i class="fa fa-thumb-tack"></i>
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-social') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-social') }}"></use>
+                    </svg>
+                    <span>Policies </span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                      <li><a href="{{ route('admin.manage-ayurveda.index') }}">Privacy</a></li>
+                      <li><a href="{{ route('admin.manage-disclaimer.index') }}">Disclaimers</a></li>
+                      <li><a href="{{ route('admin.manage-ayurveda.index') }}">Terms and Conditions</a></li>
+                  </ul>
+
+                </li>
+
+
                 
               </ul>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
