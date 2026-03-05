@@ -32,7 +32,7 @@ use App\Http\Controllers\Backend\HealthPackagesController;
 use App\Http\Controllers\Backend\HealthPackagesDetailsController;
 use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\DisclaimerController;
-
+use App\Http\Controllers\Backend\TermsConditionController;
 
 
 //frontend controller
@@ -120,6 +120,7 @@ Route::prefix('admin')
 
         // Policy Pages
         Route::resource('manage-disclaimer', DisclaimerController::class);
+        Route::resource('manage-terms-condition', TermsConditionController::class);
 
     
     

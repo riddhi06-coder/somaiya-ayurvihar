@@ -184,7 +184,7 @@
 
 
 
-                 <li class="sidebar-list {{ request()->routeIs('admin.manage-disclaimer.index', 'admin.manage-ayurveda.index', 'admin.manage-alternative-therapy.index','admin.manage-packages-details.index') ? 'active' : '' }}">
+                 <li class="sidebar-list {{ request()->routeIs('admin.manage-disclaimer.index', 'admin.manage-terms-condition.index', 'admin.manage-alternative-therapy.index','admin.manage-packages-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
@@ -198,7 +198,7 @@
                   <ul class="sidebar-submenu">
                       <li><a href="{{ route('admin.manage-ayurveda.index') }}">Privacy</a></li>
                       <li><a href="{{ route('admin.manage-disclaimer.index') }}">Disclaimers</a></li>
-                      <li><a href="{{ route('admin.manage-ayurveda.index') }}">Terms and Conditions</a></li>
+                      <li><a href="{{ route('admin.manage-terms-condition.index') }}">Terms and Conditions</a></li>
                   </ul>
 
                 </li>
