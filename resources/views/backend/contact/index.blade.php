@@ -51,17 +51,36 @@
                   
                                         <tr>
                                             <th>#</th>
-                                            <th>Main Category</th>
-                                            <th>Sub Category</th>
-                                            <th>Service</th>
-                                            <th>Doctor Name</th>
-                                            <th>Image</th>
+                                            <th>Hospital Name</th>
+                                            <th>Contact</th>
+                                            <th>Email</th>
                                             <th>Action</th>
                                         </tr>
                     
                                     </thead>
                                     <tbody>
- 
+                                        @if($contacts->count() > 0)
+                                            @foreach($contacts as $key => $contact)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $contact->hospital_name }}</td>
+                                                    <td>{{ $contact->call_us }}</td>
+                                                    <td>{{ $contact->email }}</td>
+                                                    <td>
+                                                        <a href="{{ route('admin.manage-contact-us.edit',$contact->id) }}" class="btn btn-sm btn-primary">Edit</a><br><br>
+                                                        <form action="{{ route('admin.manage-contact-us.destroy', $contact->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete this contact?');">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="5" class="text-center">No records found</td>
+                                            </tr>
+                                        @endif
                                     </tbody>
 
                                 </table>

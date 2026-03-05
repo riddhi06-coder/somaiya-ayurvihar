@@ -3,9 +3,6 @@
     
 <head>
     @include('components.backend.head')
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-
 </head>
 	   
 		@include('components.backend.header')
@@ -20,14 +17,14 @@
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
-                  <h4>Add Doctor's Details Form</h4>
+                  <h4>Edit Contact Details Form</h4>
                 </div>
                 <div class="col-6">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                    <a href="{{ route('admin.manage-doctors.index') }}">Home</a>
+                    <a href="{{ route('admin.manage-contact-us.index') }}">Home</a>
                     </li>
-                    <li class="breadcrumb-item active">Add Doctor's Details</li>
+                    <li class="breadcrumb-item active">Edit Contact Details</li>
                 </ol>
 
                 </div>
@@ -40,7 +37,7 @@
                 <div class="col-md-12">
                     <div class="card">
                     <div class="card-header">
-                        <h4>Doctor's Details Form</h4>
+                        <h4>Contact Details Form</h4>
                         <p class="f-m-light mt-1">Fill up your true details and submit the form.</p>
                     </div>
                     <div class="card-body">
@@ -50,7 +47,7 @@
                             <div class="col-12">
                             <div class="tab-content" id="wizard-tabContent">
                                 <div class="tab-pane fade show active" id="wizard-contact" role="tabpanel" aria-labelledby="wizard-contact-tab">
-                                    <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-doctors.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3 needs-validation custom-input" novalidate action="{{ route('admin.manage-contact-us.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
 
 
@@ -69,7 +66,6 @@
                                             <table class="table table-bordered" id="emergencyTable">
                                                 <thead>
                                                     <tr>
-                                                        <th>Icon <span class="txt-danger">*</span></th>
                                                         <th>Emergency Center <span class="txt-danger">*</span></th>
                                                         <th>Contact <span class="txt-danger">*</span></th>
                                                         <th width="120">Action</th>
@@ -77,12 +73,6 @@
                                                 </thead>
                                                 <tbody id="tableBody">
                                                     <tr>
-                                                        <td>
-                                                            <input type="file" name="icon[]" class="form-control iconInput">
-                                                            <small class="text-secondary"><b>Note: Max size 2MB, formats: jpg, jpeg, png, webp, svg</b></small>
-                                                            <br>
-                                                            <img src="" class="img-preview mt-2" style="max-width: 80px; display:none;">
-                                                        </td>
                                                         <td>
                                                             <input type="text" name="center_name[]" class="form-control" placeholder="Enter Center Name">
                                                         </td>
@@ -149,9 +139,6 @@
                                         </div>
 
 
-
-
-
                                         <!-- Social Media Links Table -->
                                         <div class="col-12 mt-5">
                                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -188,10 +175,57 @@
                                         </div>
 
 
+                                        <hr class="mt-5">
+
+                                        <h4># Associates Details</h4>
+
+
+                                        <!-- Associates Name -->
+                                        <div class="col-md-6 mt-5">
+                                            <label class="form-label" for="associates_name">Associates Name <span class="txt-danger">*</span></label>
+                                            <input class="form-control" id="associates_name" type="text" name="associates_name" placeholder="Enter Associates Name" required>
+                                            <div class="invalid-feedback">Please enter a Associates Name.</div>
+                                        </div>
+
+
+                                        <div class="container mt-5">
+                                            <h4># Associates Details Table</h4>
+                                            <table class="table table-bordered mt-3" id="instituteTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Image <span class="txt-danger">*</span></th>
+                                                        <th>Institute Name <span class="txt-danger">*</span></th>
+                                                        <th>Contact No <span class="txt-danger">*</span></th>
+                                                        <th>URL <span class="txt-danger">*</span></th>
+                                                        <th>
+                                                            <button type="button" class="btn btn-success" id="addRowBtn">Add More</button>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Initial row -->
+                                                    <tr>
+                                                        <td>
+                                                            <input type="file" name="image[]" class="form-control imageInput">
+                                                            <small class="text-secondary"><b>Note: Max size 2MB, formats: jpg, jpeg, png, webp, svg</b></small>
+                                                            <br>
+                                                            <img src="" class="img-preview mt-2" style="max-width:100px; display:none;">
+                                                        </td>
+                                                        <td><input type="text" name="institute_name[]" class="form-control" placeholder="Institute Name"></td>
+                                                        <td><input type="text" name="contact_no[]" class="form-control" placeholder="Contact No"></td>
+                                                        <td><input type="url" name="url[]" class="form-control" placeholder="URL"></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger removeRowBtn">Remove</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
 
                                         <!-- Form Actions -->
                                         <div class="col-12 text-end">
-                                            <a href="{{ route('admin.manage-doctors.index') }}" class="btn btn-danger px-4">Cancel</a>
+                                            <a href="{{ route('admin.manage-contact-us.index') }}" class="btn btn-danger px-4">Cancel</a>
                                             <button class="btn btn-primary" type="submit">Submit</button>
                                         </div>
                                     </form>
@@ -293,12 +327,6 @@
                     return `
                         <tr>
                             <td>
-                                <input type="file" name="icon[]" class="form-control iconInput">
-                                <small class="text-secondary"><b>Note: Max size 2MB, formats: jpg, jpeg, png, webp, svg</b></small>
-                                <br>
-                                <img src="" class="img-preview mt-2" style="max-width: 80px; display:none;">
-                            </td>
-                            <td>
                                 <input type="text" name="center_name[]" class="form-control" placeholder="Enter Center Name">
                             </td>
                             <td>
@@ -329,6 +357,58 @@
                         $(input).siblings('.img-preview').attr('src', e.target.result).show();
                     }
                     if (input.files[0]) {
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                });
+
+            });
+        </script>
+
+
+        <script>
+            $(document).ready(function(){
+
+                // Add new row
+                $('#addRowBtn').click(function(){
+                    let newRow = `
+                        <tr>
+                            <td>
+                                <input type="file" name="image[]" class="form-control imageInput">
+                                <small class="text-secondary"><b>Note: Max size 2MB, formats: jpg, jpeg, png, webp, svg</b></small>
+                                <br>
+                                <img src="" class="img-preview mt-2" style="max-width:100px; display:none;">
+                            </td>
+                            <td><input type="text" name="institute_name[]" class="form-control" placeholder="Institute Name"></td>
+                            <td><input type="text" name="contact_no[]" class="form-control" placeholder="Contact No"></td>
+                            <td><input type="url" name="url[]" class="form-control" placeholder="URL"></td>
+                            <td>
+                                <button type="button" class="btn btn-danger removeRowBtn">Remove</button>
+                            </td>
+                        </tr>
+                    `;
+                    $('#instituteTable tbody').append(newRow);
+                });
+
+                // Remove row
+                $(document).on('click', '.removeRowBtn', function(){
+                    if($('#instituteTable tbody tr').length > 1){
+                        $(this).closest('tr').remove();
+                    } else {
+                        alert('At least one row must be present.');
+                    }
+                });
+
+                // Image preview
+                $(document).on('change', '.imageInput', function(event){
+                    const input = this;
+                    const reader = new FileReader();
+                    const imgPreview = $(this).siblings('.img-preview');
+
+                    reader.onload = function(e){
+                        imgPreview.attr('src', e.target.result).show();
+                    }
+
+                    if(input.files && input.files[0]){
                         reader.readAsDataURL(input.files[0]);
                     }
                 });
