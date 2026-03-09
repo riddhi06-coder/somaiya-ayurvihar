@@ -57,7 +57,33 @@
                     
                                     </thead>
                                     <tbody>
-                    
+                                        @forelse($terms as $key => $disclaimer)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+
+                                                <td>
+                                                    {!! Str::limit(strip_tags($disclaimer->terms),100) !!}
+                                                </td>
+
+                                                <td>
+                                                    <a href="{{ route('admin.manage-terms-condition.edit',$disclaimer->id) }}" 
+                                                    class="btn btn-primary btn-sm">Edit</a>
+
+                                                    <form action="{{ route('admin.manage-terms-condition.destroy',$disclaimer->id) }}" 
+                                                        method="POST" 
+                                                        style="display:inline-block;"
+                                                        onsubmit="return confirm('Are you sure you want to delete this disclaimer?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="3" class="text-center">No Disclaimer Found</td>
+                                                </tr>
+                                        @endforelse
                                     </tbody>
 
                                 </table>
