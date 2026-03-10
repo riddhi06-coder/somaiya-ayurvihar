@@ -50,7 +50,7 @@ class HealthPackagesController extends Controller
             'age_range'         => 'required|string|max:100',
             'gender' => 'required|array|min:1',
             'gender.*' => 'in:Male,Female,Other',
-            'category_id' => 'required|exists:medical_service_sub_categories,id',
+            'category_id' => 'nullable|exists:medical_service_sub_categories,id',
         ], [
             'package_name.required'     => 'Package Name is required.',
             'actual_price.required'     => 'Actual Price is required.',
@@ -121,7 +121,7 @@ class HealthPackagesController extends Controller
             'age_range'         => 'required|string|max:100',
             'gender'            => 'required|array|min:1',
             'gender.*'          => 'in:Male,Female,Other',
-            'category_id'       => 'required|exists:medical_service_sub_categories,id',
+            'category_id'       => 'nullable|exists:medical_service_sub_categories,id',
         ], [
             'package_name.required'     => 'Package Name is required.',
             'discounted_price.lte'      => 'Discounted Price must be less than or equal to Actual Price.',
