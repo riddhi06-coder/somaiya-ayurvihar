@@ -95,7 +95,7 @@
                                         {{-- Service (Hidden Initially) --}}
                                         <div class="col-md-6 d-none" id="service-wrapper">
                                             <label class="form-label">
-                                                Service <span class="txt-danger">*</span>
+                                                Service 
                                             </label>
                                             <select name="service_id"
                                                     id="service_id"
