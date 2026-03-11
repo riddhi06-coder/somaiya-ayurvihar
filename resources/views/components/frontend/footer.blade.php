@@ -161,7 +161,7 @@
                   <ul class="privacy_links">
                     <li><a href="#">Privacy</a></li>
                     <li><a href="{{ route('frontend.disclaimer') }}">Disclaimers</a></li>
-                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="{{ route('frontend.terms_conditions') }}">Terms and Conditions</a></li>
                   </ul>
                 </div>
               </div>

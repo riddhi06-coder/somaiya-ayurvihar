@@ -9289,7 +9289,8 @@
 
 #overview ul,
 #faq ul,
-#our-services ul {
+#our-services ul 
+.privacy_wrap ul{
     list-style: none;
     padding-left: 0;
     margin-left: 0;
@@ -9297,7 +9298,8 @@
 
 #overview ul li,
 #faq ul li,
-.lists ul li {
+.lists ul li,
+.privacy_wrap ul li {
     position: relative;
     padding-left: 30px;
     margin-bottom: 15px;
@@ -9311,6 +9313,7 @@
 
 #overview li::before,
 #faq li::before,
+.privacy_wrap li::before,
 .lists li::before {
     content:'';
     position:absolute;

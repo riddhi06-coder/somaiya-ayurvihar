@@ -36,7 +36,7 @@ use App\Models\ManageHealthPackages;
 use App\Models\ManageHealthPackagesDetails;
 use App\Models\Contact;
 use App\Models\Disclaimer;
-
+use App\Models\TermsCondition;
 
 
 
@@ -397,6 +397,13 @@ class HomeController extends Controller
     {
         $disclaimer  = Disclaimer::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
         return view('frontend.disclaimer', compact('disclaimer'));
+    }
+
+    // Terms & Condition
+    public function terms_conditions()
+    {
+        $terms_conditions  = TermsCondition::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
+        return view('frontend.terms_conditions', compact('terms_conditions'));
     }
 
 
