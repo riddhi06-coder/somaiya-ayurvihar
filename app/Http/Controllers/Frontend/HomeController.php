@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 use App\Models\HomeSlider;
@@ -405,12 +406,20 @@ class HomeController extends Controller
         $terms_conditions  = TermsCondition::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
         return view('frontend.terms_conditions', compact('terms_conditions'));
     }
-
     
+
     // Privacy
     public function privacy()
     {
         return view('frontend.privacy');
+    }
+
+        
+    // Specialties
+    public function specialties()
+    {
+        $specialties = DB::table('medical_service_sub_categories')->get();
+        return view('frontend.specialties', compact('specialties'));
     }
 
 

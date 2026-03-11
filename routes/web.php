@@ -163,6 +163,10 @@ Route::get('terms-and-conditions', [HomeController::class, 'terms_conditions'])-
 Route::get('privacy', [HomeController::class, 'privacy'])->name('frontend.privacy');
 
 
+//========= Footer Pages
+Route::get('specialties', [HomeController::class, 'specialties'])->name('frontend.specialties');
+
+
 //======Service Page
 Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
 Route::get('/{slug}', [HomeController::class, 'service_details'])->name('frontend.service_details');

@@ -107,7 +107,7 @@
                   <div class="footer-links">
                     <h5>Quick Links</h5>
                     <ul>
-                      <li><a href="specialties.html">Specialties</a></li>
+                      <li><a href="{{ route('frontend.specialties') }}">Specialties</a></li>
                       <li><a href="billing-process.html">Billing Process</a></li>
                       <li><a href="insurance-and-tpa.html">Insurance & TPA</a></li>
                       <li><a href="biomedical-waste.html">Biomedical Waste</a></li>
