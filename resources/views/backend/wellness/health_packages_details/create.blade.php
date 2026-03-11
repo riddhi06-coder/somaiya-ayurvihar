@@ -74,7 +74,7 @@
                                         <!-- Category -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label">
-                                                Category <span class="text-danger">*</span>
+                                                Category 
                                             </label>
 
                                             <select class="form-select" id="subcategory_select" disabled>

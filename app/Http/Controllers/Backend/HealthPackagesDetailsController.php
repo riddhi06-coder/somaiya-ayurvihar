@@ -39,7 +39,7 @@ class HealthPackagesDetailsController extends Controller
         // ✅ Validation
         $request->validate([
             'package_id'        => 'required|exists:health_packages,id',
-            'sub_category_id'   => 'required|exists:medical_service_sub_categories,id',
+            'sub_category_id'   => 'nullable|exists:medical_service_sub_categories,id',
             'location'          => 'required|string|max:255',
             'location_url'      => 'required|url|max:500',
             'description'       => 'required|string',
@@ -111,7 +111,7 @@ class HealthPackagesDetailsController extends Controller
                 'exists:health_packages,id',
                 // 'unique:health_packages_details,package_id'
             ],
-            'sub_category_id'   => 'required|exists:medical_service_sub_categories,id',
+            'sub_category_id'   => 'nullable|exists:medical_service_sub_categories,id',
             'location'          => 'required|string|max:255',
             'location_url'      => 'required|url|max:500',
             'description'       => 'required|string',
