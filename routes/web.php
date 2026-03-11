@@ -160,6 +160,7 @@ Route::get('contact-us', [HomeController::class, 'contact_us'])->name('frontend.
 //=========Policy Pages
 Route::get('disclaimers', [HomeController::class, 'disclaimer'])->name('frontend.disclaimer');
 Route::get('terms-and-conditions', [HomeController::class, 'terms_conditions'])->name('frontend.terms_conditions');
+Route::get('privacy', [HomeController::class, 'privacy'])->name('frontend.privacy');
 
 
 //======Service Page

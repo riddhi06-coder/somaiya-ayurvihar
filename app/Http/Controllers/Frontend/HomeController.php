@@ -406,5 +406,12 @@ class HomeController extends Controller
         return view('frontend.terms_conditions', compact('terms_conditions'));
     }
 
+    
+    // Privacy
+    public function privacy()
+    {
+        return view('frontend.privacy');
+    }
+
 
 }
