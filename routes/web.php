@@ -168,6 +168,8 @@ Route::get('specialties', [HomeController::class, 'specialties'])->name('fronten
 Route::get('billing-process', [HomeController::class, 'billing_process'])->name('frontend.billing_process');
 Route::get('insurance-and-tpa', [HomeController::class, 'insurance_and_tpa'])->name('frontend.insurance_and_tpa');
 Route::get('biomedical-waste', [HomeController::class, 'biomedical_waste'])->name('frontend.biomedical_waste');
+Route::get('awards-accolades', [HomeController::class, 'awards_accolades'])->name('frontend.awards_accolades');
+
 
 
 //======Service Page

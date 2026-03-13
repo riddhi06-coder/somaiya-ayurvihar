@@ -114,7 +114,7 @@
 
                       <li><a href="{{ route('frontend.management_team') }}">Management Team</a></li>
                       <li><a href="{{ route('frontend.accreditations') }}">Accreditations</a></li>
-                      <li><a href="awards-accolades.html">Awards &amp; Accolades</a></li>
+                      <li><a href="{{ route('frontend.awards_accolades') }}">Awards &amp; Accolades</a></li>
                       <li><a href="{{ route('frontend.contact_us') }}">Contact Us</a></li>
                       <li><a href="blogs.html">Blogs</a></li>
                       <!-- <li><a href="#">Privacy Policy</a></li>

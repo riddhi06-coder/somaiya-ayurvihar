@@ -432,11 +432,17 @@ class HomeController extends Controller
         return view('frontend.insurance_and_tpa');
     }
 
-
     // Biomedical Waste
     public function biomedical_waste()
     {
         return view('frontend.biomedical_waste');
+    }
+
+
+    // Awards Accolades
+    public function awards_accolades()
+    {
+        return view('frontend.awards_accolades');
     }
 
 
