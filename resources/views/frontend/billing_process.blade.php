@@ -190,7 +190,7 @@
                 <div class="col-sm-3">
                     <div class="icon-box">
                     <div class="icon-circle">
-                        <?xml version="1.0" encoding="iso-8859-1"?>
+                      
                         <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                         viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
@@ -338,7 +338,7 @@
                 <div class="col-sm-3">
                     <div class="icon-box">
                     <div class="icon-circle">
-                        <?xml version="1.0" encoding="UTF-8"?>
+                    
                         <svg xmlns="http://www.w3.org/2000/svg" id="Icons" viewBox="0 0 70 70" width="512" height="512">
                         <path d="M57.8,31.33H45.65a1,1,0,1,1,0-2H56.8V5.79A2.79,2.79,0,0,0,54,3H16A2.79,2.79,0,0,0,13.2,5.79V29.33H24.35a1,1,0,0,1,0,2H12.2a1,1,0,0,1-1-1V5.79A4.8,4.8,0,0,1,16,1H54A4.8,4.8,0,0,1,58.8,5.79V30.33A1,1,0,0,1,57.8,31.33Z"/>
                         <path d="M20.87,56.12H5.18a1,1,0,0,1-.8-.39,1,1,0,0,1-.16-.88l7-24.8a1,1,0,0,1,1-.73H24.35a1,1,0,0,1,0,2H13L6.5,54.12H20.87a1,1,0,0,1,0,2Z"/>
@@ -396,7 +396,7 @@
                 <div class="col-sm-6">
                     <div class="icon-box">
                     <div class="icon-circle">
-                        <?xml version="1.0"?>
+                       
                         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 512 512">
                         <defs>
                             <style>.cls-1{fill-rule:evenodd;}</style>
@@ -457,7 +457,7 @@
                 </div>
             </div>
         </section>
-        
+
 
         @include('components.frontend.footer')
         

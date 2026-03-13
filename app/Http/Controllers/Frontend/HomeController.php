@@ -413,19 +413,23 @@ class HomeController extends Controller
     {
         return view('frontend.privacy');
     }
-
-        
+    
     // Specialties
     public function specialties()
     {
         return view('frontend.specialties');
     }
 
-
     // Billing Process
     public function billing_process()
     {
         return view('frontend.billing_process');
+    }
+
+    // Insurance and Tpa
+    public function insurance_and_tpa()
+    {
+        return view('frontend.insurance_and_tpa');
     }
 
 

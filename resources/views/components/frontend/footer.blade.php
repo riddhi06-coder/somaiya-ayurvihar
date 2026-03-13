@@ -109,7 +109,7 @@
                     <ul>
                       <li><a href="{{ route('frontend.specialties') }}">Specialties</a></li>
                       <li><a href="{{ route('frontend.billing_process') }}">Billing Process</a></li>
-                      <li><a href="insurance-and-tpa.html">Insurance & TPA</a></li>
+                      <li><a href="{{ route('frontend.insurance_and_tpa') }}">Insurance & TPA</a></li>
                       <li><a href="biomedical-waste.html">Biomedical Waste</a></li>
 
                       <li><a href="{{ route('frontend.management_team') }}">Management Team</a></li>
