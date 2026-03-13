@@ -165,6 +165,7 @@ Route::get('privacy', [HomeController::class, 'privacy'])->name('frontend.privac
 
 //========= Footer Pages
 Route::get('specialties', [HomeController::class, 'specialties'])->name('frontend.specialties');
+Route::get('billing-process', [HomeController::class, 'billing_process'])->name('frontend.billing_process');
 
 
 //======Service Page

@@ -418,8 +418,14 @@ class HomeController extends Controller
     // Specialties
     public function specialties()
     {
-        $specialties = DB::table('medical_service_sub_categories')->get();
-        return view('frontend.specialties', compact('specialties'));
+        return view('frontend.specialties');
+    }
+
+
+    // Billing Process
+    public function billing_process()
+    {
+        return view('frontend.billing_process');
     }
 
 
