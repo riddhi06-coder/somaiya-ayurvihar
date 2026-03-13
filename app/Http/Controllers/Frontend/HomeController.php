@@ -438,11 +438,16 @@ class HomeController extends Controller
         return view('frontend.biomedical_waste');
     }
 
-
     // Awards Accolades
     public function awards_accolades()
     {
         return view('frontend.awards_accolades');
+    }
+
+     // Blogs
+    public function blogs()
+    {
+        return view('frontend.blogs');
     }
 
 

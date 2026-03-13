@@ -264,7 +264,7 @@
                           <!-- <li><a href="#">Payment Method</a></li> -->
                           <li><a href="insurance-and-tpa.html">Insurance & TPA</a></li>
                           <li><a href="government-schemes.html">Government Schemes</a></li>
-                          <li><a href="#">Billing Process</a></li>
+                          <li><a href="{{ route('frontend.billing_process') }}">Billing Process</a></li>
                           <!-- <li><a href="#">Patients Safety</a></li> -->
                           <!-- <li><a href="#">Infection Control</a></li> -->
                           <!-- <li><a href="#">Biomedical Waste</a></li> -->
