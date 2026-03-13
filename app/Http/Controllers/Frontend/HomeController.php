@@ -433,4 +433,11 @@ class HomeController extends Controller
     }
 
 
+    // Biomedical Waste
+    public function biomedical_waste()
+    {
+        return view('frontend.biomedical_waste');
+    }
+
+
 }
