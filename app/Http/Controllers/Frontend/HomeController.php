@@ -462,5 +462,11 @@ class HomeController extends Controller
         return view('frontend.visitor_guide');
     }
 
+    // Rights And Responsibilities
+    public function rights_and_responsibilities()
+    {
+        return view('frontend.rights_and_responsibilities');
+    }
+
 
 }

@@ -256,7 +256,7 @@
                         <ul>
                           <li><a href="{{ route('frontend.inpatient_services') }}">Inpatient Services</a></li>
                           <li><a href="{{ route('frontend.visitor_guide') }}">Visitor Guide</a></li>
-                          <li><a href="rights-and-responsibilities.html">Rights & Responsibilities</a></li>
+                          <li><a href="{{ route('frontend.rights_and_responsibilities') }}">Rights & Responsibilities</a></li>
                           <li><a href="convenience-and-facilities.html">Convenience & Facilities</a></li>
                           <!--<li><a href="#">Maps & Directions</a></li>-->
                           <!-- <li><a href="#">Nearby Lodging Facilities</a></li> -->
