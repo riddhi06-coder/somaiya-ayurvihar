@@ -474,4 +474,10 @@ class HomeController extends Controller
         return view('frontend.convenience_and_facilities');
     }
 
+    // CGovernment Schemes
+    public function government_schemes()
+    {
+        return view('frontend.government_schemes');
+    }
+
 }

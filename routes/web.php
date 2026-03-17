@@ -177,7 +177,7 @@ Route::get('inpatient-services', [HomeController::class, 'inpatient_services'])-
 Route::get('visitor-guide', [HomeController::class, 'visitor_guide'])->name('frontend.visitor_guide');
 Route::get('rights-and-responsibilities', [HomeController::class, 'rights_and_responsibilities'])->name('frontend.rights_and_responsibilities');
 Route::get('convenience-and-facilities', [HomeController::class, 'convenience_and_facilities'])->name('frontend.convenience_and_facilities');
-
+Route::get('government-schemes', [HomeController::class, 'government_schemes'])->name('frontend.government_schemes');
 
 //======Service Page
 Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
