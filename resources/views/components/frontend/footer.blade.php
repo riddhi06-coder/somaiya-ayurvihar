@@ -138,7 +138,7 @@
                     <h5>News &amp; Events</h5>
                     <ul>
                       <!-- <li><a href="#">News &amp; Events</a></li> -->
-                      <li><a href="announcements.html">Announcements</a></li>
+                      <li><a href="#">Announcements</a></li>
                       <li><a href="gallery.html">Gallery</a></li>
                       <li><a href="{{ route('frontend.media_coverage') }}">Media Coverage</a></li>
                       <li><a href="career.html">Career</a></li>

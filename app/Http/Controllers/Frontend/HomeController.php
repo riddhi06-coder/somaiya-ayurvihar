@@ -444,10 +444,17 @@ class HomeController extends Controller
         return view('frontend.awards_accolades');
     }
 
-     // Blogs
+    // Blogs
     public function blogs()
     {
         return view('frontend.blogs');
+    }
+
+
+    // Inpatient Services
+    public function inpatient_services()
+    {
+        return view('frontend.inpatient_services');
     }
 
 

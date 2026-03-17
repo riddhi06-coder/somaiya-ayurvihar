@@ -172,6 +172,9 @@ Route::get('awards-accolades', [HomeController::class, 'awards_accolades'])->nam
 Route::get('blogs', [HomeController::class, 'blogs'])->name('frontend.blogs');
 
 
+//========= Patient Services Pages
+Route::get('inpatient-services', [HomeController::class, 'inpatient_services'])->name('frontend.inpatient_services');
+
 
 //======Service Page
 Route::get('service/{slug}', [HomeController::class, 'diagnostic_details'])->name('frontend.diagnostic_details');
