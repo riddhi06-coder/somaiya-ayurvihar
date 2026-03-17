@@ -169,6 +169,28 @@
 
 
 
+
+                <li class="sidebar-list {{ request()->routeIs('admin.medicalservicecategory.index', 'admin.medicalservicesubcategory.index', 'admin.medicalserviceallcategories.index','admin.manage-doctors.index') ? 'active' : '' }}">
+                  <i class="fa fa-thumb-tack"> </i>
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon"> 
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-button') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('admin/assets/svg/icon-sprite.svg#stroke-button') }}"></use>
+                    </svg>
+                    <span>Gallery</span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                   <li><a href="{{ route('admin.medicalservicecategory.index') }}">List</a></li>
+                   <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Details</a></li>
+
+
+                  </ul>
+                </li>
+
+
+
                 <li class="sidebar-list {{ request()->routeIs('admin.manage-contact-us.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link" href="{{ route('admin.manage-contact-us.index') }}">

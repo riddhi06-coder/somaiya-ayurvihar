@@ -33,6 +33,9 @@ use App\Http\Controllers\Backend\HealthPackagesDetailsController;
 use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\DisclaimerController;
 use App\Http\Controllers\Backend\TermsConditionController;
+use App\Http\Controllers\Backend\GalleryController;
+
+
 
 
 //frontend controller
@@ -107,6 +110,8 @@ Route::prefix('admin')
         Route::resource('manage-packages-details', HealthPackagesDetailsController::class);  
 
 
+        // Media & Events
+        Route::resource('manage-gallery', GalleryController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
