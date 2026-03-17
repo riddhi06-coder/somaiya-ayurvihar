@@ -414,19 +414,19 @@
                     <div class="content">
                     <h5>Documents to be Submitted (Within 24 Hours)</h5>
                     <ul class="lists">
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> KYC of Patient (PAN Card + Aadhaar Card)</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> KYC of Employee / Proposer (For corporate policies) (PAN Card + Aadhaar Card)</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Passport Size Photo of Proposer and Patient</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Current Policy Papers / E-Card / TPA Card</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Past Investigation Reports / Consultation Papers / Discharge Summary (if available)</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Marriage Certificate / Gazette / Affidavit (In case of name/age mismatch)</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> MLC Certificate / Self Declaration (In case of accident/fall/injury)</span></li>
+                        <li><span> KYC of Patient (PAN Card + Aadhaar Card)</span></li>
+                        <li><span> KYC of Employee / Proposer (For corporate policies) (PAN Card + Aadhaar Card)</span></li>
+                        <li><span> Passport Size Photo of Proposer and Patient</span></li>
+                        <li><span> Current Policy Papers / E-Card / TPA Card</span></li>
+                        <li><span> Past Investigation Reports / Consultation Papers / Discharge Summary (if available)</span></li>
+                        <li><span> Marriage Certificate / Gazette / Affidavit (In case of name/age mismatch)</span></li>
+                        <li><span> MLC Certificate / Self Declaration (In case of accident/fall/injury)</span></li>
                     </ul>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="content-img documents-submitted-img">
-                    <img src="img/patient-services/document-submitted.jpg" class="img-responsive">
+                    <img src="{{ asset('frontend/assets/img/patient-services/document-submitted.jpg') }}" class="img-responsive">
                     </div>
                 </div>
                 </div>
@@ -435,9 +435,9 @@
                     <div class="content billing_content">
                     <h5>Security Deposit (Mandatory at Admission)</h5>
                     <ul class="lists">
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Medical Management: ₹5,000 onwards</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Surgical Management: ₹10,000 onwards</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> ICU: ₹20,000 onwards</span></li>
+                        <li><span> Medical Management: ₹5,000 onwards</span></li>
+                        <li><span> Surgical Management: ₹10,000 onwards</span></li>
+                        <li><span> ICU: ₹20,000 onwards</span></li>
                     </ul>
                     <p>Security Deposit may vary depending on policy terms & conditions (Co-pay / Sublimit / ABC clause).</p>
                     </div>
@@ -447,10 +447,10 @@
                     <h5>Important Patient Declarations</h5>
                     <p>Before admission, the patient/relative must confirm:</p>
                     <ul class="lists">
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Room rent eligibility as per policy</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Basic Sum Insured from insurance company / HR / agent</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Any applicable Sublimit / Co-pay / Pre-existing disease clause</span></li>
-                        <li><img src="{{ asset('frontend/assets/img/icon/listing-svg.svg') }}"><span> Any pre-existing ailment and related documents (if required)</span></li>
+                        <li><span> Room rent eligibility as per policy</span></li>
+                        <li><span> Basic Sum Insured from insurance company / HR / agent</span></li>
+                        <li><span> Any applicable Sublimit / Co-pay / Pre-existing disease clause</span></li>
+                        <li><span> Any pre-existing ailment and related documents (if required)</span></li>
                     </ul>
                     </div>
                 </div>
