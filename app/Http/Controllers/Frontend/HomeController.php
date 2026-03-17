@@ -468,5 +468,10 @@ class HomeController extends Controller
         return view('frontend.rights_and_responsibilities');
     }
 
+    // Convenience & Facilities
+    public function convenience_and_facilities()
+    {
+        return view('frontend.convenience_and_facilities');
+    }
 
 }

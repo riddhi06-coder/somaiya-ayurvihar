@@ -257,7 +257,7 @@
                           <li><a href="{{ route('frontend.inpatient_services') }}">Inpatient Services</a></li>
                           <li><a href="{{ route('frontend.visitor_guide') }}">Visitor Guide</a></li>
                           <li><a href="{{ route('frontend.rights_and_responsibilities') }}">Rights & Responsibilities</a></li>
-                          <li><a href="convenience-and-facilities.html">Convenience & Facilities</a></li>
+                          <li><a href="{{ route('frontend.convenience_and_facilities') }}">Convenience & Facilities</a></li>
                           <!--<li><a href="#">Maps & Directions</a></li>-->
                           <!-- <li><a href="#">Nearby Lodging Facilities</a></li> -->
                           <!--<li><a href="#">Contact Directory</a></li>-->
