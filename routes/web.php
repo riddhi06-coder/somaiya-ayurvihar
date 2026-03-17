@@ -174,6 +174,7 @@ Route::get('blogs', [HomeController::class, 'blogs'])->name('frontend.blogs');
 
 //========= Patient Services Pages
 Route::get('inpatient-services', [HomeController::class, 'inpatient_services'])->name('frontend.inpatient_services');
+Route::get('visitor-guide', [HomeController::class, 'visitor_guide'])->name('frontend.visitor_guide');
 
 
 //======Service Page

@@ -450,11 +450,16 @@ class HomeController extends Controller
         return view('frontend.blogs');
     }
 
-
     // Inpatient Services
     public function inpatient_services()
     {
         return view('frontend.inpatient_services');
+    }
+
+    // Visitor Guide
+    public function visitor_guide()
+    {
+        return view('frontend.visitor_guide');
     }
 
 

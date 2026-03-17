@@ -255,7 +255,7 @@
                       <div class="sub-menu single-column-menu">
                         <ul>
                           <li><a href="{{ route('frontend.inpatient_services') }}">Inpatient Services</a></li>
-                          <li><a href="visitor-guide.html">Visitor Guide</a></li>
+                          <li><a href="{{ route('frontend.visitor_guide') }}">Visitor Guide</a></li>
                           <li><a href="rights-and-responsibilities.html">Rights & Responsibilities</a></li>
                           <li><a href="convenience-and-facilities.html">Convenience & Facilities</a></li>
                           <!--<li><a href="#">Maps & Directions</a></li>-->
