@@ -34,7 +34,7 @@ use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\DisclaimerController;
 use App\Http\Controllers\Backend\TermsConditionController;
 use App\Http\Controllers\Backend\GalleryController;
-
+use App\Http\Controllers\Backend\GalleryDetailsController;
 
 
 
@@ -112,6 +112,7 @@ Route::prefix('admin')
 
         // Media & Events
         Route::resource('manage-gallery', GalleryController::class);
+        Route::resource('manage-details-gallery', GalleryDetailsController::class);
 
         // Sevice Page Details
         Route::resource('manage-service-details', ServiceDetailsController::class);
@@ -166,6 +167,7 @@ Route::get('contact-us', [HomeController::class, 'contact_us'])->name('frontend.
 
 //=========Gallery
 Route::get('gallery', [HomeController::class, 'gallery_listing'])->name('frontend.gallery_listing');
+
 
 //=========Policy Pages
 Route::get('disclaimers', [HomeController::class, 'disclaimer'])->name('frontend.disclaimer');
