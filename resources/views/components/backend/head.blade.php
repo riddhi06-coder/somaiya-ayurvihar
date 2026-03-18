@@ -6,7 +6,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('frontend/assets/img/logo/favicon.png')}}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('frontend/assets/img/logo/favicon.png')}}" type="image/x-icon">
-    <title>K.j. somaiya Hospital and Research Centre</title>
+    <title>K J Somaiya Hospital and Research Centre</title>
     <!-- Google font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">

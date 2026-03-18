@@ -170,7 +170,7 @@
 
 
 
-                <li class="sidebar-list {{ request()->routeIs('admin.medicalservicecategory.index', 'admin.medicalservicesubcategory.index', 'admin.medicalserviceallcategories.index','admin.manage-doctors.index') ? 'active' : '' }}">
+                <li class="sidebar-list {{ request()->routeIs('admin.manage-gallery.index', 'admin.medicalservicesubcategory.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"> </i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon"> 
@@ -182,7 +182,7 @@
                     <span>Gallery</span>
                   </a>
                   <ul class="sidebar-submenu">
-                   <li><a href="{{ route('admin.medicalservicecategory.index') }}">List</a></li>
+                   <li><a href="{{ route('admin.manage-gallery.index') }}">List</a></li>
                    <li><a href="{{ route('admin.medicalservicesubcategory.index') }}">Details</a></li>
 
 

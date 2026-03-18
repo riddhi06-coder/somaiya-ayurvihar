@@ -49,13 +49,47 @@
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
-                                            <th>Title</th>
+                                            <th>Event Name</th>
                                             <th>Image</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                               
+                                        @forelse($galleries as $key => $gallery)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+
+                                                <td>{{ $gallery->event_name }}</td>
+
+                                                <td>
+                                                    @if($gallery->image)
+                                                        <img src="{{ asset($gallery->image) }}" width="80" height="80" style="object-fit: cover;">
+                                                    @else
+                                                        <span>No Image</span>
+                                                    @endif
+                                                </td>
+
+                                                <td>
+                                                    <!-- Edit -->
+                                                    <a href="{{ route('admin.manage-gallery.edit', $gallery->id) }}" class="btn btn-sm btn-primary">
+                                                        Edit
+                                                    </a>
+
+                                                    <!-- Delete -->
+                                                    <form action="{{ route('admin.manage-gallery.destroy', $gallery->id) }}" method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center">No Data Found</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
