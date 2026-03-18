@@ -38,7 +38,7 @@ use App\Models\ManageHealthPackagesDetails;
 use App\Models\Contact;
 use App\Models\Disclaimer;
 use App\Models\TermsCondition;
-
+use App\Models\Gallery;
 
 
 class HomeController extends Controller
@@ -480,4 +480,24 @@ class HomeController extends Controller
         return view('frontend.government_schemes');
     }
 
+    // Gallery
+    public function gallery_listing(Request $request)
+    {
+        $query = Gallery::whereNull('deleted_by'); // ✅ no get()
+
+        // 🔍 Search Filter
+        if ($request->filled('search')) {
+            $query->where('event_name', 'like', '%' . $request->search . '%');
+        }
+
+        // 📅 Year Filter
+        if ($request->filled('year')) {
+            $query->whereYear('date', $request->year);
+        }
+
+        // ✅ Apply order + get at the end
+        $galleries = $query->orderBy('date', 'desc')->get();
+
+        return view('frontend.gallery_listing', compact('galleries'));
+    }
 }

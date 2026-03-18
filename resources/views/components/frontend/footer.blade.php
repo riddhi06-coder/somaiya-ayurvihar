@@ -139,7 +139,7 @@
                     <ul>
                       <!-- <li><a href="#">News &amp; Events</a></li> -->
                       <li><a href="#">Announcements</a></li>
-                      <li><a href="gallery.html">Gallery</a></li>
+                      <li><a href="{{ route('frontend.gallery_listing') }}">Gallery</a></li>
                       <li><a href="{{ route('frontend.media_coverage') }}">Media Coverage</a></li>
                       <li><a href="career.html">Career</a></li>
                     </ul>

@@ -162,6 +162,11 @@ Route::get('alternative-therapies', [HomeController::class, 'alternative_therapi
 //=========Contact
 Route::get('contact-us', [HomeController::class, 'contact_us'])->name('frontend.contact_us');
 
+
+
+//=========Gallery
+Route::get('gallery', [HomeController::class, 'gallery_listing'])->name('frontend.gallery_listing');
+
 //=========Policy Pages
 Route::get('disclaimers', [HomeController::class, 'disclaimer'])->name('frontend.disclaimer');
 Route::get('terms-and-conditions', [HomeController::class, 'terms_conditions'])->name('frontend.terms_conditions');
