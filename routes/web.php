@@ -167,7 +167,7 @@ Route::get('contact-us', [HomeController::class, 'contact_us'])->name('frontend.
 
 //=========Gallery
 Route::get('gallery', [HomeController::class, 'gallery_listing'])->name('frontend.gallery_listing');
-
+Route::get('/gallery-details/{slug}', [HomeController::class, 'gallery_details'])->name('frontend.gallery_details');
 
 //=========Policy Pages
 Route::get('disclaimers', [HomeController::class, 'disclaimer'])->name('frontend.disclaimer');

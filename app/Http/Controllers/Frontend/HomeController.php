@@ -39,6 +39,7 @@ use App\Models\Contact;
 use App\Models\Disclaimer;
 use App\Models\TermsCondition;
 use App\Models\Gallery;
+use App\Models\GalleryDetail;
 
 
 class HomeController extends Controller
@@ -497,7 +498,28 @@ class HomeController extends Controller
 
         // ✅ Apply order + get at the end
         $galleries = $query->orderBy('date', 'desc')->get();
+        // dd($galleries);
 
         return view('frontend.gallery_listing', compact('galleries'));
     }
+
+     // gallery_details
+    public function gallery_details($slug)
+    {
+        // ✅ Fetch event using slug
+        $gallery = Gallery::where('slug', $slug)->firstOrFail();
+
+        // ✅ Fetch details using gallery_id
+        $details = GalleryDetail::where('gallery_id', $gallery->id)->first();
+
+        // ✅ Decode images
+        $images = [];
+
+        if ($details && $details->images) {
+            $images = json_decode($details->images, true);
+        }
+
+        return view('frontend.gallery_details', compact('gallery', 'details', 'images'));
+    }
+
 }

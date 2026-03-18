@@ -84,7 +84,7 @@
                                     
                                     <!-- Title -->
                                     <h5>
-                                        <a href="#">{{ $gallery->event_name }}</a>
+                                        <a href="{{ route('frontend.gallery_details', $gallery->slug) }}">{{ $gallery->event_name }}</a>
                                     </h5>
 
                                     <!-- Date -->
