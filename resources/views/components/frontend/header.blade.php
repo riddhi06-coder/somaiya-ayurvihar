@@ -54,9 +54,9 @@
                           <!-- 
                             <li><a href="#">Associations</a></li> -->
                           <li><a href="{{ route('frontend.management_team') }}">Management Team</a></li>
-                          <li><a href="csr-and-sustainability.html">CSR & Sustainability</a></li>
+                          <li><a href="{{ route('frontend.csr_sustainability') }}">CSR & Sustainability</a></li>
                           <li><a href="{{ route('frontend.accreditations') }}">Accreditations</a></li>
-                          <li><a href="community-outreach.html">Community Outreach</a></li>
+                          <li><a href="{{ route('frontend.community_outreach') }}">Community Outreach</a></li>
                           <li><a href="{{ route('frontend.awards_accolades') }}">Awards & Accolades</a></li>
                         </ul>
                       </div>

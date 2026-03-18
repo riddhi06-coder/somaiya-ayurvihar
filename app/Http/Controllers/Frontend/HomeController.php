@@ -52,6 +52,7 @@ class HomeController extends Controller
         $announcements = AnnouncementsDetail::orderBy('created_at', 'desc')->get();
         $awardDetails = AwardsDetails::latest()->first(); // latest award record
         $compassion = CompassionDetails::latest()->first();
+        // dd($compassion);
         $testimonial = TestimonialDetail::latest()->first();
         $specialities = MedicalServiceSubCategory::wherenull('deleted_by')->where('status', 1 )->get();
         // dd($specialities);
@@ -504,7 +505,7 @@ class HomeController extends Controller
         return view('frontend.gallery_listing', compact('galleries'));
     }
 
-     // gallery_details
+    // gallery_details
     public function gallery_details($slug)
     {
         // ✅ Fetch event using slug
@@ -521,6 +522,30 @@ class HomeController extends Controller
         }
 
         return view('frontend.gallery_details', compact('gallery', 'details', 'images'));
+    }
+
+    // Csr Sustainability
+    public function csr_sustainability()
+    {
+        return view('frontend.csr_sustainability');
+    }
+
+    // community_outreach
+    public function community_outreach()
+    {
+        return view('frontend.community_outreach');
+    }
+
+
+    // Find a Dcotor
+    public function find_a_doctor()
+    {
+
+        // 4️⃣ Fetch doctors linked to this subcategory
+        $doctors = Doctor::whereNull('deleted_by')
+            ->get();
+              
+        return view('frontend.find_a_doctor', compact('doctors') );
     }
 
 }

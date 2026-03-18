@@ -151,6 +151,8 @@ Route::get('/management-team', [HomeController::class, 'management_team'])->name
 Route::get('/csr-sustainability', [HomeController::class, 'csr_sustainability'])->name('frontend.csr_sustainability');
 Route::get('/accreditations', [HomeController::class, 'accreditations'])->name('frontend.accreditations');
 Route::get('/media-coverage', [HomeController::class, 'media_coverage'])->name('frontend.media_coverage');
+Route::get('/community-outreach', [HomeController::class, 'community_outreach'])->name('frontend.community_outreach');
+Route::get('/find-a-doctor', [HomeController::class, 'find_a_doctor'])->name('frontend.find_a_doctor');
 
 
 //=========Wellness Pages

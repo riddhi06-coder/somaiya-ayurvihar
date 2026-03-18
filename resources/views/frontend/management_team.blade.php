@@ -19,7 +19,7 @@
                     <div class="col-md-12">
                         <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb custom-breadcrumb">
-                            <li><a href="{{ route('frontend.index') }}><span class="glyphicon glyphicon-home"></span></a></li>
+                            <li><a href="{{ route('frontend.index') }}"><span class="glyphicon glyphicon-home"></span></a></li>
                             <li><a href="#">About Us</a></li>
                             <li class="active">Management Team</li>
                         </ol>

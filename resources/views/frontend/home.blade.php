@@ -132,7 +132,7 @@
                                             <p>{{ $item->desc ?? 'No description available.' }}</p>
 
                                             <!-- Links -->
-                                            <a href="#" class="medixal-link">
+                                            <a href="{{ route('frontend.find_a_doctor') }}" class="medixal-link">
                                                 Find a Doctor <span>↗</span>
                                             </a>
                                             <a href="{{ url('speciality/'.$item->slug) }}" class="medixal-link">
@@ -281,33 +281,42 @@
                 </div>
 
                 {{-- Counters --}}
-                @if(!empty($compassion?->items))
-                <div class="row" id="counter">
-                    @foreach($compassion->items as $item)
-                        <div class="col-md-4">
-                            <div class="counter-box hvr-float">
+                @if(!empty($compassion->items))
+                  <div class="row" id="counter">
+                      @foreach($compassion->items as $item)
+                          @php
+                              // Extract numeric value
+                              preg_match('/\d+/', $item['value'], $matches);
+                              $numericValue = $matches[0] ?? 0;
 
-                                {{-- Icon --}}
-                                @if(!empty($item['icon']))
-                                    <div class="counter-icon">
-                                        <img src="{{ asset('home/compassion/' . $item['icon']) }}" alt="{{ $item['title'] }}">
-                                    </div>
-                                @endif
+                              // Remove numeric part and trim trailing '+'
+                              $suffix = rtrim(preg_replace('/\d+/', '', $item['value']), '+');
+                          @endphp
 
-                                {{-- Value --}}
-                                <div class="counter-value" data-count="{{ preg_replace('/[^0-9]/', '', $item['value']) }}">
-                                    {{ $item['value'] }}
-                                </div>
 
-                                {{-- Title --}}
-                                <h3>{{ $item['title'] }}</h3>
+                          <div class="col-md-4">
+                              <div class="counter-box hvr-float">
 
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                @endif
+                                  {{-- Icon --}}
+                                  @if(!empty($item['icon']))
+                                      <div class="counter-icon">
+                                          <img src="{{ asset('home/compassion/' . $item['icon']) }}" alt="{{ $item['title'] }}">
+                                      </div>
+                                  @endif
 
+                                  {{-- Counter Value --}}
+                                  <div class="counter-value" data-count="{{ $numericValue }}">
+                                      <span class="count-number">0</span>{{ $suffix }}
+                                  </div>
+
+                                  {{-- Title --}}
+                                  <h3>{{ $item['title'] }}</h3>
+
+                              </div>
+                          </div>
+                      @endforeach
+                  </div>
+              @endif
             </div>
         </section>
 
@@ -319,7 +328,7 @@
                   <div class="col-md-12">
                       <div class="section-heading wow fadeInUp" data-wow-delay="00ms" data-wow-duration="1500ms">
                           <h2>{{ $testimonial?->heading }}</h2>
-                          <p>{{ $testimonial?->title }}</p>
+                          <!-- <p>{{ $testimonial?->title }}</p> -->
                       </div>
                   </div>
               </div>
@@ -362,12 +371,80 @@
           </div>
         </section>
 
+
+        <section class="virtual_tour_sec">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="virtual_text">
+                  <h3>Virtual Tour</h3>
+                  <p>Step into K. J. Somaiya Hospital and experience patient-centric spaces, advanced medical facilities, and thoughtfully designed clinical areas. From outpatient services to specialised departments, this immersive view reflects the infrastructure, technology, and care environment that enable safe, comfortable, and high-quality healthcare for every patient.</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="video-thumb">
+                  <img src="{{ asset('frontend/assets/img/bg/virtual-tour.jpg') }}" class="img-responsive">
+                  <a href="{{ asset('frontend/assets/img/video/main-video.mp4') }}" class="play-btn" target="_blank">
+                  <i class="glyphicon glyphicon-play"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
     
       @include('components.frontend.footer')
 
            
       @include('components.frontend.main-js')
 
+
+      <script>
+
+          var a = 0;
+
+          $(window).scroll(function () {
+
+              var counter = $('#counter');
+
+              // Check if counter exists
+              if (!counter.length) {
+                  return;
+              }
+
+              var oTop = counter.offset().top - window.innerHeight;
+
+              if (a === 0 && $(window).scrollTop() > oTop) {
+
+                  $('.counter-value').each(function () {
+
+                      var $this = $(this);
+                      var countTo = parseInt($this.attr('data-count'));
+                      var $number = $this.find('.count-number'); // Animate only this span
+
+                      $({ countNum: 0 }).animate(
+                          { countNum: countTo },
+                          {
+                              duration: 2000,
+                              easing: 'swing',
+                              step: function () {
+                                  $number.text(Math.floor(this.countNum));
+                              },
+                              complete: function () {
+                                  $number.text(this.countNum);
+                              }
+                          }
+                      );
+
+                  });
+
+                  a = 1;  // Run only once
+              }
+
+          }); 
+
+      </script>
 
       
 
