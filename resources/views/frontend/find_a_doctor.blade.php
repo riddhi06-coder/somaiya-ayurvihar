@@ -40,42 +40,14 @@
                         <div class="form-group">
                             <label class="sidebar_filter_label">Speciality</label>
                             <div class="speciality_list">
-                            <div class="checkbox"><label><input type="checkbox"> Anaesthesia</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Cardiology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Cardio Vascular Thoracic Surgery (CVTS)</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Dental</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Dermatology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Ear Nose and Throat (ENT)</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Gastroenterology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> General & Laparoscopic Surgery</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> General Medicine</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Haematology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Interventional Radiology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Medical Oncology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Nephrology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Nutrition & Dietetics</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Neurology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Neurosurgery</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Obstetrics & Gynaecology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Ophthalmology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Orthopaedics</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Paediatrics</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Paediatric Surgery</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Plastic Surgery</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Psychiatry</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Radiology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Respiratory Medicine</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Surgical Oncology</label></div>
-                            <div class="checkbox"><label><input type="checkbox"> Urology</label></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="sidebar_filter_label">Gender</label>
-                            <div class="checkbox">
-                            <label><input type="checkbox"> Male</label>
-                            </div>
-                            <div class="checkbox">
-                            <label><input type="checkbox"> Female</label>
+                                @foreach($subcategories as $subcat)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-category="{{ $subcat->id }}">
+                                            {{ $subcat->subcategory_name }}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         </div>
@@ -86,7 +58,7 @@
                         <div class="row">
                             <div id="content">
                                 @foreach($doctors as $doctor)
-                                <div class="doctor-card">
+                                <div class="doctor-card"  data-category="{{ $doctor->subcategory_id }}" data-gender="{{ $doctor->gender }}">
                                     <div class="row">
                                         <div class="col-sm-3 text-center">
                                             <div class="doctor-img">
@@ -136,6 +108,9 @@
                                     </div>
                                 </div>
                                 @endforeach
+
+                                <p id="no-doctor" style="display:none; text-align:center">No doctor available</p>
+
                             </div>
                         </div>
                     </div>
@@ -148,6 +123,54 @@
          @include('components.frontend.footer')
         
         @include('components.frontend.main-js')
+
+
+        <script>
+            $(document).ready(function() {
+
+                function filterDoctors() {
+                    let selectedSpecialities = [];
+
+                    // Get selected specialities
+                    $('.speciality_list input[type="checkbox"]:checked').each(function(){
+                        selectedSpecialities.push($(this).data('category').toString());
+                    });
+
+                    console.log('Selected Specialities:', selectedSpecialities);
+
+                    let anyVisible = false;
+
+                    $('.doctor-card').each(function(){
+                        let doctorCategory = $(this).data('category').toString();
+                        console.log('Checking doctor:', $(this).find('.doctor-name').text(), 'Category:', doctorCategory);
+
+                        // Show if no filter selected OR doctor matches selected subcategory
+                        if(selectedSpecialities.length === 0 || selectedSpecialities.includes(doctorCategory)) {
+                            $(this).show();
+                            anyVisible = true;
+                            console.log('Showing doctor:', $(this).find('.doctor-name').text());
+                        } else {
+                            $(this).hide();
+                            console.log('Hiding doctor:', $(this).find('.doctor-name').text());
+                        }
+                    });
+
+                    // Show "No doctor available" if nothing visible
+                    if(!anyVisible){
+                        $('#no-doctor').show();
+                        console.log('No doctor available');
+                    } else {
+                        $('#no-doctor').hide();
+                    }
+                }
+
+                // Trigger filtering when any checkbox changes
+                $('.speciality_list input[type="checkbox"]').change(filterDoctors);
+
+                // Run filter on page load in case any checkbox is pre-checked
+                filterDoctors();
+            });
+        </script>
 
   </body>
 </html>

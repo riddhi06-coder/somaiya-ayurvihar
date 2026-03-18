@@ -544,8 +544,11 @@ class HomeController extends Controller
         // 4️⃣ Fetch doctors linked to this subcategory
         $doctors = Doctor::whereNull('deleted_by')
             ->get();
-              
-        return view('frontend.find_a_doctor', compact('doctors') );
+
+        // Fetch all subcategories for the speciality filter
+        $subcategories = MedicalServiceSubCategory::whereNull('deleted_by')->get();
+
+        return view('frontend.find_a_doctor', compact('doctors','subcategories') );
     }
 
 }
