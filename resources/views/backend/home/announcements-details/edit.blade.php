@@ -40,8 +40,8 @@
                             <input type="text" name="title" value="{{ $brandEthosDetails->title }}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Heading <span class="text-danger">*</span></label>
-                            <input type="text" name="heading" value="{{ $brandEthosDetails->heading }}" class="form-control" required>
+                            <label class="form-label">Heading </label>
+                            <input type="text" name="heading" value="{{ $brandEthosDetails->heading }}" class="form-control" >
                         </div>
                     </div>
                 </div>

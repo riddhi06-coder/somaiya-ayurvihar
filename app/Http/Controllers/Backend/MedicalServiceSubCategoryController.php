@@ -15,6 +15,7 @@ class MedicalServiceSubCategoryController extends Controller
     public function index()
     {
         $subcategories = MedicalServiceSubCategory::with('category')->wherenull('deleted_by')->get();
+
         return view('backend.medicalservicesubcategory.index', compact('subcategories'));
     }
 
@@ -31,7 +32,23 @@ class MedicalServiceSubCategoryController extends Controller
             'category_id'      => 'required|exists:medical_service_master_categories,id',
             'subcategory_name' => 'required|string|max:255',
             'desc'             => 'nullable|string|max:255',
+            'home_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+
+        if ($request->hasFile('home_image')) {
+
+            $file = $request->file('home_image');
+
+            // Generate random name
+            $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Move file
+            $file->move(public_path('uploads/specialities'), $imageName);
+
+        } else {
+            $imageName = null;
+        }
 
         // Base slug
         $baseSlug = Str::slug($request->subcategory_name);
@@ -55,6 +72,7 @@ class MedicalServiceSubCategoryController extends Controller
         MedicalServiceSubCategory::create([
             'category_id'      => $request->category_id,
             'subcategory_name'=> $request->subcategory_name,
+            'home_image' => $imageName,
             'desc'             => $request->desc,
             'slug'             => $slug,
             'created_by'       => Auth::id(),
@@ -81,7 +99,31 @@ class MedicalServiceSubCategoryController extends Controller
             'category_id' => 'required|exists:medical_service_master_categories,id',
             'subcategory_name' => 'required|string|max:255',
             'desc' => 'nullable|string|max:255',
+            'home_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+
+
+        // ✅ Image Upload Logic
+        if ($request->hasFile('home_image')) {
+
+            // Delete old image
+            if (!empty($medicalservicesubcategory->home_image) &&
+                file_exists(public_path('uploads/specialities/'.$medicalservicesubcategory->home_image))) {
+
+                unlink(public_path('uploads/specialities/'.$medicalservicesubcategory->home_image));
+            }
+
+            // Upload new image (random name)
+            $file = $request->file('home_image');
+            $imageName = uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('uploads/specialities'), $imageName);
+
+        } else {
+            // Keep old image
+            $imageName = $medicalservicesubcategory->home_image;
+        }
+
 
         // Base slug
         $baseSlug = Str::slug($request->subcategory_name);
@@ -109,6 +151,7 @@ class MedicalServiceSubCategoryController extends Controller
             'subcategory_name'=> $request->subcategory_name,
             'slug'             => $slug,
             'desc'             => $request->desc,
+            'home_image'        => $imageName,
             'updated_by'       => Auth::id(),
         ]);
 

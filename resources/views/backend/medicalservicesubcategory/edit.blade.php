@@ -34,7 +34,7 @@
                             <p class="f-m-light mt-1">Update parent category and name.</p>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('admin.medicalservicesubcategory.update', $medicalservicesubcategory) }}" method="POST">
+                            <form action="{{ route('admin.medicalservicesubcategory.update', $medicalservicesubcategory) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
@@ -68,12 +68,38 @@
 
 
                                     <!-- Short Description-->
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label class="form-label" for="about">Short Description </label>
                                         <textarea class="form-control" id="desc" name="desc" placeholder="Enter Description">{{ old('desc', $medicalservicesubcategory->desc) }}</textarea>
                                         <div class="invalid-feedback">Please enter an Description.</div>
                                     </div>
 
+
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="home_image">Home Page Image</label>
+                                        
+                                        <input type="file" name="home_image" id="home_image"
+                                            class="form-control @error('home_image') is-invalid @enderror"
+                                            accept="image/*" onchange="previewImage(event)">
+
+                                        @error('home_image')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+
+                                        <small class="text-muted">Optional. Upload image for homepage display.</small>
+
+                                        <!-- Preview Image -->
+                                        <div class="mt-3">
+                                            <img id="imagePreview" 
+                                                src="{{ !empty($medicalservicesubcategory->home_image) 
+                                                        ? asset('uploads/specialities/'.$medicalservicesubcategory->home_image) 
+                                                        : '' }}" 
+                                                alt="Preview"
+                                                style="max-width: 150px; 
+                                                        {{ !empty($medicalservicesubcategory->home_image) ? '' : 'display:none;' }} 
+                                                        border-radius: 8px; border:1px solid #ddd; padding:5px;">
+                                        </div>
+                                    </div>
                                   
                                     <div class="col-12 text-end mt-4">
                                         <a href="{{ route('admin.medicalservicesubcategory.index') }}" class="btn btn-secondary me-2">
@@ -94,5 +120,24 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
+
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
 </body>
 </html>

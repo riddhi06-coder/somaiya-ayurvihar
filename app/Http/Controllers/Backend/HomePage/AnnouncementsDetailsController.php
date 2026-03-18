@@ -26,7 +26,7 @@ class AnnouncementsDetailsController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'heading' => 'required|string|max:255',
+            'heading' => 'nullable|string|max:255',
             'text.*' => 'nullable|string',
             'description.*' => 'nullable|string',
             'image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -87,7 +87,7 @@ class AnnouncementsDetailsController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'heading' => 'required|string|max:255',
+            'heading' => 'nullable|string|max:255',
             'counter_text.*' => 'nullable|string',
             'counter_description.*' => 'nullable|string',
             'image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',

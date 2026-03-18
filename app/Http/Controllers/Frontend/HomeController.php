@@ -53,9 +53,10 @@ class HomeController extends Controller
         $awardDetails = AwardsDetails::latest()->first(); // latest award record
         $compassion = CompassionDetails::latest()->first();
         $testimonial = TestimonialDetail::latest()->first();
-       
+        $specialities = MedicalServiceSubCategory::wherenull('deleted_by')->where('status', 1 )->get();
+        // dd($specialities);
 
-        return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'testimonial'));
+        return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'testimonial','specialities'));
     }
 
     // Service Page

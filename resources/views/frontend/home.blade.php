@@ -99,116 +99,70 @@
           </div>
         </section>
 
+
         <section class="specialities-wrap">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
-                  data-wow-duration="1500ms">
-                  <h2>Specialities</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="section-heading wow fadeInLeft" data-wow-delay="00ms" data-wow-duration="1500ms">
+                            <h2>Specialities</h2>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
-                  data-wow-duration="1500ms">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <hr>
+                <div class="row">
+                    <div class="owl-carousel owl-theme" id="specialities">
+                        @foreach($specialities as $index => $item)
+                            <div class="item">
+                                <div class="row no-gutter">
+                                    
+                                    <!-- LEFT CARD -->
+                                    <div class="col-md-5 col-sm-12">
+                                        <div class="medixal-card">
+                                            
+                                            <!-- Number -->
+                                            <div class="medixal-icon">
+                                                {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
+                                            </div>
+
+                                            <!-- Title -->
+                                            <h2>{{ $item->subcategory_name }}</h2>
+
+                                            <!-- Description -->
+                                            <p>{{ $item->desc ?? 'No description available.' }}</p>
+
+                                            <!-- Links -->
+                                            <a href="#" class="medixal-link">
+                                                Find a Doctor <span>↗</span>
+                                            </a>
+                                            <a href="{{ url('speciality/'.$item->slug) }}" class="medixal-link">
+                                                Know More <span>↗</span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT IMAGE -->
+                                    <div class="col-md-7 col-sm-12">
+                                        <div class="medixal-img">
+                                            <img src="{{ $item->home_image 
+                                                ? asset('uploads/specialities/'.$item->home_image) 
+                                                : asset('frontend/assets/img/specialities/default.jpg') }}" 
+                                                class="img-responsive" alt="{{ $item->subcategory_name }}">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-              </div>
-              
             </div>
-            <hr>
-            <div class="row">
-              <div class="owl-carousel owl-theme" id="specialities">
-                <div class="item">
-                  <div class="row no-gutter">
-                    <!-- LEFT CARD -->
-                    <div class="col-md-5 col-sm-12">
-                      <div class="medixal-card">
-                        <div class="medixal-icon">
-                          01
-                        </div>
-                        <h2>Anaesthesia</h2>
-                        <p>
-                          The Department of Anaesthesiology offers high quality clinical care to all surgical specialties & super specialties
-                        </p>
-                        <a href="#" class="medixal-link">
-                        Find a Doctor <span>↗</span>
-                        </a>
-                        <a href="#" class="medixal-link">
-                        Know More <span>↗</span>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- RIGHT IMAGE -->
-                    <div class="col-md-7 col-sm-12">
-                      <div class="medixal-img">
-                        <img src="{{ asset('frontend/assets/img/specialities/anaesthesia-img.jpg')}}" class="img-responsive">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="row no-gutter">
-                    <!-- LEFT CARD -->
-                    <div class="col-md-5 col-sm-12">
-                      <div class="medixal-card">
-                        <div class="medixal-icon">
-                          02
-                        </div>
-                        <h2>Cardiology</h2>
-                        <p>Our comprehensive cardiovascular services won’t let your heart miss a beat.</p>
-                        <a href="#" class="medixal-link">
-                        Find a Doctor <span>↗</span>
-                        </a>
-                        <a href="#" class="medixal-link">
-                        Know More <span>↗</span>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- RIGHT IMAGE -->
-                    <div class="col-md-7 col-sm-12">
-                      <div class="medixal-img">
-                        <img src="{{ asset('frontend/assets/img/specialities/cardiology-img.jpg')}}" class="img-responsive">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="row no-gutter">
-                    <!-- LEFT CARD -->
-                    <div class="col-md-5 col-sm-12">
-                      <div class="medixal-card">
-                        <div class="medixal-icon">
-                          03
-                        </div>
-                        <h2>Neurology</h2>
-                        <p>We have the most thorough approach towards alleviating all the ailments of the brain & spine.</p>
-                        <a href="#" class="medixal-link">
-                        Find a Doctor <span>↗</span>
-                        </a>
-                        <a href="#" class="medixal-link">
-                        Know More <span>↗</span>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- RIGHT IMAGE -->
-                    <div class="col-md-7 col-sm-12">
-                      <div class="medixal-img">
-                        <img src="{{ asset('frontend/assets/img/specialities/neurology-img.jpg')}}" class="img-responsive">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
         </section>
 
 
-
         <section class="award-wrap">
-        <div class="container">
+          <div class="container">
 
               @if($announcements->count())
                 {{-- Title & Heading from first record --}}

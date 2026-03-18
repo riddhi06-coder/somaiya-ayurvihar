@@ -41,8 +41,8 @@
                             <input type="text" class="form-control" name="title" id="title" placeholder="Enter Title" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="heading" class="form-label">Heading <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="heading" id="heading" placeholder="Enter Heading" required>
+                            <label for="heading" class="form-label">Heading </label>
+                            <input type="text" class="form-control" name="heading" id="heading" placeholder="Enter Heading">
                         </div>
                     </div>
                 </div>
