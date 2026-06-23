@@ -100,7 +100,7 @@
                 font-size: 14px;
                 color: #4b5563;
             }
-            .media-card__meta li { margin-bottom: 4px;font-size: 16px; }
+            .media-card__meta li { margin-bottom: 4px;font-size: 16px !important; }
             .media-card__meta strong { color: #1f2a37; }
             
             .media-card__link {
@@ -108,6 +108,7 @@
                 font-size: 16px;
                 color: #f58220 !important;
                 text-decoration: none;
+                font-weight:500 !important;
                 font-family: 'firasans-medium';
                 text-decoration: none;
             }
