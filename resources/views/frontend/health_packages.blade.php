@@ -24,6 +24,7 @@
             }
             
         </style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
     </head>
   <body>
 
@@ -58,10 +59,129 @@
                 <div class="row">
 
                 <div class="col-md-3">
-                    <form method="GET" action="#">
+                    <!--mobile filter-->
+                         <div class="filter_fixed">
+                         <button class="btn btn-primary filter_btn_phone visible-xs visible-sm" id="openFilter">
+                        <i class="fa fa-filter"></i>
+                        </button>
+                        </div>
+                        
+                        <form method="GET" action="#">
+                            <div class="mobile-filter" id="mobileFilter">
+                          <div class="filter-header">
+                            <span>Filter</span>
+                            <button id="closeFilter">&times;</button>
+                          </div>
+                        <div class="filter-body">
+                            <div class="filter-group">
+                                <label class="sidebar_filter_label">Types</label>
+                                <select class="form-control"
+                                        name="type"
+                                        onchange="this.form.submit()">
+                            
+                                    <option value="">--Select Type--</option>
+                            
+                                    @foreach($types as $type)
+                                        <option value="{{ $type }}"
+                                            {{ request('type') == $type ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
+                            
+                                </select>
+                            </div>
+                        </div>   
+                            
+                          <div class="filter-body">
+                             <div class="filter-group">
+                                <label class="sidebar_filter_label">Category</label>
+                                <select class="form-control"
+                                        name="category_id"
+                                        onchange="this.form.submit()">
+                                    <option value="">--Select Category--</option>
+
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->subcategory_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                           <div class="form-group">
+                                <label class="sidebar_filter_label">Gender</label>
+
+                                @foreach($genders as $gender)
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"
+                                            name="gender[]"
+                                            value="{{ $gender }}"
+                                            onchange="this.form.submit()"
+                                            {{ in_array($gender, request('gender', [])) ? 'checked' : '' }}>
+                                        {{ $gender }}
+                                    </label>
+                                </div>
+                                @endforeach
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="sidebar_filter_label">Age Group</label>
+
+                                @foreach($ageRanges as $age)
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"
+                                            name="age_range[]"
+                                            value="{{ $age }}"
+                                            onchange="this.form.submit()"
+                                            {{ in_array($age, request('age_range', [])) ? 'checked' : '' }}>
+                                        {{ $age }}
+                                    </label>
+                                </div>
+                                @endforeach
+
+
+
+                            </div>
+                            
+                             <div class="form-group mt-3">
+                                <a href="{{ route('frontend.health_packages') }}"
+                                class="reset-btn-modern">
+                                    Reset Filter
+                                </a>
+                            </div>
+                          </div>
+                        </div>
+                        </form>
+                        <!--end mobile filter-->
+                        
+                        <form method="GET" action="#">
                         <div class="sidebar_filter sidebar-sticky">
 
                             <div class="filter-title">Filter Panel :</div>
+                            
+                            
+                            <div class="filter-group">
+                                <label class="sidebar_filter_label">Types</label>
+                                <select class="form-control"
+                                        name="type"
+                                        onchange="this.form.submit()">
+                            
+                                    <option value="">--Select Type--</option>
+                            
+                                    @foreach($types as $type)
+                                        <option value="{{ $type }}"
+                                            {{ request('type') == $type ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
+                            
+                                </select>
+                            </div>
+
+
 
                             <!-- Category -->
                             <div class="filter-group">
@@ -151,6 +271,7 @@
 
                                         <!-- Background Accent Card -->
                                         <div class="pricing-bg-card {{ $bgClass }}">
+                                            
                                             <a href="{{ route('frontend.health_packages_details', $package->slug) }}" class="btn pricing-btn">
                                                 View Package <span>→</span>
                                             </a>
@@ -166,7 +287,28 @@
 
                                         <!-- Main Card -->
                                         <div class="pricing-card">
-
+                                            @php $existingImages = json_decode($package->images, true) ?? []; @endphp
+                                            <div class="owl-carousel owl-theme" id="room-gallery">
+                                                @if (!empty($existingImages) && is_array($existingImages))
+                                                    @foreach ($existingImages as $img)
+                                                        <div class="item">
+                                                            <div class="single-single-gallery">
+                                                                <div class="single-gallery">
+                                                                    <a href="{{ asset($img) }}" 
+                                                                      data-fancybox="gallery" 
+                                                                      class="gallery-hover">
+                                                                      <img src="{{ asset($img) }}" class="img-responsive">
+                                                                      <div class="overlay">
+                                                                        <span class="plus-icon">+</span>
+                                                                      </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                            
                                             <h4 class="plan-title {{ $titleClass }}">
                                                 {{ $package->package_name }}
                                             </h4>
@@ -235,62 +377,7 @@
      
         @include('components.frontend.main-js')
 
-        <!-- Modal -->
-        <div id="health-checkup" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content -->
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Book Health Check</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                <h6 class="form-title">please fill out all required fields meaning</h6>
-                <form class="book-appoint-form">
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Package" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label>Date of Birth:</label>
-                    <input type="date" class="form-control" placeholder="" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label>Date of Appointment :</label>
-                    <input type="date" class="form-control" placeholder="" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email ID" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Mobile Number" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="button-box">
-                    <a class="twenty" href="#"><span>Submit</span></a>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-
+ <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
         @if($health_packages instanceof \Illuminate\Pagination\LengthAwarePaginator 
             && $health_packages->lastPage() > 1)
@@ -325,6 +412,37 @@
 
         @endif
 
+        <script>
+              document.getElementById("openFilter").onclick = function () {
+                document.getElementById("mobileFilter").classList.add("active");
+              };
+              
+              document.getElementById("closeFilter").onclick = function () {
+                document.getElementById("mobileFilter").classList.remove("active");
+              };
+        </script>
+    
+    
+        <!--- Auto fetching Package Name on the Form--->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+    const modal = document.getElementById('health-checkup');
+    const packageSelect = modal.querySelector('[name="pkg_name"]');
+
+    document.querySelectorAll('.book_packages').forEach(button => {
+        button.addEventListener('click', function () {
+
+            let packageName = this.getAttribute('data-package');
+
+            if (packageName && packageSelect) {
+                packageSelect.value = packageName;
+            }
+        });
+    });
+
+});
+        </script>
 
     </body>
 </html>

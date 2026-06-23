@@ -132,7 +132,7 @@
 
                                 <div class="col-md-7">
                                     <div class="content">
-                                        <h5><i class="fa fa-phone"></i> {{ $therapy->heading }}</h5>
+                                        <h5><!--<i class="fa fa-phone"></i>--> {{ $therapy->heading }}</h5>
                                         {!! $formattedDescription !!}
                                     </div>
                                 </div>

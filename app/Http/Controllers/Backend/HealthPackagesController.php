@@ -44,8 +44,6 @@ class HealthPackagesController extends Controller
                 'nullable',
                 'numeric',
                 'min:0',
-                'required_with:actual_price',
-                'lte:actual_price'
             ],
             'age_range'         => 'required|string|max:100',
             'gender' => 'required|array|min:1',
@@ -73,6 +71,18 @@ class HealthPackagesController extends Controller
                 ->withInput()
                 ->withErrors(['package_name' => 'This package name already exists. Please use a different name.']);
         }
+        
+        $images = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if ($file && $file->isValid()) {
+                    $fileName = time() . '_' . uniqid() . '.' . $file->extension();
+                    $file->move(public_path('uploads/health_packages'), $fileName);
+                    $images[] = 'uploads/health_packages/' . $fileName;
+                }
+            }
+        }
+
 
         // ✅ Store Data
         ManageHealthPackages::create([
@@ -83,6 +93,7 @@ class HealthPackagesController extends Controller
             'discounted_price' => $request->discounted_price,
             'age_range'        => $request->age_range,
             'gender' => json_encode($request->gender),
+            'images' => json_encode($images),
             'created_by'       => Auth::id(),
             'created_at'       => Carbon::now(),
         ]);
@@ -114,8 +125,6 @@ class HealthPackagesController extends Controller
                 'nullable',
                 'numeric',
                 'min:0',
-                'required_with:actual_price',
-                'lte:actual_price'
             ],
 
             'age_range'         => 'required|string|max:100',
@@ -143,6 +152,22 @@ class HealthPackagesController extends Controller
                 ->withErrors(['package_name' => 'This package name already exists. Please use a different name.']);
         }
 
+        // images the user kept (hidden inputs)
+        $images = $request->input('existing_images', []);
+        $images = is_array($images) ? array_values($images) : [];
+        
+        // newly uploaded files
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if ($file && $file->isValid()) {
+                    $fileName = time() . '_' . uniqid() . '.' . $file->extension();
+                    $file->move(public_path('uploads/health_packages'), $fileName);
+                    $images[] = 'uploads/health_packages/' . $fileName;
+                }
+            }
+        }
+
+
         // ✅ Update Data
         $healthPackage->update([
             'sub_category_id'       => $request->category_id,
@@ -152,6 +177,8 @@ class HealthPackagesController extends Controller
             'discounted_price' => $request->discounted_price,
             'age_range'        => $request->age_range,
             'gender'           => json_encode($request->gender),
+
+            'images' => json_encode(array_values($images)),
             'updated_by'       => Auth::id(),
             'updated_at'       => Carbon::now(),
         ]);

@@ -20,7 +20,7 @@
                       <div class="breadcrumb-wrapper">
                           <ol class="breadcrumb custom-breadcrumb">
                               <li><a href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span></a></li>
-                              <li><a href="#">Somaiya Doctors</a></li>
+                              <li><a href="{{ route('frontend.find_a_doctor') }}">Somaiya Doctors</a></li>
                               <li class="active">{{ $doctor->doctor_name }}</li>
                           </ol>
                       </div>
@@ -85,15 +85,18 @@
                                       <li><strong>Speciality:</strong> {{ $doctor->subcategory?->subcategory_name ?? 'N/A' }}</li>
                                       <li><strong>Designation:</strong> {{ $doctor->designation }}</li>
                                       <li><strong>Qualification:</strong> {{ $doctor->qualification }}</li>
-                                      <li><strong>OPD Timing:</strong>
-                                          @if($doctor->doctor_time_slot)
-                                              @foreach($doctor->doctor_time_slot as $slot)
-                                                  <span>{{ $slot['from'] }} - {{ $slot['to'] }}</span><br>
-                                              @endforeach
-                                          @else
-                                              N/A
-                                          @endif
-                                      </li>
+                                      <li><strong>OPD Timing:</strong><br>
+                                            @if($doctor->doctor_time_slot && count($doctor->doctor_time_slot))
+                                                @foreach($doctor->doctor_time_slot as $slot)
+                                                    <span>
+                                                        {{ implode(', ', $slot['days'] ?? []) }}:
+                                                        {{ $slot['from'] ?? '' }} - {{ $slot['to'] ?? '' }}
+                                                    </span><br>
+                                                @endforeach
+                                            @else
+                                                N/A
+                                            @endif
+                                        </li>
                                   </ul>
 
                                   <div class="button-box doctor-btn">

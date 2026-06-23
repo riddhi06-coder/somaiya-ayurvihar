@@ -12,18 +12,83 @@ use Carbon\Carbon;
 
 class MedicalServiceSubCategoryController extends Controller
 {
+    // public function index()
+    // {
+    //     $subcategories = MedicalServiceSubCategory::orderBy('subcategory_name', 'asc')->with('category')->wherenull('deleted_by')->get();
+
+    //     return view('backend.medicalservicesubcategory.index', compact('subcategories'));
+    // }
+    
+    
     public function index()
     {
-        $subcategories = MedicalServiceSubCategory::with('category')->wherenull('deleted_by')->get();
-
+       $subcategories = MedicalServiceSubCategory::with('category')
+        ->whereNull('deleted_by')
+        ->get()
+        ->sortBy(function ($item) {
+            return strtolower($item->subcategory_name);
+        })
+        ->values();
+    
         return view('backend.medicalservicesubcategory.index', compact('subcategories'));
     }
+    
+    
+    public function toggleStatus(Request $request)
+    {
+        $subcategory = MedicalServiceSubCategory::findOrFail($request->id);
+        // checkbox sends is_active=1 only when checked; unchecked = absent
+        $subcategory->is_active = $request->has('is_active') ? 1 : 0;
+        $subcategory->save();
+    
+        return redirect()->back()->with('success', 'Subcategory status updated successfully.');
+    }
+
 
     public function create()
     {
         $categories = MedicalServiceMasterCategory::pluck('category_name', 'id');
         return view('backend.medicalservicesubcategory.create', compact('categories'));
     }
+    
+    
+    public function updatePriority(Request $request)
+    {
+        $doctor = MedicalServiceSubCategory::find($request->id);
+    
+        if (!$doctor) {
+            return response()->json(['status' => false]);
+        }
+    
+        // 👉 If priority is empty → remove it
+        if ($request->priority === null || $request->priority === '') {
+            $doctor->priority = null; // or 0 (based on your DB logic)
+            $doctor->save();
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Priority removed'
+            ]);
+        }
+    
+        // 👉 Check duplicate only when assigning
+        $exists = MedicalServiceSubCategory::where('priority', $request->priority)
+                    ->where('id', '!=', $request->id)
+                    ->exists();
+    
+        if ($exists) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Priority already assigned to category'
+            ]);
+        }
+    
+        $doctor->priority = $request->priority;
+        $doctor->save();
+    
+        return response()->json(['status' => true]);
+    }
+
 
 
     public function store(Request $request)

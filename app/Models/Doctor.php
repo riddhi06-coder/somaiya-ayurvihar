@@ -22,6 +22,7 @@ class Doctor extends Model
         'category_id',
         'subcategory_id',
         'service_id',
+        'priority',
 
         // Images
         'doctor_image',

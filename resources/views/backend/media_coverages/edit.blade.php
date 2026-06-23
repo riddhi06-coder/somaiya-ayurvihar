@@ -59,32 +59,32 @@
                                             
                                             <!---- Media Heading---->
                                             <div class="col-md-6 mt-5">
-                                                <label class="form-label" for="media_heading"> Media Heading <span class="text-danger">*</span> </label>
-                                                <input class="form-control" id="media_heading" type="text" name="media_heading" value="{{ old('media_heading', $media_coverages->media_heading) }}" placeholder="Enter Media Heading" required>
+                                                <label class="form-label" for="media_heading"> Media Heading  </label>
+                                                <input class="form-control" id="media_heading" type="text" name="media_heading" value="{{ old('media_heading', $media_coverages->media_heading) }}" placeholder="Enter Media Heading">
                                                 <div class="invalid-feedback">Please enter a Media Heading.</div>
                                             </div>
 
 
                                             <!---- Media Publication---->
                                             <div class="col-md-6 mt-5">
-                                                <label class="form-label" for="media_publication"> Media Publication <span class="text-danger">*</span> </label>
-                                                <input class="form-control" id="media_publication" type="text" name="media_publication" value="{{ old('media_publication', $media_coverages->media_publication) }}" placeholder="Enter Media Publication" required>
+                                                <label class="form-label" for="media_publication"> Media Publication </label>
+                                                <input class="form-control" id="media_publication" type="text" name="media_publication" value="{{ old('media_publication', $media_coverages->media_publication) }}" placeholder="Enter Media Publication">
                                                 <div class="invalid-feedback">Please enter a Media Publication.</div>
                                             </div>
 
 
                                             <!---- Media Type---->
                                             <div class="col-md-6 mt-5">
-                                                <label class="form-label" for="media_type"> Media Type <span class="text-danger">*</span> </label>
-                                                <input class="form-control" id="media_type" type="text" name="media_type" value="{{ old('media_type', $media_coverages->media_type) }}" placeholder="Enter Media Type" required>
+                                                <label class="form-label" for="media_type"> Media Type </label>
+                                                <input class="form-control" id="media_type" type="text" name="media_type" value="{{ old('media_type', $media_coverages->media_type) }}" placeholder="Enter Media Type">
                                                 <div class="invalid-feedback">Please enter a Media Type.</div>
                                             </div>
 
 
                                             <!---- Media Publication Date---->
                                             <div class="col-md-6 mt-5">
-                                                <label class="form-label" for="media_publication_date"> Media Publication Date <span class="text-danger">*</span> </label>
-                                                <input class="form-control" id="media_publication_date" type="date" name="media_publication_date" value="{{ old('media_publication_date', $media_coverages->media_publication_date) }}" placeholder="Enter Media Publication Date" required>
+                                                <label class="form-label" for="media_publication_date"> Media Publication Date  </label>
+                                                <input class="form-control" id="media_publication_date" type="date" name="media_publication_date" value="{{ old('media_publication_date', $media_coverages->media_publication_date) }}" placeholder="Enter Media Publication Date">
                                                 <div class="invalid-feedback">Please enter a Media Publication Date.</div>
                                             </div>
 
@@ -122,8 +122,8 @@
 
                                             <!--  Description -->
                                             <div class="form-group">
-                                                <label> Short Description <span class="text-danger">*</span> </label>
-                                                <textarea name="description" id="description" class="form-control" rows="5" required>{{ old('description', $media_coverages->description) }}</textarea>
+                                                <label> Short Description </label>
+                                                <textarea name="description" id="description" class="form-control" rows="5">{{ old('description', $media_coverages->description) }}</textarea>
                                             </div>
 
 

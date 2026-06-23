@@ -5,6 +5,28 @@
     @include('components.backend.head')
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <style>
+        .image-preview {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+        }
+        .preview-thumb {
+            position: relative; width: 80px; height: 80px;
+            border: 1px solid #dee2e6; border-radius: 6px;
+            overflow: hidden; background: #f8f9fa; flex: 0 0 auto;
+        }
+        .preview-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .preview-thumb .remove-image,
+        .preview-thumb .remove-existing {
+            position: absolute; top: 1px; right: 1px;
+            width: 18px; height: 18px; line-height: 16px; text-align: center;
+            font-size: 13px; font-weight: 700; color: #fff;
+            background: rgba(220, 53, 69, 0.9); border-radius: 50%;
+            cursor: pointer; user-select: none;
+        }
+        .preview-thumb .remove-image:hover,
+        .preview-thumb .remove-existing:hover { background: #dc3545; }
+    </style>
 
 </head>
 	   
@@ -101,7 +123,7 @@
                                                 name="actual_price"
                                                 value="{{ old('actual_price', $health_packages->actual_price) }}"
                                                 placeholder="Enter Actual Price"
-                                                required>
+                                                >
                                             <div class="invalid-feedback">Please enter Actual Price.</div>
                                         </div>
 
@@ -114,7 +136,7 @@
                                                 name="discounted_price"
                                                 value="{{ old('discounted_price', $health_packages->discounted_price) }}"
                                                 placeholder="Enter Discounted Price"
-                                                required>
+                                                >
                                             <div class="invalid-feedback">Please enter Discounted Price.</div>
                                         </div>
 
@@ -172,6 +194,36 @@
                                             @error('gender')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        
+                                        
+                                        <!-- Package Images (multiple) -->
+                                        <div class="col-md-12 mt-5">
+                                            <label class="form-label" for="package_images">Package Images</label>
+                                            <input type="file" id="package_images" name="images[]"
+                                                   class="form-control image-input" accept="image/*" multiple>
+                                            <small class="text-secondary"><b>Note: Leave empty to keep current images. Allowed: jpg, jpeg, png, webp, svg.</b></small>
+                                        
+                                            <div class="image-preview" id="packageImagePreview">
+                                                @php
+                                                    $existingImages = json_decode($health_packages->images, true) ?? [];
+
+                                                    $existingImages = $health_packages->images ?? [];
+                                                    // if not cast to array in the model, uncomment the next line:
+                                                    $existingImages = json_decode($health_packages->images, true) ?? [];
+                                                    
+                                                @endphp
+                                        
+                                                @if (!empty($existingImages) && is_array($existingImages))
+                                                    @foreach ($existingImages as $img)
+                                                        <div class="preview-thumb">
+                                                            <img src="{{ asset($img) }}" alt="">
+                                                            <input type="hidden" name="existing_images[]" value="{{ $img }}">
+                                                            <span class="remove-existing" title="Remove">&times;</span>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
                                         </div>
 
                                         <!-- Form Actions -->
@@ -242,6 +294,72 @@
                     reader.readAsDataURL(file);
                 }
             }
+        </script>
+        
+        
+        <script>
+            $(document).ready(function () {
+        
+                const fileStore = new WeakMap();
+        
+                function getStore(input) {
+                    let dt = fileStore.get(input);
+                    if (!dt) { dt = new DataTransfer(); fileStore.set(input, dt); }
+                    return dt;
+                }
+        
+                function renderPreviews(input) {
+                    const dt = getStore(input);
+                    const container = document.getElementById(
+                        $(input).closest('div').find('.image-preview').attr('id')
+                    );
+        
+                    // only clear JS-added previews; leave saved ones untouched
+                    container.querySelectorAll('.new-thumb img').forEach(img => URL.revokeObjectURL(img.src));
+                    container.querySelectorAll('.new-thumb').forEach(el => el.remove());
+        
+                    Array.from(dt.files).forEach((file, i) => {
+                        const url = URL.createObjectURL(file);
+                        const wrap = document.createElement('div');
+                        wrap.className = 'preview-thumb new-thumb';
+                        wrap.innerHTML =
+                            '<img src="' + url + '" alt="' + file.name + '">' +
+                            '<span class="remove-image" data-index="' + i + '" title="Remove">&times;</span>';
+                        container.appendChild(wrap);
+                    });
+                }
+        
+                // New files chosen (accumulate + dedupe)
+                $(document).on('change', '.image-input', function () {
+                    const input = this;
+                    const dt = getStore(input);
+                    const seen = new Set(Array.from(dt.files).map(f => f.name + '|' + f.size + '|' + f.lastModified));
+                    Array.from(input.files).forEach(file => {
+                        if (!file.type.startsWith('image/')) return;
+                        const key = file.name + '|' + file.size + '|' + file.lastModified;
+                        if (!seen.has(key)) { dt.items.add(file); seen.add(key); }
+                    });
+                    input.files = dt.files;
+                    renderPreviews(input);
+                });
+        
+                // Remove a newly-added image
+                $(document).on('click', '.remove-image', function () {
+                    const idx = parseInt($(this).data('index'), 10);
+                    const input = $(this).closest('.col-md-12, .col-md-6, td').find('.image-input')[0];
+                    const dt = getStore(input);
+                    const newDt = new DataTransfer();
+                    Array.from(dt.files).forEach((f, i) => { if (i !== idx) newDt.items.add(f); });
+                    fileStore.set(input, newDt);
+                    input.files = newDt.files;
+                    renderPreviews(input);
+                });
+        
+                // Remove an existing (already-saved) image — drops its hidden input too
+                $(document).on('click', '.remove-existing', function () {
+                    $(this).closest('.preview-thumb').remove();
+                });
+            });
         </script>
         
 

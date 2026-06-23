@@ -2,6 +2,54 @@
 <html lang="en">
 <head>
     @include('components.backend.head')
+    
+    
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #11d624;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .slider.round {
+            border-radius: 24px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
 </head>
 <body>
     @include('components.backend.header')
@@ -48,69 +96,76 @@
                                 <table class="table table-bordered table-hover" id="basic-1">
                                     <thead>
                                         <tr>
-                                            <th width="60">#</th>
-                                            <th>All Categories</th>
-                                            <th width="200">Actions</th>
+                                           <th>#</th>
+                                            <th>Service Name</th>
+                                            <th>Main Category</th>
+                                            <th>Subcategory</th>
+                                            <th>Priority</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @php
-                                            $sr = 1;
-                                            $grouped = $services->groupBy('category_id');
-                                        @endphp
+                                        @php $sr = 1; @endphp
+                                    
+                                        @foreach($services as $service)
+                                            <tr>
+                                                <td>{{ $sr++ }}</td>
 
-                                        @foreach($grouped as $categoryId => $categoryServices)
-                                            {{-- Main Category --}}
-                                            <tr class="table-light">
-                                                <td colspan="3">
-                                                    <strong>
-                                                        Main Category: {{ optional($categoryServices->first()->category)->category_name }}
-                                                    </strong>
+                                                <td>{{ $service->service_name }}</td>  <!-- FIRST -->
+                                                
+                                                <td>{{ optional($service->category)->category_name }}</td>
+                                                
+                                                <td>{{ optional($service->subcategory)->subcategory_name }}</td>
+                                    
+                                                <!-- PRIORITY -->
+                                                <td>
+                                                    <input type="number" 
+                                                           value="{{ $service->priority ?? 0 }}" 
+                                                           class="form-control priority-input" 
+                                                           data-id="{{ $service->id }}" 
+                                                           style="width:80px;">
+                                                </td>
+                                                
+                                                
+                                                <!-- STATUS -->
+                                                <td>
+                                                    <form method="POST" action="{{ route('admin.medicalserviceallcategories.toggleStatus') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $service->id }}">
+                                                
+                                                        <label class="switch">
+                                                            <input type="checkbox"
+                                                                   name="is_active"
+                                                                   value="1"
+                                                                   onchange="return confirmStatusToggle(this)"
+                                                                   {{ $service->is_active == 1 ? 'checked' : '' }}>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </form>
+                                                </td>
+                                    
+                                                <!-- ACTIONS -->
+                                                <td>
+                                                    <a href="{{ route('admin.medicalserviceallcategories.edit', $service->id) }}"
+                                                       class="btn btn-sm btn-primary">
+                                                        Edit
+                                                    </a><br><br>
+                                    
+                                                    <form action="{{ route('admin.medicalserviceallcategories.destroy', $service->id) }}"
+                                                          method="POST"
+                                                          style="display:inline-block;"
+                                                          onsubmit="return confirm('Are you sure you want to delete this record?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                    
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            Delete
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
-
-                                            @php
-                                                $subGrouped = $categoryServices->groupBy('subcategory_id');
-                                            @endphp
-
-                                            @foreach($subGrouped as $subCategoryId => $subServices)
-                                                {{-- Subcategory --}}
-                                                <tr class="table-secondary">
-                                                    <td colspan="3" style="padding-left: 30px;">
-                                                       Sub Category:  {{ optional($subServices->first()->subcategory)->subcategory_name }}
-                                                    </td>
-                                                </tr>
-
-                                                {{-- Services --}}
-                                                @foreach($subServices as $service)
-                                                    <tr>
-                                                        <td>{{ $sr++ }}</td>
-
-                                                        <td style="padding-left: 60px;">
-                                                            {{ $service->service_name }}
-                                                        </td>
-
-                                                        <td>
-                                                            <a href="{{ route('admin.medicalserviceallcategories.edit', $service->id) }}"
-                                                            class="btn btn-sm btn-primary">
-                                                                Edit
-                                                            </a>
-
-                                                            <form action="{{ route('admin.medicalserviceallcategories.destroy', $service->id) }}"
-                                                                method="POST"
-                                                                style="display:inline-block;"
-                                                                onsubmit="return confirm('Are you sure you want to delete this record?')">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                                    Delete
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endforeach
                                         @endforeach
                                     </tbody>
                                     
@@ -126,5 +181,54 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
+    
+    
+    <script>
+        function confirmStatusToggle(checkbox) {
+    const action = checkbox.checked ? 'activate' : 'deactivate';
+    if (confirm(`Are you sure you want to ${action} this service?`)) {
+        checkbox.form.submit();
+        return true;
+    } else {
+        checkbox.checked = !checkbox.checked;
+        return false;
+    }
+}
+    </script>
+
+    <!--- Update Priority---->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.priority-input').forEach(input => {
+                input.addEventListener('change', function () {
+        
+                    let id = this.dataset.id;
+                    let priority = this.value;
+        
+                    fetch("{{ route('admin.manage-medicalservicecategory.updatePriority') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            id: id,
+                            priority: priority
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status) {
+                        //   alert('Priority updated');
+                        } else {
+                            alert('Update failed');
+                        }
+                    });
+        
+                });
+            });
+        });
+    </script>
+    
 </body>
 </html>

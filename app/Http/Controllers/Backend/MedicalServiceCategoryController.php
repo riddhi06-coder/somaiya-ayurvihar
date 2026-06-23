@@ -76,4 +76,17 @@ class MedicalServiceCategoryController extends Controller
         }
     }
 
+
+    public function toggleStatus($id)
+    {
+        $category = MedicalServiceMasterCategory::findOrFail($id);
+        $category->is_active = !$category->is_active;
+        $category->save();
+    
+        return response()->json([
+            'success' => true,
+            'is_active' => $category->is_active,
+        ]);
+    }
+
 }

@@ -12,6 +12,12 @@ use Illuminate\Support\Str;
 use App\Http\Requests\DoctorFormRequest;
 use DB;
 use Carbon\Carbon;
+use App\Imports\DoctorsImport;
+use App\Exports\DoctorsExport;
+
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
+use ZipArchive;
 
 use App\Models\MedicalServiceSubCategory;
 use App\Models\MedicalServiceCategory;
@@ -22,11 +28,11 @@ use App\Models\Doctor;
 
 class DoctorController extends Controller
 {
-    
+
     public function index()
     {
         $doctors = Doctor::with([
-            'category:id,category_name',       
+            'category:id,category_name',
             'subcategory:id,subcategory_name',
             'service:id,service_name'
         ])
@@ -34,17 +40,16 @@ class DoctorController extends Controller
         ->orderBy('category_id')
         ->orderBy('subcategory_id')
         ->orderBy('service_id')
+        ->orderBy('priority')          
         ->get()
         ->groupBy([
-            'category.category_name',          
+            'category.category_name',
             'subcategory.subcategory_name',
             function ($item) {
                 return optional($item->service)->service_name ?? 'No Service';
             }
         ]);
-
-        // dd($doctors);
-
+    
         return view('backend.doctors.index', compact('doctors'));
     }
 
@@ -58,8 +63,33 @@ class DoctorController extends Controller
         
         return view('backend.doctors.create' ,compact('masterCategories', 'subCategories','facility'));
     }
-
-
+    
+    public function updatePriority(Request $request)
+    {
+        $doctor = Doctor::find($request->id);
+    
+        if (!$doctor) {
+            return response()->json(['status' => false]);
+        }
+    
+        // Check if priority already exists (excluding current record)
+        $exists = Doctor::where('priority', $request->priority)
+                    ->where('id', '!=', $request->id)
+                    ->exists();
+    
+        if ($exists) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Priority already assigned'
+            ]);
+        }
+    
+        $doctor->priority = $request->priority;
+        $doctor->save();
+    
+        return response()->json(['status' => true]);
+    }
+    
     public function store(Request $request)
     {
         // ================= VALIDATION =================
@@ -70,17 +100,17 @@ class DoctorController extends Controller
 
             'doctor_image'       => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'doctor_name'        => 'required|string|max:255',
-            'doctor_designation' => 'required|string|max:255',
+            'doctor_designation' => 'nullable|string|max:255',
             'qualification'      => 'required|string',
             'profile_desc'       => 'required|string',
 
-            'time_slot.from'     => 'required|array',
-            'time_slot.to'       => 'required|array',
-            'time_slot.from.*'   => 'required',
-            'time_slot.to.*'     => 'required',
+            'time_slot.from'     => 'nullable|array',
+            'time_slot.to'       => 'nullable|array',
+            'time_slot.from.*'   => 'nullable',
+            'time_slot.to.*'     => 'nullable',
 
-            'social_media.*.platform' => 'required|string',
-            'social_media.*.link'     => 'required|url',
+            'social_media.*.platform' => 'nullable|string',
+            'social_media.*.link'     => 'nullable|url',
         ], [
             'category_id.required' => 'Master category is required.',
             'subcategory_id.required' => 'Sub category is required.',
@@ -106,16 +136,19 @@ class DoctorController extends Controller
             $img->move($uploadPath, $doctorImage);
         }
 
-        // ================= JSON DATA =================
-        $timeSlots = [];
-        foreach ($request->time_slot['from'] as $key => $from) {
-            $timeSlots[] = [
-                'from' => $from,
-                'to'   => $request->time_slot['to'][$key] ?? null,
-            ];
+         // ================= SCHEDULE JSON =================
+        $schedule = [];
+        foreach ($request->input('schedule', []) as $shift) {
+            if (!empty($shift['days']) && !empty($shift['from']) && !empty($shift['to'])) {
+                $schedule[] = [
+                    'days' => $shift['days'], // ['Monday','Wednesday','Friday']
+                    'from' => date('h:i A', strtotime($shift['from'])),
+                    'to'   => date('h:i A', strtotime($shift['to'])),
+                ];
+            }
         }
+        $scheduleJson = json_encode($schedule);
 
-        $timeSlotJson = json_encode($timeSlots);
 
         $socialMediaJson = json_encode($request->social_media);
 
@@ -134,12 +167,12 @@ class DoctorController extends Controller
 
             'doctor_name'        => $request->doctor_name,
             'slug'               => $slug,
-            'designation' => $request->doctor_designation,
+            'designation'        => $request->doctor_designation,
             'doctor_image'       => $doctorImage,
             'qualification'      => $request->qualification,
             'profile_desc'       => $request->profile_desc,
 
-            'doctor_time_slot'   => $timeSlotJson,
+            'doctor_time_slot'   => $scheduleJson,
             'social_media_links' => $socialMediaJson,
 
             'status'             => 1,
@@ -183,18 +216,18 @@ class DoctorController extends Controller
             'doctor_image'       => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
             'doctor_name'        => 'required|string|max:255',
-            'doctor_designation' => 'required|string|max:255',
+            'doctor_designation' => 'nullable|string|max:255',
             'qualification'      => 'required|string',
             'profile_desc'       => 'required|string',
 
-            'time_slot.from'     => 'required|array',
-            'time_slot.to'       => 'required|array',
-            'time_slot.from.*'   => 'required',
-            'time_slot.to.*'     => 'required',
+            'time_slot.from'     => 'nullable|array',
+            'time_slot.to'       => 'nullable|array',
+            'time_slot.from.*'   => 'nullable',
+            'time_slot.to.*'     => 'nullable',
 
            'social_media' => 'nullable|array',
-            'social_media.*.platform' => 'sometimes|required|string',
-            'social_media.*.link' => 'sometimes|required|url',
+            'social_media.*.platform' => 'nullable|string',
+            'social_media.*.link' => 'nullable|url',
 
         ], [
             'category_id.required' => 'Master category is required.',
@@ -213,33 +246,48 @@ class DoctorController extends Controller
         $uploadPath = public_path('uploads/doctors');
 
         // ================= IMAGE UPLOAD =================
+        // ================= IMAGE UPLOAD =================
         if ($request->hasFile('doctor_image')) {
+            // delete old image if present
             if ($doctor->doctor_image && file_exists($uploadPath.'/'.$doctor->doctor_image)) {
                 unlink($uploadPath.'/'.$doctor->doctor_image);
             }
+        
             $img = $request->file('doctor_image');
-            $doctorImage = time().'_doctor.'.$img->getClientOriginalExtension();
+        
+            // Keep original filename, only replace spaces with hyphens
+            $originalName = pathinfo($img->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension    = $img->getClientOriginalExtension();
+        
+            $cleanName = preg_replace('/\s+/', '-', trim($originalName));   // spaces -> hyphen
+            $cleanName = preg_replace('/[^A-Za-z0-9\-_.]/', '', $cleanName); // strip unsafe chars
+        
+            $doctorImage = $cleanName . '.' . $extension;
+        
             $img->move($uploadPath, $doctorImage);
             $doctor->doctor_image = $doctorImage;
         }
 
-        // ================= JSON DATA =================
-        $timeSlots = [];
-        foreach ($request->time_slot['from'] as $key => $from) {
-            $timeSlots[] = [
-                'from' => $from,
-                'to'   => $request->time_slot['to'][$key] ?? null,
-            ];
+         // ================= SCHEDULE =================
+        $schedule = [];
+        foreach ($request->input('schedule', []) as $shift) {
+            if (!empty($shift['days']) && !empty($shift['from']) && !empty($shift['to'])) {
+                $schedule[] = [
+                    'days' => $shift['days'],
+                    'from' => date('h:i A', strtotime($shift['from'])),
+                    'to'   => date('h:i A', strtotime($shift['to'])),
+                ];
+            }
         }
 
-        $doctor->doctor_time_slot = json_encode($timeSlots);
+        $doctor->doctor_time_slot   = $schedule;    
         $doctor->social_media_links = json_encode($request->social_media);
 
         $doctor->category_id        = $request->category_id;
         $doctor->subcategory_id     = $request->subcategory_id;
         $doctor->service_id         = $request->service_id;
         $doctor->doctor_name        = $request->doctor_name;
-        $doctor->designation = $request->doctor_designation;
+        $doctor->designation        = $request->doctor_designation;
         $doctor->qualification      = $request->qualification;
         $doctor->profile_desc       = $request->profile_desc;
 
@@ -288,6 +336,106 @@ class DoctorController extends Controller
         return redirect()
             ->route('admin.manage-doctors.index')
             ->with('message', 'Doctor status updated successfully.');
+    }
+    
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
+        ], [
+            'import_file.required' => 'Please choose an Excel file to upload.',
+            'import_file.mimes'    => 'Only .xlsx, .xls or .csv files are allowed.',
+        ]);
+    
+        $import = new DoctorsImport();
+    
+        try {
+            Excel::import($import, $request->file('import_file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            return back()->with('import_errors', collect($e->failures())
+                ->map(fn ($f) => 'Row ' . $f->row() . ': ' . implode(' ', $f->errors()))
+                ->toArray());
+        }
+    
+        $message = "{$import->imported} doctor(s) imported successfully.";
+        if ($import->skipped > 0) {
+            $message .= " {$import->skipped} row(s) skipped.";
+        }
+    
+        return redirect()
+            ->route('admin.manage-doctors.index')
+            ->with('message', $message)
+            ->with('import_errors', $import->errors);
+    }
+    
+    public function downloadTemplate()
+    {
+        return Excel::download(
+            new DoctorsExport(),
+            'doctors_' . date('Y-m-d') . '.xlsx'
+        );
+    }
+    
+    
+    public function uploadImages(Request $request)
+    {
+        $request->validate([
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'zip_file' => 'nullable|file|mimes:zip|max:51200', // 50MB
+        ]);
+    
+        if (!$request->hasFile('images') && !$request->hasFile('zip_file')) {
+            return back()->with('import_errors', ['Please choose image files or a zip file.']);
+        }
+    
+        $dest = public_path('uploads/doctors');
+        File::ensureDirectoryExists($dest);
+    
+        $saved = 0;
+        $errors = [];
+        $allowed = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+    
+        // ---- Multiple individual images ----
+        foreach ((array) $request->file('images', []) as $img) {
+            // Keep ORIGINAL filename so it matches the Excel "Image Filename" column
+            $name = preg_replace('/[^A-Za-z0-9._-]/', '_', $img->getClientOriginalName());
+            $img->move($dest, $name);
+            $saved++;
+        }
+    
+        // ---- Zip file ----
+        if ($request->hasFile('zip_file')) {
+            $zip = new ZipArchive();
+            if ($zip->open($request->file('zip_file')->getRealPath()) === true) {
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $entry = $zip->getNameIndex($i);
+    
+                    // skip folders and junk files
+                    if (substr($entry, -1) === '/' || str_contains($entry, '__MACOSX')) {
+                        continue;
+                    }
+    
+                    $name = basename($entry); // strips folder paths (prevents zip-slip too)
+                    $ext  = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    
+                    if (!in_array($ext, $allowed)) {
+                        $errors[] = "Skipped '{$name}' (only jpg, jpeg, png, webp, svg allowed).";
+                        continue;
+                    }
+    
+                    $name = preg_replace('/[^A-Za-z0-9._-]/', '_', $name);
+                    file_put_contents($dest . '/' . $name, $zip->getFromIndex($i));
+                    $saved++;
+                }
+                $zip->close();
+            } else {
+                $errors[] = 'Could not open the zip file.';
+            }
+        }
+    
+        return back()
+            ->with('message', "{$saved} image(s) uploaded to uploads/doctors.")
+            ->with('import_errors', $errors);
     }
 
 

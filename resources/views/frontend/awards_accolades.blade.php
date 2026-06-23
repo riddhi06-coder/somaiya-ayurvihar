@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                     <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb custom-breadcrumb">
-                        <li><a href="index.html"><span class="glyphicon glyphicon-home"></span></a></li>
+                        <li><a href="{{ route('frontend.index') }}"><span class="glyphicon glyphicon-home"></span></a></li>
                         <li><a href="#">About Us</a></li>
                         <li class="active">Awards & Accolades</li>
                     </ol>
@@ -35,306 +35,147 @@
 
         <section class="awards-wrap">
             <div class="container">
+        
                 <div class="row">
-                <div class="col-md-12">
-                    <div class="content text-center wow fadeInUp" data-wow-delay="00ms"
-                    data-wow-duration="1500ms">
-                    <h5>Commitment to QUALITY Healthcare services</h5>
+                    <div class="col-md-12">
+                        <div class="content text-center wow fadeInUp"
+                             data-wow-delay="00ms"
+                             data-wow-duration="1500ms">
+                            <h5>
+                                {{ $awards->first()->heading ?? 'Commitment to QUALITY Healthcare services' }}
+                            </h5>
+        
+                        </div>
                     </div>
                 </div>
-                </div>
+        
                 <div class="achievement-section">
-                <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <h3>NABH Entry-Level</h3>
-                        <p>
-                        <!--Awarded NABH Entry-Level Certification for the entire KJSH in--> Awarded Certification, 2024.
-                        <strong> 2024</strong>.
-                        </p>
-                    </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <h3>NABL Certification</h3>
-                        <p>
-                        <!--Achieved NABL accreditation for the Hematology Laboratory in--> Achieved for the Haematology Laboratory in
-                        <strong> 2024</strong><!--, ensuring accuracy and reliability.-->
-                        </p>
-                    </div>
-                    </div>
-                
-                    <div class="col-md-3 col-sm-6">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <h3>Quality Improvement</h3>
-                        <p>
-                        Continuous service improvement through structured staff training and protocol enhancements.
-                        </p>
-                    </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <h3>Clinical Excellence</h3>
-                        <p>
-                        Implementation of NABH-driven standards to enhance patient safety and clinical outcomes.
-                        </p>
-                    </div>
+                    <div class="row">
+        
+                        @forelse($awards as $item)
+        
+                            <div class="col-md-3 col-sm-6">
+                                <div class="achievement-card">
+        
+                                    <div class="achievement-icon">
+                                        <img src="{{ asset('uploads/awards/'.$item->banner_image) }}"
+                                             alt="award">
+                                    </div>
+        
+                                    <h3>
+                                        {{ $item->certification_name }}
+                                    </h3>
+                                        {!! $item->desc !!}
+                                    
+        
+                                </div>
+                            </div>
+        
+                        @empty
+        
+                            <div class="col-md-12 text-center">
+                                <p>No awards found.</p>
+                            </div>
+        
+                        @endforelse
+        
                     </div>
                 </div>
-                </div>
+        
             </div>
         </section>
 
         <section class="awards-wrap awards-wrap-two">
             <div class="container">
                 <div class="row">
-                <div class="col-md-12">
+                    <div class="col-md-12">
                     <div class="content text-center wow fadeInUp" data-wow-delay="00ms"
                     data-wow-duration="1500ms">
-                    <h5>Awards & Accolades</h5>
-                    <p>Awards and honors received reflecting our impact on the healthcare landscape</p>
+                    <h5>{{ $main_award->heading ?? 'Awards & Accolades' }}</h5>
+                    <p>{{ $main_award->short_desc ?? 'Awards and honors received reflecting our impact on the healthcare landscape1' }}</p>
                     </div>
                 </div>
                 </div>
+                
                 <div class="achievement-section">
-                <div class="row">
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Dr Manisha Bobade, CEO, KJSHRC, on an advisory role on the CGHS board,
-                        influencing healthcare at a broader level
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> June ‘24</h6>
+                    <div class="row">
+                
+                        @forelse($awards_accolades as $award)
+                            <div class="col-md-4">
+                                <div class="achievement-card">
+                
+                                    <!-- Icon / Image -->
+                                    <div class="achievement-icon">
+                                        @if(!empty($award->banner_image))
+                                            <img src="{{ asset('uploads/accolades_awards/'.$award->banner_image) }}">
+                                        @else
+                                            <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
+                                        @endif
+                                    </div>
+                
+                                    <!-- Description -->
+                             
+                                        {!! $award->desc ?? '' !!}
+           
+                                    <!-- Date -->
+                                    <h6>
+                                        <i class="fa fa-calendar-o"></i>
+                                        {{ \Carbon\Carbon::parse($award->date)->format("M ‘y") }}
+                                    </h6>
+                
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-md-12 text-center">
+                                <p>No awards found.</p>
+                            </div>
+                        @endforelse
+                
                     </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        CSR Healthcare Changemakers Award for KJSHRC
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Sept ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Lifetime Achievement Award for Outstanding contributions to Healthcare
-                        Improvement by Heal Foundation to CEO, Dr Manisha Bobade
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Sept ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Ranked 9th Best hospital in Mid Day Top 10 Best Multispecialty hospitals
-                        in South Mumbai
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Oct ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Ranked 12th Best Multispecialty Hospital (Private) in The Week Magazine
-                        in Mumbai
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Dec ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Ranked 14th Best Multispecialty Hospital in The Week Magazine in Mumbai
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Dec ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Institutional Excellence in CSR Initiatives (Healthcare) by BW Healthcare
-                        Excellence Awards 2025
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Feb ‘25</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Institutional Excellence in Healthcare Research & Development by BW
-                        Healthcare Excellence Awards 2025
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Feb ‘25</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Best Hospital as a Workplace by MT India Healthcare Excellence Awards
-                        2025
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> March ‘25</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                        <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
-                        </div>
-                        <p>
-                        Maharashtra Gaurav Puraskar for Outstanding contributions in healthcare
-                        awarded to CEO, Dr Manisha Bobade
-                        </p>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Aug ‘25</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4"></div>
                 </div>
-                </div>
+                
+                
                 <div class="gallery-awards-section">
-                <div class="row">
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/1.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/1.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
+                    <div class="row">
+
+                        @forelse($awards_images as $image)
+                            <div class="col-md-4">
+                                <div class="single-single-gallery">
+                    
+                                    <div class="single-gallery">
+                                        <a href="{{ asset('uploads/accolades_awards/'.$image->banner_image) }}" 
+                                           data-fancybox="gallery" 
+                                           class="gallery-hover">
+                    
+                                            <img src="{{ asset('uploads/accolades_awards/'.$image->banner_image) }}" 
+                                                 class="img-responsive">
+                    
+                                            <div class="overlay">
+                                                <span class="plus-icon">+</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                    
+                                    <!-- Description -->
+                               
+                                        {!! $image->desc ?? '' !!}
+                                    
+                    
+                                    <!-- Date -->
+                                    <h6>
+                                        <i class="fa fa-calendar-o"></i>
+                                        {{ \Carbon\Carbon::parse($image->date)->format("M ‘y") }}
+                                    </h6>
+                    
+                                </div>
                             </div>
-                        </a>
-                        </div>
-                        <h5>Certificate of Excellence in Healthcare by HealthTech Innovation Conclave to CEO, Dr Manisha Bobade</h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Nov ‘23</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/2.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/2.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
+                        @empty
+                            <div class="col-md-12 text-center">
+                                <p>No images found.</p>
                             </div>
-                        </a>
-                        </div>
-                        <h5>Appreciation for valuable contribution towards organ donation programme by Zonal transplant coordination centre, Mumbai </h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> March ‘24</h6>
+                        @endforelse
+                    
                     </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/3.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/3.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
-                            </div>
-                        </a>
-                        </div>
-                        <h5>Ranked in the Mid Day Top 10 Best Multispecialty hospitals in South Mumbai</h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Oct ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/4.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/4.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
-                            </div>
-                        </a>
-                        </div>
-                        <h5>Lifetime Achievement Award for Outstanding contributions to Healthcare Improvement by Heal foundation to CEO, Dr Manisha Bobade</h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Sept ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/5.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/5.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
-                            </div>
-                        </a>
-                        </div>
-                        <h5>CSR Healthcare Changemakers Award for KJSH</h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Sept ‘24</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/6.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/6.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
-                            </div>
-                        </a>
-                        </div>
-                        <h5>Best Hospital as a Workplace by MT India Healthcare Excellence Awards 2025</h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> March ‘25</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                    <div class="single-single-gallery">
-                        <div class="single-gallery">
-                        <a href="{{ asset('frontend/assets/img/awards/accolades/7.webp') }}" data-fancybox="gallery" class="gallery-hover">
-                            <img src="{{ asset('frontend/assets/img/awards/accolades/7.webp') }}" class="img-responsive">
-                            <div class="overlay">
-                            <span class="plus-icon">+</span>
-                            </div>
-                        </a>
-                        </div>
-                        <h5>“Maharashtra Gaurav Puraskar” awarded to CEO, Dr Manisha Bobade</h5>
-                        <h6><i class="fa fa-calendar-o" aria-hidden="true"></i> Aug ‘25</h6>
-                    </div>
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
                 </div>
             </div>
         </section>

@@ -40,6 +40,30 @@ use App\Models\Disclaimer;
 use App\Models\TermsCondition;
 use App\Models\Gallery;
 use App\Models\GalleryDetail;
+use App\Models\Announcements;
+use App\Models\AnnouncementDetails;
+use App\Models\CareerPage;
+use App\Models\CareerListing;
+use App\Models\CareerDetails;
+use App\Models\Blog;
+use App\Models\BlogDetails;
+use App\Models\Specialities;
+use App\Models\BillingProcess;
+use App\Models\Insurance;
+use App\Models\InsuranceCompany;
+use App\Models\BiomedicalWaste;
+use App\Models\AwardsQuality;
+use App\Models\AccoladesAwards;
+use App\Models\AwardsImages;
+use App\Models\CsrSustainability;
+use App\Models\RightsResponsibility;
+use App\Models\InpatientService;
+use App\Models\VisitorGuide;
+use App\Models\ConvenienceFacility;
+use App\Models\Governmentschemes;
+use App\Models\CommunityOutreach;
+use App\Models\Testimonial;
+use App\Models\VirtualTour;
 
 
 class HomeController extends Controller
@@ -49,15 +73,34 @@ class HomeController extends Controller
     public function index()
     {
         $videoSlider = HomeSlider::where('media_type', 'video')->latest()->first();
-        $announcements = AnnouncementsDetail::orderBy('created_at', 'desc')->get();
+        $announcements = Announcements::whereNull('deleted_at')
+                ->where('is_featured', 1)
+                ->orderBy('id', 'desc')
+                ->get();
+        // dd($announcements);
         $awardDetails = AwardsDetails::latest()->first(); // latest award record
         $compassion = CompassionDetails::latest()->first();
         // dd($compassion);
         $testimonial = TestimonialDetail::latest()->first();
         $specialities = MedicalServiceSubCategory::wherenull('deleted_by')->where('status', 1 )->get();
         // dd($specialities);
+        
+        
+        $textTestimonials = Testimonial::wherenull('deleted_by')
+            ->where('type', 'text')
+            ->where('is_active', 1)
+            ->orderByRaw('priority IS NULL, priority ASC')
+            ->get();
+        
+        $videoTestimonials = Testimonial::wherenull('deleted_by')
+            ->where('type', 'video')
+            ->where('is_active', 1)
+            ->orderByRaw('priority IS NULL, priority ASC')
+            ->get();
+            
+        $virtualTour = VirtualTour::wherenull('deleted_by')->latest()->first();
 
-        return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'testimonial','specialities'));
+        return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'testimonial','specialities','textTestimonials', 'videoTestimonials','virtualTour'));
     }
 
     // Service Page
@@ -87,6 +130,8 @@ class HomeController extends Controller
          // 4️⃣ Fetch doctors linked to this subcategory
         $doctors = Doctor::where('subcategory_id', $subcategory->id)
             ->whereNull('deleted_by')
+            // ->whereNotNull('priority')
+            ->orderBy('id', 'asc')
             ->get();
 
         // dd($doctors);
@@ -200,7 +245,7 @@ class HomeController extends Controller
     // About Management Team
     public function management_team()
     {
-        $management_team  = ManageManagementTeam::orderBy('created_at', 'asc')->wherenull('deleted_by')->get();
+        $management_team  = ManageManagementTeam::whereNotNull('priority')->orderBy('priority', 'asc')->wherenull('deleted_by')->get();
         return view('frontend.management_team', compact('management_team'));
     }
 
@@ -253,7 +298,7 @@ class HomeController extends Controller
 
         // dd($query->toSql(), $query->getBindings());
 
-        $media_coverage = $query->orderBy('created_at', 'asc')->get();
+        $media_coverage = $query->orderBy('created_at', 'desc')->get();
 
         $years = ManageMediaCoverage::selectRaw('YEAR(media_publication_date) as year')
             ->whereNull('deleted_by')
@@ -270,10 +315,14 @@ class HomeController extends Controller
             ->pluck('month');
 
         $sources = ManageMediaCoverage::whereNull('deleted_by')
+            ->whereNotNull('media_publication')
+            ->where('media_publication', '!=', '')
             ->distinct()
             ->pluck('media_publication');
-
+        
         $types = ManageMediaCoverage::whereNull('deleted_by')
+            ->whereNotNull('media_type')
+            ->where('media_type', '!=', '')
             ->distinct()
             ->pluck('media_type');
 
@@ -325,6 +374,13 @@ class HomeController extends Controller
         if ($request->has('age_range') && count($request->age_range) > 0) {
             $query->whereIn('age_range', $request->age_range);
         }
+        
+        // ✅ Type Filter
+        if ($request->type != null) {
+            $type = strtolower($request->type);
+        
+            $query->whereRaw('LOWER(package_name) LIKE ?', ["{$type} %"]);
+        }
 
         // ✅ Get Filtered Packages
         $health_packages = $query->orderBy('created_at', 'asc')->paginate(6)->appends($request->query());
@@ -341,7 +397,22 @@ class HomeController extends Controller
 
         // Genders (from ALL packages for filter display)
         $allPackages = ManageHealthPackages::whereNull('deleted_by')->get();
-
+        
+        
+        // ✅ Types (Extract from package_name)
+        $types = $allPackages
+                ->pluck('package_name')
+                ->filter()
+                ->map(function ($name) {
+                    return preg_split('/\s+/', trim($name))[0];
+                })
+                ->unique()
+                ->values();
+                
+                
+        // dd($allPackages, $types);
+            
+    
         $genders = $allPackages
                     ->pluck('gender')
                     ->filter()
@@ -363,7 +434,7 @@ class HomeController extends Controller
             'health_packages',
             'categories',
             'genders',
-            'ageRanges'
+            'ageRanges', 'types'
         ));
     }
 
@@ -420,89 +491,238 @@ class HomeController extends Controller
     // Specialties
     public function specialties()
     {
-        return view('frontend.specialties');
+        $specialities = Specialities::with('subcategory')->wherenull('deleted_by')->get();
+        return view('frontend.specialties', compact('specialities'));
     }
 
     // Billing Process
     public function billing_process()
     {
-        return view('frontend.billing_process');
+        $billing = BillingProcess::whereNull('deleted_by')->first();
+    
+        if ($billing) {
+            $billing->visitor_details = json_decode($billing->visitor_details, true);
+            $billing->room_types = json_decode($billing->room_types, true);
+            $billing->document_timelines = json_decode($billing->document_timelines, true);
+        }
+    
+        return view('frontend.billing_process', compact('billing'));
     }
 
     // Insurance and Tpa
     public function insurance_and_tpa()
     {
-        return view('frontend.insurance_and_tpa');
+        $insurance = Insurance::wherenull('deleted_by')->first();
+    
+        $cashlessDetails = !empty($insurance->cashless_details) 
+            ? json_decode($insurance->cashless_details, true) 
+            : [];
+    
+        $faqData = !empty($insurance->faq) 
+            ? json_decode($insurance->faq, true) 
+            : [];
+            
+        $panels = InsuranceCompany::whereNull('deleted_by')->get();
+
+        $panelData = [];
+        
+        foreach ($panels as $panel) {
+            $panelData[$panel->insurance_type] = json_decode($panel->company_data, true);
+        }
+    
+        return view('frontend.insurance_and_tpa', compact(
+            'insurance',
+            'cashlessDetails',
+            'faqData','panelData'
+        ));
     }
 
     // Biomedical Waste
     public function biomedical_waste()
     {
-        return view('frontend.biomedical_waste');
+        $biomedical_wastes = BiomedicalWaste::orderBy('created_at', 'desc')->wherenull('deleted_by')->get();
+        return view('frontend.biomedical_waste', compact('biomedical_wastes'));
     }
 
     // Awards Accolades
     public function awards_accolades()
     {
-        return view('frontend.awards_accolades');
+        $awards = AwardsQuality::wherenull('deleted_by')->orderBy('id', 'asc')->get();
+        
+        $main_award = AccoladesAwards::whereNull('deleted_by')
+                    ->where('id', 1)
+                    ->first();
+        
+        $awards_accolades = AccoladesAwards::wherenull('deleted_by')->orderBy('id', 'asc')->get();
+        $awards_images = AwardsImages::wherenull('deleted_by')->orderBy('id', 'asc')->get();
+        return view('frontend.awards_accolades', compact('awards','awards_accolades','awards_images','main_award'));
     }
 
     // Blogs
     public function blogs()
     {
-        return view('frontend.blogs');
+        $blogs = Blog::whereNull('deleted_at')
+                    ->where('is_active', 1)
+                    ->orderBy('date', 'desc')
+                    ->get();
+    
+        return view('frontend.blogs', compact('blogs'));
+    }
+    
+        
+    // Blogs Details
+    public function blogDetail($slug)
+    {
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+    
+        // ✅ Fetch Blog Details (based on blog_id)
+        $blogDetails = BlogDetails::where('blog_id', $blog->id)->first();
+    
+        // ✅ Recent Blogs
+        $recentBlogs = Blog::where('id', '!=', $blog->id)
+                        ->whereNull('deleted_at')
+                        ->orderBy('date', 'desc')
+                        ->take(3)
+                        ->get();
+                        
+        // dd($recentBlogs);
+    
+        return view('frontend.blog_details', compact('blog', 'blogDetails', 'recentBlogs'));
     }
 
     // Inpatient Services
     public function inpatient_services()
     {
-        return view('frontend.inpatient_services');
+        $details = InpatientService::whereNull('deleted_at')->first();
+    
+        $roomTariffData     = [];
+        $superSpecialtyData = [];
+        $faqData            = [];
+    
+        if ($details) {
+            $roomTariffData     = json_decode($details->room_tariff_details, true) ?? [];
+            $superSpecialtyData = json_decode($details->super_specialty_details, true) ?? [];
+            $faqData            = json_decode($details->faq, true) ?? [];
+        }
+
+        return view('frontend.inpatient_services', compact(
+            'details', 'roomTariffData', 'superSpecialtyData', 'faqData'
+        ));
     }
 
     // Visitor Guide
     public function visitor_guide()
     {
-        return view('frontend.visitor_guide');
+        $details = VisitorGuide::whereNull('deleted_at')->first();
+     
+        // Avoid errors if the table is empty
+        $visitingHours = [];
+        $faqData       = [];
+     
+        if ($details) {
+            $visitingHours = json_decode($details->visiting_hour_details, true) ?? [];
+            $faqData       = json_decode($details->faq, true) ?? [];
+        }
+     
+        return view('frontend.visitor_guide', compact(
+            'details',
+            'visitingHours',
+            'faqData'
+        ));
     }
 
     // Rights And Responsibilities
     public function rights_and_responsibilities()
     {
-        return view('frontend.rights_and_responsibilities');
+        $details = RightsResponsibility::wherenull('deleted_by')->first();
+        $details->faq = json_decode($details->faq, true);
+        return view('frontend.rights_and_responsibilities', compact('details'));
     }
 
     // Convenience & Facilities
     public function convenience_and_facilities()
     {
-        return view('frontend.convenience_and_facilities');
+        $details = ConvenienceFacility::whereNull('deleted_at')->first();
+     
+        // Avoid errors if the table is empty
+        $cafeteriaDetails = [];
+        $atmDetails       = [];
+        $pharmacyDetails  = [];
+        $faqData          = [];
+     
+        if ($details) {
+            $cafeteriaDetails = json_decode($details->cafeteria_details, true) ?? [];
+            $atmDetails       = json_decode($details->atm_details, true) ?? [];
+            $pharmacyDetails  = json_decode($details->pharmacy_details, true) ?? [];
+            $faqData          = json_decode($details->faq, true) ?? [];
+        }
+     
+        return view('frontend.convenience_and_facilities', compact(
+            'details',
+            'cafeteriaDetails',
+            'atmDetails',
+            'pharmacyDetails',
+            'faqData'
+        ));
     }
 
-    // CGovernment Schemes
+  
+    // Government Schemes
     public function government_schemes()
     {
-        return view('frontend.government_schemes');
+        $details = Governmentschemes::whereNull('deleted_at')->first();
+    
+        // Avoid errors if the table is empty
+        $eligibilityTitles = [];
+        $mjpjaySteps       = [];
+        $faqData           = [];
+    
+        if ($details) {
+            $eligibilityTitles = json_decode($details->eligibility_titles, true) ?? [];
+            $mjpjaySteps       = json_decode($details->mjpjay_steps, true) ?? [];
+            $faqData           = json_decode($details->faq, true) ?? [];
+        }
+    
+        return view('frontend.government_schemes', compact(
+            'details',
+            'eligibilityTitles',
+            'mjpjaySteps',
+            'faqData'
+        ));
     }
 
     // Gallery
     public function gallery_listing(Request $request)
     {
+        
+        // dd($request);
         $query = Gallery::whereNull('deleted_by'); // ✅ no get()
 
-        // 🔍 Search Filter
-        if ($request->filled('search')) {
+       if ($request->filled('search')) {
             $query->where('event_name', 'like', '%' . $request->search . '%');
         }
-
-        // 📅 Year Filter
+        
         if ($request->filled('year')) {
             $query->whereYear('date', $request->year);
         }
 
+
         // ✅ Apply order + get at the end
         $galleries = $query->orderBy('date', 'desc')->get();
         // dd($galleries);
+        
+        
+        // ✅ Get unique years from DB
+       $years = Gallery::whereNull('deleted_by')
+            ->whereNotNull('date') // ✅ IMPORTANT FIX
+            ->selectRaw('YEAR(date) as year')
+            ->groupByRaw('YEAR(date)')
+            ->orderByRaw('YEAR(date) DESC')
+            ->pluck('year');
+                
+        // dd($years);
 
-        return view('frontend.gallery_listing', compact('galleries'));
+        return view('frontend.gallery_listing', compact('galleries','years'));
     }
 
     // gallery_details
@@ -527,13 +747,30 @@ class HomeController extends Controller
     // Csr Sustainability
     public function csr_sustainability()
     {
-        return view('frontend.csr_sustainability');
+        $csr = CsrSustainability::wherenull('deleted_by')->firstOrFail();
+        $gallery = !empty($csr->gallery_images) 
+                ? json_decode($csr->gallery_images, true) 
+                : [];
+
+        return view('frontend.csr_sustainability', compact('csr','gallery'));
     }
 
-    // community_outreach
+   
+    // Community Outreach
     public function community_outreach()
     {
-        return view('frontend.community_outreach');
+        $details = CommunityOutreach::whereNull('deleted_at')->first();
+    
+        $programmes = [];
+    
+        if ($details) {
+            $programmes = json_decode($details->programmes, true) ?? [];
+        }
+    
+        return view('frontend.community_outreach', compact(
+            'details',
+            'programmes'
+        ));
     }
 
 
@@ -543,12 +780,212 @@ class HomeController extends Controller
 
         // 4️⃣ Fetch doctors linked to this subcategory
         $doctors = Doctor::whereNull('deleted_by')
+            // ->whereNotNull('priority')
+            ->orderBy('id', 'asc')
             ->get();
+
 
         // Fetch all subcategories for the speciality filter
         $subcategories = MedicalServiceSubCategory::whereNull('deleted_by')->get();
+        
+        // dd($subcategories,$doctors);
 
         return view('frontend.find_a_doctor', compact('doctors','subcategories') );
     }
+
+
+    
+    // Announcements
+    public function announcements(Request $request)
+    {
+        $query = Announcements::query();
+    
+        $query->whereNull('deleted_at'); // OR deleted_by
+     
+        // ✅ Filter by Year
+        if ($request->filled('year')) {
+            $query->whereYear('date', $request->year);
+        }
+    
+        // ✅ Filter by Month
+        if ($request->filled('month')) {
+            $query->whereMonth('date', $request->month);
+        }
+
+        
+        $months = Announcements::whereNull('deleted_at')
+            ->whereNotNull('date')
+            ->selectRaw('MONTH(date) as month')
+            ->distinct()
+            ->orderBy('month')
+            ->pluck('month');
+        
+        // dd($months);
+    
+        $announcements = $query->orderBy('date', 'desc')->get();
+    
+        // ✅ Get Years dynamically
+        $years = Announcements::whereNull('deleted_at') // same condition
+                ->whereNotNull('date') // important
+                ->selectRaw('YEAR(date) as year')
+                ->distinct()
+                ->orderBy('year', 'desc')
+                ->pluck('year');
+    
+        return view('frontend.announcements', compact('announcements', 'years', 'months'));
+    }
+    
+    
+    // Announcements Details
+    public function announcements_details($slug)
+    {
+        $announcement = AnnouncementDetails::whereHas('announcement', function ($q) use ($slug) {
+            $q->where('slug', $slug);
+        })
+        ->with('announcement')
+        ->firstOrFail();
+    
+        // latest sidebar
+        $latest = AnnouncementDetails::with('announcement')
+            ->whereNull('deleted_at')
+            ->latest()
+            ->take(5)
+            ->get();
+    
+        return view('frontend.announcements_details', compact('announcement', 'latest'));
+    }
+    
+    
+    // careers
+    public function careers()
+    {
+        $career = CareerPage::whereNull('deleted_at')->first();
+        $benefits = !empty($career->benefits) ? json_decode($career->benefits, true) : [];
+        
+        $job_list = CareerListing::whereNull('deleted_at')->get();
+    
+        return view('frontend.careers', compact('career', 'benefits','job_list'));
+    }
+    
+    // careers details
+    public function careerDetails($slug)
+    {
+        $job = CareerListing::where('slug', $slug)->firstOrFail();
+    
+        // fetch details using job_id
+        $details = CareerDetails::where('job_id', $job->id)->first();
+    
+        return view('frontend.career_details', compact('job', 'details'));
+    }
+    
+    // Thankyou
+    public function thank_you()
+    {
+        return view('frontend.thank_you');
+    }
+    
+    // Search
+    public function search()
+    {
+        return view('frontend.search');
+    }
+    
+    // Search Results
+    public function searchLive(Request $request)
+    {
+        $query = trim($request->search);
+    
+        // ✅ ONLY Sub Categories → Specialities
+        $specialities = DB::table('medical_service_sub_categories')
+            ->whereNull('deleted_by')
+            ->where('subcategory_name', 'LIKE', "%{$query}%")
+            ->select('subcategory_name as name', 'slug')
+            
+            ->get();
+    
+        // ✅ Services grouped by Master Category
+        $services = DB::table('medical_service_categorie as s')
+            ->join('medical_service_master_categories as m', 's.category_id', '=', 'm.id')
+            ->whereNull('s.deleted_by')
+            ->whereNull('m.deleted_by')
+            ->where('s.service_name', 'LIKE', "%{$query}%")
+            ->select(
+                's.service_name as name',
+                's.slug',
+                'm.category_name'
+            )
+            ->get();
+    
+        $servicesGrouped = $services->groupBy('category_name');
+    
+        // Packages
+        $packages = DB::table('health_packages')
+            ->whereNull('deleted_by')
+
+            ->where('package_name', 'LIKE', "%{$query}%")
+            ->get();
+    
+        // Doctors
+        $doctors = DB::table('doctors')
+            ->whereNull('deleted_by')
+
+            ->where('doctor_name', 'LIKE', "%{$query}%")
+            ->get();
+            
+            
+        // Gallery
+        $gallery = DB::table('gallery_list')
+            ->whereNull('deleted_by')
+
+            ->where('event_name', 'LIKE', "%{$query}%") // change column if needed
+            ->select('event_name as name', 'slug')
+            ->get();
+        
+        // Media Coverage
+        $media = DB::table('media_coverages')
+                ->whereNull('deleted_by')
+                ->where(function ($q) use ($query) {
+                    $q->where('media_heading', 'LIKE', "%{$query}%")
+                      ->orWhere('description', 'LIKE', "%{$query}%")
+                      ->orWhere('media_publication', 'LIKE', "%{$query}%");
+                })
+                ->select(
+                    'media_heading as name',
+                    'description',
+                    'media_publication',
+                    'url'
+                )
+                ->get();
+                
+            
+        // ✅ Alternate Therapy
+        $alternateTherapy = DB::table('alternate_therapy')
+            ->whereNull('deleted_by')
+            ->where('heading', 'LIKE', "%{$query}%")
+            ->select('heading as name')
+            ->get();
+            
+            
+        // ✅ Ayurveda
+        $ayurveda = DB::table('ayurveda')
+            ->whereNull('deleted_by')
+            ->where('heading', 'LIKE', "%{$query}%")
+            ->select('heading as name')
+            ->get();
+            
+            
+        return response()->json([
+            'specialities' => $specialities,   
+            'servicesGrouped' => $servicesGrouped,
+            'packages' => $packages,
+            'doctors' => $doctors,
+            'gallery' => $gallery,        
+            'media' => $media,
+            'alternateTherapy' => $alternateTherapy,
+            'ayurveda' => $ayurveda
+        ]);
+    }
+    
+    
 
 }

@@ -39,8 +39,8 @@
                 <div class="row justify-content-center">
 
                     @foreach($accreditations as $accreditation)
-
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
                             <div class="single-gallery">
 
                                 <a href="{{ asset('uploads/accreditations/'.$accreditation->image) }}"
@@ -58,7 +58,7 @@
 
                             </div>
                         </div>
-
+                        <div class="col-md-4"></div>
                     @endforeach
 
                 </div>

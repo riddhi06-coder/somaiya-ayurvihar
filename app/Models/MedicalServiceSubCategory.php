@@ -12,7 +12,7 @@ class MedicalServiceSubCategory extends Model
     protected $table = 'medical_service_sub_categories';
 
     protected $fillable = [
-        'category_id', 'subcategory_name', 'slug', 'desc','status', 'home_image','created_by', 'updated_by', 'deleted_by'
+        'category_id', 'subcategory_name', 'is_active','slug', 'desc','status', 'home_image','priority','created_by', 'updated_by', 'deleted_by'
     ];
 
     public function category()

@@ -129,8 +129,8 @@
 
                                         <!-- Doctor Designation -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_designation">Doctor Designation <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="doctor_designation" type="text" name="doctor_designation" placeholder="Enter Doctor Designation" required>
+                                            <label class="form-label" for="doctor_designation">Doctor Designation </label>
+                                            <input class="form-control" id="doctor_designation" type="text" name="doctor_designation" placeholder="Enter Doctor Designation">
                                             <div class="invalid-feedback">Please enter a Doctor Designation.</div>
                                         </div>
 
@@ -151,42 +151,83 @@
                                         </div>
 
                                         <!-- Doctor Time Slot -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label">
-                                                Doctor Time Slot <span class="txt-danger">*</span>
-                                            </label>
+                                        <!--<div class="col-md-6 mt-5">-->
+                                        <!--    <label class="form-label">-->
+                                        <!--        Doctor Time Slot -->
+                                        <!--    </label>-->
 
-                                            <div class="row mt-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label mb-1">From Time</label>
-                                                    <input
-                                                        type="time"
-                                                        class="form-control"
-                                                        name="time_slot[from][]"
-                                                        required
-                                                    >
-                                                </div>
+                                        <!--    <div class="row mt-3">-->
+                                        <!--        <div class="col-md-6">-->
+                                        <!--            <label class="form-label mb-1">From Time</label>-->
+                                        <!--            <input-->
+                                        <!--                type="time"-->
+                                        <!--                class="form-control"-->
+                                        <!--                name="time_slot[from][]"-->
+                                                        
+                                        <!--            >-->
+                                        <!--        </div>-->
 
-                                                <div class="col-md-6">
-                                                    <label class="form-label mb-1">To Time</label>
-                                                    <input
-                                                        type="time"
-                                                        class="form-control"
-                                                        name="time_slot[to][]"
-                                                        required
-                                                    >
-                                                </div>
+                                        <!--        <div class="col-md-6">-->
+                                        <!--            <label class="form-label mb-1">To Time</label>-->
+                                        <!--            <input-->
+                                        <!--                type="time"-->
+                                        <!--                class="form-control"-->
+                                        <!--                name="time_slot[to][]"-->
+                                                        
+                                        <!--            >-->
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+
+
+                                        <!--    <div class="invalid-feedback">-->
+                                        <!--        Please enter doctor availability time.-->
+                                        <!--    </div>-->
+                                        <!--</div>-->
+                                        
+                                        
+                                        <!-- Doctor Schedule (Days + Timing grouped per shift) -->
+                                        <div class="col-md-12 mt-5">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <label class="form-label mb-0">
+                                                    Doctor Schedule <span class="txt-danger">*</span>
+                                                    <small class="text-secondary d-block">Add a row for each shift. Select the days for that shift and its timing.</small>
+                                                </label>
+                                                <button type="button" id="add-schedule-row" class="btn btn-success btn-sm">Add Shift</button>
                                             </div>
-
-
-                                            <div class="invalid-feedback">
-                                                Please enter doctor availability time.
-                                            </div>
+                                        
+                                            <table class="table table-bordered" id="scheduleTable" style="border: 2px solid #dee2e6;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:45%">Days</th>
+                                                        <th style="width:20%">From Time</th>
+                                                        <th style="width:20%">To Time</th>
+                                                        <th style="width:15%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="schedule-body">
+                                                    <tr>
+                                                        <td>
+                                                            <select name="schedule[0][days][]" class="form-control schedule-days" multiple required>
+                                                                <option value="Monday">Monday</option>
+                                                                <option value="Tuesday">Tuesday</option>
+                                                                <option value="Wednesday">Wednesday</option>
+                                                                <option value="Thursday">Thursday</option>
+                                                                <option value="Friday">Friday</option>
+                                                                <option value="Saturday">Saturday</option>
+                                                                <option value="Sunday">Sunday</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="time" class="form-control" name="schedule[0][from]" required></td>
+                                                        <td><input type="time" class="form-control" name="schedule[0][to]" required></td>
+                                                        <td><button type="button" class="btn btn-danger btn-sm remove-schedule-row">Remove</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
 
 
                                         <!-- Qualification-->
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mt-5">
                                             <label class="form-label" for="qualification">Qualification<span class="txt-danger">*</span></label>
                                             <textarea class="form-control" id="qualification" name="qualification" placeholder="Enter Qualification" required></textarea>
                                             <div class="invalid-feedback">Please enter an Qualification.</div>
@@ -215,15 +256,15 @@
                                             <table class="table table-bordered p-3" id="dynamicTable" style="border: 2px solid #dee2e6;">
                                                 <thead>
                                                     <tr>
-                                                        <th>Social Media Platform <span class="txt-danger">*</span></th>
-                                                        <th>Link <span class="txt-danger">*</span></th>
+                                                        <th>Social Media Platform </th>
+                                                        <th>Link </th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="social-media-table-body">
                                                     <tr>
                                                         <td>
-                                                            <select name="social_media[0][platform]" class="form-control" required>
+                                                            <select name="social_media[0][platform]" class="form-control">
                                                                 <option value="">Select Platform</option>
                                                                 <option value="1">Facebook</option>
                                                                 <option value="2">Twitter</option>
@@ -234,7 +275,7 @@
                                                                 <option value="7">Watsapp</option>
                                                             </select>
                                                         </td>
-                                                        <td><input type="url" name="social_media[0][link]" class="form-control" placeholder="Enter Social Media URL" required></td>
+                                                        <td><input type="url" name="social_media[0][link]" class="form-control" placeholder="Enter Social Media URL"></td>
                                                         <td><button type="button" class="btn btn-danger remove-social-media-row">Remove</button></td>
                                                     </tr>
                                                 </tbody>
@@ -274,6 +315,67 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
+        <!-- Dynamic schedule rows (days + timing per shift) -->
+        <script>
+            let scheduleIndex = 1;
+        
+            function initScheduleSelect2(el) {
+                $(el).select2({
+                    placeholder: "Select days",
+                    allowClear: true,
+                    width: '100%'
+                });
+            }
+        
+            $(window).on('load', function () {
+                $('.schedule-days').each(function () {
+                    if ($(this).hasClass('select2-hidden-accessible')) {
+                        $(this).select2('destroy');
+                    }
+                    initScheduleSelect2(this);
+                });
+            });
+        
+            document.getElementById('add-schedule-row').addEventListener('click', function () {
+                var tbody = document.getElementById('schedule-body');
+                var row = tbody.insertRow();
+                var i = scheduleIndex;
+        
+                row.insertCell(0).innerHTML = `
+                    <select name="schedule[${i}][days][]" class="form-control schedule-days" multiple required>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>`;
+                row.insertCell(1).innerHTML = `<input type="time" class="form-control" name="schedule[${i}][from]" required>`;
+                row.insertCell(2).innerHTML = `<input type="time" class="form-control" name="schedule[${i}][to]" required>`;
+                row.insertCell(3).innerHTML = `<button type="button" class="btn btn-danger btn-sm remove-schedule-row">Remove</button>`;
+        
+                // Init select2 on the new row's days dropdown
+                initScheduleSelect2(row.querySelector('.schedule-days'));
+                scheduleIndex++;
+            });
+        
+            // Remove row (keep at least one)
+            document.getElementById('schedule-body').addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('remove-schedule-row')) {
+                    var rows = document.getElementById('schedule-body').rows;
+                    if (rows.length > 1) {
+                        $(e.target.closest('tr')).find('.schedule-days').select2('destroy');
+                        e.target.closest('tr').remove();
+                    } else {
+                        alert('At least one shift is required.');
+                    }
+                }
+            });
+        </script>
 
 
         <script>
@@ -355,14 +457,14 @@
             });
 
 
-            // Event delegation to remove rows
+            // Event delegation to remove rowss
             document.getElementById('social-media-table-body').addEventListener('click', function(e) {
                 if (e.target && e.target.classList.contains('remove-social-media-row')) {
                     var row = e.target.closest('tr');
                     row.remove();
                 }
             });
-        </script>
+        </script> 
 
 
 
@@ -489,34 +591,6 @@
         </script>
 
 
-        <!-- JS for dynamic treatment and preview -->
-        <script>
-            let treatmentIndex = 1;
-
-            $(document).ready(function() {
-                // Add new treatment row
-                $('#treatmentTable').on('click', '.add-treatment', function() {
-                    const newRow = `<tr class="treatment-row">
-                        <td>
-                            <input type="text" name="treatment[${treatmentIndex}][name]" class="form-control" placeholder="Enter Treatment">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger remove-treatment">Remove</button>
-                        </td>
-                    </tr>`;
-                    $('#treatmentTable tbody').append(newRow);
-                    treatmentIndex++;
-                });
-
-                // Remove treatment row
-                $('#treatmentTable').on('click', '.remove-treatment', function() {
-                    $(this).closest('tr').remove();
-                });
-            });
-        </script>
-
-
-        
         <!-- JS for dynamic faq table -->
         <script>
             let faqIndex = 1;
@@ -548,101 +622,6 @@
                     $(this).closest('tr').remove();
                 });
             });
-        </script>
-
-
-        <!-- JS for editor -->
-        <script>
-            ClassicEditor.create(document.querySelector('#overview_desc'), {
-                toolbar: [
-                    'heading', 
-                    '|',
-                    'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript',
-                    'link', 'blockQuote', 'codeBlock',
-                    'bulletedList', 'numberedList', 'todoList',
-                    '|',
-                    'alignment', 'outdent', 'indent',
-                    '|',
-                    'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily',
-                    '|',
-                    'insertTable', 'imageUpload', 'mediaEmbed', 'horizontalLine', 'pageBreak',
-                    '|',
-                    'undo', 'redo', 'removeFormat', 'highlight', 'specialCharacters'
-                ],
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
-                    ]
-                },
-                fontFamily: {
-                    options: [
-                        'default', 'Arial, Helvetica, sans-serif', 'Courier New, Courier, monospace',
-                        'Georgia, serif', 'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                        'Tahoma, Geneva, sans-serif', 'Times New Roman, Times, serif',
-                        'Trebuchet MS, Helvetica, sans-serif', 'Verdana, Geneva, sans-serif'
-                    ]
-                },
-                fontSize: {
-                    options: [ 'tiny', 'small', 'default', 'big', 'huge' ]
-                },
-                alignment: {
-                    options: [ 'left', 'center', 'right', 'justify' ]
-                }
-            })
-            .catch(error => { console.error(error); });
-        </script>
-
-
-        <script>
-            ClassicEditor.create(document.querySelector('#exp_desc'), {
-                toolbar: [
-                    'heading', 
-                    '|',
-                    'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript',
-                    'link', 'blockQuote', 'codeBlock',
-                    'bulletedList', 'numberedList', 'todoList',
-                    '|',
-                    'alignment', 'outdent', 'indent',
-                    '|',
-                    'fontColor', 'fontBackgroundColor', 'fontSize', 'fontFamily',
-                    '|',
-                    'insertTable', 'imageUpload', 'mediaEmbed', 'horizontalLine', 'pageBreak',
-                    '|',
-                    'undo', 'redo', 'removeFormat', 'highlight', 'specialCharacters'
-                ],
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
-                    ]
-                },
-                fontFamily: {
-                    options: [
-                        'default', 'Arial, Helvetica, sans-serif', 'Courier New, Courier, monospace',
-                        'Georgia, serif', 'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                        'Tahoma, Geneva, sans-serif', 'Times New Roman, Times, serif',
-                        'Trebuchet MS, Helvetica, sans-serif', 'Verdana, Geneva, sans-serif'
-                    ]
-                },
-                fontSize: {
-                    options: [ 'tiny', 'small', 'default', 'big', 'huge' ]
-                },
-                alignment: {
-                    options: [ 'left', 'center', 'right', 'justify' ]
-                }
-            })
-            .catch(error => { console.error(error); });
         </script>
 
 </body>

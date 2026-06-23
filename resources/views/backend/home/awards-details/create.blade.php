@@ -41,16 +41,49 @@
                                 <input type="text" name="accreditation_heading" class="form-control" placeholder="Enter Heading" required>
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Images <span class="txt-danger">*</span></label>
-                                <input type="file" name="accreditation_images[]" class="form-control image-input" multiple accept="image/*">
-                                 <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
-                                <br>
-                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
+                            <!--<div class="col-md-6">-->
+                            <!--    <label class="form-label">Images <span class="txt-danger">*</span></label>-->
+                            <!--    <input type="file" name="accreditation_images[]" class="form-control image-input" multiple accept="image/*">-->
+                            <!--     <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>-->
+                            <!--    <br>-->
+                            <!--    <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>-->
                                             
-                                <div class="preview-box mt-2 d-flex gap-2 flex-wrap"></div>
+                            <!--    <div class="preview-box mt-2 d-flex gap-2 flex-wrap"></div>-->
+                            <!--</div>-->
+                            
+                            
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label mb-0">Accreditations <span class="txt-danger">*</span></label>
+                                    <button type="button" class="btn btn-sm btn-primary" id="add-accreditation-row">
+                                        + Add More
+                                    </button>
+                                </div>
+                            
+                                <small class="text-secondary d-block mb-2">
+                                    <b>Note: Image size should be less than 2MB. Allowed formats: .jpg, .jpeg, .png, .webp, .svg</b>
+                                </small>
+                            
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="accreditation-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:25%">Image</th>
+                                                <th style="width:25%">Description</th>
+                                                <th style="width:8%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- rows injected here -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                        
+                        
+                        
+                        
                     </div>
 
                     <!-- SECTION 2: AWARDS -->
@@ -140,6 +173,88 @@
             });
         }
     });
+    </script>
+    
+    
+    <script>
+        // ---- image preview for table rows ----
+        $(document).on('change', '.image-input', function () {
+            var input = this;
+            var file  = input.files[0];
+            var previewBox = $(input).closest('td').find('.preview-box');
+            if (!previewBox.length) return;
+        
+            previewBox.html('');
+            if (!file || !file.type.startsWith('image/')) return;
+        
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+                previewBox.html(
+                    '<img src="' + ev.target.result + '" style="width:100px;height:100px;object-fit:cover;border-radius:6px;">'
+                );
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // ---- accreditation repeater ----
+        (function () {
+            var rowIndex = 0;
+        
+            function rowTemplate(i) {
+                return `
+                <tr data-row="${i}">
+                    <td>
+                        <input type="file" name="rows[${i}][image]" class="form-control image-input" accept="image/*">
+                        <div class="preview-box mt-2"></div>
+                    </td>
+                    <td>
+                        <textarea name="rows[${i}][editor]" id="editor_${i}" class="form-control ck-editor-field"></textarea>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-danger remove-row">&times;</button>
+                    </td>
+                </tr>`;
+            }
+        
+            function addRow() {
+                var i = rowIndex++;
+                $('#accreditation-table tbody').append(rowTemplate(i));
+                initEditor('editor_' + i);
+            }
+        
+            function initEditor(id) {
+                if (window.CKEDITOR) { CKEDITOR.replace(id); return; }          // CKEditor 4
+                if (window.ClassicEditor) {                                      // CKEditor 5
+                    ClassicEditor.create(document.getElementById(id))
+                        .then(function (editor) {
+                            document.getElementById(id).ckeditorInstance = editor;
+                        })
+                        .catch(console.error);
+                }
+            }
+        
+            function destroyEditor(id) {
+                if (window.CKEDITOR && CKEDITOR.instances[id]) {
+                    CKEDITOR.instances[id].destroy(true);
+                }
+                var el = document.getElementById(id);
+                if (el && el.ckeditorInstance) {
+                    el.ckeditorInstance.destroy();
+                }
+            }
+        
+            $(document).on('click', '#add-accreditation-row', addRow);
+        
+            $(document).on('click', '.remove-row', function () {
+                var row = $(this).closest('tr');
+                var id = row.find('.ck-editor-field').attr('id');
+                if (id) destroyEditor(id);
+                row.remove();
+            });
+        
+            // start with one row
+            $(function () { addRow(); });
+        })();
     </script>
 
     

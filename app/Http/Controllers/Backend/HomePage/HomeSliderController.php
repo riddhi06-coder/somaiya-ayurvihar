@@ -32,7 +32,7 @@ class HomeSliderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'banner_media'   => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm|max:17384',
+            'banner_media'   => 'required|file|mimes:jpg,jpeg,png,webp,mp4,webm',
             'banner_heading' => 'nullable|string|max:255',
         ]);
 
@@ -105,7 +105,7 @@ class HomeSliderController extends Controller
         $slider = HomeSlider::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'banner_media'   => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm|max:17384',
+            'banner_media'   => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,webm',
             'banner_heading' => 'nullable|string|max:255',
         ]);
 

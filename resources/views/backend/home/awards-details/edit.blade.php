@@ -33,56 +33,69 @@
                     @method('PUT')
 
                     <!-- SECTION 1: ACCREDITATIONS -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <strong>Section 1: Accreditations</strong>
-                        </div>
-
-                        <div class="card-body row g-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Heading <span class="txt-danger">*</span></label>
-                                <input type="text"
-                                    name="accreditation_heading"
-                                    class="form-control"
-                                    placeholder="Enter Heading"
-                                    value="{{ $record->accreditation_heading }}"
-                                    required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label">Add Images</label>
-                                <input type="file"
-                                    name="accreditation_images[]"
-                                    class="form-control image-input"
-                                    multiple accept="image/*">
-                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
-                                <br>
-                                <small class="text-secondary"><b>Note: Only files in .jpg, .jpeg, .png, .webp, .svg format can be uploaded.</b></small>
-
-                                <!-- EXISTING IMAGES -->
-                                <div class="mt-2 d-flex gap-2 flex-wrap">
-                                    @foreach($record->accreditation_images ?? [] as $img)
-                                        <div style="position:relative">
-                                            <img src="{{ asset('home/awards/'.$img) }}"
-                                                width="150" height="150"
-                                                style="object-fit:cover;border-radius:6px;">
-                                            <input type="hidden"
-                                                name="old_accreditation_images[]"
-                                                value="{{ $img }}">
-                                            <span class="remove-old"
-                                                style="position:absolute;top:-6px;right:-6px;
-                                                        background:red;color:#fff;
-                                                        border-radius:50%;
-                                                        width:20px;height:20px;
-                                                        text-align:center;cursor:pointer;">×</span>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-
-                                            <div class="preview-box mt-2 d-flex gap-2 flex-wrap"></div>
+                                <div class="card mb-4">
+                                <div class="card-header bg-primary text-white">
+                                    <strong>Section 1: Accreditations</strong>
+                                </div>
+                            
+                                <div class="card-body">
+                                    <div class="row g-4 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Heading <span class="txt-danger">*</span></label>
+                                            <input type="text" name="accreditation_heading" class="form-control"
+                                                   placeholder="Enter Heading"
+                                                   value="{{ $record->accreditation_heading }}" required>
                                         </div>
                                     </div>
+                            
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <label class="form-label mb-0">Accreditation Items</label>
+                                        <button type="button" class="btn btn-sm btn-primary" id="add-accreditation-row">+ Add More</button>
+                                    </div>
+                                    <small class="text-secondary d-block mb-2">
+                                        <b>Note: Image &lt; 2MB. Allowed: .jpg, .jpeg, .png, .webp, .svg</b>
+                                    </small>
+                            
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered align-middle" id="accreditation-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:25%">Image</th>
+                                                    <th style="width:25%">Description</th>
+                                                    <th style="width:8%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($record->accreditation_images ?? [] as $i => $acc)
+                                                    <tr data-row="{{ $i }}">
+                                                        <td>
+                                                            @if(!empty($acc['image']))
+                                                                <div style="position:relative;display:inline-block">
+                                                                    <img src="{{ asset('home/awards/'.$acc['image']) }}"
+                                                                         width="100" height="100"
+                                                                         style="object-fit:cover;border-radius:6px;">
+                                                                    <input type="hidden" name="rows[{{ $i }}][old_image]" value="{{ $acc['image'] }}">
+                                                                </div>
+                                                            @endif
+                                                            <input type="file" name="rows[{{ $i }}][image]"
+                                                                   class="form-control image-input mt-1" accept="image/*">
+                                                        </td>
+                                  
+                                                        <td>
+                                                            <textarea name="rows[{{ $i }}][editor]" id="editor_{{ $i }}"
+                                                                      class="form-control ck-editor-field">{{ $acc['editor'] ?? '' }}</textarea>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-sm btn-danger remove-row">&times;</button>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                            </div>
 
                                 <!-- SECTION 2: AWARDS -->
                                 <div class="card mb-4">
@@ -149,34 +162,140 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
-<script>
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('remove-old')) {
-        e.target.parentElement.remove();
-    }
-});
-
-document.addEventListener('change', function (e) {
-    if (e.target.classList.contains('image-input')) {
-
-        const previewBox = e.target.parentElement.querySelector('.preview-box');
-        previewBox.innerHTML = '';
-
-        Array.from(e.target.files).forEach(file => {
-            if (!file.type.startsWith('image/')) return;
-
-            const reader = new FileReader();
-            reader.onload = ev => {
-                previewBox.innerHTML += `
-                    <img src="${ev.target.result}"
-                         style="width:80px;height:80px;
-                                object-fit:cover;border-radius:6px;">
-                `;
-            };
-            reader.readAsDataURL(file);
+    
+    
+    <script>
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-old')) {
+                e.target.parentElement.remove();
+            }
         });
-    }
-});
+        
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('image-input')) {
+        
+                const previewBox = e.target.parentElement.querySelector('.preview-box');
+                previewBox.innerHTML = '';
+        
+                Array.from(e.target.files).forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+        
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        previewBox.innerHTML += `
+                            <img src="${ev.target.result}"
+                                 style="width:80px;height:80px;
+                                        object-fit:cover;border-radius:6px;">
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+    </script>
+
+
+
+    <script>
+    // ---- remove-old (for award section) ----
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-old')) {
+            e.target.parentElement.remove();
+        }
+    });
+    
+    // ---- image preview (works for both award boxes AND table rows) ----
+    document.addEventListener('change', function (e) {
+        if (!e.target.classList.contains('image-input')) return;
+    
+        const input = e.target;
+        const file  = input.files[0];
+    
+        // CASE A: award section — uses a .preview-box (may be multiple files)
+        const previewBox = input.parentElement.querySelector('.preview-box');
+        if (previewBox) {
+            previewBox.innerHTML = '';
+            Array.from(input.files).forEach(f => {
+                if (!f.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    previewBox.innerHTML += `<img src="${ev.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;">`;
+                };
+                reader.readAsDataURL(f);
+            });
+            return;
+        }
+    
+        // CASE B: accreditation table row — single image, show/replace preview in same cell
+        if (!file || !file.type.startsWith('image/')) return;
+        const cell = input.closest('td');
+        if (!cell) return;
+    
+        let preview = cell.querySelector('.row-image-preview');
+        if (!preview) {
+            preview = document.createElement('img');
+            preview.className = 'row-image-preview';
+            preview.style.cssText = 'width:100px;height:100px;object-fit:cover;border-radius:6px;display:block;margin-bottom:6px;';
+            cell.insertBefore(preview, input);   // show above the file input
+        }
+        const reader = new FileReader();
+        reader.onload = ev => { preview.src = ev.target.result; };
+        reader.readAsDataURL(file);
+    });
+    
+    // ---- accreditation repeater ----
+    (function () {
+        var rowIndex = {{ count($record->accreditation_images ?? []) }};
+    
+        $(function () {
+            $('#accreditation-table .ck-editor-field').each(function () {
+                initEditor(this.id);
+            });
+        });
+    
+        function rowTemplate(i) {
+            return `
+            <tr data-row="${i}">
+                <td>
+                    <input type="file" name="rows[${i}][image]" class="form-control image-input" accept="image/*">
+                </td>
+                <td>
+                    <textarea name="rows[${i}][editor]" id="editor_${i}" class="form-control ck-editor-field"></textarea>
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-danger remove-row">&times;</button>
+                </td>
+            </tr>`;
+        }
+    
+        function initEditor(id) {
+            if (window.CKEDITOR) { CKEDITOR.replace(id); return; }
+            if (window.ClassicEditor) {
+                ClassicEditor.create(document.getElementById(id))
+                    .then(ed => { document.getElementById(id).ckeditorInstance = ed; })
+                    .catch(console.error);
+            }
+        }
+    
+        function destroyEditor(id) {
+            if (window.CKEDITOR && CKEDITOR.instances[id]) CKEDITOR.instances[id].destroy(true);
+            var el = document.getElementById(id);
+            if (el && el.ckeditorInstance) el.ckeditorInstance.destroy();
+        }
+    
+        $(document).on('click', '#add-accreditation-row', function () {
+            var i = rowIndex++;
+            $('#accreditation-table tbody').append(rowTemplate(i));
+            initEditor('editor_' + i);
+        });
+    
+        $(document).on('click', '.remove-row', function () {
+            var row = $(this).closest('tr');
+            var id = row.find('.ck-editor-field').attr('id');
+            if (id) destroyEditor(id);
+            row.remove();
+        });
+    })();
 </script>
 
     

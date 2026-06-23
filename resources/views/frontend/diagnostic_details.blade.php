@@ -61,9 +61,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#">
                                         Medical Services
-                                    </a>
                                 </li>
 
 
@@ -263,7 +261,7 @@
 
                 <div class="col-md-5">
                     <div class="faq-img">
-                    <img src="https://careon.themehealer.com/assets/images/resources/faq-one-img-1.jpg" class="img-responsive">
+                    <img src="{{ asset('uploads/service-details/'.$service->faq_image) }}" class="img-responsive">
                     </div>
                 </div>
             </div>

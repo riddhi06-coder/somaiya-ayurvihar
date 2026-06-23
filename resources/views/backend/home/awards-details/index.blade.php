@@ -57,7 +57,7 @@
                           <tr>
                               <th>#</th>
                               <th>Accreditation Heading</th>
-                              <th>Accreditation Images</th>
+                              <!--<th>Accreditation Images</th>-->
                               <th>Award Heading</th>
                               <!-- <th>Award Images</th> -->
                               <th>Action</th>
@@ -71,24 +71,7 @@
 
                               <td>{{ $record->accreditation_heading ?? '—' }}</td>
 
-                              {{-- Accreditation Images --}}
-                              <td>
-                                  @php
-                                      $accImages = is_array($record->accreditation_images)
-                                          ? $record->accreditation_images
-                                          : json_decode($record->accreditation_images, true);
-                                  @endphp
-
-                                  @if(!empty($accImages))
-                                      @foreach($accImages as $img)
-                                          <img src="{{ asset('home/awards/'.$img) }}"
-                                              width="50" height="50"
-                                              style="object-fit:cover;border-radius:4px;margin-right:4px;">
-                                      @endforeach
-                                  @else
-                                      —
-                                  @endif
-                              </td>
+                       
 
                               <td>{{ $record->award_heading ?? '—' }}</td>
 

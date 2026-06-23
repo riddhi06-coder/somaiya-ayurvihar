@@ -13,15 +13,63 @@ use Carbon\Carbon;
 
 class MedicalServiceCategoriesController extends Controller
 {
-   public function index()
-{
-    $services = MedicalServiceCategory::with(['category', 'subcategory'])->get();
+    public function index()
+    {
+        $services = MedicalServiceCategory::with(['category', 'subcategory'])->orderBy('service_name', 'asc')->get();
+    
+        return view(
+            'backend.medicalserviceallcategories.index',
+            compact('services')
+        );
+    }
+    
+    
+    public function toggleStatus(Request $request)
+    {
+        $service = MedicalServiceCategory::findOrFail($request->id);
+        $service->is_active = $request->has('is_active') ? 1 : 0;
+        $service->save();
+    
+        return redirect()->back()->with('success', 'Service status updated successfully.');
+    }
 
-    return view(
-        'backend.medicalserviceallcategories.index',
-        compact('services')
-    );
-}
+
+    public function updatePriority(Request $request)
+    {
+        $doctor = MedicalServiceCategory::find($request->id);
+    
+        if (!$doctor) {
+            return response()->json(['status' => false]);
+        }
+    
+        // 👉 If priority is removed (empty)
+        if ($request->priority === null || $request->priority === '') {
+            $doctor->priority = null; // recommended
+            $doctor->save();
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Priority removed'
+            ]);
+        }
+    
+        // 👉 Check duplicate (only when assigning)
+        $exists = MedicalServiceCategory::where('priority', $request->priority)
+                    ->where('id', '!=', $request->id)
+                    ->exists();
+    
+        if ($exists) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Priority already assigned to category'
+            ]);
+        }
+    
+        $doctor->priority = $request->priority;
+        $doctor->save();
+    
+        return response()->json(['status' => true]);
+    }
 
       
     public function create()

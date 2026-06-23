@@ -80,7 +80,7 @@
                                         </div>
 
                                         <small class="text-secondary d-block mt-1">
-                                            <b>Allowed:</b> jpg, jpeg, png, webp, mp4, webm (Max 5MB)
+                                            <b>Allowed:</b> jpg, jpeg, png, webp, mp4, webm 
                                         </small>
 
                                         <!-- Preview BELOW input -->

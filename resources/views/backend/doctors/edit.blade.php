@@ -123,8 +123,8 @@
 
                                         <!-- Doctor Designation -->
                                         <div class="col-md-6 mt-5">
-                                            <label class="form-label" for="doctor_designation">Doctor Designation <span class="txt-danger">*</span></label>
-                                            <input class="form-control" id="doctor_designation" type="text" name="doctor_designation" placeholder="Enter Doctor Designation" value="{{ $service_details->designation }}" required>
+                                            <label class="form-label" for="doctor_designation">Doctor Designation </label>
+                                            <input class="form-control" id="doctor_designation" type="text" name="doctor_designation" placeholder="Enter Doctor Designation" value="{{ $service_details->designation }}">
                                             <div class="invalid-feedback">Please enter a Doctor Designation.</div>
                                         </div>
 
@@ -148,33 +148,62 @@
                                         </div>
 
 
-                                        <!-- Doctor Time Slot -->
-                                        <div class="col-md-6 mt-5">
-                                            <label class="form-label">
-                                                Doctor Time Slot <span class="txt-danger">*</span>
-                                            </label>
-
-                                            @foreach($service_details->doctor_time_slot ?? [] as $slot)
-                                                <div class="row mt-2">
-                                                    <div class="col-md-6">
-                                                        <input type="time" name="time_slot[from][]" class="form-control" value="{{ $slot['from'] }}" required>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="time" name="time_slot[to][]" class="form-control" value="{{ $slot['to'] }}" required>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-
-
-
-                                            <div class="invalid-feedback">
-                                                Please enter doctor availability time.
+                                        <!-- Doctor Schedule (Days + Timing grouped per shift) -->
+                                        <div class="col-md-12 mt-5">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <label class="form-label mb-0">
+                                                    Doctor Schedule <span class="txt-danger">*</span>
+                                                    <small class="text-secondary d-block">Add a row for each shift. Select the days for that shift and its timing.</small>
+                                                </label>
+                                                <button type="button" id="add-schedule-row" class="btn btn-success btn-sm">Add Shift</button>
                                             </div>
+                                        
+                                            <table class="table table-bordered" id="scheduleTable" style="border: 2px solid #dee2e6;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:45%">Days</th>
+                                                        <th style="width:20%">From Time</th>
+                                                        <th style="width:20%">To Time</th>
+                                                        <th style="width:15%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="schedule-body">
+                                                    @php
+                                                        $schedule = $service_details->doctor_time_slot ?? [];
+                                                        $allDays = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+                                                        // Fallback: ensure at least one empty row renders
+                                                        if (empty($schedule)) {
+                                                            $schedule = [['days' => [], 'from' => '', 'to' => '']];
+                                                        }
+                                                    @endphp
+                                        
+                                                    @foreach($schedule as $i => $shift)
+                                                        @php
+                                                            $shiftDays = $shift['days'] ?? [];
+                                                            $from = !empty($shift['from']) ? \Carbon\Carbon::parse($shift['from'])->format('H:i') : '';
+                                                            $to   = !empty($shift['to'])   ? \Carbon\Carbon::parse($shift['to'])->format('H:i')   : '';
+                                                        @endphp
+                                                        <tr>
+                                                            <td>
+                                                                <select name="schedule[{{ $i }}][days][]" class="form-control schedule-days" multiple required>
+                                                                    @foreach($allDays as $day)
+                                                                        <option value="{{ $day }}" {{ in_array($day, $shiftDays) ? 'selected' : '' }}>{{ $day }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="time" class="form-control" name="schedule[{{ $i }}][from]" value="{{ $from }}" required></td>
+                                                            <td><input type="time" class="form-control" name="schedule[{{ $i }}][to]" value="{{ $to }}" required></td>
+                                                            <td><button type="button" class="btn btn-danger btn-sm remove-schedule-row">Remove</button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
 
 
+
                                         <!-- Qualification-->
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mt-5">
                                             <label class="form-label" for="qualification">Qualification<span class="txt-danger">*</span></label>
                                             <textarea class="form-control" id="qualification" name="qualification" placeholder="Enter Qualification" required>{{ $service_details->qualification }}</textarea>
                                             <div class="invalid-feedback">Please enter an Qualification.</div>
@@ -199,33 +228,44 @@
                                             <table class="table table-bordered p-3" id="dynamicTable" style="border: 2px solid #dee2e6;">
                                                 <thead>
                                                     <tr>
-                                                        <th>Social Media Platform <span class="txt-danger">*</span></th>
-                                                        <th>Link <span class="txt-danger">*</span></th>
+                                                        <th>Social Media Platform </th>
+                                                        <th>Link </th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="social-media-table-body">
-                                                    @forelse($contact_details as $index => $social)
+                                                    @if(!empty($contact_details) && count($contact_details) > 0)
+                                                        @foreach($contact_details as $index => $social)
+                                                            <tr>
+                                                                <td>
+                                                                    <select name="social_media[{{ $index }}][platform]" class="form-control">
+                                                                        <option value="">Select Platform</option>
+                                                                        <option value="1" {{ ($social['platform'] ?? '') == 1 ? 'selected' : '' }}>Facebook</option>
+                                                                        <option value="2" {{ ($social['platform'] ?? '') == 2 ? 'selected' : '' }}>Twitter</option>
+                                                                        <option value="3" {{ ($social['platform'] ?? '') == 3 ? 'selected' : '' }}>Instagram</option>
+                                                                        <option value="4" {{ ($social['platform'] ?? '') == 4 ? 'selected' : '' }}>LinkedIn</option>
+                                                                        <option value="5" {{ ($social['platform'] ?? '') == 5 ? 'selected' : '' }}>YouTube</option>
+                                                                        <option value="6" {{ ($social['platform'] ?? '') == 6 ? 'selected' : '' }}>Pinterest</option>
+                                                                        <option value="7" {{ ($social['platform'] ?? '') == 7 ? 'selected' : '' }}>Whatsapp</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="url"
+                                                                           name="social_media[{{ $index }}][link]"
+                                                                           class="form-control"
+                                                                           value="{{ $social['link'] ?? '' }}">
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger remove-social-media-row">
+                                                                        Remove
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
                                                         <tr>
                                                             <td>
-                                                                <select name="social_media[{{ $index }}][platform]" class="form-control" required>
-                                                                    <option value="">Select Platform</option>
-                                                                    <option value="1" {{ $social['platform'] == 1 ? 'selected' : '' }}>Facebook</option>
-                                                                    <option value="2" {{ $social['platform'] == 2 ? 'selected' : '' }}>Twitter</option>
-                                                                    <option value="3" {{ $social['platform'] == 3 ? 'selected' : '' }}>Instagram</option>
-                                                                    <option value="4" {{ $social['platform'] == 4 ? 'selected' : '' }}>LinkedIn</option>
-                                                                    <option value="5" {{ $social['platform'] == 5 ? 'selected' : '' }}>YouTube</option>
-                                                                    <option value="6" {{ $social['platform'] == 6 ? 'selected' : '' }}>Pinterest</option>
-                                                                    <option value="7" {{ $social['platform'] == 7 ? 'selected' : '' }}>Watsapp</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input type="url" name="social_media[{{ $index }}][link]" class="form-control" value="{{ $social['link'] }}" required></td>
-                                                            <td><button type="button" class="btn btn-danger remove-social-media-row">Remove</button></td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td>
-                                                                <select name="social_media[0][platform]" class="form-control" required>
+                                                                <select name="social_media[0][platform]" class="form-control">
                                                                     <option value="">Select Platform</option>
                                                                     <option value="1">Facebook</option>
                                                                     <option value="2">Twitter</option>
@@ -233,13 +273,22 @@
                                                                     <option value="4">LinkedIn</option>
                                                                     <option value="5">YouTube</option>
                                                                     <option value="6">Pinterest</option>
-                                                                    <option value="7">Watsapp</option>
+                                                                    <option value="7">Whatsapp</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="url" name="social_media[0][link]" class="form-control" placeholder="Enter Social Media URL" required></td>
-                                                            <td><button type="button" class="btn btn-danger remove-social-media-row">Remove</button></td>
+                                                            <td>
+                                                                <input type="url"
+                                                                       name="social_media[0][link]"
+                                                                       class="form-control"
+                                                                       placeholder="Enter Social Media URL">
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger remove-social-media-row">
+                                                                    Remove
+                                                                </button>
+                                                            </td>
                                                         </tr>
-                                                    @endforelse
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>
@@ -277,6 +326,64 @@
 
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+
+<!-- Dynamic schedule rows (days + timing per shift) -->
+<script>
+    // Start index after the rows already rendered from DB
+    let scheduleIndex = {{ count($schedule) }};
+
+    function initScheduleSelect2(el) {
+        $(el).select2({
+            placeholder: "Select days",
+            allowClear: true,
+            width: '100%'
+        });
+    }
+
+    $(window).on('load', function () {
+        $('.schedule-days').each(function () {
+            if ($(this).hasClass('select2-hidden-accessible')) {
+                $(this).select2('destroy');
+            }
+            initScheduleSelect2(this);
+        });
+    });
+
+    document.getElementById('add-schedule-row').addEventListener('click', function () {
+        var tbody = document.getElementById('schedule-body');
+        var row = tbody.insertRow();
+        var i = scheduleIndex;
+
+        row.insertCell(0).innerHTML = `
+            <select name="schedule[${i}][days][]" class="form-control schedule-days" multiple required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>`;
+        row.insertCell(1).innerHTML = `<input type="time" class="form-control" name="schedule[${i}][from]" required>`;
+        row.insertCell(2).innerHTML = `<input type="time" class="form-control" name="schedule[${i}][to]" required>`;
+        row.insertCell(3).innerHTML = `<button type="button" class="btn btn-danger btn-sm remove-schedule-row">Remove</button>`;
+
+        initScheduleSelect2(row.querySelector('.schedule-days'));
+        scheduleIndex++;
+    });
+
+    document.getElementById('schedule-body').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-schedule-row')) {
+            var rows = document.getElementById('schedule-body').rows;
+            if (rows.length > 1) {
+                $(e.target.closest('tr')).find('.schedule-days').select2('destroy');
+                e.target.closest('tr').remove();
+            } else {
+                alert('At least one shift is required.');
+            }
+        }
+    });
+</script>
 
         <script>
             $(document).ready(function () {

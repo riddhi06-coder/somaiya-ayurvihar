@@ -82,8 +82,14 @@
                         <div class="col-md-4">
                             <div class="view_package_btn">
                                 <div class="button-box">
-                                    <a class="twenty" type="button" data-toggle="modal" data-target="#health-checkup">
+                                    <a href="#"
+                                       class="twenty"
+                                       data-toggle="modal"
+                                       data-target="#health-checkup"
+                                       data-package="{{ $package->package_name }}">
                                         <span>Book Package</span>
+                                    </a>
+                     
                                     </a>
                                 </div>
                             </div>
@@ -111,25 +117,24 @@
         @include('components.frontend.main-js')
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('.description-content ul').forEach(function(ul){
-        // Add the "listing" class
-        ul.classList.add('listing');
-
-        // Add icon to each li if not present
-        ul.querySelectorAll('li').forEach(function(li){
-            if(!li.querySelector('i.fa-arrow-circle-right')){
-                const icon = document.createElement('i');
-                icon.classList.add('fa', 'fa-arrow-circle-right');
-                icon.setAttribute('aria-hidden','true');
-                li.prepend(icon);
-            }
-        });
-    });
-});
-</script>
-
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.querySelectorAll('.description-content ul').forEach(function(ul){
+                    // Add the "listing" class
+                    ul.classList.add('listing');
+            
+                    // Add icon to each li if not present
+                    ul.querySelectorAll('li').forEach(function(li){
+                        if(!li.querySelector('i.fa-arrow-circle-right')){
+                            const icon = document.createElement('i');
+                            icon.classList.add('fa', 'fa-arrow-circle-right');
+                            icon.setAttribute('aria-hidden','true');
+                            li.prepend(icon);
+                        }
+                    });
+                });
+            });
+        </script>
 
   </body>
 </html>

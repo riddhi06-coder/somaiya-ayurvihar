@@ -12,7 +12,7 @@ class MedicalServiceMasterCategory extends Model
     protected $table = 'medical_service_master_categories';
 
     protected $fillable = [
-        'category_name', 'slug', 'created_by', 'updated_by', 'deleted_by','deleted_at'
+        'category_name', 'slug', 'is_active','created_by', 'updated_by', 'deleted_by','deleted_at'
     ];
 
     public function subcategories()

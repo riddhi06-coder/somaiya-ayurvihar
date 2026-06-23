@@ -49,15 +49,43 @@
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
-                                            <th>Name</th>
-                                            <th>URL</th>
+                                            <th>Heading</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      
+                                        @forelse($csr as $key => $row)
+                                            <tr>
+                                                <!-- Sr No -->
+                                                <td>{{ $key + 1 }}</td>
+                                    
+                                                <!-- Heading (use any main field, here using UHTC heading) -->
+                                                <td>{{ $row->uhtc_heading ?? 'N/A' }}</td>
+                                    
+                                                <!-- Actions -->
+                                                <td>
+                                                    <a href="{{ route('admin.manage-csr-sustainability.edit', $row->id) }}" 
+                                                       class="btn btn-sm btn-primary">Edit</a>
+                                    
+                                                    <form action="{{ route('admin.manage-csr-sustainability.destroy', $row->id) }}" 
+                                                          method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                    
+                                                        <button type="submit" 
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this?')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center">No data found</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
-
 
                                 </table>
 

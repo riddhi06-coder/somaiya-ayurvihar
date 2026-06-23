@@ -52,6 +52,7 @@
                                             <th>Name</th>
                                             <th>Designation</th>
                                             <th>Image</th>
+                                            <th>Priority</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -75,6 +76,14 @@
                                                 @endif
                                             </td>
 
+                                            <td>
+                                                <input type="number" 
+                                                       value="{{ $team->priority }}" 
+                                                       class="form-control priority-input" 
+                                                       data-id="{{ $team->id }}" 
+                                                       style="width:80px;">
+                                            </td>
+                                            
                                             <td>
                                                 <a href="{{ route('admin.manage-management-team.edit',$team->id) }}"
                                                 class="btn btn-sm btn-primary">
@@ -113,6 +122,30 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
+    
+    
+    <script>
+        $(document).on('change', '.priority-input', function() {
+    let priority = $(this).val();
+    let id = $(this).data('id');
+
+    $.ajax({
+        url: "{{ route('admin.manage-management-team.updatePriority') }}",
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            id: id,
+            priority: priority
+        },
+        success: function(response) {
+            alert('Priority updated successfully');
+        },
+        error: function() {
+            alert('Something went wrong');
+        }
+    });
+});
+    </script>
 
 </body>
 </html>

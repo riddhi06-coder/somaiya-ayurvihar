@@ -84,7 +84,7 @@
                                                     <a href="{{ route('admin.manage-health-packages.edit', $package->id) }}" 
                                                     class="btn btn-sm btn-primary">
                                                     Edit
-                                                    </a>
+                                                    </a><br><br>
 
                                                     <form action="{{ route('admin.manage-health-packages.destroy', $package->id) }}" 
                                                         method="POST" 

@@ -25,6 +25,22 @@ class ManagementTeamController extends Controller
     {
         return view('backend.about.team.create');
     }
+    
+    
+    public function updatePriority(Request $request)
+    {
+        $team = ManageManagementTeam::find($request->id);
+    
+        if ($team) {
+            $team->priority = $request->priority;
+            $team->save();
+    
+            return response()->json(['status' => true]);
+        }
+    
+        return response()->json(['status' => false]);
+    }
+
 
     public function store(Request $request)
     {

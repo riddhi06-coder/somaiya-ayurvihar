@@ -50,6 +50,7 @@
                                         <tr>
                                             <th>Sr No.</th>
                                             <th>Master Category Name</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -58,6 +59,15 @@
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $category->category_name }}</td>
+                                            
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input status-toggle" type="checkbox"
+                                                           role="switch"
+                                                           data-id="{{ $category->id }}"
+                                                           {{ $category->is_active ? 'checked' : '' }}>
+                                                </div>
+                                            </td>
                                             <td>
                                                 <a href="{{ route('admin.medicalservicecategory.edit', $category->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                                 <form action="{{ route('admin.medicalservicecategory.destroy', $category->id) }}" method="POST" style="display:inline;">
@@ -80,5 +90,47 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.status-toggle').forEach(function (toggle) {
+        toggle.addEventListener('change', function () {
+            const id = this.dataset.id;
+            const checkbox = this;
+            const newState = checkbox.checked;
+
+            // Confirm before applying
+            if (!confirm(`Are you sure you want to ${newState ? 'activate' : 'deactivate'} this category?`)) {
+                checkbox.checked = !newState; // revert the visual toggle
+                return;
+            }
+
+            fetch(`/somaiya/admin/medicalservicecategory/${id}/toggle-status`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.is_active ? 'Category activated successfully.' : 'Category deactivated successfully.');
+                } else {
+                    checkbox.checked = !newState; // revert on failure
+                    alert('Something went wrong. Please try again.');
+                }
+            })
+            .catch(() => {
+                checkbox.checked = !newState; // revert on error
+                alert('Request failed. Please check your connection and try again.');
+            });
+        });
+    });
+});
+    </script>
+
 </body>
 </html>

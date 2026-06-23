@@ -16,6 +16,7 @@ class ManageManagementTeam extends Model
         'designation',
         'description',
         'image',
+        'priority',
       
         'created_at',
         'created_by',

@@ -20,6 +20,7 @@ class ManageHealthPackages extends Model
         'discounted_price',
         'age_range',
         'gender',
+        'images',
 
         'created_at',
         'created_by',

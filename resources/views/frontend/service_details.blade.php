@@ -35,9 +35,9 @@
                                   </li>
 
                                   <li>
-                                      <a href="#">
+                                  
                                           Medical Services
-                                      </a>
+                                   
                                   </li>
 
 
@@ -80,7 +80,7 @@
                         'health-packages',
                         'make-special',
                         'testimonials',
-                        'announcements',
+                        'faq',
                         'blogs',
                         'faq'
                     ];
@@ -149,7 +149,7 @@
                       <h2>{{ $service->doctor_heading }}</h2>
                       <p>{{ $service->doctor_desc }}</p>
                       <div class="button-box">
-                          <a class="twenty" href="#"><span>View All</span></a>
+                          <a class="twenty" href="{{ route('frontend.find_a_doctor') }}"><span>View All</span></a>
                       </div>
                   </div>
               </div>
@@ -267,92 +267,92 @@
 
 
       <!------------- Health Check Packages ------------->
-      <div id="health-packages" class="tab_section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="opd-timing-content">
-                <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
-                  data-wow-duration="1500ms">
-                  <h2>Health Check Packages -  {{ $subcategory->subcategory_name }}</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row pricing-col">
-            <div class="owl-carousel owl-theme" id="health-package-slider">
-
-              @php
-                  $bgClasses = ['', 'blue-card', 'green-card'];
-                  $titleClasses = ['red-title', 'blue-title', 'green-title'];
-              @endphp
-
-              @foreach($healthPackages as $index => $package)
-
-              @php
-                  $bgClass = $bgClasses[$index % 3];
-                  $titleClass = $titleClasses[$index % 3];
-              @endphp
-
-              <div class="item">
-                <div class="pricing-col">
-                  <div class="pricing-card-wrapper">
-
-                    <!-- Background Accent Card -->
-                    <div class="pricing-bg-card {{ $bgClass }}">
-                      <a href="{{ route('frontend.health_packages_details', $package->slug) }}" class="btn pricing-btn">
-                        View Package <span>→</span>
-                      </a>
-
-                      <a type="button"
-                        data-toggle="modal"
-                        data-target="#health-checkup"
-                        class="btn pricing-btn book_packages"
-                        data-package="{{ $package->package_name }}">
-                        Book Package <span>→</span>
-                      </a>
-                    </div>
-
-                    <!-- Main Card -->
-                    <div class="pricing-card">
-
-                      <h4 class="plan-title {{ $titleClass }}">
-                        {{ $package->package_name }}
-                      </h4>
-
-                      <div class="price">
-                        @if($package->actual_price)
-                          <span class="old-price">
-                            Rs.{{ number_format($package->actual_price) }}/-
-                          </span>
-                        @endif
-
-                        @if($package->discounted_price)
-                          <sup>Rs.</sup>{{ number_format($package->discounted_price) }}
-                        @endif
-                      </div>
-
-                      <ul class="pricing-features">
-                        <li>Age Range: {{ $package->age_range }}</li>
-                        <li>
-                          Gender:
-                          {{ implode(', ', json_decode($package->gender, true) ?? []) }}
-                        </li>
-                      </ul>
-
-                    </div>
-
+        @if($healthPackages->count())
+            <div id="health-packages" class="tab_section">
+          <div class="container">
+        
+            <div class="row">
+              <div class="col-md-12">
+                <div class="opd-timing-content">
+                  <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
+                    data-wow-duration="1500ms">
+                    <h2>Health Check Packages - {{ $subcategory->subcategory_name }}</h2>
                   </div>
                 </div>
               </div>
-
-              @endforeach
-
             </div>
-           
+        
+            <div class="row pricing-col">
+              <div class="owl-carousel owl-theme" id="health-package-slider">
+        
+                @php
+                    $bgClasses = ['', 'blue-card', 'green-card'];
+                    $titleClasses = ['red-title', 'blue-title', 'green-title'];
+                @endphp
+        
+                @foreach($healthPackages as $index => $package)
+        
+                @php
+                    $bgClass = $bgClasses[$index % 3];
+                    $titleClass = $titleClasses[$index % 3];
+                @endphp
+        
+                <div class="item">
+                  <div class="pricing-col">
+                    <div class="pricing-card-wrapper">
+        
+                      <div class="pricing-bg-card {{ $bgClass }}">
+                        <a href="{{ route('frontend.health_packages_details', $package->slug) }}" class="btn pricing-btn">
+                          View Package <span>→</span>
+                        </a>
+        
+                        <a type="button"
+                          data-toggle="modal"
+                          data-target="#health-checkup"
+                          class="btn pricing-btn book_packages"
+                          data-package="{{ $package->package_name }}">
+                          Book Package <span>→</span>
+                        </a>
+                      </div>
+        
+                      <div class="pricing-card">
+                        <h4 class="plan-title {{ $titleClass }}">
+                          {{ $package->package_name }}
+                        </h4>
+        
+                        <div class="price">
+                          @if($package->actual_price)
+                            <span class="old-price">
+                              Rs.{{ number_format($package->actual_price) }}/-
+                            </span>
+                          @endif
+        
+                          @if($package->discounted_price)
+                            <sup>Rs.</sup>{{ number_format($package->discounted_price) }}
+                          @endif
+                        </div>
+        
+                        <ul class="pricing-features">
+                          <li>Age Range: {{ $package->age_range }}</li>
+                          <li>
+                            Gender:
+                            {{ implode(', ', json_decode($package->gender, true) ?? []) }}
+                          </li>
+                        </ul>
+                      </div>
+        
+                    </div>
+                  </div>
+                </div>
+        
+                @endforeach
+        
+              </div>
+            </div>
+        
           </div>
         </div>
-      </div>
+        @endif
 
 
       <!------------- Why Choose Us ------------->
@@ -390,7 +390,7 @@
       </div>
 
   
-      <!-------------testimonials ------------->
+      <!-------------Patient Testimonials ------------->
       <div id="testimonials" class="tab_section">
         <div class="container">
           <div class="row">
@@ -398,7 +398,7 @@
               <div class="opd-timing-content">
                 <div class="section-heading text-center wow fadeInLeft" data-wow-delay="00ms"
                   data-wow-duration="1500ms">
-                  <h2>Feedback and Review</h2>
+                  <h2>Patient Testimonials</h2>
                 </div>
               </div>
             </div>
@@ -479,7 +479,7 @@
                         <div class="item">
                           <div class="video_testi">
                             <div class="video-box" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/zpOULjyy-n8?autoplay=1">
-                              <img src="img/testimonials/testimonials1.jpg" class="img-responsive" alt="Patient 1">
+                              <img src="{{ asset('frontend/assets/img/testimonials/testimonials1.jpg') }}" class="img-responsive" alt="Patient 1">
                               <div class="play-btn"><i class="fa fa-play"></i></div>
                             </div>
                             <div class="video-title">Anita’s Recovery Journey</div>
@@ -488,7 +488,7 @@
                         <div class="item">
                           <div class="video_testi">
                             <div class="video-box" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/zpOULjyy-n8?autoplay=1">
-                              <img src="img/testimonials/testimonials1.jpg" class="img-responsive" alt="Patient 1">
+                              <img src="{{ asset('frontend/assets/img/testimonials/testimonials1.jpg') }}" class="img-responsive" alt="Patient 1">
                               <div class="play-btn"><i class="fa fa-play"></i></div>
                             </div>
                             <div class="video-title">Anita’s Recovery Journey</div>
@@ -538,7 +538,7 @@
 
                    <div class="col-md-5">
                       <div class="faq-img">
-                        <img src="https://careon.themehealer.com/assets/images/resources/faq-one-img-1.jpg" class="img-responsive">
+                        <img src="{{ asset('uploads/service-details/'.$service->faq_image) }}" class="img-responsive">
                       </div>
                     </div>
               </div>
@@ -581,121 +581,6 @@
     @include('components.frontend.main-js')
 
 
-    <script>
-      $(document).ready(function () {
-      
-        var tabs = $('.apollo-tabs');
-        var tabList = $('.tab-scroll');
-        var headerHeight = $('#header-sticky').outerHeight() || 90;
-        var tabOffset = $('.apollo-tabs-wrapper').offset().top;
-        var isSticky = false;
-      
-        function checkTabOverflow() {
-          if (tabList[0].scrollWidth > tabList[0].clientWidth + 5) {
-            tabs.addClass('enable-scroll');
-          } else {
-            tabs.removeClass('enable-scroll');
-            tabList.scrollLeft(0);
-          }
-        }
-      
-        function prepareStickyPosition() {
-          var container = $('.speciality-tabs .container');
-          var containerWidth = container.outerWidth();
-          var containerLeft = container.offset().left;
-      
-          tabs.css({
-            width: containerWidth + 'px',
-            left: containerLeft + 'px',
-            transform: 'none'
-          });
-        }
-      
-        function enableSticky() {
-          if (isSticky) return;
-      
-          prepareStickyPosition();
-      
-          $('.apollo-tabs-placeholder')
-            .height(tabs.outerHeight())
-            .show();
-      
-          tabs.addClass('is-sticky');
-          isSticky = true;
-        }
-      
-        function disableSticky() {
-          if (!isSticky) return;
-      
-          tabs.removeClass('is-sticky').removeAttr('style');
-          $('.apollo-tabs-placeholder').hide();
-          isSticky = false;
-        }
-      
-        // INIT
-        checkTabOverflow();
-      
-        $(window).on('resize', function () {
-          checkTabOverflow();
-          if (isSticky) prepareStickyPosition();
-        });
-      
-        // SCROLL
-        $(window).on('scroll', function () {
-          if ($(window).scrollTop() >= tabOffset - headerHeight) {
-            enableSticky();
-          } else {
-            disableSticky();
-          }
-        });
-      
-        // TAB CLICK
-        $('.apollo-tabs a').on('click', function () {
-          var target = $('#' + $(this).data('target'));
-          if (!target.length) return;
-      
-          $('html, body').animate({
-            scrollTop: target.offset().top - headerHeight - tabs.outerHeight()
-          }, 600);
-      
-          $('.apollo-tabs li').removeClass('active');
-          $(this).parent().addClass('active');
-        });
-      
-        // AUTO ACTIVE TAB
-        $(window).on('scroll', function () {
-          var scrollPos = $(window).scrollTop();
-      
-          $('section[id]').each(function () {
-            var top = $(this).offset().top - headerHeight - tabs.outerHeight() - 20;
-            var bottom = top + $(this).outerHeight();
-            var id = $(this).attr('id');
-      
-            if (scrollPos >= top && scrollPos < bottom) {
-              $('.apollo-tabs li').removeClass('active');
-              var activeTab = $('.apollo-tabs a[data-target="' + id + '"]')
-                .parent().addClass('active');
-      
-              if (tabs.hasClass('enable-scroll')) {
-                tabList.stop().animate({
-                  scrollLeft: activeTab.position().left + tabList.scrollLeft() - 50
-                }, 200);
-              }
-            }
-          });
-        });
-      
-        // ARROWS
-        $('.tab-arrow.left').click(function () {
-          tabList.animate({ scrollLeft: '-=200' }, 300);
-        });
-      
-        $('.tab-arrow.right').click(function () {
-          tabList.animate({ scrollLeft: '+=200' }, 300);
-        });
-      
-      }); 
-    </script>
 
     
 

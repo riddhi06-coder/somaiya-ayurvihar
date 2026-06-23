@@ -85,16 +85,46 @@ $('#awards').owlCarousel({
     }
   }
 });
-$('#doctor').owlCarousel({
+$('#room-gallery').owlCarousel({
   loop: true,
-  margin: 20,
+    margin: 30,
+    dots: false,
+    nav: true,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    autoplaySpeed: 1000,
+    autoplayHoverPause: true,
+    navText: [
+        '<i class="fa fa-angle-left"></i>',
+        '<i class="fa fa-angle-right"></i>'
+    ],
+    responsive: {
+        0: {
+            items: 1,
+            nav: true
+        },
+        500: {
+            items: 1,
+            nav: true
+        },
+        768: {
+            items: 1
+        },
+        1000: {
+            items: 1
+        }
+    }
+});
+/*$('#doctor').owlCarousel({
+  loop: true,
+  margin: 20,*/
   /*stagePadding: 20,*/
-  dots: true,
+  /*dots: true,
   navigation: true,
   autoplay: true,
-  autoplaySpeed: 1000,
+  autoplaySpeed: 1000,*/
   /*slideTransition: 'linear',*/
-  autoplayTimeout: 3000,
+  /*autoplayTimeout: 3000,
   autoplaySpeed: 3000,
   autoplayHoverPause: true,
   navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
@@ -113,7 +143,46 @@ $('#doctor').owlCarousel({
       items: 3
     }
   }
+});*/
+var doctorItems = $('#doctor').children().length;
+
+$('#doctor').owlCarousel({
+    loop: doctorItems > 3,
+    margin: 20,
+   /* center: true,*/
+    dots: doctorItems > 3,
+   /* nav: doctorItems > 3,*/
+    autoplay: doctorItems > 3,
+    autoplayTimeout: 3000,
+    autoplaySpeed: 3000,
+    autoplayHoverPause: true,
+    /*navText: [
+        '<i class="fa fa-angle-left"></i>',
+        '<i class="fa fa-angle-right"></i>'
+    ],*/
+    responsive: {
+        0: {
+            items: 1
+        },
+        500: {
+            items: 1
+        },
+        768: {
+            items: 2
+        },
+        1000: {
+            items: 3
+        }
+    }
 });
+var itemCount = $('#doctor .owl-item:not(.cloned)').length;
+
+if(itemCount <= 2){
+    $('#doctor .owl-stage-outer').css({
+        'display':'flex',
+        'justify-content':'center'
+    });
+}
 $('#testimonial').owlCarousel({
   loop: true,
   margin: 10,
@@ -347,33 +416,34 @@ $('#ourservices-items').owlCarousel({
   }
 });
 $('#csr-gallery').owlCarousel({
-  loop: true,
-  margin: 30,
-  /*stagePadding: 20,*/
-  dots: true,
-  navigation: true,
-  autoplay: true,
-  autoplaySpeed: 1000,
-  /*slideTransition: 'linear',*/
-  autoplayTimeout: 5000,
-  autoplaySpeed: 5000,
-  autoplayHoverPause: true,
-  navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-  responsiveClass: true,
-  responsive: {
-    0: {
-      items: 1
-    },
-    500: {
-      items: 2
-    },
-    768: {
-      items: 2
-    },
-    1000: {
-      items: 4
+    loop: true,
+    margin: 30,
+    dots: false,
+    nav: true,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplaySpeed: 1000,
+    autoplayHoverPause: true,
+    navText: [
+        '<i class="fa fa-angle-left"></i>',
+        '<i class="fa fa-angle-right"></i>'
+    ],
+    responsive: {
+        0: {
+            items: 1,
+            nav: true
+        },
+        500: {
+            items: 2,
+            nav: true
+        },
+        768: {
+            items: 2
+        },
+        1000: {
+            items: 4
+        }
     }
-  }
 });
 $('#announcements-slider').owlCarousel({
   loop: true,
@@ -563,46 +633,47 @@ function openImage(imgSrc) {
 }
 
 /*counter*/
-// var a = 0;
+var a = 0;
 
-// $(window).scroll(function () {
+          $(window).scroll(function () {
 
-//   var counter = $('#counter');
+              var counter = $('#counter');
 
-//   // Check if counter exists
-//   if (!counter.length) {
-//     return;
-//   }
+              // Check if counter exists
+              if (!counter.length) {
+                  return;
+              }
 
-//   var oTop = counter.offset().top - window.innerHeight;
+              var oTop = counter.offset().top - window.innerHeight;
 
-//   if (a === 0 && $(window).scrollTop() > oTop) {
+              if (a === 0 && $(window).scrollTop() > oTop) {
 
-//     $('.counter-value').each(function () {
+                  $('.counter-value').each(function () {
 
-//       var $this = $(this);
-//       var countTo = parseInt($this.attr('data-count'));
+                      var $this = $(this);
+                      var countTo = parseInt($this.attr('data-count'));
+                      var $number = $this.find('.count-number'); // Animate only this span
 
-//       $({ countNum: parseInt($this.text()) }).animate(
-//         { countNum: countTo },
-//         {
-//           duration: 2000,
-//           easing: 'swing',
-//           step: function () {
-//             $this.text(Math.floor(this.countNum));
-//           },
-//           complete: function () {
-//             $this.text(this.countNum);
-//           }
-//         }
-//       );
+                      $({ countNum: 0 }).animate(
+                          { countNum: countTo },
+                          {
+                              duration: 2000,
+                              easing: 'swing',
+                              step: function () {
+                                  $number.text(Math.floor(this.countNum));
+                              },
+                              complete: function () {
+                                  $number.text(this.countNum);
+                              }
+                          }
+                      );
 
-//     });
+                  });
 
-//     a = 1;  // Run only once
-//   }
+                  a = 1;  // Run only once
+              }
 
-// });
+          }); 
 
 
 /*Sidebar Sticky*/
@@ -764,4 +835,47 @@ $(document).ready(function () {
 
 
 });
+document.addEventListener("DOMContentLoaded", function () {
 
+  function fixOwlDots() {
+    var dots = document.querySelectorAll(".owl-dot");
+
+    dots.forEach(function(dot, index) {
+      dot.setAttribute("aria-label", "Go to slide " + (index + 1));
+    });
+  }
+
+  // Run once
+  fixOwlDots();
+
+  // Run again after carousel updates (important)
+  document.querySelectorAll('.owl-carousel').forEach(function(carousel) {
+    carousel.addEventListener('changed.owl.carousel', fixOwlDots);
+  });
+
+});
+
+
+  // gallery start
+     $(window).on('load', function () {
+        $('#masonry-gallery').masonry({
+          itemSelector: '.grid-item',
+          percentPosition: true,
+          columnWidth: '.grid-item'
+        });
+      });
+
+     Fancybox.bind("[data-fancybox='gallery']", {
+        // Optional settings
+        Thumbs: false,
+        Toolbar: true,
+        closeButton: "top",
+      });
+      Fancybox.bind("[data-fancybox='gallery1']", {
+        // Optional settings
+        Thumbs: false,
+        Toolbar: true,
+        closeButton: "top",
+      });
+    // gallery end
+  

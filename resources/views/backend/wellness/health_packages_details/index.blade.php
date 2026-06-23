@@ -72,7 +72,7 @@
                                                     <a href="{{ route('admin.manage-packages-details.edit', $detail->id) }}"
                                                     class="btn btn-sm btn-primary">
                                                     Edit
-                                                    </a>
+                                                    </a><br><br>
 
                                                     <form action="{{ route('admin.manage-packages-details.destroy', $detail->id) }}"
                                                         method="POST"

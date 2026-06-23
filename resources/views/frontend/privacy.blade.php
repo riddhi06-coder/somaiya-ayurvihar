@@ -33,8 +33,8 @@
       <div class="container">
         <div class="row">
           <div class="content">
-            <p>This Privacy Policy applies to the website or mobile application that is linked to this Privacy Policy (the “Services”) provided by The K.J. Somaiya Hospital & Research Center or its affiliates (“K.J. Somaiya Hospital,” “we,” “us,” or “our”).</p>
-            <p>At K.J. Somaiya Hospital, we are committed to safeguarding and preserving the privacy of our visitors. You may visit our website without revealing any personal information wherever permissible. Certain transactions may require submission of personal information like profile updates and certain databases. Information that you provide when you communicate with us by any measure is confidential. We will not sell, swap or rent, or otherwise disclose to any third-party any personal information for commercial purpose and such information will be utilized only for the purpose stated. To accomplish such a purpose we may disclose the information within its group companies, employees, consultants and other concerned people having a genuine need to know the information.</p>
+            <p>This Privacy Policy applies to the website or mobile application that is linked to this Privacy Policy (the “Services”) provided by The K J Somaiya Hospital & Research Center or its affiliates (“K J. Somaiya Hospital,” “we,” “us,” or “our”).</p>
+            <p>At K J Somaiya Hospital, we are committed to safeguarding and preserving the privacy of our visitors. You may visit our website without revealing any personal information wherever permissible. Certain transactions may require submission of personal information like profile updates and certain databases. Information that you provide when you communicate with us by any measure is confidential. We will not sell, swap or rent, or otherwise disclose to any third-party any personal information for commercial purpose and such information will be utilized only for the purpose stated. To accomplish such a purpose we may disclose the information within its group companies, employees, consultants and other concerned people having a genuine need to know the information.</p>
             <p>On occasion we include links to third parties on this website. Where we provide a link it does not mean that we endorse or approve that site’s policy towards visitor privacy. You should review their privacy policy before sending them any personal data.</p>
             <p>Our web server may record the numerical Internet Protocol (IP) address of the computer you are using, Information about your browser and operating system, date and time of access and the page which linked you to our website. This information may be used to administer and improve our website and to generate aggregate statistical reports and such like purposes.</p>
             <h5>Use of Cookies</h5>
@@ -297,7 +297,7 @@
             </div>
             <h5>Contact us</h5>
             <p>Please do not hesitate to contact us regarding any matter relating to this Privacy Policy at <a href="mailto:admin.kjsh@somaiya.edu">admin.kjsh@somaiya.edu</a> or write to us at Somaiya Ayurvihar, Eastern Express Highway, Sion, Mumbai - 400 022, Maharashtra, India.</p>
-            <p>This privacy policy may be revised/modified/amended/updated at any point of time at the sole discretion of the K.J. Somaiya Hospital & Research Center.</p>
+            <p>This privacy policy may be revised/modified/amended/updated at any point of time at the sole discretion of the K J Somaiya Hospital & Research Center.</p>
           </div>
         </div>
       </div>

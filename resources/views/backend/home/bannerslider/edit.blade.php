@@ -79,7 +79,7 @@
                                     onchange="previewBannerMedia()">
 
                                 <small class="text-secondary d-block mt-1">
-                                    Leave blank to keep existing media <br> <b>Allowed:</b> jpg, jpeg, png, webp, mp4, webm (Max 5MB)
+                                    Leave blank to keep existing media <br> <b>Allowed:</b> jpg, jpeg, png, webp, mp4, webm 
                                 </small>
 
                                 <!-- CURRENT Banner (shown initially) -->

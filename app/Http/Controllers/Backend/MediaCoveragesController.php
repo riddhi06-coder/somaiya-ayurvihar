@@ -17,7 +17,7 @@ class MediaCoveragesController extends Controller
 
     public function index()
     {
-        $mediaCoverages = ManageMediaCoverage::orderBy('id', 'asc')->wherenull('deleted_by')->get();
+        $mediaCoverages = ManageMediaCoverage::orderBy('id', 'desc')->wherenull('deleted_by')->get();
         return view('backend.media_coverages.index', compact('mediaCoverages'));
     }
 
@@ -30,11 +30,11 @@ class MediaCoveragesController extends Controller
     {
         // ✅ Validation Rules
         $request->validate([
-            'media_heading'           => 'required|string|max:255',
-            'media_publication'       => 'required|string|max:255',
-            'media_type'              => 'required|string|max:255',
-            'media_publication_date'  => 'required|string|max:255',
-            'description'             => 'required|string',
+            'media_heading'           => 'nullable|string|max:255',
+            'media_publication'       => 'nullable|string|max:255',
+            'media_type'              => 'nullable|string|max:255',
+            'media_publication_date'  => 'nullable|string|max:255',
+            'description'             => 'nullable|string',
 
             'image'                   => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
 
@@ -149,11 +149,11 @@ class MediaCoveragesController extends Controller
         // ======================================
 
         $request->validate([
-            'media_heading'           => 'required|string|max:255',
-            'media_publication'       => 'required|string|max:255',
-            'media_type'              => 'required|string|max:255',
-            'media_publication_date'  => 'required|string|max:255',
-            'description'             => 'required|string',
+            'media_heading'           => 'nullable|string|max:255',
+            'media_publication'       => 'nullable|string|max:255',
+            'media_type'              => 'nullable|string|max:255',
+            'media_publication_date'  => 'nullable|string|max:255',
+            'description'             => 'nullable|string',
 
             'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'media_image'  => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',

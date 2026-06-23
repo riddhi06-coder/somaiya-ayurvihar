@@ -1,17 +1,31 @@
 
+<style>
+    .mega-menu .tab-content > .tab-pane {
+      display: none !important;
+      opacity: 1 !important;
+    }
+    .mega-menu .tab-content > .tab-pane.active {
+      display: block !important;
+    }
+</style>
+
       <!-- Floating Buttons -->
       <div class="floating-icons floating-icons-inner">
-          <a type="button" data-toggle="modal" data-target="#bookappointment-services">
-          <img src="{{ asset('frontend/assets/img/icon/book-appointment-new.svg') }}">
+          <a type="button" href="#" data-toggle="modal" data-target="#bookappointment-services">
+          <img src="{{ asset('frontend/assets/img/icon/book-appointment-new.svg') }}" width="35" height="35" alt="Book Appointment">
           <span class="tooltip-text">Book Appointment </span>
           </a>
-          <a href="#find-doctor">
-          <img src="{{ asset('frontend/assets/img/icon/find-doctor-new.svg') }}">
+          <a href="{{ route('frontend.find_a_doctor') }}">
+          <img src="{{ asset('frontend/assets/img/icon/find-doctor-new.svg') }}" width="35" height="35" alt="Find A Doctor">
           <span class="tooltip-text">Find A Doctor </span>
           </a>
-          <a type="button" data-toggle="modal" data-target="#health-checkup">
-          <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg') }}">
+          <a type="button" href="#" data-toggle="modal" data-target="#health-checkup">
+          <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg') }}" width="35" height="35" alt="Book Heath Check">
           <span class="tooltip-text">Book Heath Check </span>
+          </a>
+           <a type="button" href="tel:7506655888">
+          <img src="{{ asset('frontend/assets/img/icon/ambulance.svg') }}" width="35" height="35" alt="Book An Ambulance">
+          <span class="tooltip-text">Book An Ambulance</span>
           </a>
       </div>
 
@@ -26,7 +40,7 @@
                
                 <div class="logo logo-custom-flex-sec">
                   <a href="{{ route('frontend.index') }}">
-                    <img src="{{ asset('frontend/assets/img/logo/kj-somaiya-logo.png')}}" class="img-responsive"><!-- <img src="img/logo/somaiya-trust-logo.png" class="img-responsive lcfsec-custom-sec"> -->
+                    <img src="{{ asset('frontend/assets/img/logo/kj-somaiya-logo.webp')}}" width="322" height="72" class="img-responsive" alt="Somaiya Hospital Logo"><!-- <img src="img/logo/somaiya-trust-logo.png" class="img-responsive lcfsec-custom-sec"> -->
                   </a>
                 </div>
               </div>
@@ -36,6 +50,9 @@
                 <div class="menu-overlay"></div>
                 <nav class="menu">
                   <div class="mobile-menu-head">
+                      <!-- <a href="{{ route('frontend.index') }}">
+                    <img src="{{ asset('frontend/assets/img/logo/kj-somaiya-logo.png')}}" class="img-responsive">
+                  </a>-->
                     <div class="go-back"><i class="fa fa-angle-left"></i></div>
                     <div class="current-menu-title"></div>
                     <div class="mobile-menu-close">&times;</div>
@@ -70,36 +87,46 @@
                         <div class="list-item">
                             @php
                                 use Illuminate\Support\Facades\DB;
-
+                                
                                 // Fetch all master categories with subcategories and services
                                 $masters = DB::table('medical_service_master_categories as m')
                                     ->select(
                                         'm.id as master_id',
                                         'm.category_name as master_name',
                                         'm.slug as master_slug',
+                                        'm.is_active as master_active',
                                         's.id as sub_id',
                                         's.subcategory_name as sub_name',
                                         's.slug as sub_slug',
+                                        's.priority as sub_priority',
+                                        's.is_active as sub_active',
                                         'c.id as service_id',
                                         'c.service_name as service_name',
-                                        'c.slug as service_slug'
+                                        'c.slug as service_slug',
+                                        'c.priority as service_priority',
+                                        'c.is_active as service_active',
                                     )
-                                    ->leftJoin('medical_service_sub_categories as s', 's.category_id', '=', 'm.id')
+                                    ->leftJoin('medical_service_sub_categories as s', function($join){
+                                        $join->on('s.category_id', '=', 'm.id')
+                                            ->where('s.is_active', '=', 1);
+                                    })
                                     ->leftJoin('medical_service_categorie as c', function($join){
                                         $join->on('c.category_id', '=', 's.category_id')
-                                            ->on('c.subcategory_id', '=', 's.id');
+                                            ->on('c.subcategory_id', '=', 's.id')
+                                            ->where('c.is_active', '=', 1);
                                     })
+                                    ->where('m.is_active', '=', 1)
                                     ->orderBy('m.id')
-                                    ->orderBy('s.id')
-                                    ->orderBy('c.id')
+                                    ->orderByRaw('s.priority IS NULL, s.priority ASC')
                                     ->get()
                                     ->groupBy('master_id'); // Group by master category
+                                    
                             @endphp
 
                             <div class="row mega-menu-container">
 
                                 <!-- LEFT VERTICAL TABS (DESKTOP) -->
-                                <div class="col-sm-4 hidden-xs">
+                                <div class="col-sm-4 hidden-xs hidden-sm">
                                     <ul class="nav nav-pills nav-stacked mega-vertical-tabs">
                                         @foreach($masters as $masterId => $masterItems)
                                             <li class="{{ $loop->first ? 'active' : '' }}">
@@ -112,7 +139,7 @@
                                 </div>
 
                                 <!-- RIGHT CONTENT (DESKTOP) -->
-                                <div class="col-sm-8 hidden-xs">
+                                <div class="col-sm-8 hidden-xs hidden-sm">
                                     <div class="tab-content">
                                         @foreach($masters as $masterId => $masterItems)
                                             <div class="tab-pane fade {{ $loop->first ? 'in active' : '' }}" id="v{{ $loop->index + 1 }}">
@@ -121,7 +148,7 @@
                                                         @if($loop->first)
 
                                                           @php
-                                                              $subs = $masterItems->groupBy('sub_id')->values();
+                                                              $subs = $masterItems     ->sortBy(function ($item) {         return $item->sub_priority ?? 9999;     })     ->groupBy('sub_id')->values();
                                                               $half = ceil($subs->count() / 2);
                                                           @endphp
 
@@ -153,7 +180,7 @@
 
                                                
                                                             <!-- Other master categories: keep subcategory headings -->
-                                                            @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                            @foreach($masterItems     ->sortBy(function ($item) {         return $item->sub_priority ?? 9999;     })     ->groupBy('sub_id') as $subId => $subItems)
                                                                 <div class="col-md-6">
                                                                     <ul class="menu_tab_list">
                                                                         @if($subItems->first()->sub_name)
@@ -163,7 +190,7 @@
                                                                                 </a>
                                                                             </li>
                                                                         @endif
-                                                                        @foreach($subItems as $service)
+                                                                        @foreach($subItems->sortBy(function ($item) {     return $item->service_priority ?? 9999; }) as $service)
                                                                             @if($service->service_id)
                                                                                 <li>
                                                                                     <a href="{{ route('frontend.diagnostic_details', $service->service_slug) }}">
@@ -184,7 +211,7 @@
                                 </div>
 
                                 <!-- MOBILE ACCORDION -->
-                                <div class="visible-xs">
+                                <div class="visible-xs visible-sm">
                                     <div class="panel-group" id="mobileAccordion">
                                         @foreach($masters as $masterId => $masterItems)
                                             <div class="panel panel-default">
@@ -201,7 +228,7 @@
                                                             @if($loop->first)
                                                                 <div class="col-md-6">
                                                                     <ul class="menu_tab_list">
-                                                                        @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                                        @foreach($masterItems     ->sortBy(function ($item) {         return $item->sub_priority ?? 9999;     })     ->groupBy('sub_id') as $subId => $subItems)
                                                                             <li>
                                                                                 <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
                                                                                     {{ $subItems->first()->sub_name }}
@@ -211,7 +238,7 @@
                                                                     </ul>
                                                                 </div>
                                                             @else
-                                                                @foreach($masterItems->groupBy('sub_id') as $subId => $subItems)
+                                                                @foreach($masterItems     ->sortBy(function ($item) {         return $item->sub_priority ?? 9999;     })     ->groupBy('sub_id') as $subId => $subItems)
                                                                     <div class="col-md-6">
                                                                         <ul class="menu_tab_list">
                                                                             @if($subItems->first()->sub_name)
@@ -221,7 +248,7 @@
                                                                                     </a>
                                                                                 </li>
                                                                             @endif
-                                                                            @foreach($subItems as $service)
+                                                                            @foreach($subItems->sortBy(function ($item) {     return $item->service_priority ?? 9999; }) as $service)
                                                                                 @if($service->service_id)
                                                                                     <li>
                                                                                         <a href="{{ route('frontend.diagnostic_details', $service->service_slug) }}">
@@ -297,9 +324,9 @@
 
               <div class="header-item item-right">
                 <ul class="somaiya_sidelogo">
-                  <li><img src="{{ asset('frontend/assets/img/logo/NABH-logo.png')}}"></li>
-                  <li><img src="{{ asset('frontend/assets/img/logo/nabl.png')}}"></li>
-                  <li><img src="{{ asset('frontend/assets/img/logo/somaiya-trust-logo.png')}}"></li>
+                  <li><img src="{{ asset('frontend/assets/img/logo/NABH-logo.webp')}}" width="55" height="70" class="img-responsive" alt="NABH"></li>
+                  <li><img src="{{ asset('frontend/assets/img/logo/nabl.webp')}}" width="55" height="70" class="img-responsive" alt="NABL"></li>
+                  <li><img src="{{ asset('frontend/assets/img/logo/somaiya-trust-logo.webp')}}" width="55" height="70" class="img-responsive" alt="Somaiya Trust"></li>
                 </ul>
                 
                 <!-- Hidden default Google widget -->
@@ -426,7 +453,9 @@
                 <div class="mobile-menu-trigger">
                   <span></span>
                 </div>
-                
+                   
+    
+      
               </div>
             </div>
           </div>
@@ -435,164 +464,29 @@
       <!-- header end -->
 
 
-      <!-- Modal -->
-      <div id="health-checkup" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content -->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Book Health Check</h4>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <h6 class="form-title">please fill out all required fields meaning</h6>
-                <form class="book-appoint-form">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Package" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Date of Birth:</label>
-                    <input type="date" class="form-control" placeholder="" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Date of Appointment :</label>
-                    <input type="date" class="form-control" placeholder="" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email ID" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Mobile Number" required>
-                  </div>
-                </div>
-                
-                <div class="col-md-12">
-                  <div class="button-box">
-                    <a class="twenty" href="#"><span>Submit</span></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.mega-vertical-tabs a[data-toggle="tab"]').forEach(function (tab) {
+        tab.addEventListener('mouseenter', function () {
+          var menu = this.closest('.mega-menu');
+          var targetId = this.getAttribute('href');           // "#v2"
     
-      <div id="bookappointment-services" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content -->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Book Appointment</h4>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <h6 class="form-title">please fill out all required fields meaning</h6>
-                <form class="book-appoint-form">
-                <div class="col-md-8">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter Patient Name" required>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <select class="form-control">
-                      <option>--Select Gender--</option>
-                      <option>Male</option>
-                      <option>Female</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Mobile Number" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Email Address" required>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Pincode" required>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <select class="form-control">
-                      <option>--Select Country--</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <select class="form-control">
-                      <option>--Select State--</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <select class="form-control">
-                      <option>--Select City--</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <select class="form-control">
-                      <option>--Select Speciality--</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label></label>
-                    <input type="text" class="form-control" placeholder="Doctor Name" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Appointment Date:</label>
-                    <input type="date" class="form-control" placeholder="Appointment Date" required>
-                  </div>
-                </div>
-                <!-- <div class="col-md-12">
-                  <div class="form-group">
-                  <textarea class="form-control" rows="5" placeholder="Message" required></textarea>
-                  </div>
-                  </div> -->
-                <div class="col-md-12">
-                  <div class="button-box">
-                    <a class="twenty" href="#"><span>Submit</span></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">
-              Close
-              </button>
-              </div> -->
-          </div>
-        </div>
-      </div>
-    <!-- Modal -->
+          menu.querySelectorAll('.mega-vertical-tabs li').forEach(function (li) {
+            li.classList.remove('active');
+          });
+          this.parentElement.classList.add('active');
+    
+          menu.querySelectorAll('.tab-content > .tab-pane').forEach(function (p) {
+            p.classList.remove('active');
+          });
+          var target = menu.querySelector(targetId);
+          if (target) target.classList.add('active');
+        });
+      });
+    });
+</script>
+
+
+    
+      
     

@@ -99,11 +99,11 @@
                                         + Add Sub Category
                                     </a>
 
-                                    <input type="text"
-                                        id="subcategorySearch"
-                                        class="form-control"
-                                        style="margin-top:20px;"
-                                        placeholder="Search...">
+                                    <!--<input type="text"-->
+                                    <!--    id="subcategorySearch"-->
+                                    <!--    class="form-control"-->
+                                    <!--    style="margin-top:20px;"-->
+                                    <!--    placeholder="Search...">-->
                                 </div>
 
                             </div>
@@ -112,78 +112,98 @@
                                 <table class="table table-bordered table-hover" id="basic-1">
                                     <thead>
                                         <tr>
-                                            <th width="60">#</th>
                                             <th>Subcategory Name</th>
-                                            <th width="120">Highlight</th>
-                                            <th width="200">Actions</th>
+                                            <th>Main Category</th>
+                                          
+                                            <th>Highlight</th>
+                                            <th>Status</th>
+                                            <th>Priority</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        @php
-                                            $groupedSubcategories = $subcategories->groupBy('category_id');
-                                            $srNo = 1;
-                                        @endphp
 
-                                        @foreach($groupedSubcategories as $items)
-
-                                            {{-- Parent Category Row --}}
-                                            <tr class="table-light">
-                                                <td colspan="3">
-                                                    <strong>
-                                                        Main Catgeory: {{ $items->first()->category->category_name ?? 'Uncategorized' }}
-                                                    </strong>
+                                        @php $srNo = 1; @endphp
+                                    
+                                        @foreach($subcategories as $subcategory)
+                                    
+                                            <tr>
+                                                
+                                                <!-- SUBCATEGORY NAME -->
+                                                <td>{{ $subcategory->subcategory_name }}</td>
+                                                
+                                                
+                                                <!-- MAIN CATEGORY COLUMN -->
+                                                <td>
+                                                    {{ $subcategory->category->category_name ?? 'Uncategorized' }}
+                                                </td>
+                                    
+                                              
+                                    
+                                                <!-- HIGHLIGHT -->
+                                                <td>
+                                                    <form method="POST" action="{{ route('admin.medicalsubcategory.toggle.highlight') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $subcategory->id }}">
+                                    
+                                                        <label class="switch">
+                                                            <input type="checkbox"
+                                                                name="status"
+                                                                value="1"
+                                                                onchange="return confirmToggle(this)"
+                                                                {{ $subcategory->status == 1 ? 'checked' : '' }}>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </form>
+                                                </td>
+                                                
+                                                <!-- STATUS -->
+                                                <td>
+                                                    <form method="POST" action="{{ route('admin.medicalservicesubcategory.toggleStatus') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $subcategory->id }}">
+                                                
+                                                        <label class="switch">
+                                                            <input type="checkbox"
+                                                                   name="is_active"
+                                                                   value="1"
+                                                                   onchange="return confirmStatusToggle(this)"
+                                                                   {{ $subcategory->is_active == 1 ? 'checked' : '' }}>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </form>
+                                                </td>
+                                    
+                                                <!-- PRIORITY -->
+                                                <td>
+                                                    <input type="number"
+                                                        value="{{ $subcategory->priority ?? 0 }}"
+                                                        class="form-control priority-input"
+                                                        data-id="{{ $subcategory->id }}"
+                                                        style="width:80px;">
+                                                </td>
+                                    
+                                                <!-- ACTIONS -->
+                                                <td>
+                                                    <a href="{{ route('admin.medicalservicesubcategory.edit', $subcategory) }}"
+                                                       class="btn btn-sm btn-primary">Edit</a>
+                                    
+                                                    <form action="{{ route('admin.medicalservicesubcategory.destroy', $subcategory) }}"
+                                                          method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                    
+                                                        <button type="submit"
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Are you sure?')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
-
-                                            {{-- Subcategories --}}
-                                            @foreach($items as $subcategory)
-                                                <tr>
-                                                    <td>{{ $srNo++ }}</td>
-                                                    <td>{{ $subcategory->subcategory_name }}</td>
-
-                                                    <td>
-                                                        <form method="POST" action="{{ route('admin.medicalsubcategory.toggle.highlight') }}">
-                                                            @csrf
-
-                                                            <input type="hidden" name="id" value="{{ $subcategory->id }}">
-
-                                                            <label class="switch">
-                                                                <input type="checkbox"
-                                                                    name="status"
-                                                                    value="1"
-                                                                    onchange="return confirmToggle(this)"
-                                                                    {{ $subcategory->status == 1 ? 'checked' : '' }}>
-
-                                                                <span class="slider round"></span>
-                                                            </label>
-                                                        </form>
-                                                    </td>
-
-
-                                                    <td>
-                                                        <a href="{{ route('admin.medicalservicesubcategory.edit', $subcategory) }}"
-                                                        class="btn btn-sm btn-primary">Edit</a>
-
-                                                        <form action="{{ route('admin.medicalservicesubcategory.destroy', $subcategory) }}"
-                                                            method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                    class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Are you sure?')">
-                                                                Delete
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                    
-
-                                                </tr>
-                                            @endforeach
-
-                                           
+                                    
                                         @endforeach
-
                                     </tbody>
                                 </table>
 
@@ -197,6 +217,22 @@
 
     @include('components.backend.footer')
     @include('components.backend.main-js')
+
+
+
+    <script>
+        function confirmStatusToggle(checkbox) {
+        const action = checkbox.checked ? 'activate' : 'deactivate';
+        if (confirm(`Are you sure you want to ${action} this subcategory?`)) {
+            checkbox.form.submit();
+            return true;
+        } else {
+            // revert the visual toggle if cancelled
+            checkbox.checked = !checkbox.checked;
+            return false;
+        }
+    }
+    </script>
 
     <script>
         function confirmToggle(el)
@@ -243,6 +279,41 @@
                 } else {
                     row.style.display = 'none';
                 }
+            });
+        });
+    </script>
+    
+    
+     <!--- Update Priority---->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.priority-input').forEach(input => {
+                input.addEventListener('change', function () {
+        
+                    let id = this.dataset.id;
+                    let priority = this.value;
+        
+                    fetch("{{ route('admin.manage-medicalsubcategory.updatePriority') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            id: id,
+                            priority: priority
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status) {
+                        //   alert('Priority updated');
+                        } else {
+                            alert('Update failed');
+                        }
+                    });
+        
+                });
             });
         });
     </script>

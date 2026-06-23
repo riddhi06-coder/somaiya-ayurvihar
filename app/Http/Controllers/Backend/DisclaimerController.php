@@ -23,6 +23,8 @@ class DisclaimerController extends Controller
         $disclaimers = Disclaimer::orderBy('created_at','asc')
                         ->whereNull('deleted_by')
                         ->get();
+                        
+        // dd($disclaimers);
 
         return view('backend.policies.disclaimer.index', compact('disclaimers'));
     }

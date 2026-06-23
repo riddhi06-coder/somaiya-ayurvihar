@@ -33,102 +33,68 @@
         <section class="section-wrap blog_wrap">
             <div class="container">
                 <div class="row">
-                <div class="col-md-4">
-                    <div class="single-blog-post">
-                    <div class="post-image">
-                        <a href="blog-details.html">
-                        <figure>
-                            <img src="{{ asset('frontend/assets/img/blog/blog1.jpg') }}" alt="blog one">
-                        </figure>
-                        </a>
-                    </div>
-                    <div class="post-content">
-                        <ul class="post-meta">
-                        <li>
-                            <a href="#">
-                            <i class="fa fa-user"></i>
-                            <span>By: Admin</span>
-                            </a>
-                        </li>
-                        <li>
-                            <i class="fa fa-calendar"></i>
-                            <span>March 14, 2025</span>
-                        </li>
-                        </ul>
-                        <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <div class="blog-list-button">
-                        <div class="button-box">
-                            <a class="twenty" href="blog-details.html"><span>Read More</span></a>
+        
+                    @forelse($blogs as $blog)
+                        <div class="col-md-4">
+                            <div class="single-blog-post">
+        
+                                <!-- Image -->
+                                <div class="post-image">
+                                    <a href="{{ route('frontend.blog.detail', $blog->slug) }}">
+                                        <figure>
+                                            <img src="{{ asset('uploads/blogs/' . $blog->blog_image) }}"
+                                                 alt="{{ $blog->title }}">
+                                        </figure>
+                                    </a>
+                                </div>
+        
+                                <!-- Content -->
+                                <div class="post-content">
+                                    <ul class="post-meta">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-user"></i>
+                                                <span>By: {{ $blog->author ?? 'Admin' }}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-calendar"></i>
+                                            <span>{{ \Carbon\Carbon::parse($blog->date)->format('F d, Y') }}</span>
+                                        </li>
+                                    </ul>
+        
+                                    <!-- Title -->
+                                    <h2>
+                                        <a href="{{ route('frontend.blog.detail', $blog->slug) }}">
+                                            {{ $blog->title }}
+                                        </a>
+                                    </h2>
+        
+                                    <!-- Short Description -->
+                                    <p>
+                                        {{ \Illuminate\Support\Str::limit(strip_tags($blog->blog_details), 120) }}
+                                    </p>
+        
+                                    <!-- Button -->
+                                    <div class="blog-list-button">
+                                        <div class="button-box">
+                                            <a class="twenty"
+                                               href="{{ route('frontend.blog.detail', $blog->slug) }}">
+                                                <span>Read More</span>
+                                            </a>
+                                        </div>
+                                    </div>
+        
+                                </div>
+        
+                            </div>
                         </div>
+                    @empty
+                        <div class="col-md-12 text-center">
+                            <p>No Blogs Found</p>
                         </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="single-blog-post">
-                    <div class="post-image">
-                        <a href="blog-details.html">
-                        <figure>
-                            <img src="{{ asset('frontend/assets/img/blog/blog2.jpg') }}" alt="blog two">
-                        </figure>
-                        </a>
-                    </div>
-                    <div class="post-content">
-                        <ul class="post-meta">
-                        <li>
-                            <a href="#">
-                            <i class="fa fa-user"></i>
-                            <span>By: Admin</span>
-                            </a>
-                        </li>
-                        <li>
-                            <i class="fa fa-calendar"></i>
-                            <span>March 14, 2025</span>
-                        </li>
-                        </ul>
-                        <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <div class="blog-list-button">
-                        <div class="button-box">
-                            <a class="twenty" href="blog-details.html"><span>Read More</span></a>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="single-blog-post">
-                    <div class="post-image">
-                        <a href="blog-details.html">
-                        <figure>
-                            <img src="{{ asset('frontend/assets/img/blog/blog3.jpg') }}" alt="blog tree">
-                        </figure>
-                        </a>
-                    </div>
-                    <div class="post-content">
-                        <ul class="post-meta">
-                        <li>
-                            <a href="#">
-                            <i class="fa fa-user"></i>
-                            <span>By: Admin</span>
-                            </a>
-                        </li>
-                        <li>
-                            <i class="fa fa-calendar"></i>
-                            <span>March 14, 2025</span>
-                        </li>
-                        </ul>
-                        <h2><a href="#">simply dummy text of the printing and typesetting industry</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <div class="blog-list-button">
-                        <div class="button-box">
-                            <a class="twenty" href="blog-details.html"><span>Read More</span></a>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                    @endforelse
+        
                 </div>
             </div>
         </section>

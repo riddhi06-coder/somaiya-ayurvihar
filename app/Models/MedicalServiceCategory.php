@@ -16,6 +16,8 @@ class MedicalServiceCategory extends Model
         'subcategory_id',
         'service_name',
         'slug',
+        'is_active',
+        'priority',
         'created_by',
         'updated_by',
         'deleted_by'    

@@ -5,6 +5,27 @@
     @include('components.backend.head')
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <style>
+        .image-preview {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+        }
+        .preview-thumb {
+            position: relative; width: 80px; height: 80px;
+            border: 1px solid #dee2e6; border-radius: 6px;
+            overflow: hidden; background: #f8f9fa; flex: 0 0 auto;
+        }
+        .preview-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .preview-thumb .remove-image {
+            position: absolute; top: 1px; right: 1px;
+            width: 18px; height: 18px; line-height: 16px; text-align: center;
+            font-size: 13px; font-weight: 700; color: #fff;
+            background: rgba(220, 53, 69, 0.9); border-radius: 50%;
+            cursor: pointer; user-select: none;
+        }
+        .preview-thumb .remove-image:hover { background: #dc3545; }
+    </style>
+
 
 </head>
 	   
@@ -85,7 +106,7 @@
                                         <!-- Actual Price -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="actual_price">Actual Price </label>
-                                            <input class="form-control" id="actual_price" type="number" name="actual_price" placeholder="Enter Actual Price" required>
+                                            <input class="form-control" id="actual_price" type="number" name="actual_price" placeholder="Enter Actual Price">
                                             <div class="invalid-feedback">Please enter a Actual Price.</div>
                                         </div>
 
@@ -93,7 +114,7 @@
                                         <!-- Discounted Price -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="discounted_price">Discounted Price </label>
-                                            <input class="form-control" id="discounted_price" type="number" name="discounted_price" placeholder="Enter Discounted Price" required>
+                                            <input class="form-control" id="discounted_price" type="number" name="discounted_price" placeholder="Enter Discounted Price">
                                             <div class="invalid-feedback">Please enter a Discounted Price.</div>
                                         </div>
 
@@ -122,6 +143,16 @@
                                             @error('gender')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        
+                                        
+                                        <!-- Package Images (multiple) -->
+                                        <div class="col-md-12 mt-5">
+                                            <label class="form-label" for="package_images">Package Images</label>
+                                            <input type="file" id="package_images" name="images[]"
+                                                   class="form-control image-input" accept="image/*" multiple>
+                                            <small class="text-secondary"><b>Note: You can select multiple images. Allowed: jpg, jpeg, png, webp, svg.</b></small>
+                                            <div class="image-preview" id="packageImagePreview"></div>
                                         </div>
 
 
@@ -192,7 +223,65 @@
                 }
             }
         </script>
-        
+    
+    
+    <script>
+        $(document).ready(function () {
+    
+            const fileStore = new WeakMap();
+    
+            function getStore(input) {
+                let dt = fileStore.get(input);
+                if (!dt) { dt = new DataTransfer(); fileStore.set(input, dt); }
+                return dt;
+            }
+    
+            function renderPreviews(input) {
+                const dt = getStore(input);
+                const container = document.getElementById($(input).closest('div').find('.image-preview').attr('id'));
+    
+                container.querySelectorAll('.preview-thumb img').forEach(img => URL.revokeObjectURL(img.src));
+                container.innerHTML = '';
+    
+                Array.from(dt.files).forEach((file, i) => {
+                    const url = URL.createObjectURL(file);
+                    const wrap = document.createElement('div');
+                    wrap.className = 'preview-thumb';
+                    wrap.innerHTML =
+                        '<img src="' + url + '" alt="' + file.name + '">' +
+                        '<span class="remove-image" data-index="' + i + '" title="Remove">&times;</span>';
+                    container.appendChild(wrap);
+                });
+            }
+    
+            // New files chosen (accumulate + dedupe)
+            $(document).on('change', '.image-input', function () {
+                const input = this;
+                const dt = getStore(input);
+                const seen = new Set(Array.from(dt.files).map(f => f.name + '|' + f.size + '|' + f.lastModified));
+                Array.from(input.files).forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+                    const key = file.name + '|' + file.size + '|' + file.lastModified;
+                    if (!seen.has(key)) { dt.items.add(file); seen.add(key); }
+                });
+                input.files = dt.files;
+                renderPreviews(input);
+            });
+    
+            // Remove a single image
+            $(document).on('click', '.remove-image', function () {
+                const idx = parseInt($(this).data('index'), 10);
+                const input = $(this).closest('.col-md-12, .col-md-6, td').find('.image-input')[0];
+                const dt = getStore(input);
+                const newDt = new DataTransfer();
+                Array.from(dt.files).forEach((f, i) => { if (i !== idx) newDt.items.add(f); });
+                fileStore.set(input, newDt);
+                input.files = newDt.files;
+                renderPreviews(input);
+            });
+        });
+    </script>
+
 
 </body>
 

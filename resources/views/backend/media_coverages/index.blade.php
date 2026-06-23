@@ -60,9 +60,9 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
 
-                                                <td>{{ $media->media_heading }}</td>
+                                                <td>{{ $media->media_heading ?? '-'}}</td>
 
-                                                <td>{{ $media->media_publication }}</td>
+                                                <td>{{ $media->media_publication ?? '-'}}</td>
 
                                                 <td>
                                                     @if($media->thumbnail_image)

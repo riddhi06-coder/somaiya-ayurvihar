@@ -44,10 +44,16 @@
                         <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
                             data-wow-duration="1500ms">
 
-                            <h2>
-                                <i class="fa fa-calendar" aria-hidden="true"></i> 
-                                {{ \Carbon\Carbon::parse($gallery->date)->format('dS F Y') }}
-                            </h2>
+                            @if(!empty($gallery->date))
+                                <h2>
+                                    <i class="fa fa-calendar" aria-hidden="true"></i> 
+                                    @php
+                                        $date = \Carbon\Carbon::parse($gallery->date);
+                                    @endphp
+                            
+                                    {{ $date->format('d') }}<sup>{{ $date->format('S') }}</sup> {{ $date->format('F Y') }}
+                                </h2>
+                            @endif
 
                             @if(!empty($details->description))
                                 <p>
