@@ -73,7 +73,7 @@
                 border-radius: 30px;
                 display: block;
             }
-            .media-card__date .sep { color: #fff; margin: 0 4px; }
+            .media-card__date .sep { color: #fff !important; margin: 0 4px; }
             
             .media-card__title {
                 font-size: 17px;
@@ -84,7 +84,13 @@
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
-            .media-card__title a { color: #1f2a37; text-decoration: none; }
+            .media-card__title a { 
+                font-size: 18px !important;
+                line-height: 1.4;
+                margin: 10px 0 15px;
+                font-weight: 500 !important;
+                color: #333 !important;
+                text-decoration: none; }
             .media-card__title a:hover { color: #2b8a8f; }
             
             .media-card__meta {
@@ -94,17 +100,18 @@
                 font-size: 14px;
                 color: #4b5563;
             }
-            .media-card__meta li { margin-bottom: 4px; }
+            .media-card__meta li { margin-bottom: 4px;font-size: 16px; }
             .media-card__meta strong { color: #1f2a37; }
             
             .media-card__link {
-                margin-top: auto;               /* sticks to bottom — aligns across cards */
-                align-self: flex-start;
-                font-weight: 600;
-                color: #2b8a8f;
+                display: inline-block;
+                font-size: 16px;
+                color: #f58220 !important;
+                text-decoration: none;
+                font-family: 'firasans-medium';
                 text-decoration: none;
             }
-            .media-card__link span { transition: transform .2s ease; display: inline-block; }
+            .media-card__link span { transition: transform .2s ease; color: #f58220 !important;display: inline-block; }
             .media-card__link:hover span { transform: translateX(4px); }
         </style>
 
