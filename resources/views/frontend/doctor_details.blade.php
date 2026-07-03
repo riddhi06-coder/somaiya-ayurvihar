@@ -94,7 +94,7 @@
                                                     </span><br>
                                                 @endforeach
                                             @else
-                                                N/A
+                                                On Appointment
                                             @endif
                                         </li>
                                   </ul>

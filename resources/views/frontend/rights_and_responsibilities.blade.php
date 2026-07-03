@@ -68,7 +68,7 @@
         </section>
 
 
-        <section class="section-wrap faq_page">
+        <section class="section-wrap faq_page lists">
             <div class="container">
             <div class="row">
             <div class="col-md-12">

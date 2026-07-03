@@ -124,7 +124,15 @@ class HomeController extends Controller
         // Decode JSON fields
         $service->features = json_decode($service->features, true) ?? [];
         $service->faq      = json_decode($service->faq, true) ?? [];
-        $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
+        
+        $headers = json_decode($service->page_headers, true);
+        if (is_string($headers)) {
+            $headers = json_decode($headers, true);
+        }
+        $service->page_headers = is_array($headers) ? $headers : [];
+
+
+        // $service->page_headers = array_values(json_decode($service->page_headers, true) ?? []);
         $service->section_image = json_decode($service->section_image, true) ?? [];
 
          // 4️⃣ Fetch doctors linked to this subcategory
@@ -142,6 +150,19 @@ class HomeController extends Controller
                     ->whereNull('deleted_at')
                     ->orderBy('id', 'desc')
                     ->get();
+                    
+          
+        $textTestimonials = Testimonial::wherenull('deleted_by')
+            ->where('type', 'text')
+            ->where('is_active', 1)
+            ->orderByRaw('priority IS NULL, priority ASC')
+            ->get();
+        
+        $videoTestimonials = Testimonial::wherenull('deleted_by')
+            ->where('type', 'video')
+            ->where('is_active', 1)
+            ->orderByRaw('priority IS NULL, priority ASC')
+            ->get();
 
 
         // 4️⃣ Pass subcategory & services to view
@@ -150,6 +171,8 @@ class HomeController extends Controller
             'service'    => $service,
             'doctors'    => $doctors,
             'healthPackages'  => $healthPackages,
+            'textTestimonials'  => $textTestimonials,
+            'videoTestimonials' => $videoTestimonials,
         ]);
     }
 
@@ -376,15 +399,28 @@ class HomeController extends Controller
         }
         
         // ✅ Type Filter
-        if ($request->type != null) {
-            $type = strtolower($request->type);
+        if ($request->filled('type')) {
+
+            if ($request->type == 'Ayurvedic') {
         
-            $query->whereRaw('LOWER(package_name) LIKE ?', ["{$type} %"]);
+                $query->where(function ($q) {
+                    $q->where('package_name', 'LIKE', '%Ayurvedic%')
+                      ->orWhere('package_name', 'LIKE', '%Ayurveda%')
+                      ->orWhere('package_name', 'LIKE', '%Panchkarma%')
+                      ->orWhere('package_name', 'LIKE', '%Consultation with Ayurvedic%');
+                });
+        
+            } else {
+        
+                $query->whereRaw('LOWER(package_name) LIKE ?', [strtolower($request->type).' %']);
+        
+            }
         }
+        
+       
 
         // ✅ Get Filtered Packages
-        $health_packages = $query->orderBy('created_at', 'asc')->paginate(6)->appends($request->query());
-
+        $health_packages = $query->orderBy('id', 'asc')->paginate(6)->appends($request->query());
 
         // =========================
         // FILTER PANEL DATA
@@ -401,14 +437,26 @@ class HomeController extends Controller
         
         // ✅ Types (Extract from package_name)
         $types = $allPackages
-                ->pluck('package_name')
-                ->filter()
-                ->map(function ($name) {
-                    return preg_split('/\s+/', trim($name))[0];
-                })
-                ->unique()
-                ->values();
-                
+            ->pluck('package_name')
+            ->filter()
+            ->map(function ($name) {
+        
+                $name = strtolower(trim($name));
+        
+                if (
+                    str_contains($name, 'ayurvedic') ||
+                    str_contains($name, 'ayurveda') ||
+                    str_contains($name, 'panchkarma') ||
+                    str_contains($name, 'consultation with ayurvedic')
+                ) {
+                    return 'Ayurvedic';
+                }
+        
+                return ucfirst(preg_split('/\s+/', $name)[0]);
+            })
+            ->unique()
+            ->values();
+                                
                 
         // dd($allPackages, $types);
             
@@ -605,6 +653,7 @@ class HomeController extends Controller
             $faqData            = json_decode($details->faq, true) ?? [];
         }
 
+        // dd($superSpecialtyData);
         return view('frontend.inpatient_services', compact(
             'details', 'roomTariffData', 'superSpecialtyData', 'faqData'
         ));

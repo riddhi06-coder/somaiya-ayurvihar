@@ -3,6 +3,23 @@
 <html lang="en">
     <head>
         @include('components.frontend.head')
+        
+        <style>
+            .testimonial-text,
+            .testimonial-text * {
+                color: #ffffff !important;
+            }
+            
+            
+            /* Modal testimonial text only */
+            #testimonial-popup #popup-text,
+            #testimonial-popup #popup-text * {
+                color: #7c7c7c !important;
+            }
+            
+        </style>
+
+
     </head>
   <body>
 
@@ -42,7 +59,7 @@
 
 
                                   <li>
-                                      <a href="#">
+                                      <a>
                                           {{ $service->category->category_name ?? 'Medical Services' }}
                                       </a>
                                   </li>
@@ -73,27 +90,46 @@
                   <ul class="nav nav-tabs tab-scroll">
 
                     @php
-                    $targets = [
-                        'overview',
-                        'doctors',
-                        'our-services',
-                        'health-packages',
-                        'make-special',
-                        'testimonials',
-                        'faq',
-                        'blogs',
-                        'faq'
-                    ];
+                        // keyword in title  =>  section id on the page
+                        $sectionMap = [
+                            'doctor'      => 'doctors',
+                            'service'     => 'our-services',
+                            'procedure'   => 'our-services',
+                            'package'     => 'health-packages',
+                            'health check'=> 'health-packages',
+                            'why choose'  => 'make-special',
+                            'special'     => 'make-special',
+                            'feedback'    => 'testimonials',
+                            'review'      => 'testimonials',
+                            'testimonial' => 'testimonials',
+                            'faq'         => 'faq',
+                            'question'    => 'faq',
+                            'blog'        => 'blogs',
+                        ];
+                    
+                        $resolveTarget = function ($title, $isFirst) use ($sectionMap) {
+                            // First tab is always the category/overview heading
+                            if ($isFirst) return 'overview';
+                    
+                            $t = strtolower($title);
+                            foreach ($sectionMap as $keyword => $target) {
+                                if (str_contains($t, $keyword)) {
+                                    return $target;
+                                }
+                            }
+                            return null; // unknown title -> skip
+                        };
                     @endphp
-
-                    @foreach($service->page_headers as $key => $header)
-
-                    <li class="{{ $key == 0 ? 'active' : '' }}">
-                        <a href="javascript:void(0)" data-target="{{ $targets[$key] }}">
-                            {{ $header['title'] }}
-                        </a>
-                    </li>
-
+                    
+                    @foreach($service->page_headers as $header)
+                        @php $target = $resolveTarget($header['title'] ?? '', $loop->first); @endphp
+                        @if($target)
+                            <li class="{{ $loop->first ? 'active' : '' }}">
+                                <a href="javascript:void(0)" data-target="{{ $target }}">
+                                    {{ $header['title'] }}
+                                </a>
+                            </li>
+                        @endif
                     @endforeach
 
                   </ul>
@@ -392,117 +428,108 @@
   
       <!-------------Patient Testimonials ------------->
       <div id="testimonials" class="tab_section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="opd-timing-content">
-                <div class="section-heading text-center wow fadeInLeft" data-wow-delay="00ms"
-                  data-wow-duration="1500ms">
-                  <h2>Patient Testimonials</h2>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="opd-timing-content">
+                  <div class="section-heading text-center wow fadeInLeft" data-wow-delay="00ms" data-wow-duration="1500ms">
+                    <h2>Patient Testimonials</h2>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row services_testi">
-            <div class="col-md-12 text-center">
-              <ul class="nav nav-tabs center-tabs">
-                <li class="active"><a data-toggle="tab" href="#testimonials_tab">Testimonials</a></li>
-                <li><a data-toggle="tab" href="#video_testimonial_tab">Video Testimonials</a></li>
-              </ul>
-              <div class="tab-content">
-                <div id="testimonials_tab" class="tab-pane fade in active">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="owl-carousel owl-theme" id="patient-testimonial">
-                        <div class="item">
-                          <div class="testimonial-card">
-                            <i class="fa fa-quote-left quote-icon"></i>
-                            <!-- <img src="img/icon/testi.png" class="testimonial-img" alt="Patient 1"> -->
-                            <div class="testimonial-text">
-                              “The doctors and staff were very kind and professional. My treatment was smooth and quick. I highly recommend this hospital!”
+            <div class="row services_testi">
+              <div class="col-md-12 text-center">
+                <ul class="nav nav-tabs center-tabs">
+                  <li class="active"><a data-toggle="tab" href="#testimonials_tab">Testimonials</a></li>
+                  <li><a data-toggle="tab" href="#video_testimonial_tab">Video Testimonials</a></li>
+                </ul>
+                <div class="tab-content">
+        
+                  <!-- TEXT TESTIMONIALS -->
+                  <div id="testimonials_tab" class="tab-pane fade in active">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="owl-carousel owl-theme" id="patient-testimonial">
+                          @forelse($textTestimonials as $t)
+                            <div class="item">
+                              <div class="testimonial-card">
+                                <i class="fa fa-quote-left quote-icon"></i>
+                                
+                                <div class="testimonial-text" style="color:#ffffff !important;">
+                                    {!! \Illuminate\Support\Str::limit(strip_tags($t->testimonial), 60) !!}
+                                </div>
+                                <!--<a class="testi-readmore" href="#"-->
+                                <!--   data-toggle="modal"-->
+                                <!--   data-target="#testimonial-popup"-->
+                                <!--   data-text="{{ $t->testimonial }}"-->
+                                <!--   data-rating="{{ (int) $t->rating }}"-->
+                                <!--   data-name="{{ $t->person_name }}"-->
+                                <!--   data-role="{{ $t->person_role }}">Read More...</a>-->
+                                <div class="stars">
+                                  @php $rating = (int) $t->rating; @endphp
+                                  @for($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star{{ $i <= $rating ? '' : '-o' }}"></i>
+                                  @endfor
+                                </div>
+                                <div class="testimonial-name">{{ $t->person_name }}</div>
+                                <div class="testimonial-role">{{ $t->person_role }}</div>
+                                
+                                 <a class="testi-readmore" href="#"
+                                   data-toggle="modal"
+                                   data-target="#testimonial-popup"
+                                   data-text="{{ $t->testimonial }}"
+                                   data-rating="{{ (int) $t->rating }}"
+                                   data-name="{{ $t->person_name }}"
+                                   data-role="{{ $t->person_role }}">Read More...</a>
+                              </div>
                             </div>
-                            <div class="stars">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star-half-alt"></i>
+                          @empty
+                            <div class="item">
+                              <div class="testimonial-card">
+                                <div class="testimonial-text">No testimonials available yet.</div>
+                              </div>
                             </div>
-                            <div class="testimonial-name">Rohit Sharma</div>
-                            <div class="testimonial-role">Patient</div>
-                          </div>
-                        </div>
-                        <div class="item">
-                          <div class="testimonial-card">
-                            <i class="fa fa-quote-left quote-icon"></i>
-                            <!--  <img src="img/icon/testi.png" class="testimonial-img" alt="Patient 1"> -->
-                            <div class="testimonial-text">
-                              “The doctors and staff were very kind and professional. My treatment was smooth and quick. I highly recommend this hospital!”
-                            </div>
-                            <div class="stars">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star-half-alt"></i>
-                            </div>
-                            <div class="testimonial-name">Rohit Sharma</div>
-                            <div class="testimonial-role">Patient</div>
-                          </div>
-                        </div>
-                        <div class="item">
-                          <div class="testimonial-card">
-                            <i class="fa fa-quote-left quote-icon"></i>
-                            <!-- <img src="img/icon/testi.png" class="testimonial-img" alt="Patient 1"> -->
-                            <div class="testimonial-text">
-                              “The doctors and staff were very kind and professional. My treatment was smooth and quick. I highly recommend this hospital!”
-                            </div>
-                            <div class="stars">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star-half-alt"></i>
-                            </div>
-                            <div class="testimonial-name">Rohit Sharma</div>
-                            <div class="testimonial-role">Patient</div>
-                          </div>
+                          @endforelse
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div id="video_testimonial_tab" class="tab-pane fade">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="owl-carousel owl-theme" id="video-testimonial">
-                        <div class="item">
-                          <div class="video_testi">
-                            <div class="video-box" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/zpOULjyy-n8?autoplay=1">
-                              <img src="{{ asset('frontend/assets/img/testimonials/testimonials1.jpg') }}" class="img-responsive" alt="Patient 1">
-                              <div class="play-btn"><i class="fa fa-play"></i></div>
+        
+                  <!-- VIDEO TESTIMONIALS -->
+                  <div id="video_testimonial_tab" class="tab-pane fade">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="owl-carousel owl-theme" id="video-testimonial">
+                          @forelse($videoTestimonials as $v)
+                            <div class="item">
+                              <div class="video_testi">
+                                <div class="video-box" data-toggle="modal" data-target="#videoModal"
+                                     data-video="{{ asset('uploads/testimonials/' . $v->video) }}">
+                                  <img src="{{ $v->thumbnail ? asset('uploads/testimonials/thumbnails/' . $v->thumbnail) : asset('frontend/assets/img/testimonials/testimonials1.jpg') }}"
+                                       class="img-responsive" loading="lazy" alt="{{ $v->title }}">
+                                  <div class="play-btn"><i class="fa fa-play"></i></div>
+                                </div>
+                                <div class="video-title">{{ $v->title }}</div>
+                              </div>
                             </div>
-                            <div class="video-title">Anita’s Recovery Journey</div>
-                          </div>
-                        </div>
-                        <div class="item">
-                          <div class="video_testi">
-                            <div class="video-box" data-toggle="modal" data-target="#videoModal" data-video="https://www.youtube.com/embed/zpOULjyy-n8?autoplay=1">
-                              <img src="{{ asset('frontend/assets/img/testimonials/testimonials1.jpg') }}" class="img-responsive" alt="Patient 1">
-                              <div class="play-btn"><i class="fa fa-play"></i></div>
+                          @empty
+                            <div class="item">
+                              <div class="video_testi">
+                                <div class="video-title">No video testimonials available yet.</div>
+                              </div>
                             </div>
-                            <div class="video-title">Anita’s Recovery Journey</div>
-                          </div>
+                          @endforelse
                         </div>
                       </div>
                     </div>
                   </div>
+        
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
 
       <!-------------faq ------------->
@@ -580,6 +607,82 @@
      
     @include('components.frontend.main-js')
 
+
+    <script>
+    
+      // 1. This line is plain JS and CANNOT fail — if you don't see it, the script tag itself isn't loading.
+      console.log('=== Testimonial script tag is executing ===');
+    
+      // 2. Check jQuery availability explicitly
+      if (typeof jQuery === 'undefined') {
+        console.error('❌ jQuery is NOT loaded at this point. The script is running before jQuery.');
+      } else {
+        console.log('✅ jQuery loaded, version:', jQuery.fn.jquery);
+    
+        jQuery(function ($) {            // runs after DOM ready
+          console.log('✅ DOM ready, attaching handlers');
+    
+          // Delegated click handler (works with Owl Carousel clones too)
+          $(document).on('click', '.testi-readmore', function (e) {
+            e.preventDefault();
+            console.log('1. Read More clicked');
+    
+            var link   = $(this);
+            var text   = link.data('text');
+            var rating = parseInt(link.data('rating')) || 0;
+            var name   = link.data('name');
+            var role   = link.data('role');
+    
+            console.log('2. Data:', { text: text, rating: rating, name: name, role: role });
+    
+            var modal = $('#testimonial-popup');
+            console.log('3. Modal found?', modal.length, '| popup-text found?', modal.find('#popup-text').length);
+    
+            modal.find('#popup-text').html('“' + (text || '') + '”').css('color', '#7c7c7c');
+    
+            var stars = '';
+            for (var i = 1; i <= 5; i++) {
+              stars += '<i class="fa fa-star' + (i <= rating ? '' : '-o') + '"></i> ';
+            }
+            modal.find('#popup-rating').html(stars);
+            modal.find('#popup-name').text(name || '');
+            modal.find('#popup-role').text(role || '');
+    
+            modal.modal('show');
+            console.log('4. Modal.show() called');
+          });
+        });
+      }
+      
+    </script>
+    
+    
+    <!-- testimonial Modal -->
+    <div id="testimonial-popup" class="modal fade">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="testimonial-popup">
+                  <p class="testimonial-text" id="popup-text"></p>
+                  <div class="testimonial-rating" id="popup-rating"></div>
+                  <div class="author-container">
+                    <div class="author-img">
+                      <svg width="20" height="20" fill="#888" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                    </div>
+                    <span class="author-name"><span id="popup-name"></span> <br> <span class="author-role" id="popup-role"></span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     

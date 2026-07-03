@@ -110,7 +110,7 @@
                        @foreach ($superSpecialtyData as $item)
                             <div class="col-md-3">
                                 <div class="hospital-iconbox lists">
-                                    <div class="owl-carousel owl-theme" id="room-gallery">
+                                    <div class="owl-carousel owl-theme room-gallery">
                                         @if (!empty($item['images']) && is_array($item['images']))
                                             @foreach ($item['images'] as $img)
                                               <div class="item">

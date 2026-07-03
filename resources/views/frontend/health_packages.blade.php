@@ -23,11 +23,37 @@
                 color: #fff;
             }
             
+            
+            .page-loader {
+                position: fixed;
+                inset: 0;
+                background: rgba(255, 255, 255, 0.75);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 99999;
+            }
+            .page-loader.active { display: flex; }
+            .page-loader .spinner {
+                width: 50px;
+                height: 50px;
+                border: 5px solid #f5e2cf;
+                border-top-color: #ff7a00;
+                border-radius: 50%;
+                animation: pkgspin 0.8s linear infinite;
+            }
+            @keyframes pkgspin { to { transform: rotate(360deg); } }
+
         </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
     </head>
   <body>
 
+    
+        <div class="page-loader" id="pageLoader">
+            <div class="spinner"></div>
+        </div>
+    
 
         <!-- header start -->
           <div class="full_header" id="header-sticky">
@@ -80,7 +106,7 @@
                                         onchange="this.form.submit()">
                             
                                     <option value="">--Select Type--</option>
-                            
+                                   
                                     @foreach($types as $type)
                                         <option value="{{ $type }}"
                                             {{ request('type') == $type ? 'selected' : '' }}>
@@ -363,7 +389,7 @@
                     </div>
 
                     <center>
-                        <ul class="pagination" id="pagination"></ul>
+                        {!! $health_packages->links('pagination::bootstrap-4') !!}
                     </center>
                     
                     </div>
@@ -427,21 +453,46 @@
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
-    const modal = document.getElementById('health-checkup');
-    const packageSelect = modal.querySelector('[name="pkg_name"]');
-
-    document.querySelectorAll('.book_packages').forEach(button => {
-        button.addEventListener('click', function () {
-
-            let packageName = this.getAttribute('data-package');
-
-            if (packageName && packageSelect) {
-                packageSelect.value = packageName;
-            }
-        });
-    });
-
-});
+                const modal = document.getElementById('health-checkup');
+                const packageSelect = modal.querySelector('[name="pkg_name"]');
+            
+                document.querySelectorAll('.book_packages').forEach(button => {
+                    button.addEventListener('click', function () {
+            
+                        let packageName = this.getAttribute('data-package');
+            
+                        if (packageName && packageSelect) {
+                            packageSelect.value = packageName;
+                        }
+                    });
+                });
+            
+            });
+        </script>
+        
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const loader = document.getElementById("pageLoader");
+        
+                function showLoader() {
+                    loader.classList.add("active");
+                }
+        
+                // Fire when any filter control changes (same moment the form submits)
+                document.querySelectorAll(
+                    'select[name="type"], select[name="category_id"], input[name="gender[]"], input[name="age_range[]"]'
+                ).forEach(el => el.addEventListener("change", showLoader));
+        
+                // Fire on Reset Filter and pagination links
+                document.querySelectorAll('.reset-btn-modern, .pagination a')
+                    .forEach(link => link.addEventListener("click", showLoader));
+        
+                // Hide loader if the page is restored from back/forward cache
+                window.addEventListener("pageshow", function () {
+                    loader.classList.remove("active");
+                });
+            });
         </script>
 
     </body>

@@ -230,7 +230,7 @@ Route::prefix('admin')
     });
 
 // ----------------------
-// 🔹 Frontend Routes
+// Frontend Routes
 // ----------------------
 
 
@@ -296,7 +296,6 @@ Route::get('visitor-guide', [HomeController::class, 'visitor_guide'])->name('fro
 Route::get('rights-and-responsibilities', [HomeController::class, 'rights_and_responsibilities'])->name('frontend.rights_and_responsibilities');
 Route::get('convenience-and-facilities', [HomeController::class, 'convenience_and_facilities'])->name('frontend.convenience_and_facilities');
 Route::get('government-schemes', [HomeController::class, 'government_schemes'])->name('frontend.government_schemes');
-
 
 
 //===========Form Mail Submission Routes

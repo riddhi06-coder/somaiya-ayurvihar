@@ -39,7 +39,7 @@
                         <ol class="breadcrumb custom-breadcrumb">
                             <li><a href="{{ route('frontend.index') }}"><span class="glyphicon glyphicon-home"></span></a></li>
                             <li><a href="#">Wellness Center</a></li>
-                            <li><a href="#">Health Packages</a></li>
+                            <li><a href="{{ route('frontend.health_packages') }}">Health Packages</a></li>
                             <li class="active">Wellwomen Procare</li>
                         </ol>
                         </div>

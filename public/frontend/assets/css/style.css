@@ -3041,9 +3041,10 @@
  .accreditations_logo li {
      display: inline-block;
 }
- .accreditations_logo img {
-     width: 140px !important;
-     margin: 0px 10px;
+.accreditations_logo img {
+    width: 140px !important;
+    margin: 0px 10px;
+    cursor: pointer;
 }
  .accreditations_div {
     /*padding: 50px 0px;

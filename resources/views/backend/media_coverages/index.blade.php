@@ -67,8 +67,8 @@
                                                 <td>
                                                     @if($media->thumbnail_image)
                                                         <img src="{{ asset('uploads/media/' . $media->thumbnail_image) }}" 
-                                                            width="100px" 
-                                                            height="80px"
+                                                            width="180px" 
+                                                            height="150px"
                                                             style="object-fit:cover;">
                                                     @else
                                                         N/A

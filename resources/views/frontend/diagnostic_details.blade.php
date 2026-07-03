@@ -66,7 +66,7 @@
 
 
                                 <li>
-                                    <a href="#">
+                                    <a>
                                         {{ $service->subcategory->subcategory_name ?? '' }}
                                     </a>
                                 </li>

@@ -86,7 +86,7 @@
                                                 {{-- Action --}}
                                                 <td>
                                                     <a href="{{ route('admin.manage-service-details.edit', $item->id) }}"
-                                                        class="btn btn-sm btn-primary">Edit</a>
+                                                        class="btn btn-sm btn-primary">Edit</a><br><br>
 
                                                     <form action="{{ route('admin.manage-service-details.destroy', $item->id) }}"
                                                         method="POST"

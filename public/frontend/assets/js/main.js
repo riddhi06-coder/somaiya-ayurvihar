@@ -85,36 +85,65 @@ $('#awards').owlCarousel({
     }
   }
 });
-$('#room-gallery').owlCarousel({
-  loop: true,
-    margin: 30,
-    dots: false,
-    nav: true,
-    autoplay: true,
-    autoplayTimeout: 3000,
-    autoplaySpeed: 1000,
-    autoplayHoverPause: true,
-    navText: [
-        '<i class="fa fa-angle-left"></i>',
-        '<i class="fa fa-angle-right"></i>'
-    ],
-    responsive: {
-        0: {
-            items: 1,
-            nav: true
-        },
-        500: {
-            items: 1,
-            nav: true
-        },
-        768: {
-            items: 1
-        },
-        1000: {
-            items: 1
+
+
+// $('#room-gallery').owlCarousel({
+//   loop: true,
+//     margin: 30,
+//     dots: false,
+//     nav: true,
+//     autoplay: true,
+//     autoplayTimeout: 3000,
+//     autoplaySpeed: 1000,
+//     autoplayHoverPause: true,
+//     navText: [
+//         '<i class="fa fa-angle-left"></i>',
+//         '<i class="fa fa-angle-right"></i>'
+//     ],
+//     responsive: {
+//         0: {
+//             items: 1,
+//             nav: true
+//         },
+//         500: {
+//             items: 1,
+//             nav: true
+//         },
+//         768: {
+//             items: 1
+//         },
+//         1000: {
+//             items: 1
+//         }
+//     }
+// });
+
+
+
+$('.room-gallery').each(function () {
+    $(this).owlCarousel({
+        loop: $(this).find('.item').length > 1,
+        margin: 30,
+        dots: false,
+        nav: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplaySpeed: 1000,
+        autoplayHoverPause: true,
+        navText: [
+            '<i class="fa fa-angle-left"></i>',
+            '<i class="fa fa-angle-right"></i>'
+        ],
+        responsive: {
+            0:    { items: 1, nav: true },
+            500:  { items: 1, nav: true },
+            768:  { items: 1 },
+            1000: { items: 1 }
         }
-    }
+    });
 });
+
+
 /*$('#doctor').owlCarousel({
   loop: true,
   margin: 20,*/
@@ -679,51 +708,85 @@ var a = 0;
 /*Sidebar Sticky*/
 document.addEventListener("DOMContentLoaded", function () {
 
-  var sidebar = document.querySelector(".sidebar_filter");
-  var section = document.querySelector(".health_package_wrap, .find_doctor_wrap");
-  var parentCol = document.querySelector(".health_package_wrap .col-md-3, .find_doctor_wrap .doctor-card");
-  var header = document.querySelector("header");
+    var sidebar = document.querySelector(".sidebar_filter");
+    var section = document.querySelector(".health_package_wrap, .find_doctor_wrap");
+    var parentCol = document.querySelector(".health_package_wrap .col-md-3, .find_doctor_wrap .doctor-card");
+    var header = document.querySelector("header");
 
-  // Run script only if all required elements exist
-  if (!sidebar || !section || !parentCol || !header) {
-    return;
-  }
-
-  var headerHeight = header.offsetHeight || 100;
-
-  window.addEventListener("scroll", function () {
-
-    var scrollTop = window.pageYOffset;
-    var sidebarHeight = sidebar.offsetHeight;
-
-    // Safe bounding rectangle calculation
-    var rect = section.getBoundingClientRect();
-    var sectionTop = rect.top + window.pageYOffset;
-    var sectionBottom = sectionTop + section.offsetHeight;
-
-    // Adjust width dynamically
-    var colWidth = parentCol.offsetWidth;
-    sidebar.style.width = colWidth + "px";
-
-    if (scrollTop > sectionTop - headerHeight &&
-       (scrollTop + sidebarHeight + headerHeight) < sectionBottom) {
-
-      sidebar.style.position = "fixed";
-      sidebar.style.top = headerHeight + "px";
-
-    } else if ((scrollTop + sidebarHeight + headerHeight) >= sectionBottom) {
-
-      sidebar.style.position = "absolute";
-      sidebar.style.bottom = "0";
-      sidebar.style.top = "auto";
-
-    } else {
-
-      sidebar.style.position = "static";
-
+    if (!sidebar || !section || !parentCol || !header) {
+        return;
     }
 
-  });
+    var headerHeight = header.offsetHeight || 100;
+    var currentPosition = "";
+
+    window.addEventListener("scroll", function () {
+
+        // Check empty result
+        var noPackage = document.querySelector("#content h4");
+        var isEmptyResult =
+            noPackage &&
+            noPackage.textContent.trim() === "No Packages Available";
+
+        // If no packages, disable sticky completely
+        if (isEmptyResult) {
+
+            if (currentPosition !== "static") {
+                sidebar.style.position = "static";
+                sidebar.style.top = "auto";
+                sidebar.style.bottom = "auto";
+                sidebar.style.width = "";
+                currentPosition = "static";
+            }
+
+            return;
+        }
+
+        var scrollTop = window.pageYOffset;
+        var sidebarHeight = sidebar.offsetHeight;
+
+        var rect = section.getBoundingClientRect();
+        var sectionTop = rect.top + window.pageYOffset;
+        var sectionBottom = sectionTop + section.offsetHeight;
+
+        // Update width
+        sidebar.style.width = parentCol.offsetWidth + "px";
+
+        if (
+            scrollTop > sectionTop - headerHeight &&
+            (scrollTop + sidebarHeight + headerHeight) < sectionBottom
+        ) {
+
+            if (currentPosition !== "fixed") {
+                sidebar.style.position = "fixed";
+                sidebar.style.top = headerHeight + "px";
+                sidebar.style.bottom = "auto";
+                currentPosition = "fixed";
+            }
+
+        } else if (
+            (scrollTop + sidebarHeight + headerHeight) >= sectionBottom
+        ) {
+
+            if (currentPosition !== "absolute") {
+                sidebar.style.position = "absolute";
+                sidebar.style.bottom = "0";
+                sidebar.style.top = "auto";
+                currentPosition = "absolute";
+            }
+
+        } else {
+
+            if (currentPosition !== "static") {
+                sidebar.style.position = "static";
+                sidebar.style.top = "auto";
+                sidebar.style.bottom = "auto";
+                currentPosition = "static";
+            }
+
+        }
+
+    });
 
 });
 
