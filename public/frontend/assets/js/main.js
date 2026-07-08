@@ -768,11 +768,11 @@ document.addEventListener("DOMContentLoaded", function () {
             (scrollTop + sidebarHeight + headerHeight) >= sectionBottom
         ) {
 
-            if (currentPosition !== "absolute") {
-                sidebar.style.position = "absolute";
+            if (currentPosition !== "relative") {
+                sidebar.style.position = "relative";
                 sidebar.style.bottom = "0";
                 sidebar.style.top = "auto";
-                currentPosition = "absolute";
+                currentPosition = "relative";
             }
 
         } else {

@@ -63,6 +63,7 @@ use App\Http\Controllers\Backend\HealthPkgEnquiriesController;
 use App\Http\Controllers\Backend\CareerEnquiriesController;
 use App\Http\Controllers\Backend\ContactEnquiriesController;
 use App\Http\Controllers\Backend\AyurvedaEnquiriesController;
+use App\Http\Controllers\Backend\PrivacyPolicyController;
 
 
 //frontend controller
@@ -169,6 +170,7 @@ Route::prefix('admin')
         Route::resource('manage-contact-us', ContactUsController::class);
 
         // Policy Pages
+        Route::resource('manage-privacy-policy', PrivacyPolicyController::class);
         Route::resource('manage-disclaimer', DisclaimerController::class);
         Route::resource('manage-terms-condition', TermsConditionController::class);
         

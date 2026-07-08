@@ -37,3 +37,4 @@ Stack trace:
 #3 /home/anvayafoundation/public_html/somaiya/server.php(21): require_once('/home/anvayafou...')
 #4 {main}
   thrown in /home/anvayafoundation/public_html/somaiya/vendor/composer/platform_check.php on line 26
+[08-Jul-2026 08:58:56 UTC] PHP Fatal error:  Cannot declare class App\Http\Controllers\Backend\DisclaimerController, because the name is already in use in /home/anvayafoundation/public_html/somaiya/app/Http/Controllers/Backend/PrivacyPolicyController.php on line 18

@@ -64,6 +64,9 @@ use App\Models\Governmentschemes;
 use App\Models\CommunityOutreach;
 use App\Models\Testimonial;
 use App\Models\VirtualTour;
+use App\Models\PrivacyPolicy;
+
+
 
 
 class HomeController extends Controller
@@ -533,7 +536,11 @@ class HomeController extends Controller
     // Privacy
     public function privacy()
     {
-        return view('frontend.privacy');
+        $policy = PrivacyPolicy::whereNull('deleted_by')
+            ->latest('id')
+            ->first();
+    
+        return view('frontend.privacy', compact('policy'));
     }
     
     // Specialties
@@ -835,7 +842,7 @@ class HomeController extends Controller
 
 
         // Fetch all subcategories for the speciality filter
-        $subcategories = MedicalServiceSubCategory::whereNull('deleted_by')->get();
+        $subcategories = MedicalServiceSubCategory::whereNull('deleted_by')->orderBy('subcategory_name', 'asc')->get();
         
         // dd($subcategories,$doctors);
 

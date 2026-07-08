@@ -356,7 +356,7 @@
                                 </div>
                                 <div class="col-md-3">
                                   <div class="form-group">
-                                    <input type="text" class="form-control" name="pincode" id="pincode" placeholder="Pincode*" >
+                                    <input type="number" class="form-control" name="pincode" id="pincode" placeholder="Pincode*" min=0 >
                                   </div>
                                 </div>
                                 <div class="col-md-3">
