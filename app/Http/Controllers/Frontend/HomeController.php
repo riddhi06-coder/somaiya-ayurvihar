@@ -364,9 +364,24 @@ class HomeController extends Controller
     // Wellness Ayurveda
     public function ayurveda()
     {
-        $ayurveda  = ManageAyurveda::orderBy('created_at', 'asc')->wherenull('deleted_by')->first();
-        return view('frontend.ayurveda', compact('ayurveda'));
+        $ayurveda = ManageAyurveda::orderBy('created_at', 'asc')
+            ->whereNull('deleted_by')
+            ->first();
+    
+        // ✅ Fetch only Ayurvedic-related packages
+        $ayurvedaPackages = ManageHealthPackages::whereNull('deleted_by')
+            ->where(function ($q) {
+                $q->where('package_name', 'LIKE', '%Ayurvedic%')
+                  ->orWhere('package_name', 'LIKE', '%Ayurveda%')
+                  ->orWhere('package_name', 'LIKE', '%Panchkarma%');
+            })
+            ->orderBy('id', 'asc')
+            ->get();
+            // dd($ayurvedaPackages);
+    
+        return view('frontend.ayurveda', compact('ayurveda', 'ayurvedaPackages'));
     }
+    
 
     // Alternative Therapies
     public function alternative_therapies()
@@ -376,17 +391,136 @@ class HomeController extends Controller
     }
 
     // Health Packages
+    // public function health_packages(Request $request)
+    // {
+    //     $query = ManageHealthPackages::whereNull('deleted_by');
+
+    //     // ✅ Category Filter
+    //     if ($request->category_id != null) {
+    //         $query->where('sub_category_id', $request->category_id);
+    //         // ⚠️ If your DB column name is different, change here
+    //         // example: ->where('medical_service_subcategory_id', $request->category_id);
+    //     }
+
+    //     // ✅ Gender Filter
+    //     if ($request->has('gender') && count($request->gender) > 0) {
+    //         $query->where(function ($q) use ($request) {
+    //             foreach ($request->gender as $gender) {
+    //                 $q->orWhere('gender', 'LIKE', '%'.$gender.'%');
+    //             }
+    //         });
+    //     }
+
+    //     // ✅ Age Range Filter
+    //     if ($request->has('age_range') && count($request->age_range) > 0) {
+    //         $query->whereIn('age_range', $request->age_range);
+    //     }
+        
+    //     // ✅ Type Filter
+    //     if ($request->filled('type')) {
+
+    //         if ($request->type == 'Ayurvedic') {
+        
+    //             $query->where(function ($q) {
+    //                 $q->where('package_name', 'LIKE', '%Ayurvedic%')
+    //                   ->orWhere('package_name', 'LIKE', '%Ayurveda%')
+    //                   ->orWhere('package_name', 'LIKE', '%Panchkarma%')
+    //                   ->orWhere('package_name', 'LIKE', '%Consultation with Ayurvedic%');
+    //             });
+        
+    //         } else {
+        
+    //             $query->whereRaw('LOWER(package_name) LIKE ?', [strtolower($request->type).' %']);
+        
+    //         }
+    //     }
+        
+       
+
+    //     // ✅ Get Filtered Packages
+    //     $health_packages = $query->orderBy('id', 'asc')->paginate(6)->appends($request->query());
+
+    //     // =========================
+    //     // FILTER PANEL DATA
+    //     // =========================
+
+    //     // Categories
+    //     $categories = MedicalServiceSubCategory::whereNull('deleted_by')
+    //                         ->orderBy('subcategory_name', 'ASC')
+    //                         ->get();
+
+    //     // Genders (from ALL packages for filter display)
+    //     $allPackages = ManageHealthPackages::whereNull('deleted_by')->get();
+        
+        
+    //     // ✅ Types (Extract from package_name)
+    //     $types = $allPackages
+    //         ->pluck('package_name')
+    //         ->filter()
+    //         ->map(function ($name) {
+        
+    //             $name = trim($name);
+        
+    //             if (
+    //                 str_contains($name, 'ayurvedic') ||
+    //                 str_contains($name, 'ayurveda') ||
+    //                 str_contains($name, 'panchkarma') ||
+    //                 str_contains($name, 'consultation with ayurvedic')
+    //             ) {
+    //                 return 'Ayurvedic';
+    //             }
+        
+    //             return preg_split('/\s+/', $name)[0];
+    //         })
+    //         ->unique()
+    //         ->values();
+                                
+                
+    //     // dd($allPackages, $types);
+            
+    
+    //     $genders = $allPackages
+    //                 ->pluck('gender')
+    //                 ->filter()
+    //                 ->map(fn($gender) => json_decode($gender, true))
+    //                 ->filter()
+    //                 ->flatten()
+    //                 ->filter(fn($value) => !empty($value))
+    //                 ->unique()
+    //                 ->values();
+
+    //     // Age Ranges
+    //     $ageRanges = $allPackages
+    //                     ->pluck('age_range')
+    //                     ->filter()
+    //                     ->unique()
+    //                     ->values();
+
+    //     return view('frontend.health_packages', compact(
+    //         'health_packages',
+    //         'categories',
+    //         'genders',
+    //         'ageRanges', 'types'
+    //     ));
+    // }
+    
+    
     public function health_packages(Request $request)
     {
         $query = ManageHealthPackages::whereNull('deleted_by');
-
+    
+        // ✅ Exclude ALL Ayurvedic-type packages from this page
+        $query->where(function ($q) {
+            $q->where('package_name', 'NOT LIKE', '%Ayurvedic%')
+              ->where('package_name', 'NOT LIKE', '%Ayurveda%')
+              ->where('package_name', 'NOT LIKE', '%Panchkarma%');
+        });
+    
         // ✅ Category Filter
         if ($request->category_id != null) {
             $query->where('sub_category_id', $request->category_id);
-            // ⚠️ If your DB column name is different, change here
-            // example: ->where('medical_service_subcategory_id', $request->category_id);
         }
-
+    
         // ✅ Gender Filter
         if ($request->has('gender') && count($request->gender) > 0) {
             $query->where(function ($q) use ($request) {
@@ -395,74 +529,43 @@ class HomeController extends Controller
                 }
             });
         }
-
+    
         // ✅ Age Range Filter
         if ($request->has('age_range') && count($request->age_range) > 0) {
             $query->whereIn('age_range', $request->age_range);
         }
-        
-        // ✅ Type Filter
+    
+        // ✅ Type Filter (Ayurvedic no longer applies here)
         if ($request->filled('type')) {
-
-            if ($request->type == 'Ayurvedic') {
-        
-                $query->where(function ($q) {
-                    $q->where('package_name', 'LIKE', '%Ayurvedic%')
-                      ->orWhere('package_name', 'LIKE', '%Ayurveda%')
-                      ->orWhere('package_name', 'LIKE', '%Panchkarma%')
-                      ->orWhere('package_name', 'LIKE', '%Consultation with Ayurvedic%');
-                });
-        
-            } else {
-        
-                $query->whereRaw('LOWER(package_name) LIKE ?', [strtolower($request->type).' %']);
-        
-            }
+            $query->whereRaw('LOWER(package_name) LIKE ?', [strtolower($request->type).' %']);
         }
-        
-       
-
+    
         // ✅ Get Filtered Packages
         $health_packages = $query->orderBy('id', 'asc')->paginate(6)->appends($request->query());
-
+    
         // =========================
         // FILTER PANEL DATA
         // =========================
-
-        // Categories
         $categories = MedicalServiceSubCategory::whereNull('deleted_by')
                             ->orderBy('subcategory_name', 'ASC')
                             ->get();
-
-        // Genders (from ALL packages for filter display)
-        $allPackages = ManageHealthPackages::whereNull('deleted_by')->get();
-        
-        
-        // ✅ Types (Extract from package_name)
+    
+        // ✅ ALL packages for filter display — also excluding Ayurvedic
+        $allPackages = ManageHealthPackages::whereNull('deleted_by')
+                            ->where('package_name', 'NOT LIKE', '%Ayurvedic%')
+                            ->where('package_name', 'NOT LIKE', '%Ayurveda%')
+                            ->where('package_name', 'NOT LIKE', '%Panchkarma%')
+                            ->get();
+    
+        // ✅ Types (Extract from package_name) — no Ayurvedic bucket now
         $types = $allPackages
             ->pluck('package_name')
             ->filter()
             ->map(function ($name) {
-        
-                $name = strtolower(trim($name));
-        
-                if (
-                    str_contains($name, 'ayurvedic') ||
-                    str_contains($name, 'ayurveda') ||
-                    str_contains($name, 'panchkarma') ||
-                    str_contains($name, 'consultation with ayurvedic')
-                ) {
-                    return 'Ayurvedic';
-                }
-        
-                return ucfirst(preg_split('/\s+/', $name)[0]);
+                return preg_split('/\s+/', trim($name))[0];
             })
             ->unique()
             ->values();
-                                
-                
-        // dd($allPackages, $types);
-            
     
         $genders = $allPackages
                     ->pluck('gender')
@@ -473,21 +576,24 @@ class HomeController extends Controller
                     ->filter(fn($value) => !empty($value))
                     ->unique()
                     ->values();
-
-        // Age Ranges
+    
         $ageRanges = $allPackages
                         ->pluck('age_range')
                         ->filter()
                         ->unique()
                         ->values();
-
+    
         return view('frontend.health_packages', compact(
             'health_packages',
             'categories',
             'genders',
-            'ageRanges', 'types'
+            'ageRanges',
+            'types'
         ));
     }
+
+
+
 
     public function health_packages_details($slug)
     {

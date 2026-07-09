@@ -3,6 +3,39 @@
 <html lang="en">
     <head>
         @include('components.frontend.head')
+        
+        <style>
+            /* default / first card — red */
+            .health-card .package-top {
+                background: linear-gradient(135deg, #e94b4b, #f36f6f) !important;
+                color: #fff;
+                padding: 20px;
+            }
+            
+            /* blue */
+            .health-card.blue-card .package-top {
+                background: linear-gradient(135deg, #1d7fa8, #34a7d4) !important;
+            }
+            
+            /* green */
+            .health-card.green-card .package-top {
+                background: linear-gradient(135deg, #15a535, #40d768) !important;
+            }
+            
+            /* orange */
+            /* orange */
+            .health-card.orange-card .package-top {
+                background: linear-gradient(135deg, #e8862e, #f5a94d) !important;
+            }
+            
+            /* keep the whole card white — only .package-top shows color */
+            .health-card,
+            .health-card.blue-card,
+            .health-card.green-card,
+            .health-card.orange-card {
+                background: #fff !important;
+            }
+        </style>
     </head>
     
     <body>
@@ -53,8 +86,14 @@
                                 data-target="#wellness_form">
                                     <span>Enquiry</span>
                                 </a>
+                                <a class="twenty"
+                                type="button"
+                                data-toggle="modal"
+                                data-target="#ayurveda_packages">
+                                    <span>View Our Health Packages</span>
+                                </a>
                             </div>
-
+                           
                         </div>
                     </div>
                     <div class="col-md-5"></div>
@@ -62,7 +101,63 @@
             </div>
         </section>
 
-
+        <div id="ayurveda_packages" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ayurveda Health Packages</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+        
+                  @php
+                      $bgClasses = ['', 'blue-card', 'green-card', 'orange-card'];
+                  @endphp
+        
+                  @forelse($ayurvedaPackages as $index => $package)
+                    <div class="col-md-4 col-sm-6">
+                      <div class="health-card {{ $bgClasses[$index % 4] }}">
+                        <div class="package-top">
+                          <div class="price">
+                            ₹{{ number_format($package->discounted_price ?? 0) }}
+                          </div>
+                          <h3>{{ $package->package_name }}</h3>
+                        </div>
+                        <ul class="package-list">
+                          <li><i class="glyphicon glyphicon-ok"></i> Age Range: {{ $package->age_range ?? 'All' }}</li>
+                          <li>
+                            <i class="glyphicon glyphicon-ok"></i> Gender:
+                            @php
+                                $genders = json_decode($package->gender, true);
+                            @endphp
+                            {{ is_array($genders) ? implode(', ', $genders) : ($package->gender ?? 'All') }}
+                          </li>
+                        </ul>
+                        <div class="package-buttons">
+                          <a href="{{ route('frontend.health_packages_details', $package->slug) }}" class="btn btn-view">
+                            View Package
+                          </a>
+                          <a  data-toggle="modal" data-target="#health-checkup" data-package="{{ $package->package_name }}" class="btn btn-book">
+                            Book Package
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  @empty
+                    <div class="col-md-12 text-center">
+                      <p>No Ayurveda packages available at the moment.</p>
+                    </div>
+                  @endforelse
+        
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
         <div id="wellness_form" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content -->
@@ -127,60 +222,83 @@
         <script>
             document.getElementById('contactForm').addEventListener('submit', function(e) {
 
-    let isValid = true;
-
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = submitBtn.querySelector('span');
-
-    document.querySelectorAll('.error').forEach(el => {
-        el.innerHTML = '';
-    });
-
-    let name = document.getElementById('name').value.trim();
-    let email = document.getElementById('email').value.trim();
-    let mobile = document.getElementById('mobile_no').value.trim();
-
-    // Name
-    if(name === '') {
-        document.getElementById('name_error').innerHTML = 'Name is required';
-        isValid = false;
-    }
-    else if(!/^[A-Za-z\s]+$/.test(name)) {
-        document.getElementById('name_error').innerHTML = 'Only alphabets are allowed';
-        isValid = false;
-    }
-
-    // Email
-    if(email === '') {
-        document.getElementById('email_error').innerHTML = 'Email is required';
-        isValid = false;
-    }
-    else if(!/^\S+@\S+\.\S+$/.test(email)) {
-        document.getElementById('email_error').innerHTML = 'Enter a valid email address';
-        isValid = false;
-    }
-
-    // Mobile
-    if(mobile === '') {
-        document.getElementById('mobile_error').innerHTML = 'Mobile number is required';
-        isValid = false;
-    }
-    else if(!/^\d{10,12}$/.test(mobile)) {
-        document.getElementById('mobile_error').innerHTML = 'Mobile number must be 10 to 12 digits';
-        isValid = false;
-    }
-
-    if(!isValid) {
-        e.preventDefault();
-        return false;
-    }
-
-    // Disable button after validation passes
-    submitBtn.disabled = true;
-    submitBtn.style.pointerEvents = 'none';
-    btnText.innerHTML = 'Submitting...';
-});
+                let isValid = true;
+            
+                const submitBtn = document.getElementById('submitBtn');
+                const btnText = submitBtn.querySelector('span');
+            
+                document.querySelectorAll('.error').forEach(el => {
+                    el.innerHTML = '';
+                });
+            
+                let name = document.getElementById('name').value.trim();
+                let email = document.getElementById('email').value.trim();
+                let mobile = document.getElementById('mobile_no').value.trim();
+            
+                // Name
+                if(name === '') {
+                    document.getElementById('name_error').innerHTML = 'Name is required';
+                    isValid = false;
+                }
+                else if(!/^[A-Za-z\s]+$/.test(name)) {
+                    document.getElementById('name_error').innerHTML = 'Only alphabets are allowed';
+                    isValid = false;
+                }
+            
+                // Email
+                if(email === '') {
+                    document.getElementById('email_error').innerHTML = 'Email is required';
+                    isValid = false;
+                }
+                else if(!/^\S+@\S+\.\S+$/.test(email)) {
+                    document.getElementById('email_error').innerHTML = 'Enter a valid email address';
+                    isValid = false;
+                }
+            
+                // Mobile
+                if(mobile === '') {
+                    document.getElementById('mobile_error').innerHTML = 'Mobile number is required';
+                    isValid = false;
+                }
+                else if(!/^\d{10,12}$/.test(mobile)) {
+                    document.getElementById('mobile_error').innerHTML = 'Mobile number must be 10 to 12 digits';
+                    isValid = false;
+                }
+            
+                if(!isValid) {
+                    e.preventDefault();
+                    return false;
+                }
+            
+                // Disable button after validation passes
+                submitBtn.disabled = true;
+                submitBtn.style.pointerEvents = 'none';
+                btnText.innerHTML = 'Submitting...';
+            });
         </script>
+        
+        
+        <!--- Auto fetching Package Name on the Form--->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const modal = document.getElementById('health-checkup');
+                const packageSelect = modal.querySelector('[name="pkg_name"]');
+            
+                document.querySelectorAll('.book_packages').forEach(button => {
+                    button.addEventListener('click', function () {
+            
+                        let packageName = this.getAttribute('data-package');
+            
+                        if (packageName && packageSelect) {
+                            packageSelect.value = packageName;
+                        }
+                    });
+                });
+            
+            });
+        </script>
+        
 
 
     </body>

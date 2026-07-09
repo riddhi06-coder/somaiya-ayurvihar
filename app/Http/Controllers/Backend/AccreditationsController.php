@@ -28,14 +28,21 @@ class AccreditationsController extends Controller
 
     public function store(Request $request)
     {
+        // Normalise empty CKEditor content so `required` catches it
+        $request->merge([
+            'description' => $this->cleanEditor($request->input('description')),
+        ]);
+
         // Validation
         $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'image'       => 'required|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'description' => 'required|string',
         ],[
-            'image.required' => 'Please upload Image.',
-            'image.image'    => 'Uploaded file must be an image.',
-            'image.mimes'    => 'Allowed formats: jpg, jpeg, png, webp, svg.',
-            'image.max'      => 'Image size must be less than 2MB.',
+            'image.required'       => 'Please upload Image.',
+            'image.image'          => 'Uploaded file must be an image.',
+            'image.mimes'          => 'Allowed formats: jpg, jpeg, png, webp, svg.',
+            'image.max'            => 'Image size must be less than 2MB.',
+            'description.required' => 'Please enter a description.',
         ]);
 
         try {
@@ -58,9 +65,10 @@ class AccreditationsController extends Controller
 
             // Save Data
             ManageAccreditations::create([
-                'image'      => $imageName,
-                'created_by' => Auth::id(),
-                'created_at' => Carbon::now(),
+                'image'       => $imageName,
+                'description' => $request->description,
+                'created_by'  => Auth::id(),
+                'created_at'  => Carbon::now(),
             ]);
 
             return redirect()
@@ -81,13 +89,20 @@ class AccreditationsController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Normalise empty CKEditor content so `required` catches it
+        $request->merge([
+            'description' => $this->cleanEditor($request->input('description')),
+        ]);
+
         // Validation
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'description' => 'required|string',
         ],[
-            'image.image' => 'Uploaded file must be an image.',
-            'image.mimes' => 'Allowed formats: jpg, jpeg, png, webp, svg.',
-            'image.max'   => 'Image size must be less than 2MB.',
+            'image.image'          => 'Uploaded file must be an image.',
+            'image.mimes'          => 'Allowed formats: jpg, jpeg, png, webp, svg.',
+            'image.max'            => 'Image size must be less than 2MB.',
+            'description.required' => 'Please enter a description.',
         ]);
 
         try {
@@ -118,9 +133,10 @@ class AccreditationsController extends Controller
 
             // Update Data
             $accreditation->update([
-                'image'      => $imageName,
-                'updated_by' => Auth::id(),
-                'updated_at' => Carbon::now(),
+                'image'       => $imageName,
+                'description' => $request->description,
+                'updated_by'  => Auth::id(),
+                'updated_at'  => Carbon::now(),
             ]);
 
             return redirect()
@@ -142,8 +158,18 @@ class AccreditationsController extends Controller
             $industries->update($data);
 
             return redirect()->route('admin.manage-accreditations.index')->with('message', 'Details deleted successfully!');
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             return redirect()->back()->with('error', 'Something Went Wrong - ' . $ex->getMessage());
         }
+    }
+
+    /**
+     * CKEditor sends empty content as "<p>&nbsp;</p>" or "".
+     * Return null for those so validation `required` triggers.
+     */
+    private function cleanEditor($value)
+    {
+        $text = trim(str_replace('&nbsp;', '', strip_tags((string) $value)));
+        return $text === '' ? null : $value;
     }
 }

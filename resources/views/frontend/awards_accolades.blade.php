@@ -49,17 +49,30 @@
                     </div>
                 </div>
         
-                <div class="achievement-section">
+                <div class="achievement-section achievement-one">
                     <div class="row">
         
                         @forelse($awards as $item)
         
                             <div class="col-md-3 col-sm-6">
-                                <div class="achievement-card">
+                                <div class="achievement-card single-single-gallery">
         
-                                    <div class="achievement-icon">
+                                   <!-- <div class="achievement-icon">
                                         <img src="{{ asset('uploads/awards/'.$item->banner_image) }}"
                                              alt="award">
+                                    </div>-->
+                                    <div class="achievement-icon single-gallery">
+                                        <a href="{{ asset('uploads/awards/'.$item->banner_image) }}" 
+                                           data-fancybox="gallery" 
+                                           class="gallery-hover">
+                    
+                                            <img src="{{ asset('uploads/awards/'.$item->banner_image) }}" 
+                                                 class="img-responsive">
+                    
+                                            <div class="overlay">
+                                                <span class="plus-icon">+</span>
+                                            </div>
+                                        </a>
                                     </div>
         
                                     <h3>

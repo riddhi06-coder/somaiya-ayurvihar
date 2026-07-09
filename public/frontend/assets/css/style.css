@@ -23,6 +23,9 @@
      src: url('../font/marcellus/marcellus-regular.woff2') format('woff2');
      font-display: swap;
 }
+a:focus{
+    outline:none; 
+}
  h1, h2, h3, h4, h5, h6 {
      font-family: 'marcellus-regular';
 }
@@ -8344,6 +8347,9 @@
 }
  .ayurveda-wrap .content .button-box{
      margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
 }
  .alternative-therapies-wrap{
      background-color: #ffffff;
@@ -10021,4 +10027,155 @@
         opacity:1;
     }
 
+}
+#ayurveda_packages .modal-dialog{
+    width: 1000px;
+}
+#ayurveda_packages .modal-body{
+    padding:30px;
+}
+#ayurveda_packages .modal-header .close{
+    color:#000;
+}
+#ayurveda_packages .modal-header {
+    padding: 15px 30px;
+}
+.health-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    transition:.35s;
+    margin-bottom:20px;
+}
+.health-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 45px rgba(0,0,0,.15);
+}
+.health-card .package-top{
+    background:linear-gradient(135deg, #15a535, #40d768) !important;
+    color:#fff;
+    padding:20px;
+}
+.health-card .package-top h3{
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 23px;
+    height:90px;
+}
+.health-card .price{
+    display:inline-block;
+    background:#fff;
+    padding:8px 18px;
+    border-radius:40px;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom: 0px;
+}
+.health-card .popular-tag{
+    position:absolute;
+    top:18px;
+    right:-45px;
+    background:#ffb400;
+    color:#fff;
+    padding:6px 50px;
+    transform:rotate(45deg);
+    font-size:12px;
+    font-weight:bold;
+}
+.health-card .package-list{
+    padding:10px 20px;
+    list-style:none;
+    margin:0;
+}
+.health-card .package-list li{
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+.health-card .package-list li:last-child{
+    border-bottom: none;
+}
+.health-card .package-list i{
+    color:#1fb65d;
+    margin-right:10px;
+}
+.health-card .package-info{
+    padding:25px 30px;
+    background:#fafafa;
+}
+.health-card .package-btn{
+    background:#0099cc;
+    color:#fff;
+    border-radius:0;
+    padding:18px;
+    font-size:16px;
+    font-weight:bold;
+    transition:.3s;
+}
+.health-card .package-btn:hover{
+    background:#0072aa;
+    color:#fff;
+}
+.health-card .package-buttons{
+    padding:5px 20px 10px;
+}
+.health-card .package-buttons .btn{
+    width:100%;
+    padding:13px;
+    font-size:15px;
+    font-weight:600;
+    border-radius:30px;
+    transition:all .3s ease;
+    margin-bottom:12px;
+}
+.health-card .package-buttons .btn-view{
+    background:var(--color-two);
+    color:#fff;
+    border:2px solid var(--color-two);
+}
+.health-card .package-buttons .btn-view:hover,
+.health-card .package-buttons .btn-view:focus{
+    background:#fff;
+    border-color:var(--color-two);
+    color:var(--color-two);
+}
+.health-card .package-buttons .btn-book{
+    background:#fff;
+    color:var(--color-two);
+    border:2px solid var(--color-two);
+}
+.health-card .package-buttons .btn-book:hover,
+.health-card .package-buttons .btn-book:focus{
+    background:var(--color-two);
+    color:#fff;
+    border-color:var(--color-two);
+}
+.accreditations-page-img{
+    cursor: pointer;
+    box-shadow: rgb(0 0 0 / 10%) 0px 10px 50px !important;
+    border-radius: 20px;
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+}
+.achievement-one .achievement-icon img {
+    width: 100%;
+    height: 300px;
+    cursor: pointer;
+    color: #1f7ae0;
+    margin-bottom: 15px;
+    object-fit: contain;
+}
+.achievement-one .single-gallery{
+    box-shadow:none;
+}
+.achievement-one .single-gallery:focus{
+    outline:none;
+}
+.row-center{
+    justify-content: center;
+    display: flex;
 }

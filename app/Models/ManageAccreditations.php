@@ -14,6 +14,7 @@ class ManageAccreditations extends Model
 
     protected $fillable = [
         'image',
+        'description',
 
         'created_at',
         'created_by',

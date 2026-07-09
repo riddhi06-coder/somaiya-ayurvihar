@@ -118,67 +118,67 @@
                             </div>
                         </div>   
                             
-                          <div class="filter-body">
-                             <div class="filter-group">
-                                <label class="sidebar_filter_label">Category</label>
-                                <select class="form-control"
-                                        name="category_id"
-                                        onchange="this.form.submit()">
-                                    <option value="">--Select Category--</option>
+                          <!--<div class="filter-body">-->
+                          <!--   <div class="filter-group">-->
+                          <!--      <label class="sidebar_filter_label">Category</label>-->
+                          <!--      <select class="form-control"-->
+                          <!--              name="category_id"-->
+                          <!--              onchange="this.form.submit()">-->
+                          <!--          <option value="">--Select Category--</option>-->
 
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->subcategory_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                           <div class="form-group">
-                                <label class="sidebar_filter_label">Gender</label>
+                          <!--          @foreach($categories as $category)-->
+                          <!--              <option value="{{ $category->id }}"-->
+                          <!--                  {{ request('category_id') == $category->id ? 'selected' : '' }}>-->
+                          <!--                  {{ $category->subcategory_name }}-->
+                          <!--              </option>-->
+                          <!--          @endforeach-->
+                          <!--      </select>-->
+                          <!--  </div>-->
+                          <!-- <div class="form-group">-->
+                          <!--      <label class="sidebar_filter_label">Gender</label>-->
 
-                                @foreach($genders as $gender)
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                            name="gender[]"
-                                            value="{{ $gender }}"
-                                            onchange="this.form.submit()"
-                                            {{ in_array($gender, request('gender', [])) ? 'checked' : '' }}>
-                                        {{ $gender }}
-                                    </label>
-                                </div>
-                                @endforeach
+                          <!--      @foreach($genders as $gender)-->
+                          <!--      <div class="checkbox">-->
+                          <!--          <label>-->
+                          <!--              <input type="checkbox"-->
+                          <!--                  name="gender[]"-->
+                          <!--                  value="{{ $gender }}"-->
+                          <!--                  onchange="this.form.submit()"-->
+                          <!--                  {{ in_array($gender, request('gender', [])) ? 'checked' : '' }}>-->
+                          <!--              {{ $gender }}-->
+                          <!--          </label>-->
+                          <!--      </div>-->
+                          <!--      @endforeach-->
 
-                            </div>
+                          <!--  </div>-->
 
-                            <div class="form-group">
-                                <label class="sidebar_filter_label">Age Group</label>
+                          <!--  <div class="form-group">-->
+                          <!--      <label class="sidebar_filter_label">Age Group</label>-->
 
-                                @foreach($ageRanges as $age)
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                            name="age_range[]"
-                                            value="{{ $age }}"
-                                            onchange="this.form.submit()"
-                                            {{ in_array($age, request('age_range', [])) ? 'checked' : '' }}>
-                                        {{ $age }}
-                                    </label>
-                                </div>
-                                @endforeach
+                          <!--      @foreach($ageRanges as $age)-->
+                          <!--      <div class="checkbox">-->
+                          <!--          <label>-->
+                          <!--              <input type="checkbox"-->
+                          <!--                  name="age_range[]"-->
+                          <!--                  value="{{ $age }}"-->
+                          <!--                  onchange="this.form.submit()"-->
+                          <!--                  {{ in_array($age, request('age_range', [])) ? 'checked' : '' }}>-->
+                          <!--              {{ $age }}-->
+                          <!--          </label>-->
+                          <!--      </div>-->
+                          <!--      @endforeach-->
 
 
 
-                            </div>
+                          <!--  </div>-->
                             
-                             <div class="form-group mt-3">
-                                <a href="{{ route('frontend.health_packages') }}"
-                                class="reset-btn-modern">
-                                    Reset Filter
-                                </a>
-                            </div>
-                          </div>
+                          <!--   <div class="form-group mt-3">-->
+                          <!--      <a href="{{ route('frontend.health_packages') }}"-->
+                          <!--      class="reset-btn-modern">-->
+                          <!--          Reset Filter-->
+                          <!--      </a>-->
+                          <!--  </div>-->
+                          <!--</div>-->
                         </div>
                         </form>
                         <!--end mobile filter-->
@@ -210,59 +210,59 @@
 
 
                             <!-- Category -->
-                            <div class="filter-group">
-                                <label class="sidebar_filter_label">Category</label>
-                                <select class="form-control"
-                                        name="category_id"
-                                        onchange="this.form.submit()">
-                                    <option value="">--Select Category--</option>
+                            <!--<div class="filter-group">-->
+                            <!--    <label class="sidebar_filter_label">Category</label>-->
+                            <!--    <select class="form-control"-->
+                            <!--            name="category_id"-->
+                            <!--            onchange="this.form.submit()">-->
+                            <!--        <option value="">--Select Category--</option>-->
 
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->subcategory_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <!--        @foreach($categories as $category)-->
+                            <!--            <option value="{{ $category->id }}"-->
+                            <!--                {{ request('category_id') == $category->id ? 'selected' : '' }}>-->
+                            <!--                {{ $category->subcategory_name }}-->
+                            <!--            </option>-->
+                            <!--        @endforeach-->
+                            <!--    </select>-->
+                            <!--</div>-->
 
                             <!-- Gender -->
-                            <div class="form-group">
-                                <label class="sidebar_filter_label">Gender</label>
+                            <!--<div class="form-group">-->
+                            <!--    <label class="sidebar_filter_label">Gender</label>-->
 
-                                @foreach($genders as $gender)
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                            name="gender[]"
-                                            value="{{ $gender }}"
-                                            onchange="this.form.submit()"
-                                            {{ in_array($gender, request('gender', [])) ? 'checked' : '' }}>
-                                        {{ $gender }}
-                                    </label>
-                                </div>
-                                @endforeach
+                            <!--    @foreach($genders as $gender)-->
+                            <!--    <div class="checkbox">-->
+                            <!--        <label>-->
+                            <!--            <input type="checkbox"-->
+                            <!--                name="gender[]"-->
+                            <!--                value="{{ $gender }}"-->
+                            <!--                onchange="this.form.submit()"-->
+                            <!--                {{ in_array($gender, request('gender', [])) ? 'checked' : '' }}>-->
+                            <!--            {{ $gender }}-->
+                            <!--        </label>-->
+                            <!--    </div>-->
+                            <!--    @endforeach-->
 
-                            </div>
+                            <!--</div>-->
 
                             <!-- Age Group -->
-                            <div class="form-group">
-                                <label class="sidebar_filter_label">Age Group</label>
+                            <!--<div class="form-group">-->
+                            <!--    <label class="sidebar_filter_label">Age Group</label>-->
 
-                                @foreach($ageRanges as $age)
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                            name="age_range[]"
-                                            value="{{ $age }}"
-                                            onchange="this.form.submit()"
-                                            {{ in_array($age, request('age_range', [])) ? 'checked' : '' }}>
-                                        {{ $age }}
-                                    </label>
-                                </div>
-                                @endforeach
+                            <!--    @foreach($ageRanges as $age)-->
+                            <!--    <div class="checkbox">-->
+                            <!--        <label>-->
+                            <!--            <input type="checkbox"-->
+                            <!--                name="age_range[]"-->
+                            <!--                value="{{ $age }}"-->
+                            <!--                onchange="this.form.submit()"-->
+                            <!--                {{ in_array($age, request('age_range', [])) ? 'checked' : '' }}>-->
+                            <!--            {{ $age }}-->
+                            <!--        </label>-->
+                            <!--    </div>-->
+                            <!--    @endforeach-->
 
-                            </div>
+                            <!--</div>-->
 
                             <div class="form-group mt-3">
                                 <a href="{{ route('frontend.health_packages') }}"

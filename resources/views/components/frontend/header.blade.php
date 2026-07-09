@@ -23,7 +23,7 @@
           <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg') }}" width="35" height="35" alt="Book Heath Check">
           <span class="tooltip-text">Book Heath Check </span>
           </a>
-           <a type="button" href="tel:7506655888">
+           <a type="button" href="tel:+91 7506655888">
           <img src="{{ asset('frontend/assets/img/icon/ambulance.svg') }}" width="35" height="35" alt="Book An Ambulance">
           <span class="tooltip-text">Book An Ambulance</span>
           </a>
