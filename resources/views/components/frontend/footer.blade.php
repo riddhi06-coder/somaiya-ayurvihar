@@ -9,11 +9,35 @@
 @endphp
 
 <style>
-.error-msg {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-}
+    .error-msg {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+    
+    /* Make the 6 columns wrap predictably instead of float-catching */
+    .book-appoint-form {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    /* Reserve space under each field so the error text doesn't push things */
+    .book-appoint-form .form-group {
+        position: relative;
+        margin-bottom: 26px;   /* space reserved for the error line */
+    }
+    
+    /* Error sits in the reserved space, absolutely positioned -> no layout shift */
+    .book-appoint-form .error-msg {
+        position: absolute;
+        left: 0;
+        bottom: -20px;
+        margin: 0;
+        font-size: 12px;
+        line-height: 16px;
+        color: #d00000;
+        white-space: nowrap;
+    }
 </style>
 
     <footer>
@@ -260,7 +284,7 @@
                     </div>
                     <div class="modal-body">
                       <div class="row">
-                        <h6 class="form-title">please fill out all required fields meaning</h6>
+                        <h6 class="form-title">please fill out all required fields.</h6>
 
                             <form class="book-appoint-form" method="POST" action="{{ route('health.checkup.submit') }}">
                                 @csrf
