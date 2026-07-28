@@ -473,6 +473,27 @@
         const slotEl      = document.getElementById('slot');
         const dateEl      = document.querySelector('[name="appointement_date"]');
 
+        /* When the selected speciality has NO doctors, the doctor field becomes
+           optional and we offer generic time slots instead of doctor-specific ones. */
+        let doctorOptional = false;
+
+        /* Generic hourly slots 9 AM–9 PM (mirrors the server-side fallback in
+           FormController::getDoctorSlots) — used only when no doctor is available. */
+        function fmtHour(h) {
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            let hr = h % 12; if (hr === 0) hr = 12;
+            return String(hr).padStart(2, '0') + ':00 ' + ampm;
+        }
+        function populateGenericSlots() {
+            if (!slotEl) return;
+            slotEl.innerHTML = '<option value="">--Select Slot*--</option>';
+            for (let h = 9; h < 21; h++) {
+                const label = fmtHour(h) + ' - ' + fmtHour(h + 1);
+                slotEl.innerHTML += `<option value="${label}">${label}</option>`;
+            }
+            slotEl.disabled = false;
+        }
+
         /* ===========================================================
            1) Pincode -> Country / State / City auto-fill
         =========================================================== */
@@ -519,7 +540,12 @@
             slotEl.disabled = true;
         
             if (!doctorId) {
-                console.warn('No doctor selected yet — slots will load once a doctor is chosen.');
+                if (doctorOptional) {
+                    // Speciality has no doctor -> keep generic slots enabled so the user can still book
+                    populateGenericSlots();
+                } else {
+                    console.warn('No doctor selected yet — slots will load once a doctor is chosen.');
+                }
                 return;
             }
             if (!date) {
@@ -574,6 +600,7 @@
             specialityEl.addEventListener('change', function () {
                 const specialityId = this.value;
 
+                doctorOptional = false;
                 doctorEl.innerHTML = '<option value="">--Select Doctor--</option>';
                 doctorEl.disabled = true;
 
@@ -592,8 +619,13 @@
                                     doctorEl.innerHTML += `<option value="${doc.id}">${doc.doctor_name}</option>`;
                                 });
                                 doctorEl.disabled = false;
+                                doctorOptional = false;
                             } else {
                                 doctorEl.innerHTML = '<option value="">No doctors found</option>';
+                                // No doctor for this speciality: doctor becomes optional and
+                                // generic slots are shown enabled so the appointment can still be booked.
+                                doctorOptional = true;
+                                populateGenericSlots();
                             }
                         })
                         .catch(err => console.error('Doctor fetch error:', err));
@@ -704,7 +736,7 @@
                 if (!state.value || state.value.includes('Select')) showError(state, 'Please select state');
                 if (!city.value || city.value.includes('Select')) showError(city, 'Please select city');
                 if (!speciality.value) showError(speciality, 'Please select speciality');
-                if (!doctor.value) showError(doctor, 'Please select doctor');
+                if (!doctorOptional && !doctor.value) showError(doctor, 'Please select doctor');
                 if (!slot.value) showError(slot, 'Please select a time slot');
 
                 if (!appDate.value) showError(appDate, 'Appointment date is required');
@@ -755,6 +787,7 @@
                                 doctorEl.innerHTML += `<option value="${doc.id}" ${selected}>${doc.doctor_name}</option>`;
                             });
                             doctorEl.disabled = false;
+                            doctorOptional = false;
                             // load slots for the preselected doctor (only fires if date already chosen)
                             loadDoctorSlots();
                         })
@@ -769,6 +802,7 @@
         const apptModal = document.getElementById('bookappointment-services');
         if (apptModal) {
             apptModal.addEventListener('hidden.bs.modal', function () {
+                doctorOptional = false;
                 if (specialityEl) specialityEl.value = '';
                 if (doctorEl) {
                     doctorEl.innerHTML = '<option value="">--Select Doctor--</option>';

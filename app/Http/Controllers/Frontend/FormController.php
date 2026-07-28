@@ -137,7 +137,7 @@ use App\Models\ContactEnquiry;
                 'state' => 'required',
                 'city' => 'required',
                 'speciality' => 'required',
-                'doctor_name' => 'required',
+                'doctor_name' => 'nullable', // optional when the selected speciality has no doctors
                 'appointement_date' => 'required|date|after_or_equal:today',
                 'slot' => 'required',
             ]);
@@ -174,7 +174,7 @@ use App\Models\ContactEnquiry;
                 'city'             => $data['city'],
                 'speciality_id'    => $request->speciality,
                 'speciality'       => $data['speciality'],
-                'doctor_id'        => $request->doctor_name,
+                'doctor_id'        => $request->doctor_name ?: null,
                 'doctor_name'      => $data['doctor_name'],
                 'appointment_date' => $data['appointment_date'],
                 'slot'             => $data['slot'],
