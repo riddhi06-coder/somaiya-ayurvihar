@@ -797,21 +797,47 @@
         });
 
         /* ===========================================================
-           8) Reset modal on close  (vanilla; clears doctor AND slots)
+           8) Reset ANY modal's form when it closes
+              (× button, backdrop click, or Esc). Clears all entered
+              data, validation messages, and dependent dropdowns.
         =========================================================== */
-        const apptModal = document.getElementById('bookappointment-services');
-        if (apptModal) {
-            apptModal.addEventListener('hidden.bs.modal', function () {
-                doctorOptional = false;
-                if (specialityEl) specialityEl.value = '';
-                if (doctorEl) {
-                    doctorEl.innerHTML = '<option value="">--Select Doctor--</option>';
-                    doctorEl.disabled = true;
-                }
-                if (slotEl) {
-                    slotEl.innerHTML = '<option value="">--Select Slot*--</option>';
-                    slotEl.disabled = true;
-                }
+        function resetModalForm(modalEl) {
+            if (!modalEl) return;
+
+            // Reset every form inside + wipe inline validation messages
+            modalEl.querySelectorAll('form').forEach(function (form) {
+                form.reset();
+                form.querySelectorAll('.error-msg').forEach(el => el.remove());
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.disabled = false;
+            });
+
+            // Appointment-modal dependent selects (only present in that modal)
+            const country = modalEl.querySelector('#country');
+            const state   = modalEl.querySelector('#state');
+            const city    = modalEl.querySelector('#city');
+            if (country) country.innerHTML = '<option>--Select Country*--</option>';
+            if (state)   state.innerHTML   = '<option>--Select State*--</option>';
+            if (city)    city.innerHTML    = '<option>--Select City*--</option>';
+
+            const doctor = modalEl.querySelector('#doctor');
+            const slot   = modalEl.querySelector('#slot');
+            if (doctor) { doctor.innerHTML = '<option value="">--Select Doctor*--</option>'; doctor.disabled = true; }
+            if (slot)   { slot.innerHTML   = '<option value="">--Select Slot*--</option>';   slot.disabled = true; }
+
+            doctorOptional = false;
+        }
+
+        if (window.jQuery) {
+            // Bootstrap 3 dispatches this as a jQuery event
+            window.jQuery('.modal').on('hidden.bs.modal', function () {
+                resetModalForm(this);
+            });
+        } else {
+            document.querySelectorAll('.modal').forEach(function (modalEl) {
+                modalEl.addEventListener('hidden.bs.modal', function () {
+                    resetModalForm(modalEl);
+                });
             });
         }
 
