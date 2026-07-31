@@ -148,7 +148,10 @@
                                                         @if($loop->first)
 
                                                           @php
-                                                              $subs = $masterItems     ->sortBy(function ($item) {         return $item->sub_priority ?? 9999;     })     ->groupBy('sub_id')->values();
+                                                              $subs = $masterItems
+                                                                    ->groupBy('sub_id')
+                                                                    ->sortBy(fn($group) => strtolower($group->first()->sub_name ?? ''))
+                                                                    ->values();
                                                               $half = ceil($subs->count() / 2);
                                                           @endphp
 
@@ -228,7 +231,7 @@
                                                             @if($loop->first)
                                                                 <div class="col-md-6">
                                                                     <ul class="menu_tab_list">
-                                                                        @foreach($masterItems     ->sortBy(function ($item) {         return $item->sub_priority ?? 9999;     })     ->groupBy('sub_id') as $subId => $subItems)
+                                                                        @foreach($masterItems->groupBy('sub_id')->sortBy(fn($group) => strtolower($group->first()->sub_name ?? '')) as $subId => $subItems)
                                                                             <li>
                                                                                 <a href="{{ route('frontend.service_details', $subItems->first()->sub_slug) }}">
                                                                                     {{ $subItems->first()->sub_name }}

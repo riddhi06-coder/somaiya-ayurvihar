@@ -652,7 +652,12 @@ class HomeController extends Controller
     // Specialties
     public function specialties()
     {
-        $specialities = Specialities::with('subcategory')->wherenull('deleted_by')->get();
+        $specialities = Specialities::with('subcategory')
+            ->wherenull('deleted_by')
+            ->get()
+            ->sortBy(fn($item) => strtolower($item->subcategory->subcategory_name ?? ''))
+            ->values();
+
         return view('frontend.specialties', compact('specialities'));
     }
 

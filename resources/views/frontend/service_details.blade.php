@@ -123,7 +123,8 @@
                     
                     @foreach($service->page_headers as $header)
                         @php $target = $resolveTarget($header['title'] ?? '', $loop->first); @endphp
-                        @if($target)
+                        {{-- Hide the Doctors tab when this speciality has no doctors --}}
+                        @if($target && !($target === 'doctors' && $doctors->count() === 0))
                             <li class="{{ $loop->first ? 'active' : '' }}">
                                 <a href="javascript:void(0)" data-target="{{ $target }}">
                                     {{ $header['title'] }}
@@ -173,6 +174,7 @@
 
 
       <!------------- Doctor Details ------------->
+      @if($doctors->count() > 0)
       <div id="doctors" class="tab_section">
         <div class="container">
         
@@ -241,8 +243,9 @@
           </div>
         </div>
       </div>
+      @endif
 
-      
+
       <!------------- Services / Procedures We Offer ------------->
       <div id="our-services" class="tab_section ck-content">
           <div class="container">
