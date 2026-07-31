@@ -22,6 +22,7 @@ class Contact extends Model
         'iframe_url',
         'associates_name',
         'emergency_details',
+        'helpline_numbers',
         'associates_details',
         'social_media_links',
 

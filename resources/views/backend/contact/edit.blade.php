@@ -111,6 +111,51 @@
                                         </div>
 
 
+                                        <!-- Helpline / Side-menu Numbers -->
+                                        <div class="table-responsive mt-5">
+                                            <label class="form-label">Helpline Numbers (Side Menu)</label>
+                                            <table class="table table-bordered" id="helplineTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Label</th>
+                                                        <th>Number(s)</th>
+                                                        <th width="120">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="helplineBody">
+                                                    @if(!empty($contact->helpline_numbers))
+                                                        @foreach($contact->helpline_numbers as $hkey => $hl)
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" name="helpline_label[]" class="form-control"
+                                                                    value="{{ $hl['label'] ?? '' }}" placeholder="e.g. 24x7 Enquiry">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="helpline_number[]" class="form-control"
+                                                                    value="{{ $hl['number'] ?? '' }}" placeholder="e.g. 022-50954700 / 9324960673">
+                                                            </td>
+                                                            <td>
+                                                                @if($hkey == 0)
+                                                                    <button type="button" class="btn btn-success addHelpline">Add More</button>
+                                                                @else
+                                                                    <button type="button" class="btn btn-danger removeHelpline">Remove</button>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td><input type="text" name="helpline_label[]" class="form-control" placeholder="e.g. 24x7 Enquiry"></td>
+                                                            <td><input type="text" name="helpline_number[]" class="form-control" placeholder="e.g. 022-50954700 / 9324960673"></td>
+                                                            <td><button type="button" class="btn btn-success addHelpline">Add More</button></td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                            <small class="text-muted">For multiple numbers in one row, separate them with a slash " / ".</small>
+                                        </div>
+
+
                                         <!-- Hospital Name -->
                                         <div class="col-md-6 mt-5">
                                             <label class="form-label" for="hospital_name">Hospital Name <span class="txt-danger">*</span></label>
@@ -423,6 +468,23 @@
 
                 // Remove Row
                 $(document).on('click', '.removeRow', function(){
+                    $(this).closest('tr').remove();
+                });
+
+                // Helpline (side-menu) Numbers rows
+                function getHelplineRow() {
+                    return `
+                        <tr>
+                            <td><input type="text" name="helpline_label[]" class="form-control" placeholder="e.g. 24x7 Enquiry"></td>
+                            <td><input type="text" name="helpline_number[]" class="form-control" placeholder="e.g. 022-50954700 / 9324960673"></td>
+                            <td><button type="button" class="btn btn-danger removeHelpline">Remove</button></td>
+                        </tr>
+                    `;
+                }
+                $(document).on('click', '.addHelpline', function(){
+                    $('#helplineBody').append(getHelplineRow());
+                });
+                $(document).on('click', '.removeHelpline', function(){
                     $(this).closest('tr').remove();
                 });
 

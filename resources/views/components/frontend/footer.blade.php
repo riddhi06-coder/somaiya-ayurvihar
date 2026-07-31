@@ -3,6 +3,9 @@
     $contact = \App\Models\Contact::wherenull('deleted_by')->first();
     $social_links = $footer && $footer->social_links ? json_decode($footer->social_links, true) : [];
 
+    // Single source of truth for all footer helpline numbers (blue patch + side menu)
+    $helplines = $contact && $contact->helpline_numbers ? json_decode($contact->helpline_numbers, true) : [];
+
     $healthpkg = \App\Models\ManageHealthPackages::wherenull('deleted_by')->get();
     $subcategory = \App\Models\MedicalServiceSubCategory::wherenull('deleted_by')->get();
     $doctor = \App\Models\Doctor::wherenull('deleted_by')->get();
@@ -78,34 +81,38 @@
                         <li class="footer_call">
                           <i class="fa fa-phone"></i>
 
+                          @if(!empty($helplines))
+                            @foreach($helplines as $hl)
+                              <b>{{ $hl['label'] ?? '' }}:</b>
+                              @php $fnums = array_values(array_filter(array_map('trim', explode('/', $hl['number'] ?? '')))); @endphp
+                              @foreach($fnums as $num)
+                                <a href="tel:{{ preg_replace('/[^0-9]/', '', $num) }}">{{ $num }}</a>@unless($loop->last) / @endunless
+                              @endforeach
+                              @unless($loop->last)<br>@endunless
+                            @endforeach
+                          @else
+                            {{-- Fallback: legacy Footer Details fields (used only if Helpline Numbers is empty) --}}
                             @if(!empty($footer?->enquiry_number))
                               <b>24x7 Enquiry:</b>
                               <a href="tel:{{ $footer->enquiry_number }}">{{ $footer->enquiry_number }}</a><br>
                             @endif
-
                             @if(!empty($footer?->emergency_contact))
                               <b>Emergency Contact:</b>
                               <a href="tel:{{ $footer->emergency_contact }}">{{ $footer->emergency_contact }}</a><br>
                             @endif
-
                             @if(!empty($footer?->opd_appointment))
                                 <b>Book OPD Appointment:</b>
-
-                                @php
-                                    $numbers = explode('/', $footer->opd_appointment);
-                                @endphp
-
-                                @foreach($numbers as $index => $num)
-                                    <a href="tel:{{ trim($num) }}">{{ trim($num) }}</a>
-                                    @if(!$loop->last) / @endif
+                                @php $numbers = explode('/', $footer->opd_appointment); @endphp
+                                @foreach($numbers as $num)
+                                    <a href="tel:{{ trim($num) }}">{{ trim($num) }}</a>@unless($loop->last) / @endunless
                                 @endforeach
                                 <br>
                             @endif
-
                             @if(!empty($footer?->wellness_appointment))
                               <b>Wellness Appointment:</b>
                               <a href="tel:{{ $footer->wellness_appointment }}">{{ $footer->wellness_appointment }}</a>
                             @endif
+                          @endif
                       </li>
 
                         {{-- Phone / Contact HTML --}}
@@ -250,11 +257,17 @@
               <div class="side-menu">
                 <label for="menuToggle" class="closebtn">&times;</label>
                 <ul class="sidemenu_numbers">
-                  <li>24x7 Enquiry: <br><a href="tel:02261124800">022-6112 4800</a></li>
-                  <li>Emergency Contact: <br><a href="tel:02250954723">022-50954723</a></li>
-                  <li>Book OPD Appointment: <br><a href="tel:02250954700">022-50954700</a> / <a href="tel:9324960673">9324960673</a></li>
-                  <li>Wellness Appointment: <br><a href="tel:918090155888">+91-8090155888</a></li>
-                  <li>Book An Ambulance: <br><a href="tel:7506655888">+91-7506655888</a></li>
+                  @if(!empty($helplines))
+                    @foreach($helplines as $hl)
+                      <li>{{ $hl['label'] ?? '' }}: <br>
+                        @php $nums = array_values(array_filter(array_map('trim', explode('/', $hl['number'] ?? '')))); @endphp
+                        @foreach($nums as $num)
+                          <a href="tel:{{ preg_replace('/[^0-9]/', '', $num) }}">{{ $num }}</a>@unless($loop->last) / @endunless
+                        @endforeach
+                      </li>
+                    @endforeach
+                 
+                  @endif
                 </ul>
               </div>
 

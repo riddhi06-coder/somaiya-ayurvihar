@@ -46,6 +46,10 @@ class ContactUsController extends Controller
             'center_name.*'     => 'required|string|max:255',
             'contact.*'         => 'required|string|max:255',
 
+            // Helpline (side-menu) Numbers Table
+            'helpline_label.*'  => 'nullable|string|max:255',
+            'helpline_number.*' => 'nullable|string|max:255',
+
             // Associates Table
             'image.*'           => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'institute_name.*'  => 'required|string|max:255',
@@ -93,6 +97,20 @@ class ContactUsController extends Controller
             }
         }
 
+        // Handle Helpline (side-menu) Numbers Table
+        $helplineData = [];
+        if ($request->has('helpline_label')) {
+            foreach ($request->helpline_label as $key => $label) {
+                if (trim((string) $label) === '' && trim((string) ($request->helpline_number[$key] ?? '')) === '') {
+                    continue; // skip fully-empty rows
+                }
+                $helplineData[] = [
+                    'label'  => $label,
+                    'number' => $request->helpline_number[$key] ?? null,
+                ];
+            }
+        }
+
         // Handle Associates Table
         if ($request->has('institute_name')) {
             foreach ($request->institute_name as $key => $instituteName) {
@@ -131,6 +149,7 @@ class ContactUsController extends Controller
         $contact->associates_name      = $request->associates_name;
 
         $contact->emergency_details    = json_encode($emergencyData);
+        $contact->helpline_numbers     = json_encode($helplineData);
         $contact->associates_details   = json_encode($associatesData);
         $contact->social_media_links   = json_encode($request->social_media);
         $contact->created_at = Carbon::now();
@@ -146,6 +165,8 @@ class ContactUsController extends Controller
         $contact = Contact::findOrFail($id);
 
         $contact->emergency_details = json_decode($contact->emergency_details, true);
+
+        $contact->helpline_numbers = json_decode($contact->helpline_numbers, true);
         
         $contact->associates_details = json_decode($contact->associates_details, true);
 
@@ -175,6 +196,9 @@ class ContactUsController extends Controller
             'center_name.*'     => 'required|string|max:255',
             'contact.*'         => 'required|string|max:255',
 
+            'helpline_label.*'  => 'nullable|string|max:255',
+            'helpline_number.*' => 'nullable|string|max:255',
+
             'image.*'           => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'institute_name.*'  => 'required|string|max:255',
             'contact_no.*'      => 'required|string|max:255',
@@ -197,6 +221,20 @@ class ContactUsController extends Controller
                 $emergencyData[] = [
                     'center_name' => $centerName,
                     'contact'     => $request->contact[$key] ?? null,
+                ];
+            }
+        }
+
+        // Helpline (side-menu) Numbers Table
+        $helplineData = [];
+        if ($request->has('helpline_label')) {
+            foreach ($request->helpline_label as $key => $label) {
+                if (trim((string) $label) === '' && trim((string) ($request->helpline_number[$key] ?? '')) === '') {
+                    continue; // skip fully-empty rows
+                }
+                $helplineData[] = [
+                    'label'  => $label,
+                    'number' => $request->helpline_number[$key] ?? null,
                 ];
             }
         }
@@ -254,6 +292,7 @@ class ContactUsController extends Controller
         $contact->associates_name    = $request->associates_name;
 
         $contact->emergency_details  = json_encode($emergencyData);
+        $contact->helpline_numbers   = json_encode($helplineData);
         $contact->associates_details = json_encode($associatesData);
         $contact->social_media_links = json_encode($request->social_media);
 

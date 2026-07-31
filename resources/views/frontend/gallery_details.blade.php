@@ -44,7 +44,7 @@
                         <div class="section-heading wow fadeInLeft" data-wow-delay="00ms"
                             data-wow-duration="1500ms">
 
-                            @if(!empty($gallery->date))
+                            <!-- @if(!empty($gallery->date))
                                 <h2>
                                     <i class="fa fa-calendar" aria-hidden="true"></i> 
                                     @php
@@ -53,7 +53,7 @@
                             
                                     {{ $date->format('d') }}<sup>{{ $date->format('S') }}</sup> {{ $date->format('F Y') }}
                                 </h2>
-                            @endif
+                            @endif -->
 
                             @if(!empty($details->description))
                                 <p>
