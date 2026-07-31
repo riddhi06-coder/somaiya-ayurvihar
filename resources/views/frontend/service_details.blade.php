@@ -200,8 +200,9 @@
 
                             <!-- Doctor Image -->
                             <div class="cs_team_thumbnail cs_center">
-                                <img src="{{ asset('uploads/doctors/' . $doctor->doctor_image) }}" 
-                                    alt="{{ $doctor->doctor_name }}">
+                                <img src="{{ asset('uploads/doctors/' . ($doctor->doctor_image ?: 'default-doctor.png')) }}"
+                                    alt="{{ $doctor->doctor_name }}"
+                                    onerror="this.onerror=null;this.src='{{ asset('uploads/doctors/default-doctor.png') }}';">
                                 {{-- 
                                 <div class="cs_social_btns cs_style_1">
                                     <a href="#" class="cs_center cs_share"><i class="fa fa-plus"></i></a>

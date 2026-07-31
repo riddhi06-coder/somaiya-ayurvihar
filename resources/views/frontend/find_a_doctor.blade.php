@@ -94,7 +94,8 @@
                                             <div class="doctor-img">
                                                <img src="{{ asset('uploads/doctors/' . ($doctor->doctor_image ?: 'default-doctor.png')) }}"
                                                  alt="{{ $doctor->doctor_name }}"
-                                                 class="img-responsive">
+                                                 class="img-responsive"
+                                                 onerror="this.onerror=null;this.src='{{ asset('uploads/doctors/default-doctor.png') }}';">
                                             </div>
                                         </div>
                                         <div class="col-sm-9">

@@ -943,7 +943,7 @@ class HomeController extends Controller
         // 4️⃣ Fetch doctors linked to this subcategory
         $doctors = Doctor::whereNull('deleted_by')
             // ->whereNotNull('priority')
-            ->orderBy('id', 'asc')
+            ->orderBy('doctor_name', 'asc')
             ->get();
 
 

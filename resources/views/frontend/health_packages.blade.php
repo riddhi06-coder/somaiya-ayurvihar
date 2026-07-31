@@ -186,7 +186,7 @@
                         <form method="GET" action="#">
                         <div class="sidebar_filter sidebar-sticky">
 
-                            <div class="filter-title">Filter Panel :</div>
+                            <div class="filter-title">Filter :</div>
                             
                             
                             <div class="filter-group">
