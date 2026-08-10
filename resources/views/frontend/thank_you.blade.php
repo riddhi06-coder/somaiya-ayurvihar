@@ -24,8 +24,7 @@
                     </div>
                     <h1>Thank You!</h1>
                     <p>
-                      Your message has been successfully submitted.  
-                      Our team will get back to you shortly.
+                      {{ session('thank_message', 'Your message has been successfully submitted. Our team will get back to you shortly.') }}
                     </p>
                     <a href="{{ route('frontend.index') }}" class="btn btn-custom btn-home">
                     <i class="fa fa-home"></i> Go to Home

@@ -309,6 +309,7 @@ Route::get('get-doctor-slots', [FormController::class, 'getDoctorSlots'])->name(
 Route::post('/application/submit', [FormController::class, 'applicationSubmit'])->name('application.submit');
 Route::post('/ayurveda-submit', [FormController::class, 'ayurveda_submit'])->name('ayurveda.submit');
 Route::post('/contact-submit', [FormController::class, 'contactSubmit'])->name('contact.submit');
+Route::post('/donation-submit', [FormController::class, 'donationSubmit'])->name('donation.submit');
 
 
 //======Service Page

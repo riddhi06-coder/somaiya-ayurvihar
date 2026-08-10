@@ -470,6 +470,57 @@
             </div>
             <!-- Modal -->
 
+            <!-- Donation Modal -->
+            <style>
+                #donation .modal-dialog { width: 460px; max-width: 92%; margin-top: 8%; }
+                #donation .modal-content { border: none; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+                #donation .modal-header { background-color: var(--color-two); color: #fff; border: none; padding: 18px 24px; position: relative; }
+                #donation .modal-header .modal-title { color: #fff; font-size: 22px; margin: 0; }
+                #donation .modal-header .close { color: #fff; opacity: .9; text-shadow: none; font-size: 26px; position: absolute; top: 12px; right: 18px; }
+                #donation .modal-body { padding: 28px 30px 30px; background: #f7f7f7; }
+                #donation .form-title { text-align: center; font-size: 15px; line-height: 1.5; color: #555; padding-bottom: 22px; text-transform: none; margin: 0; }
+                #donation .form-control { height: 46px; box-shadow: none; border-radius: 50px; background: #fff; border: 1px solid #007c9d !important; padding: 0 20px; margin-bottom: 16px; font-size: 15px; }
+                #donation .form-control::placeholder { color: #9aa4a9; }
+                #donation .twenty { background: var(--color-two); color: #fff; border: none; border-radius: 50px; padding: 12px 46px; font-size: 16px; transition: background .25s ease; }
+                #donation .twenty:hover { background: var(--color-one); }
+            </style>
+            <div id="donation" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Donation</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <h6 class="form-title">Your support helps us care for our community. Share your details and our team will get in touch with you soon.</h6>
+
+                            <form class="donation-form" method="POST" action="{{ route('donation.submit') }}" novalidate>
+                                @csrf
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <input type="text" class="form-control" name="name" placeholder="Full Name*">
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <input type="tel" class="form-control" name="phone" placeholder="Phone Number*">
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="button-box" style="display:flex; justify-content:center; margin-top:6px;">
+                                        <button type="submit" class="twenty"><span>Submit</span></button>
+                                    </div>
+                                </div>
+                            </form>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- Donation Modal End -->
+
          </div>
     </footer>
 
@@ -761,6 +812,43 @@
 
                 if (!appDate.value) showError(appDate, 'Appointment date is required');
                 else if (appDate.value < today) showError(appDate, 'Date cannot be in the past');
+
+                if (isValid) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = 'Submitting...';
+                    form.submit();
+                }
+            });
+        }
+
+        /* ===========================================================
+           5b) Donation form validation (.donation-form)
+        =========================================================== */
+        const donationForm = document.querySelector('.donation-form');
+        if (donationForm) {
+            donationForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const form = this;
+                const submitBtn = form.querySelector('button[type="submit"]');
+                let isValid = true;
+                form.querySelectorAll('.error-msg').forEach(el => el.remove());
+
+                function showError(input, message) {
+                    let err = document.createElement('div');
+                    err.className = 'error-msg';
+                    err.innerText = message;
+                    input.parentNode.appendChild(err);
+                    isValid = false;
+                }
+
+                const name  = form.querySelector('[name="name"]');
+                const phone = form.querySelector('[name="phone"]');
+
+                if (name.value.trim() === '') showError(name, 'Name is required');
+                else if (!/^[A-Za-z\s]+$/.test(name.value.trim())) showError(name, 'Only letters allowed');
+
+                if (phone.value.trim() === '') showError(phone, 'Phone number is required');
+                else if (!/^\d{10,12}$/.test(phone.value.trim())) showError(phone, 'Enter valid 10-12 digit number');
 
                 if (isValid) {
                     submitBtn.disabled = true;

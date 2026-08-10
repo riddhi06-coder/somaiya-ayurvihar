@@ -32,6 +32,10 @@
           <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg') }}" width="35" height="35" alt="Book Heath Check">
           <span class="tooltip-text">Book Heath Check </span>
           </a>
+          <a type="button" href="#" data-toggle="modal" data-target="#donation">
+          <img src="{{ asset('frontend/assets/img/icon/donate.svg') }}" width="35" height="35" alt="Donate">
+          <span class="tooltip-text">Donate </span>
+          </a>
            <a type="button" href="tel:+91 7506655888" class="ambulance-mobile-only">
           <img src="{{ asset('frontend/assets/img/icon/ambulance.svg') }}" width="35" height="35" alt="Book An Ambulance">
           <span class="tooltip-text">Book An Ambulance</span>

@@ -17,6 +17,7 @@ use App\Models\DoctorAppointmentEnquiries;
 use App\Models\MedicalServiceSubCategory;
 use App\Models\AyurvedaEnquiry;
 use App\Models\ContactEnquiry;
+use App\Models\Donation;
 
 
 
@@ -439,6 +440,48 @@ use App\Models\ContactEnquiry;
                 Log::error('Contact Form Error: '.$e->getMessage());
         
                 return back()->with('error', 'Something went wrong.');
+            }
+        }
+
+
+        //=========== Donation Form Submit
+        public function donationSubmit(Request $request)
+        {
+            try {
+
+                $validated = $request->validate([
+                    'name'  => 'required|regex:/^[A-Za-z\s]+$/',
+                    'phone' => 'required|digits_between:10,12',
+                ], [
+                    'name.required'  => 'Name is required',
+                    'name.regex'     => 'Please enter a valid name',
+                    'phone.required' => 'Phone number is required',
+                    'phone.digits_between' => 'Enter a valid 10-12 digit phone number',
+                ]);
+
+                $data = [
+                    'name'       => $request->name,
+                    'phone'      => $request->phone,
+                    'created_at' => Carbon::now(),
+                ];
+
+                // Save To Database
+                Donation::create($data);
+
+                // Admin Mail
+                Mail::send('frontend.emails.donation_admin', $data, function ($message) {
+                    $message->to(['riddhi@matrixbricks.com'])
+                            ->subject('New Donation Enquiry');
+                });
+
+                return redirect()->route('frontend.thank_you')
+                    ->with('thank_message', 'We thank you and our team will get in touch with you soon.');
+
+            } catch (\Exception $e) {
+
+                Log::error('Donation Form Error: '.$e->getMessage());
+
+                return back()->with('error', 'Something went wrong. Please try again.');
             }
         }
     }
