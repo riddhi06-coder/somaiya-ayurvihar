@@ -259,14 +259,21 @@
                 <ul class="sidemenu_numbers">
                   @if(!empty($helplines))
                     @foreach($helplines as $hl)
-                      <li>{{ $hl['label'] ?? '' }}: <br>
-                        @php $nums = array_values(array_filter(array_map('trim', explode('/', $hl['number'] ?? '')))); @endphp
+                      @php
+                        $label = $hl['label'] ?? '';
+                        $nums = array_values(array_filter(array_map('trim', explode('/', $hl['number'] ?? ''))));
+                        $showTiming = \Illuminate\Support\Str::contains(strtolower($label), ['opd', 'wellness']);
+                      @endphp
+                      <li>{{ $label }}: <br>
                         @foreach($nums as $num)
                           <a href="tel:{{ preg_replace('/[^0-9]/', '', $num) }}">{{ $num }}</a>@unless($loop->last) / @endunless
                         @endforeach
+                        @if($showTiming)
+                          <br><span class="helpline-timing" style="font-family:'firasans-regular'; font-size:18px; color:#000;">10.00 am to 6.00 pm</span>
+                        @endif
                       </li>
                     @endforeach
-                 
+
                   @endif
                 </ul>
               </div>
@@ -358,7 +365,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Book Appointment</h4>
+                      <h4 class="modal-title">Request An Appointment</h4>
                     </div>
                     <div class="modal-body">
                       <div class="row">
@@ -442,7 +449,7 @@
                                 </div>
                                 <div class="col-md-4" style="margin-top:20px;">
                                      <div class="form-group">
-                                        <label>Available Slots*:</label>
+                                        <label>Preferred Slot*:</label>
                                         <select class="form-control" name="slot" id="slot" disabled>
                                             <option value="">--Select Slot*--</option>
                                         </select>

@@ -62,8 +62,8 @@ use App\Models\ContactEnquiry;
          
                 // ✅ 1. Send Mail to Admin
                 Mail::send('frontend.emails.health_checkup_admin', $data, function ($message) use ($data) {
-                    $message->to('riddhi@matrixbricks.com')
-                            ->cc(['shweta@matrixbricks.com'])
+                    $message->to('opd@somaiya.edu')
+                            ->cc(['snehal.kawde@somaiya.edu'])
                             ->subject('New Health Checkup Booking Request - ' . $data['package']);
                 });
          
@@ -183,8 +183,8 @@ use App\Models\ContactEnquiry;
          
             // ✅ 1. Mail to Admin
             Mail::send('frontend.emails.doctor_appointment_admin', $data, function ($message) use ($data) {
-                $message->to('riddhi@matrixbricks.com')
-                        ->cc(['shweta@matrixbricks.com'])
+                $message->to('opd@somaiya.edu')
+                        ->cc(['snehal.kawde@somaiya.edu'])
                         ->subject('New Doctor Appointment Request - ' . $data['speciality']);
             });
          
@@ -305,8 +305,8 @@ use App\Models\ContactEnquiry;
      
                 // ✅ 1. Mail to Admin (with the resume attached)
                 Mail::send('frontend.emails.career_admin_email', $data, function ($message) use ($data) {
-                    $message->to('riddhi@matrixbricks.com')
-                            ->cc(['shweta@matrixbricks.com'])
+                    $message->to('opd@somaiya.edu')
+                            ->cc(['snehal.kawde@somaiya.edu'])
                             ->subject('New Application: ' . $data['job_title'] . ' - ' . $data['name'])
                             ->attach($data['resume_full'], ['as' => $data['resume_name']]);
                 });
@@ -368,8 +368,8 @@ use App\Models\ContactEnquiry;
                     'frontend.emails.ayurveda_admin_email',
                     $data,
                     function ($message) {
-                        $message->to('riddhi@matrixbricks.com')
-                                ->cc(['shweta@matrixbricks.com'])
+                        $message->to('opd@somaiya.edu')
+                                ->cc(['snehal.kawde@somaiya.edu'])
                                 ->subject('New Ayurveda Enquiry Received');
                     }
                 );
@@ -422,8 +422,8 @@ use App\Models\ContactEnquiry;
                 ContactEnquiry::create($data);
         
                 Mail::send('frontend.emails.contact_admin_email', $data, function ($message) {
-                    $message->to('riddhi@matrixbricks.com')
-                            ->cc(['shweta@matrixbricks.com'])
+                    $message->to('opd@somaiya.edu')
+                            ->cc(['snehal.kawde@somaiya.edu'])
                             ->subject('New Contact Form Enquiry');
                 });
         

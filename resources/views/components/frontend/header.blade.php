@@ -7,6 +7,15 @@
     .mega-menu .tab-content > .tab-pane.active {
       display: block !important;
     }
+    /* Ambulance floating icon: show on mobile phones only, hide on desktop/tablet */
+    .floating-icons .ambulance-mobile-only {
+      display: none !important;
+    }
+    @media (max-width: 767px) {
+      .floating-icons .ambulance-mobile-only {
+        display: inline-block !important;
+      }
+    }
 </style>
 
       <!-- Floating Buttons -->
@@ -23,7 +32,7 @@
           <img src="{{ asset('frontend/assets/img/icon/book-health-check-new.svg') }}" width="35" height="35" alt="Book Heath Check">
           <span class="tooltip-text">Book Heath Check </span>
           </a>
-           <a type="button" href="tel:+91 7506655888">
+           <a type="button" href="tel:+91 7506655888" class="ambulance-mobile-only">
           <img src="{{ asset('frontend/assets/img/icon/ambulance.svg') }}" width="35" height="35" alt="Book An Ambulance">
           <span class="tooltip-text">Book An Ambulance</span>
           </a>
