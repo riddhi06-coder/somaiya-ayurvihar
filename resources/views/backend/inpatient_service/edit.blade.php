@@ -387,7 +387,7 @@
                                                         @if (!empty($item['images']) && is_array($item['images']))
                                                             @foreach ($item['images'] as $img)
                                                                 <div class="preview-thumb">
-                                                                    <img src="{{ asset('public/' . $img) }}" alt="">
+                                                                    <img src="{{ asset($img) }}" alt="">
                                                                     <input type="hidden" name="super_specialty[{{ $index }}][existing_images][]" value="{{ $img }}">
                                                                     <span class="remove-existing" title="Remove">&times;</span>
                                                                 </div>

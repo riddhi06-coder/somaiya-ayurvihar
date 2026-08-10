@@ -167,21 +167,30 @@
                 </div>
         
                 <!-- Security Deposit + Important Declarations -->
+                @php
+                    $sdHasContent   = filled($billing->sd_heading) || filled(trim(strip_tags($billing->sd_desc ?? '')));
+                    $declHasContent = filled($billing->declaration_heading) || filled(trim(strip_tags($billing->declaration_desc ?? '')));
+                @endphp
+                @if($sdHasContent || $declHasContent)
                 <div class="row">
+                    @if($sdHasContent)
                     <div class="col-sm-6">
                         <div class="content billing_content">
-                            <h5>Security Deposit (Mandatory at Admission)</h5>
+                            @if(filled($billing->sd_heading))<h5>{{ $billing->sd_heading }}</h5>@endif
                             {!! $billing->sd_desc ?? '' !!}
                         </div>
                     </div>
+                    @endif
+                    @if($declHasContent)
                     <div class="col-sm-6">
                         <div class="content billing_content">
-                            <h5>Important Patient Declarations</h5>
-                            <p>Before admission, the patient/relative must confirm:</p>
+                            @if(filled($billing->declaration_heading))<h5>{{ $billing->declaration_heading }}</h5>@endif
                             {!! $billing->declaration_desc ?? '' !!}
                         </div>
                     </div>
+                    @endif
                 </div>
+                @endif
         
             </div>
         </section>

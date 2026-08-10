@@ -39,7 +39,9 @@ class BillingProcess extends Model
         'doc_submitted_desc',
 
         // Details
+        'sd_heading',
         'sd_desc',
+        'declaration_heading',
         'declaration_desc',
 
         // Common

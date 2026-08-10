@@ -7893,6 +7893,21 @@ a:focus{
  .inpatient_services_three .content h5{
      font-size: 30px;
 }
+/* Super-Specialty cards: equal-height flex grid so uneven content
+   (long text / cards without images) no longer breaks the layout.
+   height:auto overrides the fixed 470px height set in responsive.css,
+   which was clipping long descriptions and overlapping the next section. */
+ .inpatient_services_three .lists-row{
+     display: flex;
+     flex-wrap: wrap;
+}
+ .inpatient_services_three .lists-row > [class*="col-"]{
+     display: flex;
+}
+ .inpatient_services_three .lists-row .hospital-iconbox{
+     width: 100%;
+     height: auto !important;
+}
  .convenience_facilities_wrap{
      background-color: #ffffff;
 }

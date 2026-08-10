@@ -106,7 +106,7 @@
                         </div>
                     </div>
             
-                    <div class="row">
+                    <div class="row lists-row">
                        @foreach ($superSpecialtyData as $item)
                             <div class="col-md-3">
                                 <div class="hospital-iconbox lists">

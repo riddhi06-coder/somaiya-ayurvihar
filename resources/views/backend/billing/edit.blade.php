@@ -358,18 +358,28 @@
                                         <h4># Details </h4>
                                         
                                         
+                                         <!-- Heading -->
+                                        <div class="col-md-12 mb-2">
+                                            <label class="form-label" for="sd_heading"> Security Deposit Heading</label>
+                                            <input type="text" class="form-control" id="sd_heading" name="sd_heading" placeholder="Enter Heading" value="{{ $billing->sd_heading }}">
+                                        </div>
                                          <!-- Description-->
                                         <div class="col-md-12">
-                                            <label class="form-label" for="sd_desc"> Security Deposit Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="sd_desc" name="sd_desc" placeholder="Enter Description" required>{{ $billing->sd_desc }}</textarea>
+                                            <label class="form-label" for="sd_desc"> Security Deposit Description</label>
+                                            <textarea class="form-control" id="sd_desc" name="sd_desc" placeholder="Enter Description">{{ $billing->sd_desc }}</textarea>
                                             <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
-                                        
-                                        
+
+
+                                         <!-- Heading -->
+                                        <div class="col-md-12 mb-2">
+                                            <label class="form-label" for="declaration_heading"> Declarations Heading</label>
+                                            <input type="text" class="form-control" id="declaration_heading" name="declaration_heading" placeholder="Enter Heading" value="{{ $billing->declaration_heading }}">
+                                        </div>
                                          <!-- Description-->
                                         <div class="col-md-12">
-                                            <label class="form-label" for="declaration_desc"> Declarations Description<span class="txt-danger">*</span></label>
-                                            <textarea class="form-control" id="declaration_desc" name="declaration_desc" placeholder="Enter Description" required>{{ $billing->declaration_desc }}</textarea>
+                                            <label class="form-label" for="declaration_desc"> Declarations Description</label>
+                                            <textarea class="form-control" id="declaration_desc" name="declaration_desc" placeholder="Enter Description">{{ $billing->declaration_desc }}</textarea>
                                             <div class="invalid-feedback">Please enter an Description.</div>
                                         </div>
                                         

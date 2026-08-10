@@ -64,8 +64,10 @@ class BillingProcessController extends Controller
             'doc_submitted_desc' => 'required|string',
     
             // Details
-            'sd_desc' => 'required|string',
-            'declaration_desc' => 'required|string',
+            'sd_heading' => 'nullable|string',
+            'sd_desc' => 'nullable|string',
+            'declaration_heading' => 'nullable|string',
+            'declaration_desc' => 'nullable|string',
     
         ], [
             '*.required' => 'This field is required.',
@@ -165,7 +167,9 @@ class BillingProcessController extends Controller
             'doc_image' => $docImageName,
             'doc_submitted_desc' => $request->doc_submitted_desc,
     
+            'sd_heading' => $request->sd_heading,
             'sd_desc' => $request->sd_desc,
+            'declaration_heading' => $request->declaration_heading,
             'declaration_desc' => $request->declaration_desc,
     
             'created_by' => Auth::id(),
@@ -221,8 +225,10 @@ class BillingProcessController extends Controller
             'doc_image' => 'nullable|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'doc_submitted_desc' => 'required|string',
     
-            'sd_desc' => 'required|string',
-            'declaration_desc' => 'required|string',
+            'sd_heading' => 'nullable|string',
+            'sd_desc' => 'nullable|string',
+            'declaration_heading' => 'nullable|string',
+            'declaration_desc' => 'nullable|string',
     
         ], [
             '*.required' => 'This field is required.',
@@ -368,7 +374,9 @@ class BillingProcessController extends Controller
             'doc_image' => $docImageName,
             'doc_submitted_desc' => $request->doc_submitted_desc,
     
+            'sd_heading' => $request->sd_heading,
             'sd_desc' => $request->sd_desc,
+            'declaration_heading' => $request->declaration_heading,
             'declaration_desc' => $request->declaration_desc,
     
             'modified_by' => Auth::id(),
