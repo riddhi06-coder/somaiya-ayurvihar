@@ -470,7 +470,7 @@ use App\Models\Donation;
 
                 // Admin Mail
                 Mail::send('frontend.emails.donation_admin', $data, function ($message) {
-                    $message->to(['riddhi@matrixbricks.com'])
+                    $message->to(['medicalsupdt@somaiya.edu'])
                             ->subject('New Donation Enquiry');
                 });
 
