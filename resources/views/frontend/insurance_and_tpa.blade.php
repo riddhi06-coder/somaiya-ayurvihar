@@ -53,7 +53,7 @@
                 <div class="col-md-5">
                     <div class="content-img">
                    
-                    <img src="{{ asset('uploads/insurance/'.$insurance->essential_image) }}" alt="">
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/insurance/'.$insurance->essential_image) }}" alt="">
                     </div>
                 </div>
                 </div>
@@ -177,7 +177,7 @@
                 
                 <div class="col-md-6">
                     <div class="content-img">
-                        <img src="{{ asset('uploads/insurance/'.$insurance->reimburse_image) }}" 
+                        <img loading="lazy" decoding="async" src="{{ asset('uploads/insurance/'.$insurance->reimburse_image) }}" 
                              class="img-responsive" 
                              alt="Reimbursement">
                     </div>
@@ -239,7 +239,7 @@
                 </div>
                 <div class="col-md-5">
                     <div class="faq-img">
-                        <img src="{{ asset('uploads/insurance/'.$insurance->faq_image) }}" class="img-responsive">
+                        <img loading="lazy" decoding="async" src="{{ asset('uploads/insurance/'.$insurance->faq_image) }}" class="img-responsive">
                     </div>
                 </div>
                 </div>

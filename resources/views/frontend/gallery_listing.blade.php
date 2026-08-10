@@ -80,7 +80,7 @@
                             <div class="gallery-thumb">
                                 
                                 <!-- Image -->
-                                <img src="{{ asset($gallery->image) }}" alt="{{ $gallery->event_name }}">
+                                <img loading="lazy" decoding="async" src="{{ asset($gallery->image) }}" alt="{{ $gallery->event_name }}">
 
                                 <div class="gallery-caption">
                                     

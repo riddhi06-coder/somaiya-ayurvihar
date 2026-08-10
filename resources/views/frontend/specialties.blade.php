@@ -50,7 +50,7 @@
                                             {!! file_get_contents(public_path('uploads/specialities/' . $item->specialities_image)) !!}
                                         @else
                                             {{-- Show Image --}}
-                                            <img src="{{ asset('uploads/specialities/' . $item->specialities_image) }}"
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/specialities/' . $item->specialities_image) }}"
                                                  alt="icon"
                                                  style="height:60px;">
                                         @endif

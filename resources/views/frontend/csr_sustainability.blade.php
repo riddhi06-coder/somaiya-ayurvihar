@@ -47,7 +47,7 @@
                 <div class="row csr_info_row">
                     <div class="col-md-5">
                         <div class="community_outreach_img">
-                          <img 
+                          <img loading="lazy" decoding="async" 
                                 src="{{ !empty($csr->uhtc_image) 
                                         ? asset('uploads/csr/'.$csr->uhtc_image) 
                                         : asset('frontend/assets/img/about/community/urban-health-training-center.jpg') }}" 
@@ -78,7 +78,7 @@
                 
                     <div class="col-md-5">
                         <div class="community_outreach_img">
-                            <img 
+                            <img loading="lazy" decoding="async" 
                                 src="{{ !empty($csr->support_image) 
                                         ? asset('uploads/csr/'.$csr->support_image) 
                                         : asset('frontend/assets/img/about/community/SAHAS.jpg') }}" 
@@ -93,7 +93,7 @@
     
                     <div class="col-md-5">
                         <div class="community_outreach_img">
-                            <img 
+                            <img loading="lazy" decoding="async" 
                                 src="{{ !empty($csr->community_image) 
                                         ? asset('uploads/csr/'.$csr->community_image) 
                                         : asset('frontend/assets/img/about/our-founder.jpg') }}" 
@@ -138,7 +138,7 @@
                                                    data-fancybox="gallery" 
                                                    class="gallery-hover">
                 
-                                                    <img src="{{ asset('uploads/csr/'.$img) }}" class="img-responsive">
+                                                    <img loading="lazy" decoding="async" src="{{ asset('uploads/csr/'.$img) }}" class="img-responsive">
                 
                                                     <div class="overlay">
                                                         <span class="plus-icon">+</span>

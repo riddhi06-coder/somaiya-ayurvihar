@@ -42,7 +42,7 @@
                                 <div class="post-image">
                                     <a href="{{ route('frontend.blog.detail', $blog->slug) }}">
                                         <figure>
-                                            <img src="{{ asset('uploads/blogs/' . $blog->blog_image) }}"
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/blogs/' . $blog->blog_image) }}"
                                                  alt="{{ $blog->title }}">
                                         </figure>
                                     </a>

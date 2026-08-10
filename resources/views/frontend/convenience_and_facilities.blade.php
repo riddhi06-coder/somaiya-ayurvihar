@@ -56,7 +56,7 @@
                 <div class="col-sm-4">
                     <div class="icon-box">
                         <div class="icon-circle">
-                            <img src="{{ asset('uploads/convenience_facilities/' . ($item['icon'] ?? '')) }}" alt="{{ $item['title'] ?? '' }}">
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/convenience_facilities/' . ($item['icon'] ?? '')) }}" alt="{{ $item['title'] ?? '' }}">
                         </div>
                         <h4>{{ $item['title'] ?? '' }}</h4>
                         <p>{!! nl2br($item['details'] ?? '') !!}</p>
@@ -78,7 +78,7 @@
                 <div class="col-sm-4">
                     <div class="icon-box">
                         <div class="icon-circle">
-                            <img src="{{ asset('uploads/convenience_facilities/' . ($item['icon'] ?? '')) }}" alt="{{ $item['title'] ?? '' }}">
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/convenience_facilities/' . ($item['icon'] ?? '')) }}" alt="{{ $item['title'] ?? '' }}">
                         </div>
                         <h4>{{ $item['title'] ?? '' }}</h4>
                         <p>{!! nl2br($item['details'] ?? '') !!}</p>
@@ -108,7 +108,7 @@
                 <div class="col-sm-4">
                     <div class="icon-box">
                         <div class="icon-circle">
-                            <img src="{{ asset('uploads/convenience_facilities/' . ($item['icon'] ?? '')) }}" alt="{{ $item['title'] ?? '' }}">
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/convenience_facilities/' . ($item['icon'] ?? '')) }}" alt="{{ $item['title'] ?? '' }}">
                         </div>
                         <h4>{{ $item['title'] ?? '' }}</h4>
                         <p>{!! nl2br($item['details'] ?? '') !!}</p>
@@ -163,7 +163,7 @@
             </div>
             <div class="col-md-5">
                 <div class="faq-img">
-                    <img src="{{ asset('uploads/convenience_facilities/' . $details->faq_image) }}"
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/convenience_facilities/' . $details->faq_image) }}"
                          class="img-responsive" alt="{{ $details->faq_heading }}">
                 </div>
             </div>

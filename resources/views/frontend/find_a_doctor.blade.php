@@ -92,7 +92,7 @@
                                     <div class="row">
                                         <div class="col-sm-3 text-center">
                                             <div class="doctor-img">
-                                               <img src="{{ asset('uploads/doctors/' . ($doctor->doctor_image ?: 'default-doctor.png')) }}"
+                                               <img loading="lazy" decoding="async" src="{{ asset('uploads/doctors/' . ($doctor->doctor_image ?: 'default-doctor.png')) }}"
                                                  alt="{{ $doctor->doctor_name }}"
                                                  class="img-responsive"
                                                  onerror="this.onerror=null;this.src='{{ asset('uploads/doctors/default-doctor.png') }}';">

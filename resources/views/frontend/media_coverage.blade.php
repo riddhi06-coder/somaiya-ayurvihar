@@ -279,7 +279,7 @@
                         <source src="{{ asset('uploads/media/'.$media->media_video) }}">
                     </video>
                 @elseif($imgSrc)
-                    <img src="{{ $imgSrc }}" alt="{{ $media->media_publication ?? 'Media Coverage' }}" loading="lazy">
+                    <img loading="lazy" decoding="async" src="{{ $imgSrc }}" alt="{{ $media->media_publication ?? 'Media Coverage' }}">
                 @else
                     <span class="media-card__placeholder">{{ $media->media_publication ?? 'Media Coverage' }}</span>
                 @endif

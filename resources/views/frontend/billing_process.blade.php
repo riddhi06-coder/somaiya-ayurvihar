@@ -60,7 +60,7 @@
                                     <div class="icon-circle">
 
                                         @if(!empty($visitor['image']))
-                                            <img 
+                                            <img loading="lazy" decoding="async" 
                                                 src="{{ asset('uploads/visitors/'.$visitor['image']) }}" 
                                                 alt="" 
                                                 style="width:40px;height:40px;object-fit:contain;"
@@ -100,7 +100,7 @@
                             <div class="col-sm-3">
                                 <div class="icon-box">
                                     <div class="icon-circle">
-                                        <img src="{{ asset('uploads/rooms/'.$room['image']) }}" class="img-responsive" alt="">
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/rooms/'.$room['image']) }}" class="img-responsive" alt="">
                                     </div>
                                     <h4>{{ $room['heading'] ?? '' }}</h4>
                                 </div>
@@ -137,7 +137,7 @@
                             <div class="col-sm-6">
                                 <div class="icon-box">
                                     <div class="icon-circle">
-                                        <img src="{{ asset('uploads/document_timelines/'.$doc['image']) }}" class="img-responsive" alt="">
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/document_timelines/'.$doc['image']) }}" class="img-responsive" alt="">
                                     </div>
                                     <h4>{{ $doc['heading'] ?? '' }}</h4>
                                     <p>{{ $doc['time'] ?? '' }}</p>
@@ -158,9 +158,9 @@
                     <div class="col-sm-6">
                         <div class="content-img documents-submitted-img">
                             @if($billing->doc_image)
-                                <img src="{{ asset('uploads/documents/'. $billing->doc_image) }}" class="img-responsive" alt="Documents">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/documents/'. $billing->doc_image) }}" class="img-responsive" alt="Documents">
                             @else
-                                <img src="{{ asset('frontend/assets/img/patient-services/document-submitted.jpg') }}" class="img-responsive">
+                                <img loading="lazy" decoding="async" src="{{ asset('frontend/assets/img/patient-services/document-submitted.jpg') }}" class="img-responsive">
                             @endif
                         </div>
                     </div>

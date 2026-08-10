@@ -106,7 +106,7 @@
                                     <div class="content-img wow fadeInRight"
                                         data-wow-delay="00ms"
                                         data-wow-duration="1500ms">
-                                        <img src="{{ asset('uploads/alternative-therapy/'.$therapy->image) }}"
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/alternative-therapy/'.$therapy->image) }}"
                                             class="img-responsive"
                                             alt="{{ $therapy->heading }}">
                                     </div>
@@ -123,7 +123,7 @@
                                     <div class="content-img wow fadeInLeft"
                                         data-wow-delay="00ms"
                                         data-wow-duration="1500ms">
-                                        <img src="{{ asset('uploads/alternative-therapy/'.$therapy->image) }}"
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/alternative-therapy/'.$therapy->image) }}"
                                             class="img-responsive"
                                             alt="{{ $therapy->heading }}">
                                     </div>

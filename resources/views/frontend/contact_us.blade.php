@@ -210,7 +210,7 @@
                                 <div class="associate-card">
 
                                     <div class="associate-img">
-                                        <img src="{{ asset('uploads/contact/'.$associate['image']) }}" 
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/contact/'.$associate['image']) }}" 
                                             class="img-responsive" 
                                             alt="{{ $associate['institute_name'] }}">
                                     </div>

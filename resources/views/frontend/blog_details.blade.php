@@ -41,7 +41,7 @@
                         <div class="blog-content">
         
                             <!-- Image -->
-                            <img src="{{ asset('uploads/blogs/' . $blog->blog_image) }}" alt="{{ $blog->title }}">
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/blogs/' . $blog->blog_image) }}" alt="{{ $blog->title }}">
         
                             <!-- Title -->
                             <h1 class="blog-title">{{ $blog->title }}</h1>

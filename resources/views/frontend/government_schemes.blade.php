@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-6">
                 <div class="content-img">
-                    <img src="{{ asset('uploads/government_schemes/' . $details->social_worker_image) }}"
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/government_schemes/' . $details->social_worker_image) }}"
                          class="img-responsive" alt="Medical Social Worker">
                 </div>
             </div>
@@ -161,7 +161,7 @@
             </div>
             <div class="col-md-5">
                 <div class="faq-img">
-                    <img src="{{ asset('uploads/government_schemes/' . $details->faq_image) }}"
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/government_schemes/' . $details->faq_image) }}"
                          class="img-responsive" alt="{{ $details->faq_heading }}">
                 </div>
             </div>

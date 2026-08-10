@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="creative-thumb">
-                        <img src="{{ asset('uploads/chairman/' . $chairmans_message->image) }}" alt="Thumbnail">
+                        <img loading="lazy" decoding="async" src="{{ asset('uploads/chairman/' . $chairmans_message->image) }}" alt="Thumbnail">
                         <!-- Title (Always Visible) -->
                         <div class="thumb-title">
                             <h2>{{ $chairmans_message->chairman_name}}</h2>
@@ -63,7 +63,7 @@
 
                     <div class="col-md-5">
                         <div class="creative-thumb">
-                        <img src="{{ asset('uploads/chairman/' . $chairmans_message->desc_image) }}" alt="Thumbnail">
+                        <img loading="lazy" decoding="async" src="{{ asset('uploads/chairman/' . $chairmans_message->desc_image) }}" alt="Thumbnail">
                         </div>
                     </div>
 

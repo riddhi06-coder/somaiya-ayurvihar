@@ -76,7 +76,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="content-img">
-                                        <img src="{{ asset('uploads/service-details/' . $item['image']) }}" class="img-responsive">
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/service-details/' . $item['image']) }}" class="img-responsive">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

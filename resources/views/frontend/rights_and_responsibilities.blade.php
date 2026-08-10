@@ -115,7 +115,7 @@
             
                 <div class="col-md-5">
                     <div class="faq-img">
-                        <img src="{{ asset('uploads/faq/'.$details->faq_image) }}"
+                        <img loading="lazy" decoding="async" src="{{ asset('uploads/faq/'.$details->faq_image) }}"
                              class="img-responsive">
                     </div>
                 </div>

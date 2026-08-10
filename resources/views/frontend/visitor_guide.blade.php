@@ -93,7 +93,7 @@
             </div>
             <div class="col-md-6 no-padding">
                 <div class="content-img">
-                    <img src="{{ asset('uploads/visitor_guide/' . $details->visitor_pass_image) }}"
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/visitor_guide/' . $details->visitor_pass_image) }}"
                          class="img-responsive" alt="{{ $details->visitor_pass_heading }}">
                 </div>
             </div>
@@ -160,7 +160,7 @@
             </div>
             <div class="col-md-5">
                 <div class="faq-img">
-                    <img src="{{ asset('uploads/visitor_guide/' . $details->faq_image) }}"
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/visitor_guide/' . $details->faq_image) }}"
                          class="img-responsive" alt="{{ $details->faq_heading }}">
                 </div>
             </div>

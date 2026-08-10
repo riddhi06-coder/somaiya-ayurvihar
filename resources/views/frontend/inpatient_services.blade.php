@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="content-img">
-                                <img src="{{ asset('uploads/inpatient_service/' . $details->intro_image) }}" class="img-responsive" alt="Inpatient Services">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/inpatient_service/' . $details->intro_image) }}" class="img-responsive" alt="Inpatient Services">
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="content-img">
-                                <img src="{{ asset('uploads/inpatient_service/' . $details->documents_image) }}" class="img-responsive" alt="{{ $details->documents_heading }}">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/inpatient_service/' . $details->documents_image) }}" class="img-responsive" alt="{{ $details->documents_heading }}">
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <div class="row inpatient-row">
                         <div class="col-md-6">
                             <div class="content-img discharge-img">
-                                <img src="{{ asset('uploads/inpatient_service/' . $details->discharge_image) }}" class="img-responsive" alt="{{ $details->discharge_heading }}">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/inpatient_service/' . $details->discharge_image) }}" class="img-responsive" alt="{{ $details->discharge_heading }}">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -119,7 +119,7 @@
                                                     <a href="{{ asset($img) }}" 
                                                       data-fancybox="gallery" 
                                                       class="gallery-hover">
-                                                      <img src="{{ asset($img) }}" class="img-responsive">
+                                                      <img loading="lazy" decoding="async" src="{{ asset($img) }}" class="img-responsive">
                                                       <div class="overlay">
                                                         <span class="plus-icon">+</span>
                                                       </div>
@@ -230,7 +230,7 @@
                         </div>
                         <div class="col-md-5">
                             <div class="faq-img">
-                                <img src="{{ asset('uploads/inpatient_service/' . $details->faq_image) }}" class="img-responsive" alt="{{ $details->faq_heading }}">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/inpatient_service/' . $details->faq_image) }}" class="img-responsive" alt="{{ $details->faq_heading }}">
                             </div>
                         </div>
                     </div>

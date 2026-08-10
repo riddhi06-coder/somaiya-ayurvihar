@@ -36,7 +36,7 @@
                     {{-- Banner Image --}}
                     <div class="col-md-5">
                         <div class="vison-mision-img">
-                            <img src="{{ asset('uploads/vision_mission/' . ($vision_and_mision->image ?? 'img/about/our-founder.jpg')) }}" class="img-responsive" alt="Vision & Mission Banner">
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/vision_mission/' . ($vision_and_mision->image ?? 'img/about/our-founder.jpg')) }}" class="img-responsive" alt="Vision & Mission Banner">
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                             <div class="item">
                                 <div class="our_value_box">
                                     <div class="our_value_icon">
-                                        <img src="{{ asset('uploads/vision_mission/' . $value['icon']) }}" alt="{{ $value['heading'] }}">
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/vision_mission/' . $value['icon']) }}" alt="{{ $value['heading'] }}">
                                     </div>
                                     <div>
                                         <h5>{{ $value['heading'] }}</h5>

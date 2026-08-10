@@ -132,7 +132,7 @@
                         <div class="cs_about_thumbnail">
                             <div class="cs_about_thumbnail_1">
                                 @if(!empty($service->section_image[1]))
-                                    <img src="{{ asset('uploads/service-details/' . $service->section_image[1]) }}" class="img-responsive" alt="Image">
+                                    <img loading="lazy" decoding="async" src="{{ asset('uploads/service-details/' . $service->section_image[1]) }}" class="img-responsive" alt="Image">
                                 @endif
                                 <a href="https://www.youtube.com/embed/rRid6GCJtgc" class="cs_player_btn cs_style_1 cs_video_open">
                                     <span class="cs_play_btn_text cs_fs_18 cs_semibold cs_accent_color">
@@ -143,7 +143,7 @@
 
                             <div class="cs_about_thumbnail_2">
                                 @if(!empty($service->section_image[0]))
-                                    <img src="{{ asset('uploads/service-details/' . $service->section_image[0]) }}" class="img-responsive" alt="About Image">
+                                    <img loading="lazy" decoding="async" src="{{ asset('uploads/service-details/' . $service->section_image[0]) }}" class="img-responsive" alt="About Image">
                                 @endif
                             </div>
 
@@ -185,7 +185,7 @@
 
                             @foreach($service->service_image as $img)
                                 <div class="item">
-                                    <img src="{{ asset('uploads/service-details/'.$img) }}"
+                                    <img loading="lazy" decoding="async" src="{{ asset('uploads/service-details/'.$img) }}"
                                         class="img-responsive">
                                 </div>
                             @endforeach
@@ -205,7 +205,7 @@
 
                 <div class="col-md-6">
                     <div class="tsars-img-sec">
-                        <img src="{{ asset('uploads/service-details/'.$service->special_image) }}"
+                        <img loading="lazy" decoding="async" src="{{ asset('uploads/service-details/'.$service->special_image) }}"
                             class="img-responsive">
                     </div>
                 </div>
@@ -261,7 +261,7 @@
 
                 <div class="col-md-5">
                     <div class="faq-img">
-                    <img src="{{ asset('uploads/service-details/'.$service->faq_image) }}" class="img-responsive">
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/service-details/'.$service->faq_image) }}" class="img-responsive">
                     </div>
                 </div>
             </div>

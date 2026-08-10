@@ -55,11 +55,11 @@
                         <div class="about-us-img">
 
                             @if(isset($introImgs[0]))
-                                <img src="{{ asset('uploads/about/'.$introImgs[1]) }}" class="pq-image9">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/about/'.$introImgs[1]) }}" class="pq-image9">
                             @endif
 
                             @if(isset($introImgs[1]))
-                                <img src="{{ asset('uploads/about/'.$introImgs[0]) }}" class="pq-image10">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/about/'.$introImgs[0]) }}" class="pq-image10">
                             @endif
 
                         </div>
@@ -89,7 +89,7 @@
                                 <div class="cs_about_thumbnail_1 cs_hide_before_after">
 
                                     @if(isset($fImgs[0]))
-                                        <img src="{{ asset('uploads/about/'.$fImgs[0]) }}">
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/about/'.$fImgs[0]) }}">
                                     @endif
 
                                     <div class="cs_commentbox cs_accent_bg">
@@ -133,7 +133,7 @@
                         <div class="creative-thumb">
 
                             @if(isset($hImgs[0]))
-                                <img src="{{ asset('uploads/about/'.$hImgs[0]) }}">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/about/'.$hImgs[0]) }}">
                             @endif
 
                         </div>
@@ -158,7 +158,7 @@
                                 <div class="cs_about_thumbnail_1 cs_hide_before_after">
 
                                     @if(isset($lImgs[0]))
-                                        <img src="{{ asset('uploads/about/'.$lImgs[0]) }}">
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/about/'.$lImgs[0]) }}">
                                     @endif
 
                                     <div class="cs_commentbox cs_accent_bg">

@@ -38,7 +38,7 @@
               <div class="col-md-8">
                 <div class="announcements-content content">
 
-                    <img src="{{ asset('uploads/announcement-details/'.$announcement->image) }}" 
+                    <img loading="lazy" decoding="async" src="{{ asset('uploads/announcement-details/'.$announcement->image) }}" 
                          class="img-responsive" alt="">
                 
                     <h5>{{ $announcement->announcement->title }}</h5>

@@ -169,10 +169,10 @@
                                     <!-- RIGHT IMAGE -->
                                     <div class="col-md-7 col-sm-12">
                                         <div class="medixal-img">
-                                            <img src="{{ $item->home_image 
+                                            <img loading="lazy" decoding="async" src="{{ $item->home_image 
                                                 ? asset('uploads/specialities/'.$item->home_image) 
                                                 : asset('frontend/assets/img/specialities/default.jpg') }}" 
-                                                class="img-responsive" loading="lazy" width="680" height="416" alt="{{ $item->subcategory_name }}">
+                                                class="img-responsive" width="680" height="416" alt="{{ $item->subcategory_name }}">
                                         </div>
                                     </div>
 
@@ -203,7 +203,7 @@
                             <div class="case-card">
         
                                 <div class="case-img">
-                                    <img src="{{ asset('uploads/announcements/'.$item->image) }}" class="img-responsive" loading="lazy">
+                                    <img loading="lazy" decoding="async" src="{{ asset('uploads/announcements/'.$item->image) }}" class="img-responsive">
                                 </div>
         
                                 <span class="case-cat">
@@ -436,7 +436,7 @@
                               <div class="video_testi">
                                 <div class="video-box" data-toggle="modal" data-target="#videoModal"
                                      data-video="{{ asset('uploads/testimonials/' . $v->video) }}">
-                                  <img src="{{ $v->thumbnail ? asset('uploads/testimonials/thumbnails/' . $v->thumbnail) : asset('frontend/assets/img/testimonials/testimonials1.jpg') }}"
+                                  <img loading="lazy" decoding="async" src="{{ $v->thumbnail ? asset('uploads/testimonials/thumbnails/' . $v->thumbnail) : asset('frontend/assets/img/testimonials/testimonials1.jpg') }}"
                                        class="img-responsive" loading="lazy" alt="{{ $v->title }}">
                                   <div class="play-btn"><i class="fa fa-play"></i></div>
                                 </div>
@@ -473,7 +473,7 @@
               <div class="col-md-6">
                 @if($virtualTour)
                   <div class="video-thumb">
-                    <img src="{{ $virtualTour->thumbnail ? asset('uploads/virtual-tour/thumbnails/' . $virtualTour->thumbnail) : asset('frontend/assets/img/bg/virtual-tour.jpg') }}"
+                    <img loading="lazy" decoding="async" src="{{ $virtualTour->thumbnail ? asset('uploads/virtual-tour/thumbnails/' . $virtualTour->thumbnail) : asset('frontend/assets/img/bg/virtual-tour.jpg') }}"
                          loading="lazy" class="img-responsive" alt="{{ $virtualTour->title }}">
                     <a type="button" data-toggle="modal" data-target="#VideoModal"
                        href="#" class="play-btn"

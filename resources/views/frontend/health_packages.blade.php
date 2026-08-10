@@ -323,7 +323,7 @@
                                                                     <a href="{{ asset($img) }}" 
                                                                       data-fancybox="gallery" 
                                                                       class="gallery-hover">
-                                                                      <img src="{{ asset($img) }}" class="img-responsive">
+                                                                      <img loading="lazy" decoding="async" src="{{ asset($img) }}" class="img-responsive">
                                                                       <div class="overlay">
                                                                         <span class="plus-icon">+</span>
                                                                       </div>

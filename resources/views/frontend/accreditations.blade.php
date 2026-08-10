@@ -36,7 +36,7 @@
 
                     @forelse($accreditations as $accreditation)
                         <div class="col-md-3 text-center mb-4">
-                            <img src="{{ asset('uploads/accreditations/'.$accreditation->image) }}"
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/accreditations/'.$accreditation->image) }}"
                                  class="img-responsive accreditations-page-img"
                                  style="cursor:pointer;"
                                  data-toggle="modal"

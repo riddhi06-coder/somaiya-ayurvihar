@@ -6,5 +6,5 @@
 <script src="{{ asset('frontend/assets/js/menu.js')}}" defer></script>
 <script src="{{ asset('frontend/assets/js/scroll.js')}}" defer></script>
 <script src="{{ asset('frontend/assets/js/language-translator.js')}}" defer></script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js" defer></script>

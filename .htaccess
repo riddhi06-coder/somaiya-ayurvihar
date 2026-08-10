@@ -102,9 +102,11 @@ AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application
 
 <IfModule mod_expires.c>
 ExpiresActive On
-ExpiresByType image/webp "access plus 1 year"
-ExpiresByType image/jpeg "access plus 1 year"
-ExpiresByType image/png "access plus 1 year"
-ExpiresByType text/css "access plus 1 month"
-ExpiresByType application/javascript "access plus 1 month"
+# Short cache for images (no long/1-year caching per requirement)
+ExpiresByType image/webp "access plus 1 day"
+ExpiresByType image/jpeg "access plus 1 day"
+ExpiresByType image/png "access plus 1 day"
+# CSS/JS are cache-busted via ?v=filemtime, so a modest cache is safe
+ExpiresByType text/css "access plus 1 week"
+ExpiresByType application/javascript "access plus 1 week"
 </IfModule>

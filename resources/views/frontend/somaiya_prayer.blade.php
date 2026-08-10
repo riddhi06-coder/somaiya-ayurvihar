@@ -35,11 +35,11 @@
                     <div class="col-md-12">
                         <div class="prayer-box-bg">
                             @if($somaiya_prayer->first()?->image)
-                                <img src="{{ asset('uploads/prayer/' . $somaiya_prayer->image) }}" 
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/prayer/' . $somaiya_prayer->image) }}" 
                                     alt="Praying Image">
                             @else
                                 <!-- Fallback if no image -->
-                                <img src="{{ asset('img/about/praying.png') }}" alt="Praying Image">
+                                <img loading="lazy" decoding="async" src="{{ asset('img/about/praying.png') }}" alt="Praying Image">
                             @endif
                             <h1 class="prayer-title">{{ $somaiya_prayer->heading }}</h1>
 

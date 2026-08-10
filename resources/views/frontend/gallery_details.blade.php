@@ -80,7 +80,7 @@
                                         data-fancybox="gallery"
                                         class="gallery-hover">
 
-                                            <img src="{{ asset('uploads/gallery_details/'.$img) }}"
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/gallery_details/'.$img) }}"
                                                 class="img-responsive">
 
                                             <div class="overlay">

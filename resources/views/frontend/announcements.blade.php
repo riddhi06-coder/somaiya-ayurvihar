@@ -101,7 +101,7 @@
             
                             <div class="announcement-img">
                                 <a href="{{ route('frontend.announcements_details', $item->slug) }}">
-                                    <img src="{{ asset('uploads/announcements/'.$item->image) }}" alt="{{ $item->title }}">
+                                    <img loading="lazy" decoding="async" src="{{ asset('uploads/announcements/'.$item->image) }}" alt="{{ $item->title }}">
                                 </a>
                             </div>
             

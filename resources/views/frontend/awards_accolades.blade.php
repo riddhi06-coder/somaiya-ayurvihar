@@ -58,7 +58,7 @@
                                 <div class="achievement-card single-single-gallery">
         
                                    <!-- <div class="achievement-icon">
-                                        <img src="{{ asset('uploads/awards/'.$item->banner_image) }}"
+                                        <img loading="lazy" decoding="async" src="{{ asset('uploads/awards/'.$item->banner_image) }}"
                                              alt="award">
                                     </div>-->
                                     <div class="achievement-icon single-gallery">
@@ -66,7 +66,7 @@
                                            data-fancybox="gallery" 
                                            class="gallery-hover">
                     
-                                            <img src="{{ asset('uploads/awards/'.$item->banner_image) }}" 
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/awards/'.$item->banner_image) }}" 
                                                  class="img-responsive">
                     
                                             <div class="overlay">
@@ -120,9 +120,9 @@
                                     <!-- Icon / Image -->
                                     <div class="achievement-icon">
                                         @if(!empty($award->banner_image))
-                                            <img src="{{ asset('uploads/accolades_awards/'.$award->banner_image) }}">
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/accolades_awards/'.$award->banner_image) }}">
                                         @else
-                                            <img src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
+                                            <img loading="lazy" decoding="async" src="{{ asset('frontend/assets/img/icon/medal.svg') }}">
                                         @endif
                                     </div>
                 
@@ -160,7 +160,7 @@
                                            data-fancybox="gallery" 
                                            class="gallery-hover">
                     
-                                            <img src="{{ asset('uploads/accolades_awards/'.$image->banner_image) }}" 
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/accolades_awards/'.$image->banner_image) }}" 
                                                  class="img-responsive">
                     
                                             <div class="overlay">

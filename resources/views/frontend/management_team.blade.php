@@ -41,7 +41,7 @@
                                 data-toggle="modal"
                                 data-target="#teamModal{{ $key }}">
 
-                                <img src="{{ asset('uploads/management_team/'.$team->image) }}" alt="">
+                                <img loading="lazy" decoding="async" src="{{ asset('uploads/management_team/'.$team->image) }}" alt="">
 
                                 <h4>{{ $team->name }}</h4>
 

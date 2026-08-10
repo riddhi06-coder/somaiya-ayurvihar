@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="csr-img">
-                            <img src="{{ asset('uploads/community_outreach/' . $details->uhtc_image) }}"
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/community_outreach/' . $details->uhtc_image) }}"
                                  class="img-responsive" alt="Urban Health Training Centre">
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="csr-img">
-                            <img src="{{ asset('uploads/community_outreach/' . $details->sahas_image) }}"
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/community_outreach/' . $details->sahas_image) }}"
                                  class="img-responsive" alt="SAHAS">
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="csr-img">
-                            <img src="{{ asset('uploads/community_outreach/' . $details->rhtc_image) }}"
+                            <img loading="lazy" decoding="async" src="{{ asset('uploads/community_outreach/' . $details->rhtc_image) }}"
                                  class="img-responsive" alt="Rural Health Training Centre">
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                                 <div class="item">
                                     <div class="thumb-card">
                                         <div class="thumb-img">
-                                            <img src="{{ asset('uploads/community_outreach/' . ($programme['image'] ?? '')) }}"
+                                            <img loading="lazy" decoding="async" src="{{ asset('uploads/community_outreach/' . ($programme['image'] ?? '')) }}"
                                                  alt="{{ $programme['title'] ?? '' }}">
                                         </div>
                                         <div class="thumb-content">
