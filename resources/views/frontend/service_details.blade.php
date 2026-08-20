@@ -594,9 +594,15 @@
                   <div class="col-md-3 text-right">
                       <div class="cta-action animate-btn">
                           <a type="button" data-toggle="modal" data-target="#bookappointment-services" class="btn-cta-primary">
-                              <i class="fa fa-calendar"></i> Book Appointment
+                              <i class="fa fa-calendar"></i> Request An Appointment
                           </a>
-                          <a href="#" class="btn-cta-outline">
+                          @php
+                              $opdRaw = optional(\App\Models\FooterDetail::whereNull('deleted_by')->first())->opd_appointment;
+                              $opdParts = array_values(array_filter(array_map('trim', explode('/', (string) $opdRaw))));
+                              $callNumber = end($opdParts) ?: '';
+                              $callTel = preg_replace('/[^0-9+]/', '', $callNumber);
+                          @endphp
+                          <a href="{{ $callTel ? 'tel:'.$callTel : '#' }}" class="btn-cta-outline">
                               <i class="fa fa-phone"></i> Call Now
                           </a>
                       </div>

@@ -66,6 +66,7 @@ class InpatientServiceController extends Controller
             // Rooms & Tariff (heading + single title + repeater)
             'room_tariff_heading'       => 'required|string|max:255',
             'room_tariff_title'         => 'required|string|max:255',
+            'room_tariff_image'         => 'nullable|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'room_tariff'               => 'nullable|array|min:1',
             'room_tariff.*.title'       => 'required|string|max:255',
             'room_tariff.*.description' => 'required',
@@ -266,6 +267,7 @@ class InpatientServiceController extends Controller
 
                 'room_tariff_heading'      => $request->room_tariff_heading,
                 'room_tariff_title'        => $request->room_tariff_title,
+                'room_tariff_image'        => $this->uploadImage($request, 'room_tariff_image', 'room_tariff'),
                 'room_tariff_details'      => json_encode(array_values($request->input('room_tariff', []))),
 
                 'icu_heading'              => $request->icu_heading,
@@ -343,6 +345,9 @@ class InpatientServiceController extends Controller
             $faqImage = $this->uploadImage($request, 'faq_image', 'faq')
                 ?? $inpatient_service->faq_image;
 
+            $roomTariffImage = $this->uploadImage($request, 'room_tariff_image', 'room_tariff')
+                ?? $inpatient_service->room_tariff_image;
+
             $inpatient_service->update([
                 'intro_image'              => $introImage,
                 'intro_desc'               => $request->intro_desc,
@@ -360,6 +365,7 @@ class InpatientServiceController extends Controller
 
                 'room_tariff_heading'      => $request->room_tariff_heading,
                 'room_tariff_title'        => $request->room_tariff_title,
+                'room_tariff_image'        => $roomTariffImage,
                 'room_tariff_details'      => json_encode(array_values($request->input('room_tariff', []))),
 
                 'icu_heading'              => $request->icu_heading,

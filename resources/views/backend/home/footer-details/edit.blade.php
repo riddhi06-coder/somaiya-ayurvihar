@@ -91,12 +91,12 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">Book OPD Appointment</label>
+                                <label class="form-label">Request OPD Appointment</label>
                                 <input type="text"
                                     name="opd_appointment"
                                     class="form-control"
                                     value="{{ old('opd_appointment', $footer->opd_appointment) }}"
-                                    placeholder="Enter Book OPD Appointment">
+                                    placeholder="Enter Request OPD Appointment">
                             </div>
 
                             <div class="col-md-6">

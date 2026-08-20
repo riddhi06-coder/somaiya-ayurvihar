@@ -230,6 +230,17 @@
                                 <div class="invalid-feedback">Please enter a Title.</div>
                             </div>
 
+                            <div class="col-md-6 mt-4">
+                                <label class="form-label" for="room_tariff_image">Section Image (e.g. General Ward)</label>
+                                <input class="form-control image-input" id="room_tariff_image" type="file" name="room_tariff_image"
+                                       data-preview="roomTariffImagePreview" accept=".jpg,.jpeg,.png,.webp,.svg">
+                                <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
+                                <div class="mt-2">
+                                    <img id="roomTariffImagePreview" src="#" alt="Preview"
+                                         class="img-fluid rounded border d-none" style="max-height: 150px; background:black;">
+                                </div>
+                            </div>
+
                             <div class="col-12 mt-3">
                                 <table class="table table-bordered" id="roomTariffTable">
                                     <thead>

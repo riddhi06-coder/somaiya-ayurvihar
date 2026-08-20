@@ -101,7 +101,7 @@
                               <a href="tel:{{ $footer->emergency_contact }}">{{ $footer->emergency_contact }}</a><br>
                             @endif
                             @if(!empty($footer?->opd_appointment))
-                                <b>Book OPD Appointment:</b>
+                                <b>Request OPD Appointment:</b>
                                 @php $numbers = explode('/', $footer->opd_appointment); @endphp
                                 @foreach($numbers as $num)
                                     <a href="tel:{{ trim($num) }}">{{ trim($num) }}</a>@unless($loop->last) / @endunless
@@ -454,6 +454,11 @@
                                             <option value="">--Select Slot*--</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <p class="appointment-disclaimer" style="font-size:13px; color:#e74c3c; text-align:center; margin:10px 0 4px;">
+                                    <strong>Disclaimer:</strong> The precise OPD time will be confirmed by the hospital staff over phone call.
+                                  </p>
                                 </div>
                                 <div class="col-md-12">
                                   <div class="button-box">

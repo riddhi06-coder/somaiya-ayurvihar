@@ -21,8 +21,8 @@
       <!-- Floating Buttons -->
       <div class="floating-icons floating-icons-inner">
           <a type="button" href="#" data-toggle="modal" data-target="#bookappointment-services">
-          <img src="{{ asset('frontend/assets/img/icon/book-appointment-new.svg') }}" width="35" height="35" alt="Book Appointment">
-          <span class="tooltip-text">Book Appointment </span>
+          <img src="{{ asset('frontend/assets/img/icon/book-appointment-new.svg') }}" width="35" height="35" alt="Request An Appointment">
+          <span class="tooltip-text">Request An Appointment </span>
           </a>
           <a href="{{ route('frontend.find_a_doctor') }}">
           <img src="{{ asset('frontend/assets/img/icon/find-doctor-new.svg') }}" width="35" height="35" alt="Find A Doctor">

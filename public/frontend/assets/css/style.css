@@ -7908,6 +7908,42 @@ a:focus{
      width: 100%;
      height: auto !important;
 }
+/* Rooms & Tariff: two-column (image + full-width content) that fills the row */
+ .inpatient_services_two .room-tariff-row{
+     display: flex;
+     flex-wrap: wrap;
+     align-items: flex-start;
+     margin-bottom: 45px;
+}
+ .inpatient_services_two .room-tariff-row .hospital-iconbox{
+     height: auto !important;
+}
+ .inpatient_services_two .room-tariff-img{
+     margin-top: 25px;
+     position: sticky;
+     top: 100px;
+}
+ .inpatient_services_two .room-tariff-img img{
+     width: 100%;
+     height: 420px;
+     object-fit: cover;
+     border-radius: 10px;
+     box-shadow: 0 0 15px rgb(0 0 0 / 8%);
+}
+ @media (max-width: 767px){
+     .inpatient_services_two .room-tariff-img{ position: static; }
+     .inpatient_services_two .room-tariff-img img{ height: 260px; }
+}
+ .inpatient_services_two .rt-cards-row{
+     display: flex;
+     flex-wrap: wrap;
+}
+ .inpatient_services_two .rt-cards-row > [class*="col-"]{
+     display: flex;
+}
+ .inpatient_services_two .rt-cards-row .hospital-iconbox{
+     width: 100%;
+}
  .convenience_facilities_wrap{
      background-color: #ffffff;
 }

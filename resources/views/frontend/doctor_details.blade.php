@@ -101,7 +101,7 @@
 
                                   <div class="button-box doctor-btn">
                                       <a class="twenty" type="button" data-toggle="modal" data-target="#bookappointment-services">
-                                          <span><i class="fa fa-calendar" aria-hidden="true"></i> Book Appointment</span>
+                                          <span><i class="fa fa-calendar" aria-hidden="true"></i> Request An Appointment</span>
                                       </a>
                                   </div>
 

@@ -145,7 +145,7 @@
                                                        data-doctor-id="{{ $doctor->id }}"
                                                        data-doctor-name="{{ $doctor->doctor_name }}"
                                                        data-speciality-id="{{ $doctor->subcategory_id }}">
-                                                        <span>Book Appointment</span>
+                                                        <span>Request An Appointment</span>
                                                     </a>
 
                                                 </div>

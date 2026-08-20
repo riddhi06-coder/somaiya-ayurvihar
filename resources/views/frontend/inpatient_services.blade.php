@@ -166,18 +166,32 @@
                         </div>
                     </div>
             
-                    <div class="row">
-                        @foreach ($roomTariffData as $item)
-                            <div class="col-md-3">
-                                <div class="hospital-iconbox lists">
-                                    <div class="iconbox-icon">
-                                        <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                    </div>
-                                    <h4>{{ $item['title'] ?? '' }}</h4>
-                                    {!! $item['description'] ?? '' !!}
+                    @php $hasRtImage = !empty($details->room_tariff_image); $rtCount = count($roomTariffData); @endphp
+                    <div class="row room-tariff-row">
+                        @if($hasRtImage)
+                            <div class="col-md-5">
+                                <div class="content-img room-tariff-img">
+                                    <img loading="lazy" decoding="async"
+                                         src="{{ asset('uploads/inpatient_service/' . $details->room_tariff_image) }}"
+                                         class="img-responsive" alt="{{ $details->room_tariff_title ?? 'Rooms & Tariff' }}">
                                 </div>
                             </div>
-                        @endforeach
+                        @endif
+                        <div class="{{ $hasRtImage ? 'col-md-7' : 'col-md-12' }}">
+                            <div class="row rt-cards-row">
+                                @foreach ($roomTariffData as $item)
+                                    <div class="{{ $hasRtImage ? ($rtCount == 1 ? 'col-md-12' : 'col-md-6') : 'col-md-3' }}">
+                                        <div class="hospital-iconbox lists">
+                                            <div class="iconbox-icon">
+                                                <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                            </div>
+                                            <h4>{{ $item['title'] ?? '' }}</h4>
+                                            {!! $item['description'] ?? '' !!}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
             
                     <div class="row">
