@@ -37,7 +37,7 @@
                   <div class="col-md-4">
                       <div class="doctor_img"> 
                           <img loading="lazy" decoding="async" src="{{ asset('uploads/doctors/' . ($doctor->doctor_image ?: 'default-doctor.png')) }}" class="img-responsive" alt="{{ $doctor->doctor_name }}" onerror="this.onerror=null;this.src='{{ asset('uploads/doctors/default-doctor.png') }}';">
-                          <h6>{{ $doctor->doctor_name }}</h6>
+                          <h6>{{ strtoupper($doctor->doctor_name) }}</h6>
 
                           <ul class="share-icons">
                             @php
@@ -78,7 +78,7 @@
                       <div class="doctor_information">
                           <div class="doctor_info">
                               <div class="doctor_name">
-                                  <h3>{{ $doctor->doctor_name }}</h3>
+                                  <h3>{{ strtoupper($doctor->doctor_name) }}</h3>
                               </div>
                               <div class="doctor_details">
                                   <ul>

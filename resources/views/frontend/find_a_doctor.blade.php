@@ -51,7 +51,7 @@
                                 @foreach($subcategories as $subcat)
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" data-category="{{ $subcat->id }}">
+                                            <input type="checkbox" data-category="{{ $subcat->id_list ?? $subcat->id }}">
                                             {{ $subcat->subcategory_name }}
                                         </label>
                                     </div>
@@ -71,7 +71,7 @@
                                         @foreach($subcategories as $subcat)
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" data-category="{{ $subcat->id }}">
+                                                    <input type="checkbox" data-category="{{ $subcat->id_list ?? $subcat->id }}">
                                                     {{ $subcat->subcategory_name }}
                                                 </label>
                                             </div>
@@ -102,7 +102,7 @@
                                             <div class="doctor_thumb_details">
                                                 <h3 class="doctor-name">
                                                     <a href="{{ route('frontend.doctor_details', ['doctoreslug' => $doctor->slug]) }}">
-                                                        {{ $doctor->doctor_name }}
+                                                        {{ strtoupper($doctor->doctor_name) }}
                                                     </a>
                                                 </h3>
                                                 <p class="speciality"><strong>Speciality:</strong> 
@@ -179,9 +179,11 @@
                 function filterDoctors() {
                     let selectedSpecialities = [];
 
-                    // Get selected specialities
+                    // Get selected specialities (a checkbox may carry multiple ids, comma-separated)
                     $('.speciality_list input[type="checkbox"]:checked').each(function(){
-                        selectedSpecialities.push($(this).data('category').toString());
+                        $(this).data('category').toString().split(',').forEach(function(id){
+                            if (id.trim() !== '') selectedSpecialities.push(id.trim());
+                        });
                     });
 
                     console.log('Selected Specialities:', selectedSpecialities);

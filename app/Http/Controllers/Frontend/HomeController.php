@@ -952,10 +952,23 @@ class HomeController extends Controller
             ->get();
 
 
-        // Fetch all subcategories for the speciality filter
-        $subcategories = MedicalServiceSubCategory::whereNull('deleted_by')->orderBy('subcategory_name', 'asc')->get();
-        
-        // dd($subcategories,$doctors);
+        // Only specialities (subcategories) that actually have at least one doctor
+        $usedSubcategoryIds = $doctors->pluck('subcategory_id')->filter()->unique()->values();
+
+        $subcategories = MedicalServiceSubCategory::whereNull('deleted_by')
+            ->whereIn('id', $usedSubcategoryIds)
+            ->orderBy('subcategory_name', 'asc')
+            ->get()
+            // Merge duplicate speciality names (e.g. "Radiology") into a single filter
+            // option that still carries every matching id so filtering stays correct.
+            ->groupBy('subcategory_name')
+            ->map(function ($group) {
+                $item = $group->first();
+                $item->id_list = $group->pluck('id')->implode(',');
+                return $item;
+            })
+            ->sortBy('subcategory_name')
+            ->values();
 
         return view('frontend.find_a_doctor', compact('doctors','subcategories') );
     }
