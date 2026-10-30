@@ -185,7 +185,7 @@
         </section>
 
 
-       <section class="award-wrap">
+       <!--<section class="award-wrap">
             <div class="container">
         
                 <div class="row">
@@ -227,8 +227,92 @@
                 </div>
         
             </div>
-        </section>
+        </section>-->
+<!-- QUICK ACCESS SECTION -->
+<section class="quick-access">
 
+  <div class="quick-access-heading">
+    <!--<span>QUICK ACCESS</span>-->
+    <h2>How Can We Help You Today?</h2>
+    <p>Quick access to our most requested services</p>
+  </div>
+
+  <div class="quick-access-grid">
+
+    <a type="button" href="#" data-toggle="modal" data-target="#bookappointment-services" class="quick-card">
+      <div class="quick-icon">
+        <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/book-appointment-new.svg" alt="Request an Appointment">
+      </div>
+      <h3>Request an<br>Appointment</h3>
+      <span class="quick-arrow">→</span>
+    </a>
+
+    <a href="https://anvayafoundation.com/somaiya/find-a-doctor" class="quick-card">
+      <div class="quick-icon">
+        <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/find-doctor-new.svg" alt="Find a Doctor">
+      </div>
+      <h3>Find a Doctor</h3>
+      <span class="quick-arrow">→</span>
+    </a>
+
+    <a type="button" href="#" data-toggle="modal" data-target="#health-checkup" class="quick-card">
+      <div class="quick-icon">
+        <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/book-health-check-new.svg" alt="Book Health Check">
+      </div>
+      <h3>Book Health<br>Check</h3>
+      <span class="quick-arrow">→</span>
+    </a>
+
+    <a type="button" href="#" data-toggle="modal" data-target="#donation" class="quick-card">
+      <div class="quick-icon">
+        <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/donate.svg" alt="Donate">
+      </div>
+      <h3>Donate</h3>
+      <span class="quick-arrow">→</span>
+    </a>
+
+    <!--<a href="#" class="quick-card">
+      <div class="quick-icon">
+        <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/ambulance.svg" alt="Emergency">
+      </div>
+      <h3>Emergency</h3>
+      <span class="quick-arrow">→</span>
+    </a>-->
+
+  </div>
+
+</section>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<nav class="mobile-quick-bar">
+
+  <a type="button" href="#" data-toggle="modal" data-target="#bookappointment-services">
+    <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/book-appointment-new.svg" alt="">
+    <span>Request<br>Appointment</span>
+  </a>
+
+  <a href="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/find-doctor-new.svg">
+    <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/find-doctor-new.svg" alt="">
+    <span>Find a Doctor</span>
+  </a>
+
+  <a type="button" href="#" data-toggle="modal" data-target="#health-checkup">
+    <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/book-health-check-new.svg" alt="">
+    <span>Book Health<br>Check</span>
+  </a>
+
+  <a type="button" href="#" data-toggle="modal" data-target="#donation">
+    <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/donate.svg" alt="">
+    <span>Donate</span>
+  </a>
+
+  <a href="tel:+91 7506655888">
+    <img src="https://anvayafoundation.com/somaiya/frontend/assets/img/icon/ambulance.svg" alt="">
+    <span>Emergency</span>
+  </a>
+
+</nav>
         <section class="hospital-awards">
           <div class="container">
 
@@ -356,6 +440,73 @@
         </section>
 
 
+<section class="kj-strengths">
+  <div class="container">
+
+   <div class="section-heading text-center wow fadeInLeft" data-wow-delay="00ms" data-wow-duration="1500ms">
+                    <h2>Strengths of K J Somaiya Hospital</h2>
+                  </div>
+
+    <div class="kj-strengths-layout">
+
+      <div class="kj-strengths-visual">
+        <img src="{{ asset('frontend/assets/img/kj-somaiya-strength.webp') }}" class="img-responsive">
+      </div>
+
+      <div class="kj-strengths-content">
+
+        <div class="kj-feature">
+          <div class="kj-feature-number">01</div>
+          <div class="kj-feature-content">
+            <h3>Comprehensive Tertiary & Super-Specialty Care Ecosystem in the heart of Mumbai</h3>
+            <p>Comprehensive healthcare across 26 medical specialties and super-specialties, offering integrated care under one roof. </p>
+          </div>
+        </div>
+
+        <div class="kj-feature">
+          <div class="kj-feature-number">02</div>
+          <div class="kj-feature-content">
+            <h3>Advanced Technology</h3>
+            <p>Equipped with advanced diagnostic imaging and treatment technologies to support accurate diagnosis and effective patient care.</p>
+          </div>
+        </div>
+
+        <div class="kj-feature">
+          <div class="kj-feature-number">03</div>
+          <div class="kj-feature-content">
+            <h3>Experienced Clinical Expertise</h3>
+            <p>A strong team of 300+ specialist and super-specialist doctors providing expertise across a wide range of medical disciplines. </p>
+          </div>
+        </div>
+
+        <div class="kj-feature">
+          <div class="kj-feature-number">04</div>
+          <div class="kj-feature-content">
+            <h3>Comprehensive Critical & Emergency Care</h3>
+            <p>80+ critical care beds and a 22 -bed dedicated Emergency Department, providing round-the-clock care for critically ill and emergency patients. </p>
+          </div>
+        </div>
+
+        <div class="kj-feature">
+          <div class="kj-feature-number">05</div>
+          <div class="kj-feature-content">
+            <h3>Medical Education, Research & Innovation</h3>
+            <p>An integrated medical college and teaching hospital fostering clinical learning, research, innovation and continuous advancement in healthcare. </p>
+          </div>
+        </div>
+
+        <div class="kj-feature">
+          <div class="kj-feature-number">06</div>
+          <div class="kj-feature-content">
+            <h3>Advanced Healthcare, Made Accessible</h3>
+            <p>A unique blend of clinical expertise, advanced technology and quality healthcare, delivered with a strong commitment to accessibility and affordability. </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
         <!-------------Patient Testimonials ------------->
         <div id="testimonials" class="tab_section">
           <div class="container">
