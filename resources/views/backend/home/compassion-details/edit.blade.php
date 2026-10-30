@@ -64,7 +64,7 @@
                                         @foreach($record->items ?? [] as $item)
                                             <tr class="item-row">
                                                 <td><input type="text" name="items[{{ $counter }}][title]" class="form-control" placeholder="Enter Title" value="{{ $item['title'] }}" required></td>
-                                                <td><input type="text" name="items[{{ $counter }}][value]" class="form-control" placeholder="Enter Value" value="{{ $item['value'] }}" required></td>
+                                                <td><input type="text" name="items[{{ $counter }}][value]" class="form-control" placeholder="Enter Value" value="{{ $item['value'] ?? '' }}"></td>
                                                 <td>
                                                     <input type="file" name="items[{{ $counter }}][icon]" class="form-control icon-input" accept=".jpg,.jpeg,.png,.svg">
                                                     <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let html = `
             <tr class="item-row">
                 <td><input type="text" name="items[${counter}][title]" class="form-control" placeholder="Enter Title" required></td>
-                <td><input type="text" name="items[${counter}][value]" class="form-control"  placeholder="Enter Value" required></td>
+                <td><input type="text" name="items[${counter}][value]" class="form-control"  placeholder="Enter Value"></td>
                 <td><input type="file" name="items[${counter}][icon]" class="form-control icon-input" accept=".jpg,.jpeg,.png,.svg">
                     <small class="text-secondary"><b>Note: The file size should be less than 2MB.</b></small>
                     <br>

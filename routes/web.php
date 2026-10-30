@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\HomePage\HomeSliderController;
 // use App\Http\Controllers\Backend\HomePage\AnnouncementsDetailsController;
 use App\Http\Controllers\Backend\HomePage\AwardsDetailsController;
 use App\Http\Controllers\Backend\HomePage\CompassionDetailsController;
+use App\Http\Controllers\Backend\HomePage\StrengthsController;
 use App\Http\Controllers\Backend\HomePage\TestimonialsDetailsController;
 use App\Http\Controllers\Backend\HomePage\FooterDetailsController;
 use App\Http\Controllers\Backend\ServiceDetailsController;
@@ -130,6 +131,7 @@ Route::prefix('admin')
         // Route::resource('announcements-details', AnnouncementsDetailsController::class);
         Route::resource('awards-details', AwardsDetailsController::class);
         Route::resource('compassion-details', CompassionDetailsController::class);
+        Route::resource('strengths-details', StrengthsController::class);
         Route::resource('testimonial-details', TestimonialsDetailsController::class);
         Route::resource('footer-details', FooterDetailsController::class);
         Route::resource('manage-virtual-tour', VirtualTourController::class);

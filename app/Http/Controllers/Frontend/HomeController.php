@@ -15,6 +15,7 @@ use App\Models\HomeSlider;
 use App\Models\AnnouncementsDetail;
 use App\Models\AwardsDetails;
 use App\Models\CompassionDetails;
+use App\Models\HomeStrength;
 use App\Models\TestimonialDetail;
 use App\Models\FooterDetail;
 use App\Models\MedicalServiceSubCategory;
@@ -84,6 +85,7 @@ class HomeController extends Controller
         $awardDetails = AwardsDetails::latest()->first(); // latest award record
         $compassion = CompassionDetails::latest()->first();
         // dd($compassion);
+        $strength = HomeStrength::whereNull('deleted_at')->latest()->first();
         $testimonial = TestimonialDetail::latest()->first();
         $specialities = MedicalServiceSubCategory::wherenull('deleted_by')->where('status', 1 )->get();
         // dd($specialities);
@@ -103,7 +105,7 @@ class HomeController extends Controller
             
         $virtualTour = VirtualTour::wherenull('deleted_by')->latest()->first();
 
-        return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'testimonial','specialities','textTestimonials', 'videoTestimonials','virtualTour'));
+        return view('frontend.home', compact('videoSlider', 'announcements', 'awardDetails', 'compassion', 'strength', 'testimonial','specialities','textTestimonials', 'videoTestimonials','virtualTour'));
     }
 
     // Service Page

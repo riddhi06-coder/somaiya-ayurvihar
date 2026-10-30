@@ -37,7 +37,7 @@ class CompassionDetailsController extends Controller
             'heading' => 'required|string|max:255',
             'description' => 'nullable|string',
             'items.*.title' => 'required|string|max:255',
-            'items.*.value' => 'required|string|max:255',
+            'items.*.value' => 'nullable|string|max:255',
             'items.*.icon'  => 'nullable|file|mimes:jpg,jpeg,png,svg|max:2048'
         ]);
 
@@ -57,7 +57,7 @@ class CompassionDetailsController extends Controller
                 }
                 $items[] = [
                     'title' => $item['title'],
-                    'value' => $item['value'],
+                    'value' => $item['value'] ?? null,
                     'icon'  => $iconName
                 ];
             }
@@ -92,7 +92,7 @@ class CompassionDetailsController extends Controller
             'heading' => 'required|string|max:255',
             'description' => 'nullable|string',
             'items.*.title' => 'required|string|max:255',
-            'items.*.value' => 'required|string|max:255',
+            'items.*.value' => 'nullable|string|max:255',
             'items.*.icon'  => 'nullable|file|mimes:jpg,jpeg,png,svg|max:2048'
         ]);
 
@@ -114,7 +114,7 @@ class CompassionDetailsController extends Controller
 
                 $items[] = [
                     'title' => $item['title'],
-                    'value' => $item['value'],
+                    'value' => $item['value'] ?? null,
                     'icon'  => $iconName
                 ];
             }

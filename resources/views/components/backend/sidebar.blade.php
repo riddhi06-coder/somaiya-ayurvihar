@@ -32,7 +32,7 @@
                 </li>
 
                 <!-- Home slider banner Details -->
-                <li class="sidebar-list {{ request()->routeIs('admin.banner-details.index', 'admin.awards-details.index','admin.compassion-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
+                <li class="sidebar-list {{ request()->routeIs('admin.banner-details.index', 'admin.awards-details.index','admin.compassion-details.index','admin.strengths-details.index','admin.testimonial-details.index','admin.footer-details.index') ? 'active' : '' }}">
                   <i class="fa fa-thumb-tack"></i>
                   <a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
@@ -47,6 +47,7 @@
                     <li><a href="{{ route('admin.banner-details.index') }}">Banner Details</a></li>
                     <li><a href="{{ route('admin.awards-details.index') }}">Awards Details</a></li>
                     <li><a href="{{ route('admin.compassion-details.index') }}">Compassion Details</a></li>
+                    <li><a href="{{ route('admin.strengths-details.index') }}">Strengths</a></li>
                      <li><a href="{{ route('admin.manage-virtual-tour.index') }}">Virtual Tour</a></li>
                     <li><a href="{{ route('admin.footer-details.index') }}">Footer Details</a></li>
 
