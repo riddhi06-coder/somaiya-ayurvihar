@@ -1405,6 +1405,7 @@ a:focus{
  .counter-box h3 {
      margin-top: 0px;
      color: #000;
+     height:50px;
 }
  .counter-icon {
      display: inline-flex;
